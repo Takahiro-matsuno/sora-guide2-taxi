@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.dao.TaxiInfoDao
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
@@ -11,6 +12,8 @@ class HelloController {
     // URLに対応する処理を書いていく
     @RequestMapping(value = "/", method = [RequestMethod.GET])
     fun hello(): String {
+        var taxiInfo = TaxiInfoDao()
+        taxiInfo.read()
         return "Hello World"
     }
 

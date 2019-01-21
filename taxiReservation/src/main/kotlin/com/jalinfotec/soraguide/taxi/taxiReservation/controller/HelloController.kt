@@ -12,9 +12,9 @@ class HelloController {
     // URLに対応する処理を書いていく
     @RequestMapping(value = "/", method = [RequestMethod.GET])
     fun hello(): String {
-        var taxiInfo = TaxiInfoDao()
-        taxiInfo.read()
-        return "Hello World"
+        val taxiInfo = TaxiInfoDao()
+        val result = taxiInfo.read()
+        return result
     }
 
     // http://localhost:8080?param=hoge

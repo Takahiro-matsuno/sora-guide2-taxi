@@ -5,18 +5,30 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.SchemaUtils.create
 
 class TaxiInfoDao {
-    fun read() {
+    fun read(): String {
         //var taxiList: List<String>? = null
+        var result = ""
 
         Database.connect(
-                "jdbc:postgresql:taxiapptest-postgresqldbserver.postgres.database.azure.com:5432/taxiapptestdb",
+                "jdbc:postgresql://taxiapptest-postgresqldbserver.postgres.database.azure.com:5432/taxiapptestdb",
                 "org.postgresql.Driver",
                 "postgresqldbuser@taxiapptest-postgresqldbserver", "ZAQ12wsx")
 
         transaction{
-            create(Colors, Rgbs)
-            println(taxi_info.selectAll())
+            addLogger(StdOutSqlLogger)
+            taxi_info.selectAll().forEach {
+                result +=
+                """{
+                    ${it[taxi_info.companyId]},
+                    ${it[taxi_info.name]},
+                    ${it[taxi_info.contact]},
+                    ${it[taxi_info.location]},
+                    }
+
+                """
+            }
         }
+        return if (result.isEmpty()) "Non Result" else result
     }
 }
 
@@ -28,7 +40,7 @@ class TaxiInfomationEntity(id:EntityID<String>): Entity<String>(id) {
 */
 
 object taxi_info : Table("taxi_info") {
-    val companyId = varchar("companyId", 4).primaryKey()
+    val companyId = varchar("companyid", 4).primaryKey()
     val name = varchar("name", 20)
     val contact = varchar("contact", 15)
     val location = varchar("location", 30)

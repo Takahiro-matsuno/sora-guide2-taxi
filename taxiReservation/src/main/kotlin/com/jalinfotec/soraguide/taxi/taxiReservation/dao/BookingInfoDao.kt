@@ -1,38 +1,38 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.dao
 
 
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
 
 @Repository
 class BookingInfoDao(manager: EntityManager) {
 
-    //private var entityManager :EntityManager = manager
+    private var entityManager :EntityManager = manager
 
+
+
+    /*
     fun connect() {
         //DB接続
         Database.connect(
                 "jdbc:postgresql://taxiapptest-postgresqldbserver.postgres.database.azure.com:5432/taxiapptestdb",
                 "org.postgresql.Driver",
                 "postgresqldbuser@taxiapptest-postgresqldbserver", "ZAQ12wsx")
-    }
+    }*/
 
-    fun getAll(): String {
+    fun getAll(): MutableList<Any?>? {
         //返却用
         var result = ""
 
         //DB接続
-        connect()
+        //connect()
 
-        /*
         var query =entityManager.createQuery("from TaxiInfoItem")
         val list = query.resultList
         entityManager.close()
         return list
-        */
 
+        /*
         //SELECT
         transaction {
             addLogger(StdOutSqlLogger)
@@ -58,6 +58,7 @@ class BookingInfoDao(manager: EntityManager) {
             }
         }
         return if (result.isEmpty()) "Non Result" else result
+        */
     }
 
     /*
@@ -103,6 +104,7 @@ class BookingInfoDao(manager: EntityManager) {
     }*/
 }
 
+/*
 object Booking_info : Table("Booking_info") {
     val booking_id = varchar("booking_id", 10).primaryKey()
     val status = integer("status")
@@ -123,3 +125,4 @@ object Booking_info : Table("Booking_info") {
     val notice = varchar("notice", 99)
 }
 
+*/

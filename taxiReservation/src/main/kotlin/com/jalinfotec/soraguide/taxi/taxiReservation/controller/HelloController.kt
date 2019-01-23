@@ -1,6 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.dao.BookingInfoDao
+import com.jalinfotec.soraguide.taxi.taxiReservation.dao.TaxiInfoDao
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
@@ -34,7 +35,7 @@ class HelloController {
      */
 
     lateinit var entityManager :EntityManager
-    lateinit var bookingInfoDao :BookingInfoDao
+    lateinit var taxiInfoDao : TaxiInfoDao
 
     @RequestMapping("/")
     @ResponseBody
@@ -51,15 +52,14 @@ class HelloController {
         return mav
     }
 
-    /*
     @RequestMapping("/dbTest")
     @ResponseBody
     fun dbRead(mav :ModelAndView):ModelAndView{
         mav.viewName = "dbRead"
-        mav.addObject("dataList",bookingInfoDao.getAll())
+        mav.addObject("dataList",taxiInfoDao.getAll())
         return mav
     }
-    */
+
     /*
     お試しここまで
      */

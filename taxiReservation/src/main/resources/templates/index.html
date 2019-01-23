@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約画面（お試し）</title>
+</head>
+
+<body>
+<h1>ログイン画面</h1>
+
+<form method="post" action="/login">
+    <p>ID：
+        <input type="text" name="loginId" size="15" maxlength="10" th:value="${value}">
+    </p>
+    <p>パスワード：
+        <input type="password" name="password" size="15" maxlength="10" th:value="${value}">
+    </p>
+
+    <button type="submit">ログイン</button>
+</form>
+
+</body>
+
+</html>
+

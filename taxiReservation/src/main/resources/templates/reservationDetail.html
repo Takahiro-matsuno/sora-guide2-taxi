@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約詳細/予約変更</title>
+</head>
+
+<script language="javascript" type="text/javascript">
+    function submit() {
+        location.href = "./reservationList.html";
+    }
+</script>
+
+<body>
+    <h1>予約詳細画面</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">予約詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>予約番号</th>
+                <td th:text="${test}"></td>
+            </tr>
+            <tr>
+                <th>ステータス</th>
+                <td>予約済み</td>
+            </tr>
+            <tr>
+                <th>乗車日付</th>
+                <td>yyyy/MM/dd</td>
+            </tr>
+            <tr>
+                <th>乗車時間</th>
+                <td>hh:mm</td>
+            </tr>
+            <tr>
+                <th>到着時刻</th>
+                <td>hh:mm</td>
+            </tr>
+            <tr>
+                <th>人数（大人）</th>
+                <td>2</td>
+            </tr>
+            <tr>
+                <th>人数（子供）</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>配車台数</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>タクシー会社名</th>
+                <td>何とかタクシー</td>
+            </tr>
+            <tr>
+                <th>目的地</th>
+                <td>熱海</td>
+            </tr>
+            <tr>
+                <th>氏名</th>
+                <td>熱海大好きマン</td>
+            </tr>
+            <tr>
+                <th>フリガナ</th>
+                <td>アタミダイスキマン</td>
+            </tr>
+            <tr>
+                <th>電話番号</th>
+                <td>08011115555</td>
+            </tr>
+            <tr>
+                <th>メールアドレス</th>
+                <td>yuyuyu@lalala.co.jp</td>
+            </tr>
+            <tr>
+                <th>利用者コメント</th>
+                <td>おなかがすいた</td>
+            </tr>
+            <tr>
+                <th>車両番号</th>
+                <td>1111-22</td>
+            </tr>
+            <tr>
+                <th>連絡先</th>
+                <td>0333332215</td>
+            </tr>
+            <tr>
+                <th>ご連絡事項</th>
+                <td>ごれんらく</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>ステータス変更：
+        <select name="afterStatus">
+            <option value="0">受付中</option>
+            <option value="1">予約確定</option>
+            <option value="2">予約確定</option>
+            <option value="3">配車中</option>
+            <option value="4">キャンセル済み</option>
+            <option value="5">完了</option>
+        </select>
+    </p>
+    <p>お客様への連絡事項<br>
+        <textarea cols="50" rows="5"></textarea>
+    </p>
+
+    <button type="button" onclick="submit()">確定</button>
+
+</body>
+
+</html>

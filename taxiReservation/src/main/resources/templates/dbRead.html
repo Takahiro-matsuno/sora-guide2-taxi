@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DB接続確認</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>name</th>
+        <th>contact</th>
+        <th>location</th>
+    </tr>
+    <tr th:each="obj:${dataList}">
+        <td th:text="${obj.company_id}"></td>
+        <td th:text="${obj.name}"></td>
+        <td th:text="${obj.contact}"></td>
+        <td th:text="${obj.location}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

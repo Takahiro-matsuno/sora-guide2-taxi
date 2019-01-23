@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約一覧</title>
+</head>
+
+<script language="javascript" type="text/javascript">
+    function detail() {
+        location.href = "./reservationDetail.html";
+    }
+</script>
+
+<body>
+    <h1>予約一覧画面</h1>
+
+    <table id="rsvList">
+        <thead>
+            <tr>
+                <th>選択</th>
+                <th>予約番号</th>
+                <th>ステータス</th>
+                <th>乗車日付</th>
+                <th>乗車時間</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><button type="button" onclick="detail()">選択</button></td>
+                <td>2</td>
+                <td>ステータス</td>
+                <td>yyyy/MM/dd</td>
+                <td>hh:mm</td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="detail()">選択</button></td>
+                <td>1</td>
+                <td>ステータス</td>
+                <td>yyyy/MM/dd</td>
+                <td>hh:mm</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

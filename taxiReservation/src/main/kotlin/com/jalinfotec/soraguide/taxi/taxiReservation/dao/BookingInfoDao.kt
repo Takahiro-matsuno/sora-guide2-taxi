@@ -3,9 +3,15 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.dao
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.springframework.stereotype.Repository
+import javax.persistence.EntityManager
 
-class BookingInfoDao {
-    fun Connect() {
+@Repository
+class BookingInfoDao(manager: EntityManager) {
+
+    //private var entityManager :EntityManager = manager
+
+    fun connect() {
         //DB接続
         Database.connect(
                 "jdbc:postgresql://taxiapptest-postgresqldbserver.postgres.database.azure.com:5432/taxiapptestdb",
@@ -13,12 +19,19 @@ class BookingInfoDao {
                 "postgresqldbuser@taxiapptest-postgresqldbserver", "ZAQ12wsx")
     }
 
-    fun readAll(): String {
+    fun getAll(): String {
         //返却用
         var result = ""
 
         //DB接続
-        Connect()
+        connect()
+
+        /*
+        var query =entityManager.createQuery("from TaxiInfoItem")
+        val list = query.resultList
+        entityManager.close()
+        return list
+        */
 
         //SELECT
         transaction {
@@ -53,7 +66,7 @@ class BookingInfoDao {
         var result = ""
 
         //DB接続
-        Database.Connect(
+        Database.connect(
                 "jdbc:postgresql://taxiapptest-postgresqldbserver.postgres.database.azure.com:5432/taxiapptestdb",
                 "org.postgresql.Driver",
                 "postgresqldbuser@taxiapptest-postgresqldbserver", "ZAQ12wsx")

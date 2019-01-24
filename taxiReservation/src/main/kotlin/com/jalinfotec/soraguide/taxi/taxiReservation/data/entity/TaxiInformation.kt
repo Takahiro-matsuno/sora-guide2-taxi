@@ -1,15 +1,15 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.entity
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "taxi_info")
 data class TaxiInformation(
         @Id
-        val company_id: String,
-        val name: String,
-        val contact: String,
-        val location: String
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var company_id: String = "",
+
+        var name: String = "",
+        var contact: String = "",
+        var location: String =""
 )

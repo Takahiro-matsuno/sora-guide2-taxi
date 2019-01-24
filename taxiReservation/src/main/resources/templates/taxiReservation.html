@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+    <title>タクシー予約</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="sample.css">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header>
+    <h1>予約登録</h1>
+    <p>以下の項目を入力してください</p>
+</header>
+<div id="contents">
+    <table>
+        <tr>
+            <th><label>乗車日</label></th>
+            <td><input type="date"  id="day" name="day" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>乗車時間</label></th>
+            <td><input type="time"  id="time" name="time" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>人数(大人)</label></th>
+            <td><input type="number"  id="adlt" name="adlt" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>人数(子供)</label></th>
+            <td><input type="number"  id="chld" name="chld" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>配車台数</label></th>
+            <td><input type="number"  id="disp" name="disp" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>タクシー会社</label></th>
+            <td><input type="text"  id="taxi" name="taxi" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>目的地</label></th>
+            <td><input type="text"  id="dest" name="dest" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>氏名</label></th>
+            <td><input type="name"  id="name" name="name" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>フリガナ</label></th>
+            <td><input type="text"  id="kana" name="kana" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>電話番号</label></th>
+            <td><input type="tel"  id="phone" name="phone" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>メールアドレス</label></th>
+            <td><input type="email"  id="mail" name="mail" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>メールアドレス(確認)</label></th>
+            <td><input type="email"  id="mail_chk" name="mail_chk" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <th><label>コメント(任意)</label></th>
+            <td><input type="text"  id="comment" name="comment" style="width: 200px;" /></td>
+        </tr>
+        <tr>
+            <td><button type="reset">リセットボタン</button></td>
+            <td><button type="submit">送信ボタン</button></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

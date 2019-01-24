@@ -7,7 +7,8 @@ import javax.persistence.*
 data class TaxiInformation(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var company_id: String = "",
+        @Column(name="company_id")
+        var id: String = "",
 
         var name: String = "",
         var contact: String = "",

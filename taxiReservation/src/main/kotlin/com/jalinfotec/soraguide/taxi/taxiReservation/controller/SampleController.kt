@@ -1,12 +1,10 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.dao.TaxiInfoDao
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
-
-//@Grab("thymeleaf-spring5")
 
 @Controller
 class SampleController {
@@ -19,8 +17,14 @@ class SampleController {
 
     // データベースアクセス
     @RequestMapping("db")
-    fun db() {
-
+    fun db(mav: ModelAndView, @RequestParam("id") id: String?): ModelAndView {
+        mav.viewName = "dbRead"
+        if (id != null) {
+            mav.addObject("dataList", taxiRepository?.findById(id))
+        } else {
+            mav.addObject("dataList", taxiRepository?.findAll())
+        }
+        return mav
     }
 
     // thymeleaf表示
@@ -35,30 +39,8 @@ class SampleController {
 
     }
 
-
-    /*
-    // URLに対応する処理を書いていく
-    @RequestMapping(value = "/", method = [RequestMethod.GET])
-    fun hello(): String/*MutableList<TaxiInformation>*/ {
-        //タクシーの情報表示（テスト）
-
-        val taxiInfo = TaxiInfoDao()
-        val result = taxiInfo.getAll()
-
-        //予約の情報表示（テスト）
-        /*
-        val bookingInfo = BookingInfoDao()
-        val result = bookingInfo.getAll()
-        */
-
-        return "index"
-    }*/
-
-    /*
-    お試しで作ったコントローラ
-     */
     @Autowired
-    var taxiRepository:TaxiInfoDao? = null
+    var taxiRepository: TaxiInfoRepository? = null
 
     @RequestMapping("/")
     @ResponseBody
@@ -74,32 +56,4 @@ class SampleController {
         mav.addObject("test", "aaa")
         return mav
     }
-
-    @RequestMapping("/dbTest")
-    @ResponseBody
-    fun dbRead(mav: ModelAndView, @RequestParam("name") name: String): ModelAndView {
-        mav.viewName = "dbRead"
-        //if (id != null) {
-            mav.addObject("dataList", taxiRepository?.findByName(name))
-        //} else {
-            //mav.addObject("dataList", taxiRepository?.findAll())
-        //}
-        return mav
-    }
-
-    /*
-    お試しここまで
-     */
-
-    /*
-    // http://localhost:8080?param=hoge
-    // みたいにGETパラメータをもらいたいときはこう
-    @RequestMapping("/echo")
-    fun paramTest(@RequestParam(value = "param") param: String?): String {
-//        return "param is ${param ?: "nothing"}"
-        val bookingInfo = BookingInfoDao()
-        val result = bookingInfo.getAll()
-
-        return result
-    }*/
 }

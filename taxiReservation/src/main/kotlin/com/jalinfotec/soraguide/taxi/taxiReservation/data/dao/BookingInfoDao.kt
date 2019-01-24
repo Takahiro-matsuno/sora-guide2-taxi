@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.dao
+package com.jalinfotec.soraguide.taxi.taxiReservation.data.dao
 
 
 import org.springframework.stereotype.Repository
@@ -27,7 +27,7 @@ class BookingInfoDao(manager: EntityManager) {
         //DB接続
         //connect()
 
-        var query =entityManager.createQuery("from TaxiInfoItem")
+        var query =entityManager.createQuery("from TaxiInformation")
         val list = query.resultList
         entityManager.close()
         return list

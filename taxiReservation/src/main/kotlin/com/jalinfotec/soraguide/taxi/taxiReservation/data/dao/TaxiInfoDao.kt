@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.dao
+package com.jalinfotec.soraguide.taxi.taxiReservation.data.dao
 
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
@@ -9,9 +9,11 @@ class TaxiInfoDao(manager: EntityManager) {
     private var entityManager :EntityManager = manager
 
     fun getAll(): MutableList<Any?>? {
+
+
         //取得結果返却用の変数
         //var result = ""
-        //var otameshi: MutableList<TaxiInfoItem> = mutableListOf()
+        //var otameshi: MutableList<TaxiInformation> = mutableListOf()
 
         /*
         //DB接続
@@ -21,7 +23,7 @@ class TaxiInfoDao(manager: EntityManager) {
                 "postgresqldbuser@taxiapptest-postgresqldbserver", "ZAQ12wsx")
                 */
 
-        var query =entityManager.createQuery("from TaxiInfoItem")
+        var query =entityManager.createQuery("from TaxiInformation")
         val list = query.resultList
         entityManager.close()
         return list
@@ -40,7 +42,7 @@ class TaxiInfoDao(manager: EntityManager) {
                     }"""
                 /*
                 otameshi.add(
-                        TaxiInfoItem(
+                        TaxiInformation(
                                 company_id = it[taxi_info.company_id],
                                 name = it[taxi_info.name],
                                 contact = it[taxi_info.contact],

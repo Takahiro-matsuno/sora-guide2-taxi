@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.dao.BookingInfoDao
-import com.jalinfotec.soraguide.taxi.taxiReservation.dao.TaxiInfoDao
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.dao.TaxiInfoDao
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
@@ -10,12 +10,37 @@ import javax.persistence.EntityManager
 //@Grab("thymeleaf-spring5")
 
 @Controller
-class HelloController {
+class SampleController {
+
+    // 疎通確認
+    @RequestMapping("hello")
+    fun hello(@RequestParam(value = "name") name: String?): String {
+        return if (name == null) "who are you?" else "name"
+    }
+    // データベースアクセス
+    @RequestMapping("db")
+    fun db() {
+
+    }
+    // thymeleaf表示
+    @RequestMapping("view")
+    fun view() {
+
+    }
+    // thymeleafにdbデータ埋め込み
+    @RequestMapping("dbView")
+    fun dbView() {
+
+    }
+
+
+
+
 
     /*
     // URLに対応する処理を書いていく
     @RequestMapping(value = "/", method = [RequestMethod.GET])
-    fun hello(): String/*MutableList<TaxiInfoItem>*/ {
+    fun hello(): String/*MutableList<TaxiInformation>*/ {
         //タクシーの情報表示（テスト）
 
         val taxiInfo = TaxiInfoDao()
@@ -33,7 +58,7 @@ class HelloController {
     /*
     お試しで作ったコントローラ
      */
-
+    @Autowired
     lateinit var entityManager :EntityManager
     lateinit var taxiInfoDao : TaxiInfoDao
 

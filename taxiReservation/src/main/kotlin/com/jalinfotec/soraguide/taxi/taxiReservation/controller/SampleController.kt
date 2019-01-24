@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
-import javax.persistence.EntityManager
 
 //@Grab("thymeleaf-spring5")
 
@@ -17,24 +16,24 @@ class SampleController {
     fun hello(@RequestParam(value = "name") name: String?): String {
         return if (name == null) "who are you?" else "name"
     }
+
     // データベースアクセス
     @RequestMapping("db")
     fun db() {
 
     }
+
     // thymeleaf表示
     @RequestMapping("view")
     fun view() {
 
     }
+
     // thymeleafにdbデータ埋め込み
     @RequestMapping("dbView")
     fun dbView() {
 
     }
-
-
-
 
 
     /*
@@ -59,29 +58,32 @@ class SampleController {
     お試しで作ったコントローラ
      */
     @Autowired
-    lateinit var entityManager :EntityManager
-    lateinit var taxiInfoDao : TaxiInfoDao
+    var taxiRepository:TaxiInfoDao? = null
 
     @RequestMapping("/")
     @ResponseBody
-    fun home(mav :ModelAndView): ModelAndView {
+    fun home(mav: ModelAndView): ModelAndView {
         mav.viewName = "index"
         return mav
     }
 
     @RequestMapping("/login")
     @ResponseBody
-    fun login(mav :ModelAndView): ModelAndView {
+    fun login(mav: ModelAndView): ModelAndView {
         mav.viewName = "reservationDetail"
-        mav.addObject("test","aaa")
+        mav.addObject("test", "aaa")
         return mav
     }
 
     @RequestMapping("/dbTest")
     @ResponseBody
-    fun dbRead(mav :ModelAndView):ModelAndView{
+    fun dbRead(mav: ModelAndView, @RequestParam("name") name: String): ModelAndView {
         mav.viewName = "dbRead"
-        mav.addObject("dataList",taxiInfoDao.getAll())
+        //if (id != null) {
+            mav.addObject("dataList", taxiRepository?.findByName(name))
+        //} else {
+            //mav.addObject("dataList", taxiRepository?.findAll())
+        //}
         return mav
     }
 

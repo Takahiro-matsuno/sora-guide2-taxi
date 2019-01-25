@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface TaxiInfoRepository : JpaRepository<TaxiInformation, Long> {
-    fun findById(id: String): MutableList<TaxiInformation>
-}
+interface TaxiInfoRepository : JpaRepository<TaxiInformation, String>

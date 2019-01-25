@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -8,6 +9,11 @@ import org.springframework.web.servlet.ModelAndView
 
 @Controller
 class SampleController {
+
+    @Autowired
+    var taxiRepository: TaxiInfoRepository? = null
+    @Autowired
+    val rdb = ReservationDetailService()
 
     // 疎通確認
     @RequestMapping("hello")
@@ -39,9 +45,6 @@ class SampleController {
 
     }
 
-    @Autowired
-    var taxiRepository: TaxiInfoRepository? = null
-
     @RequestMapping("/")
     @ResponseBody
     fun home(mav: ModelAndView): ModelAndView {
@@ -54,6 +57,17 @@ class SampleController {
     fun login(mav: ModelAndView): ModelAndView {
         mav.viewName = "reservationDetail"
         mav.addObject("test", "aaa")
+        return mav
+    }
+
+    @RequestMapping("/bookingInfo")
+    @ResponseBody
+    fun detailTest(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
+        mav.viewName = "reservationDetail"
+        println(id)
+        mav.addObject("dataList", rdb.getDetail(id))
+        mav.addObject("status",rdb.statusText)
+        mav.addObject("companyName",rdb.taxiCompanyName)
         return mav
     }
 }

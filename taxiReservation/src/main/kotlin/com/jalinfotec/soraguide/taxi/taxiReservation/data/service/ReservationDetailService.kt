@@ -14,7 +14,6 @@ class ReservationDetailService {
     @Autowired
     var taxiRepository: TaxiInfoRepository? = null
 
-
     var bookingInfo = BookingInformation()
 
     //var rideOnDate: String = ""

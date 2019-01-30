@@ -6,7 +6,7 @@ import java.sql.Date
 class ReservationForm {
     var status: Int = 0
     var date: Date = Date(0)
-    var time: Time = Time(date.time)
+    var time: String = Time(date.time).toString()
     var adult: Int = 0
     var child: Int = 0
     var taxi_number: Int = 0

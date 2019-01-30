@@ -8,7 +8,6 @@ import javax.persistence.*
 @Table(name = "booking_info")
 data class BookingInformation(
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "booking_id")
         var id: String = "初期値",
 

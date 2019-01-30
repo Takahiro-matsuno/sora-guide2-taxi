@@ -6,7 +6,6 @@ import javax.persistence.*
 @Table(name = "taxi_info")
 data class TaxiInformation(
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name="company_id")
         var id: String = "",
 

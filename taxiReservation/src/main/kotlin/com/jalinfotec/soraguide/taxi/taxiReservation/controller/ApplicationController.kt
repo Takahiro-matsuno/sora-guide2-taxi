@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
 
@@ -18,6 +17,9 @@ class ApplicationController {
     @Autowired
     var taxiRepository: TaxiInfoRepository? = null
 
+    @Autowired
+    val rsvCompService: ReservationCompleteService? = null
+
     //登録画面
     @RequestMapping("/app/registration")
     @ResponseBody
@@ -25,6 +27,7 @@ class ApplicationController {
         mav.viewName = "registration"
         mav.addObject("taxiList", taxiRepository?.findAll())
         mav.addObject("reservationForm", ReservationForm())
+
         return mav
     }
 
@@ -48,12 +51,11 @@ class ApplicationController {
     @RequestMapping("app/rsvComplete")
     @ResponseBody
     fun rsvComplete(mav: ModelAndView,
-                    @RequestParam("reservationForm") rsvForm: ReservationForm): ModelAndView {
+                    @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
         //登録処理
         //TODO 登録エラー時の処理を追加する（try-catch）
-        val rsvCompService = ReservationCompleteService()
-        rsvCompService.setBooking(rsvForm)
-        rsvCompService.complete()
+        rsvCompService?.setBooking(rsvForm)
+        rsvCompService?.complete()
 
         mav.viewName = "complete"
         return mav

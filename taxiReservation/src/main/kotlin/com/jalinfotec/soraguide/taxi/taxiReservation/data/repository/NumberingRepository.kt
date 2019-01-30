@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface NumberingRepository : JpaRepository<Numbering, String>
+interface NumberingRepository : JpaRepository<Numbering, String>{
+    fun findByName(name:String) : MutableList<Numbering>
+}

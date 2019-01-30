@@ -4,8 +4,11 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "numbering")
-data class Numbering (
-    @Id
-    var tableName:String="",
-    var nextValue:Int
+data class Numbering(
+        @Id
+        @Column(name = "tablename")
+        var name: String = "",
+
+        @Column(name = "nextvalue")
+        var nextValue: Int = 1
 )

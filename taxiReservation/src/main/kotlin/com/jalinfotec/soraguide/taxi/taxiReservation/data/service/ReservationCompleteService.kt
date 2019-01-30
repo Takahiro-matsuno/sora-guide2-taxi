@@ -7,14 +7,18 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Time
 
 @Service
-class ReservationCompleteService {
+class ReservationCompleteService(
+        private val bookingRepository :BookingInfoRepository,
+        private val numberingRepository: NumberingRepository) {
+    /*
     @Autowired
     var bookingRepository: BookingInfoRepository? = null
-
     @Autowired
-    var numberingRepository: NumberingRepository? = null
+    var numberingRepository = NumberingRepository()
+    */
 
     var bookingInfo = BookingInformation()
 
@@ -27,7 +31,8 @@ class ReservationCompleteService {
 
                 //入力データをセット
                 date = input.date,
-                time = input.time,
+                //TODO タイム型がうまくいかないから何とかしたい
+                time = null,//Time.valueOf(input.time),
                 adult = input.adult,
                 child = input.child,
                 taxi_number = input.taxi_number,
@@ -48,16 +53,17 @@ class ReservationCompleteService {
 
     @Transactional(readOnly = false)
     fun complete() {
-        bookingRepository?.save(bookingInfo)
+        bookingRepository.save(bookingInfo)
     }
 
     @Transactional(readOnly = false)
     fun setId():String{
-        val numbering = numberingRepository?.findById("booking_info")!!.get()
+        val numbering = numberingRepository.findByName("booking_info")[0]
         val result = String.format("%010d",numbering.nextValue)
 
         numbering.nextValue++
-        numberingRepository?.save(numbering)
+        numberingRepository.save(numbering)
+
 
         return result
     }

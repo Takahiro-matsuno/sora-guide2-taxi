@@ -48,7 +48,7 @@ class ApplicationController {
     @RequestMapping("app/rsvComplete")
     @ResponseBody
     fun rsvComplete(mav: ModelAndView,
-                    @RequestParam("rsvForm") rsvForm: ReservationForm): ModelAndView {
+                    @RequestParam("reservationForm") rsvForm: ReservationForm): ModelAndView {
         //登録処理
         //TODO 登録エラー時の処理を追加する（try-catch）
         val rsvCompService = ReservationCompleteService()

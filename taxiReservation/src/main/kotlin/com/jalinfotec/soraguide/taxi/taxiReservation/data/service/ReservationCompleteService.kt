@@ -3,6 +3,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,12 +13,14 @@ class ReservationCompleteService {
     @Autowired
     var bookingRepository: BookingInfoRepository? = null
 
+    @Autowired
+    var numberingRepository: NumberingRepository? = null
+
     var bookingInfo = BookingInformation()
 
     fun setBooking(input: ReservationForm) {
         bookingInfo = BookingInformation(
-                //TODO IDの採番は未決
-                id = "初期値",
+                id = setId(),
 
                 //予約時のステータスは1で固定
                 status = 1,
@@ -47,4 +50,17 @@ class ReservationCompleteService {
     fun complete() {
         bookingRepository?.save(bookingInfo)
     }
+
+    @Transactional(readOnly = false)
+    fun setId():String{
+        val numbering = numberingRepository?.findById("booking_info")!!.get()
+        val result = String.format("%010d",numbering.nextValue)
+
+        numbering.nextValue++
+        numberingRepository?.save(numbering)
+
+        return result
+    }
+
+
 }

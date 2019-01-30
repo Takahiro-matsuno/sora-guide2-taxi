@@ -4,8 +4,10 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformat
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+@Service
 class ReservationCompleteService {
     @Autowired
     var bookingRepository: BookingInfoRepository? = null

@@ -5,6 +5,9 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRep
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.validation.annotation.Validated
+import org.springframework.validation.BindingResult
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
@@ -20,17 +23,24 @@ class ApplicationController {
     @ResponseBody
     fun registration(mav: ModelAndView): ModelAndView {
         mav.viewName = "registration"
-        mav.addObject("taxiList",taxiRepository?.findAll())
-        mav.addObject("reservationForm",ReservationForm())
+        mav.addObject("taxiList", taxiRepository?.findAll())
+        mav.addObject("reservationForm", ReservationForm())
         return mav
     }
 
     //予約確認画面
     @RequestMapping("app/confirmation")
     @ResponseBody
-    fun confirmation(mav: ModelAndView): ModelAndView {
+    fun confirmation(mav: ModelAndView, @Validated @ModelAttribute form: ReservationForm, result: BindingResult): ModelAndView {
         //TODO 入力チェック処理（未作成）の呼び出し
+        //バリデートの結果でエラーありの場合の処理（現状、フォームにバリデートの定義がないため、デッドロジック）
+        if (result.hasErrors()) {
+            mav.viewName = "registration"
+            return mav
+        }
+
         mav.viewName = "confirmation"
+        mav.addObject("reservationForm",form)
         return mav
     }
 
@@ -38,9 +48,9 @@ class ApplicationController {
     @RequestMapping("app/rsvComplete")
     @ResponseBody
     fun rsvComplete(mav: ModelAndView,
-                    @RequestParam("rsvForm")rsvForm :ReservationForm): ModelAndView {
+                    @RequestParam("rsvForm") rsvForm: ReservationForm): ModelAndView {
         //登録処理
-        //TODO エラー時の処理を追加する（try-catch）
+        //TODO 登録エラー時の処理を追加する（try-catch）
         val rsvCompService = ReservationCompleteService()
         rsvCompService.setBooking(rsvForm)
         rsvCompService.complete()

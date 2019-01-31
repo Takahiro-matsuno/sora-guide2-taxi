@@ -4,7 +4,6 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformat
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
@@ -13,12 +12,6 @@ import java.sql.Time
 class ReservationCompleteService(
         private val bookingRepository :BookingInfoRepository,
         private val numberingRepository: NumberingRepository) {
-    /*
-    @Autowired
-    var bookingRepository: BookingInfoRepository? = null
-    @Autowired
-    var numberingRepository = NumberingRepository()
-    */
 
     var bookingInfo = BookingInformation()
 
@@ -31,8 +24,7 @@ class ReservationCompleteService(
 
                 //入力データをセット
                 date = input.date,
-                //TODO タイム型がうまくいかないから何とかしたい
-                time = null,//Time.valueOf(input.time),
+                time = Time.valueOf(input.time+":00"),
                 adult = input.adult,
                 child = input.child,
                 taxi_number = input.taxi_number,

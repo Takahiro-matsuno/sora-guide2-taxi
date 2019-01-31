@@ -3,29 +3,26 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.validation.annotation.Validated
 import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
 
 @Controller
-class ApplicationController {
-    @Autowired
-    var taxiRepository: TaxiInfoRepository? = null
-
-    @Autowired
-    val rsvCompService: ReservationCompleteService? = null
+class ApplicationController(
+        private val taxiRepository: TaxiInfoRepository,
+        private val rsvCompService: ReservationCompleteService
+) {
 
     //登録画面
     @RequestMapping("/app/registration")
     @ResponseBody
     fun registration(mav: ModelAndView): ModelAndView {
         mav.viewName = "registration"
-        mav.addObject("taxiList", taxiRepository?.findAll())
+        mav.addObject("taxiList", taxiRepository.findAll())
         mav.addObject("reservationForm", ReservationForm())
 
         return mav
@@ -54,8 +51,8 @@ class ApplicationController {
                     @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
         //登録処理
         //TODO 登録エラー時の処理を追加する（try-catch）
-        rsvCompService?.setBooking(rsvForm)
-        rsvCompService?.complete()
+        rsvCompService.setBooking(rsvForm)
+        rsvCompService.complete()
 
         mav.viewName = "complete"
         return mav

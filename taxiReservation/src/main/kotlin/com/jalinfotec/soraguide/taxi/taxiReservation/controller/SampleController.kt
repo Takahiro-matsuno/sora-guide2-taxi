@@ -1,10 +1,10 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
-import org.springframework.beans.factory.annotation.Autowired
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
@@ -15,14 +15,12 @@ import org.springframework.web.servlet.ModelAndView
  */
 //TODO クラス削除
 @Controller
-class SampleController {
-
-    @Autowired
-    var taxiRepository: TaxiInfoRepository? = null
-    @Autowired
-    var bookingRepository: BookingInfoRepository? = null
-    @Autowired
-    val rdb = ReservationDetailService()
+class SampleController(
+        private val taxiRepository: TaxiInfoRepository,
+        private val bookingRepository: BookingInfoRepository,
+        private val rdb : ReservationDetailService,
+        private val rsvCompService: ReservationCompleteService
+) {
 
     // 疎通確認
     @RequestMapping("hello")
@@ -35,9 +33,9 @@ class SampleController {
     fun db(mav: ModelAndView, @RequestParam("id") id: String?): ModelAndView {
         mav.viewName = "dbRead"
         if (id != null) {
-            mav.addObject("dataList", taxiRepository?.findById(id))
+            mav.addObject("dataList", taxiRepository.findById(id))
         } else {
-            mav.addObject("dataList", taxiRepository?.findAll())
+            mav.addObject("dataList", taxiRepository.findAll())
         }
         return mav
     }
@@ -84,10 +82,36 @@ class SampleController {
     @ResponseBody
     fun changeTest(mav: ModelAndView): ModelAndView {
         mav.viewName = "index"
-        val bookInfo = bookingRepository?.findById("0000000001")?.get()!!
+        val bookInfo = bookingRepository.findById("0000000001").get()
         bookInfo.name = "江戸川コナン"
-        bookInfo.phonetic="エドガワコナン"
-        bookingRepository?.save(bookInfo)
+        bookInfo.phonetic = "エドガワコナン"
+        bookingRepository.save(bookInfo)
+        return mav
+    }
+
+    /**
+     * 登録処理テスト用
+     */
+    @RequestMapping("/reservationTest")
+    @ResponseBody
+    fun reservationTest(mav: ModelAndView): ModelAndView {
+        mav.viewName = "registrationTest"
+        mav.addObject("taxiList", taxiRepository.findAll())
+        mav.addObject("reservationForm", ReservationForm())
+
+        return mav
+    }
+
+    @RequestMapping("/reservationCompTest")
+    @ResponseBody
+    fun reservationCompTest(mav: ModelAndView,
+                            @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
+        //登録処理
+        rsvCompService.setBooking(rsvForm)
+        rsvCompService.complete()
+
+        //完了画面の確認は別途
+        mav.viewName = "login"
         return mav
     }
 }

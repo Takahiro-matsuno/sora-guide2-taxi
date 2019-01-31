@@ -3,16 +3,13 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class ReservationDetailService {
-    @Autowired
-    var bookingRepository: BookingInfoRepository? = null
-
-    @Autowired
-    var taxiRepository: TaxiInfoRepository? = null
+class ReservationDetailService(
+        private val bookingRepository :BookingInfoRepository,
+        private val taxiRepository: TaxiInfoRepository
+) {
 
     var bookingInfo = BookingInformation()
 
@@ -21,13 +18,13 @@ class ReservationDetailService {
     var taxiCompanyName: String = ""
     var statusText:String = ""
 
-    fun getDetail(id: String): BookingInformation? {
+    fun getDetail(id: String): BookingInformation {
         //DBから引数のIDとマッチする予約情報を取得
-        bookingInfo = bookingRepository?.findById(id)?.get() ?: bookingInfo
+        bookingInfo = bookingRepository.findById(id).get()
         //タクシー会社IDからタクシー会社名を取得
-        taxiCompanyName = taxiRepository?.findById(bookingInfo.company_id)?.get()!!.name
+        taxiCompanyName = taxiRepository.findById(bookingInfo.company_id).get().name
         statusTextSet(bookingInfo.status)
-        return bookingRepository?.findById(id)?.get()
+        return bookingRepository.findById(id).get()
     }
 
     fun statusTextSet(code:Int){

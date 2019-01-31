@@ -14,8 +14,13 @@ class ReservationChangeService(
 ) {
     var bookingInfo = BookingInformation()
 
-    fun change(id:String, changeInfo:ReservationForm){
+    fun change(id: String, changeInfo: ReservationForm) {
         val beforeInfo = bookingRepository.findById(id).get()
+
+        //Time型の形式揃え
+        if (changeInfo.time.length == 5) {
+            changeInfo.time += ":00"
+        }
 
         bookingInfo = BookingInformation(
                 id = beforeInfo.id,
@@ -40,10 +45,11 @@ class ReservationChangeService(
         bookingRepository.save(bookingInfo)
     }
 
-    fun delete(id:String){
-
+    fun delete(id: String) {
+        val beforeInfo = bookingRepository.findById(id).get()
+        beforeInfo.status = 4
+        bookingRepository.save(bookingInfo)
     }
-
 
 
 }

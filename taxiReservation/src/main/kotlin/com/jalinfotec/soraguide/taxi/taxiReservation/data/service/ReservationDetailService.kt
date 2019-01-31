@@ -32,6 +32,7 @@ class ReservationDetailService(
 
     fun getChangeDetail(id: String): ReservationForm {
         val bookingInfo = getDetail(id)
+
         return ReservationForm(
                 date = bookingInfo.date,
                 time = bookingInfo.time.toString(),

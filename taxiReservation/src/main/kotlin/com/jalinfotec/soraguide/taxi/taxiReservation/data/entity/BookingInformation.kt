@@ -12,8 +12,8 @@ data class BookingInformation(
         var id: String = "初期値",
 
         var status: Int = 0,
-        var date: Date? = null,
-        var time: Time? = null,
+        var date: Date = Date(0),
+        var time: Time = Time(date.time),
         var adult: Int = 0,
         var child: Int = 0,
         var taxi_number: Int = 0,

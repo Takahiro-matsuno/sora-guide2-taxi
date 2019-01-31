@@ -4,7 +4,9 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
+import org.hibernate.Hibernate
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
@@ -19,7 +21,9 @@ class SampleController(
         private val taxiRepository: TaxiInfoRepository,
         private val bookingRepository: BookingInfoRepository,
         private val rdb : ReservationDetailService,
-        private val rsvCompService: ReservationCompleteService
+        private val rsvCompService: ReservationCompleteService,
+        private val rsvDetailservice:ReservationDetailService,
+        private val rsvChangeService:ReservationChangeService
 ) {
 
     // 疎通確認
@@ -71,7 +75,6 @@ class SampleController(
     @ResponseBody
     fun detailTest(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "reservationDetail"
-        println(id)
         mav.addObject("dataList", rdb.getDetail(id))
         mav.addObject("status", rdb.statusText)
         mav.addObject("companyName", rdb.taxiCompanyName)
@@ -97,7 +100,7 @@ class SampleController(
     fun reservationTest(mav: ModelAndView): ModelAndView {
         mav.viewName = "registrationTest"
         mav.addObject("taxiList", taxiRepository.findAll())
-        mav.addObject("reservationForm", ReservationForm())
+        mav.addObject("reservationForm", rsvDetailservice.getChangeDetail("0000000003"))
 
         return mav
     }
@@ -106,9 +109,17 @@ class SampleController(
     @ResponseBody
     fun reservationCompTest(mav: ModelAndView,
                             @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
+
         //登録処理
+        /*
         rsvCompService.setBooking(rsvForm)
         rsvCompService.complete()
+        */
+
+        println(rsvForm.time)
+
+        //変更処理
+        rsvChangeService.change("0000000003",rsvForm)
 
         //完了画面の確認は別途
         mav.viewName = "login"

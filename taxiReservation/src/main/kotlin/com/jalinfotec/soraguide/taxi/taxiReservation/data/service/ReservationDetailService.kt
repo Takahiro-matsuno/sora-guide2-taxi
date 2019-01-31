@@ -27,7 +27,7 @@ class ReservationDetailService(
         //タクシー会社IDからタクシー会社名を取得
         taxiCompanyName = taxiRepository.findById(bookingInfo.company_id).get().name
         statusTextSet(bookingInfo.status)
-        return bookingRepository.findById(id).get()
+        return bookingInfo
     }
 
     fun getChangeDetail(id: String): ReservationForm {
@@ -40,14 +40,14 @@ class ReservationDetailService(
                 child = bookingInfo.child,
                 taxi_number = bookingInfo.taxi_number,
                 company_id = bookingInfo.company_id,
-                destination = bookingInfo.destination,
-                name = bookingInfo.name,
-                phonetic = bookingInfo.phonetic,
-                phone = bookingInfo.phone,
+                destination = bookingInfo.destination.trim(),
+                name = bookingInfo.name.trim(),
+                phonetic = bookingInfo.phonetic.trim(),
+                phone = bookingInfo.phone.trim(),
                 mail = bookingInfo.mail,
                 mailCheck = bookingInfo.mail,
-                comment = bookingInfo.comment
-                )
+                comment = bookingInfo.comment.trim()
+        )
     }
 
     fun statusTextSet(code: Int) {

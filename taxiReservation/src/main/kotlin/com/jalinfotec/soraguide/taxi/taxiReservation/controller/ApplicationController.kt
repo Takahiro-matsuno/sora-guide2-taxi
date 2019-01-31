@@ -3,10 +3,12 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
@@ -14,7 +16,8 @@ import org.springframework.web.servlet.ModelAndView
 @Controller
 class ApplicationController(
         private val taxiRepository: TaxiInfoRepository,
-        private val rsvCompService: ReservationCompleteService
+        private val rsvCompService: ReservationCompleteService,
+        private val rsvDetailService: ReservationDetailService
 ) {
 
     //登録画面
@@ -85,8 +88,13 @@ class ApplicationController(
     //詳細画面
     @RequestMapping("app/detail")
     @ResponseBody
-    fun detail(mav: ModelAndView): ModelAndView {
+    fun detail(mav: ModelAndView/*,@ModelAttribute("id")id:String*/): ModelAndView {
         mav.viewName = "detail"
+        val bookingInfo = rsvDetailService.getDetail("0000000002")
+
+        mav.addObject("rsvDetail",bookingInfo)
+        mav.addObject("status",rsvDetailService.statusText)
+        mav.addObject("companyName",rsvDetailService.taxiCompanyName)
         return mav
     }
 

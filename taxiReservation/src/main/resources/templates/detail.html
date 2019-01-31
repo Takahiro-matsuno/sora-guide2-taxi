@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約詳細</title>
+
+    <script type="text/javascript">
+        //キャンセルボタン押下時のモーダル表示処理
+    </script>
+</head>
+
+<body>
+<h1>予約詳細</h1>
+<form method="get">
+    <table th:object="${rsvDetail}">
+        <thead>
+        <tr>
+            <th>予約番号</th>
+            <td th:text="*{id}"></td>
+        </tr>
+        <tr>
+            <th>ステータス</th>
+            <td th:text="${status}"></td>
+        </tr>
+        <tr>
+            <th>日付</th>
+            <td th:text="*{date}"></td>
+        </tr>
+        <tr>
+            <th>時間</th>
+            <td th:text="*{time}"></td>
+        </tr>
+        <tr>
+            <th>大人</th>
+            <td th:text="*{adult}"></td>
+        </tr>
+        <tr>
+            <th>子供</th>
+            <td th:text="*{child}"></td>
+        </tr>
+        <tr>
+            <th>台数</th>
+            <td th:text="*{taxi_number}"></td>
+        </tr>
+        <tr>
+            <th>会社名</th>
+            <td th:text="${companyName}"></td>
+        </tr>
+        <tr>
+            <th>目的地</th>
+            <td th:text="*{destination}"></td>
+        </tr>
+        <tr>
+            <th>名前</th>
+            <td th:text="*{name}"></td>
+        </tr>
+
+        <tr>
+            <th>フリガナ</th>
+            <td th:text="*{phonetic}"></td>
+        </tr>
+
+        <tr>
+            <th>電話番号</th>
+            <td th:text="*{phone}"></td>
+        </tr>
+        <tr>
+            <th>メールアドレス</th>
+            <td th:text="*{mail}"></td>
+        </tr>
+        <tr>
+            <th>利用者コメント</th>
+            <td th:text="*{comment}"></td>
+        </tr>
+        <tr>
+            <th>車両番号</th>
+            <td th:text="*{car_number}"></td>
+        </tr>
+        <tr>
+            <th>タクシー連絡先</th>
+            <td th:text="*{car_contact}"></td>
+        </tr>
+        <tr>
+            <th>ご案内事項</th>
+            <td th:text="*{notice}"></td>
+        </tr>
+    </table>
+
+    <!--遷移先は適当-->
+    <button type="submit" id="cancel" formaction="./registration" th:value="${rsvDetail.id}">
+        取消する
+    </button>
+
+    <button type="submit" id="change" formaction="./change">
+        変更する
+    </button>
+
+</form>
+
+
+</body>
+
+</html>

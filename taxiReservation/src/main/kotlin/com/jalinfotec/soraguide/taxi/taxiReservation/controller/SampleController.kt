@@ -35,7 +35,7 @@ class SampleController(
     // データベースアクセス
     @RequestMapping("db")
     fun db(mav: ModelAndView, @RequestParam("id") id: String?): ModelAndView {
-        mav.viewName = "dbRead"
+        mav.viewName = "/testHTML/dbRead"
         if (id != null) {
             mav.addObject("dataList", taxiRepository.findById(id))
         } else {
@@ -59,14 +59,14 @@ class SampleController(
     @RequestMapping("/")
     @ResponseBody
     fun home(mav: ModelAndView): ModelAndView {
-        mav.viewName = "index"
+        mav.viewName = "testHTML/reservationList"
         return mav
     }
 
     @RequestMapping("/login")
     @ResponseBody
     fun login(mav: ModelAndView): ModelAndView {
-        mav.viewName = "reservationDetail"
+        mav.viewName = "testHTML/reservationDetail"
         mav.addObject("test", "aaa")
         return mav
     }
@@ -74,7 +74,7 @@ class SampleController(
     @RequestMapping("/bookingInfo")
     @ResponseBody
     fun detailTest(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
-        mav.viewName = "reservationDetail"
+        mav.viewName = "testHTML/reservationDetail"
         mav.addObject("dataList", rdb.getDetail(id))
         mav.addObject("status", rdb.statusText)
         mav.addObject("companyName", rdb.taxiCompanyName)
@@ -84,7 +84,7 @@ class SampleController(
     @RequestMapping("/changeTest")
     @ResponseBody
     fun changeTest(mav: ModelAndView): ModelAndView {
-        mav.viewName = "index"
+        mav.viewName = "testHTML/index"
         val bookInfo = bookingRepository.findById("0000000001").get()
         bookInfo.name = "江戸川コナン"
         bookInfo.phonetic = "エドガワコナン"
@@ -98,7 +98,7 @@ class SampleController(
     @RequestMapping("/reservationTest")
     @ResponseBody
     fun reservationTest(mav: ModelAndView): ModelAndView {
-        mav.viewName = "registrationTest"
+        mav.viewName = "testHTML/registrationTest"
         mav.addObject("taxiList", taxiRepository.findAll())
         mav.addObject("reservationForm", rsvDetailservice.getChangeDetail("0000000003"))
 
@@ -122,7 +122,7 @@ class SampleController(
         rsvChangeService.change("0000000003",rsvForm)
 
         //完了画面の確認は別途
-        mav.viewName = "login"
+        mav.viewName = "testHTML/login"
         return mav
     }
 }

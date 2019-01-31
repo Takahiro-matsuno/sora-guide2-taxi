@@ -25,21 +25,22 @@ class ReservationChangeService(
         bookingInfo = BookingInformation(
                 id = beforeInfo.id,
                 status = beforeInfo.status,
+                company_id = beforeInfo.company_id,
+                name = beforeInfo.name,
+                phonetic = beforeInfo.phonetic,
+                car_contact = beforeInfo.car_contact,
+                car_number = beforeInfo.car_number,
+                notice = beforeInfo.notice,
+
                 date = changeInfo.date,
                 time = Time.valueOf(changeInfo.time),
                 adult = changeInfo.adult,
                 child = changeInfo.child,
                 taxi_number = changeInfo.taxi_number,
-                company_id = beforeInfo.company_id,
                 destination = changeInfo.destination,
-                name = beforeInfo.name,
-                phonetic = beforeInfo.phonetic,
                 phone = changeInfo.phone,
                 mail = changeInfo.mail,
-                comment = changeInfo.comment,
-                car_contact = beforeInfo.car_contact,
-                car_number = beforeInfo.car_number,
-                notice = beforeInfo.notice
+                comment = changeInfo.comment
         )
 
         bookingRepository.save(bookingInfo)

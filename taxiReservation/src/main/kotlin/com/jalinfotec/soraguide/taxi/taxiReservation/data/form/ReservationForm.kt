@@ -8,44 +8,44 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 data class ReservationForm(
-    //初期値:本日の日付
+        //初期値:本日の日付
         @NotNull
-    var date: Date = Date(Calendar.getInstance().getTimeInMillis()),
-    //??
+        var date: Date = Date(Calendar.getInstance().getTimeInMillis()),
+        //??
         @NotEmpty
-    var time: String = Time(date.time).toString(),
-
-        @NotEmpty
-    var adult: Int = 1,
+        var time: String = Time(date.time).toString(),
 
         @NotEmpty
-    var child: Int = 0,
+        var adult: Int = 1,
 
         @NotEmpty
-    var taxi_number: Int = 1,
-
-        @NotNull
-    var company_id: String = "",
-
-        @NotNull
-    var destination: String = "",
-
-        @NotNull
-    var name: String = "",
-
-        @NotNull
-    var phonetic: String = "",
-
-        @NotNull
-    var phone: String = "",
+        var child: Int = 0,
 
         @NotEmpty
-    @Email
-    var mail: String = "",
+        var taxi_number: Int = 1,
+
+        @NotNull
+        var company_id: String = "",
+
+        @NotNull
+        var destination: String = "",
+
+        @NotNull
+        var name: String = "",
+
+        @NotNull
+        var phonetic: String = "",
+
+        @NotNull
+        var phone: String = "",
 
         @NotEmpty
-    @Email
-    var mailCheck: String = "",
+        @Email
+        var mail: String = "",
+
+        @NotEmpty
+        @Email
+        var mailCheck: String = "",
 
         //任意項目
         var comment: String = ""

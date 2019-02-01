@@ -44,6 +44,9 @@ class ApplicationController(
 
         mav.viewName = "confirmation"
         mav.addObject("reservationForm",form)
+
+        val taxiCompanyName = taxiRepository.findById(form.company_id).get()
+        mav.addObject("taxiCompanyName", taxiCompanyName.name)
         return mav
     }
 

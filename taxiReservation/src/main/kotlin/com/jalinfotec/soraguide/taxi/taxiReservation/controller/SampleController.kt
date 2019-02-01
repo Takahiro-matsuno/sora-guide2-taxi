@@ -10,6 +10,8 @@ import org.hibernate.Hibernate
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import java.util.*
+import java.util.Optional.*
 
 /**
  * サンプル用controllerクラス
@@ -108,18 +110,26 @@ class SampleController(
     @RequestMapping("/reservationCompTest")
     @ResponseBody
     fun reservationCompTest(mav: ModelAndView,
-                            @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
+                            @ModelAttribute("reservationForm") rsvForm: ReservationForm,
+                            @ModelAttribute("id")id:String,
+                            @ModelAttribute("name")name:String): ModelAndView {
 
-        //登録処理
-        /*
-        rsvCompService.setBooking(rsvForm)
-        rsvCompService.complete()
-        */
-
-        println(rsvForm.time)
+        val checkBooking = bookingRepository.findById(id)
+        //検索にかからない場合
+        if(!checkBooking.isPresent){
+            println("ERROR：変更する予約がDBに存在しない")
+            throw Exception()
+        }
+        //ID改ざん対策
+        if(checkBooking.get().name.trim() != name.trim()){
+            println("ERROR：変更前後の予約で名前が一致しない")
+            println("DB->${checkBooking.get().name.trim()}")
+            println("入力->${name.trim()}")
+            throw Exception()
+        }
 
         //変更処理
-        rsvChangeService.change("0000000003",rsvForm)
+        rsvChangeService.change(id,rsvForm)
 
         //完了画面の確認は別途
         mav.viewName = "testHTML/login"

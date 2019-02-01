@@ -12,7 +12,7 @@
 
 <body>
 <h1>予約詳細</h1>
-<form method="get">
+<form method="post">
     <table th:object="${rsvDetail}">
         <thead>
         <tr>
@@ -87,12 +87,12 @@
         </tr>
     </table>
 
-    <!--遷移先は適当-->
-    <button type="submit" id="cancel" formaction="./registration" th:value="${rsvDetail.id}">
+   <!--遷移先は適当-->
+    <button type="submit" id="cancel" formaction="./registration" name="id" th:value="${rsvDetail.id}">
         取消する
     </button>
 
-    <button type="submit" id="change" formaction="./change">
+    <button type="submit" id="change" formaction="./change" name="id" th:value="${rsvDetail.id}">
         変更する
     </button>
 

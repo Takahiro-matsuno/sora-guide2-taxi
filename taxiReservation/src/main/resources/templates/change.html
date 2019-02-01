@@ -7,8 +7,72 @@
 </head>
 
 <body>
-<h1>予約変更</h1>
+<header>
+    <h1>予約変更</h1>
+    <p>以下の項目を入力してください</p>
+</header>
 
+<form action="../reservationCompTest" method="post" th:object="${reservationForm}">
+    <div id="contents">
+        <table>
+            <tr>
+                <th align="left"><label>乗車日</label></th>
+                <td align="left"><input type="date" name="day" style="width: device-width;" th:field="*{date}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>乗車時間</label></th>
+                <td align="left"><input type="time" name="time" style="width: device-width" th:field="*{time}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>人数(大人)</label></th>
+                <td align="left"><input type="number" name="adlt" style="width: device-width" th:field="*{adult}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>人数(子供)</label></th>
+                <td align="left"><input type="number" name="chld" style="width: device-width" th:field="*{child}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>配車台数</label></th>
+                <td align="left"><input type="number" name="disp" style="width: device-width" th:field="*{taxi_number}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>目的地</label></th>
+                <td align="left"><input type="text" name="dest" style="width: device-width" th:field="*{destination}"/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>電話番号</label></th>
+                <td align="left"><input type="tel" name="phone" style="width: device-width" th:field="*{phone}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>メールアドレス</label></th>
+                <td align="left"><input type="email" name="mail" style="width: device-width" th:field="*{mail}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>メールアドレス(確認)</label></th>
+                <td align="left"><input type="email" name="mail_chk" style="width: device-width"
+                                        th:field="*{mailCheck}"/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>コメント(任意)</label></th>
+                <td align="left"><input type="text" name="comment" style="width: device-width" th:field="*{comment}"/>
+                </td>
+            </tr>
+
+            <input type="hidden" name="id" th:value="${id}">
+            <input type="hidden" name="name" th:value="${reservationForm.name}">
+
+            <tr>
+                <td align="left">
+                    <button type="reset" name="clearButton">クリア</button>
+                </td>
+                <td align="left">
+                    <button type="submit" name="chkButton">入力確認</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
 </body>
-
 </html>

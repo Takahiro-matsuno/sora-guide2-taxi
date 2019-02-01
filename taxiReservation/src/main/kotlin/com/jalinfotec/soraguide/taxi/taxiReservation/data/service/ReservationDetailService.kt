@@ -7,31 +7,36 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRep
 import org.springframework.stereotype.Service
 import java.sql.Date
 import java.sql.Time
+import java.util.*
+import kotlin.NoSuchElementException
 
 @Service
 class ReservationDetailService(
         private val bookingRepository: BookingInfoRepository,
-        private val taxiRepository: TaxiInfoRepository
+        private val taxiRepository: TaxiInfoRepository,
+        private var bookingInfo: Optional<BookingInformation>
 ) {
 
-    var bookingInfo = BookingInformation()
-
-    //var rideOnDate: String = ""
-    //var rideOnTime: String = ""
     var taxiCompanyName: String = ""
     var statusText: String = ""
 
-    fun getDetail(id: String): BookingInformation {
+    fun getDetail(id: String): Optional<BookingInformation> {
         //DBから引数のIDとマッチする予約情報を取得
-        bookingInfo = bookingRepository.findById(id).get()
+        bookingInfo = bookingRepository.findById(id)
         //タクシー会社IDからタクシー会社名を取得
-        taxiCompanyName = taxiRepository.findById(bookingInfo.company_id).get().name
-        statusTextSet(bookingInfo.status)
+        try {
+            taxiCompanyName = taxiRepository.findById(bookingInfo.get().company_id).get().name
+            statusTextSet(bookingInfo.get().status)
+        }catch (e:NoSuchElementException){
+            taxiCompanyName = ""
+            statusText = ""
+        }
+
         return bookingInfo
     }
 
     fun getChangeDetail(id: String): ReservationForm {
-        val bookingInfo = getDetail(id)
+        val bookingInfo = getDetail(id).get()
 
         return ReservationForm(
                 date = bookingInfo.date,

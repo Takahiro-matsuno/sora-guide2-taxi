@@ -1,7 +1,9 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import org.springframework.stereotype.Controller
@@ -12,12 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
+import java.util.*
 
 @Controller
 class ApplicationController(
         private val taxiRepository: TaxiInfoRepository,
         private val rsvCompService: ReservationCompleteService,
-        private val rsvDetailService: ReservationDetailService
+        private val rsvDetailService: ReservationDetailService,
+        private val rsvChangeService: ReservationChangeService
 ) {
 
     //登録画面
@@ -67,8 +71,30 @@ class ApplicationController(
     //変更完了画面
     @RequestMapping("app/changeComplete")
     @ResponseBody
-    fun changeComplete(mav: ModelAndView): ModelAndView {
+    fun changeComplete(mav: ModelAndView,
+                       @ModelAttribute("reservationForm") rsvForm: ReservationForm,
+                       @ModelAttribute("id")id:String,
+                       @ModelAttribute("name")name:String): ModelAndView {
+        val checkBooking = rsvDetailService.getDetail(id)
+        //検索にかからない場合
+        if(!checkBooking.isPresent){
+            println("ERROR：変更する予約がDBに存在しない")
+            throw Exception()
+        }
+        //ID改ざん対策
+        if(checkBooking.get().name.trim() != name.trim()){
+            println("ERROR：変更前後の予約で名前が一致しない")
+            println("DB->${checkBooking.get().name.trim()}")
+            println("入力->${name.trim()}")
+            throw Exception()
+        }
+
+        //変更処理
+        rsvChangeService.change(id,rsvForm)
+
+        //完了画面へ遷移
         mav.viewName = "complete"
+        //TODO addObject
         return mav
     }
 
@@ -104,8 +130,13 @@ class ApplicationController(
     //変更入力画面
     @RequestMapping("app/change")
     @ResponseBody
-    fun change(mav: ModelAndView): ModelAndView {
+    fun change(mav: ModelAndView,@ModelAttribute("id")id:String): ModelAndView {
+        println("送られた予約ID：$id")
         mav.viewName = "change"
+        val bookingInfo = rsvDetailService.getChangeDetail(id)
+
+        mav.addObject("reservationForm",bookingInfo)
+        mav.addObject("id",id)
         return mav
     }
 

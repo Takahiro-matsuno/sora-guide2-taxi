@@ -13,7 +13,7 @@ data class ReservationForm(
         var date: Date = Date(Calendar.getInstance().getTimeInMillis()),
         //??
         @NotEmpty
-        var time: String = Time(date.time).toString(),
+        var time: String = Time(date.time).toString().substring(0,5),
 
         @NotEmpty
         var adult: Int = 1,

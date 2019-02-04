@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約完了画面</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!--   <link rel="stylesheet" href="sample.css"> -->
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
 </head>
 <body>
-
+<header>
+    <h1>予約登録完了</h1>
+    <!--  <p>以下の項目を入力してください</p> -->
+</header>
+    <div id="contents">
+        <table th:object="${reservationForm}">
+        <tr>
+            <th align="right" th:text="*{name}" style="width: device-width;"></th>
+            <th align="left"><label>様</label></th>
+        </tr>
+        </table>
+           <p align="left"><label>タクシーのご予約内容がタクシー会社に送信されました。</label></p>
+        <table th:object="${reservationForm}">
+        <tr>
+            <th align="left"><label>予約番号：</label></th>
+            <td align="left" style="width: device-width;">XXXXXXXXXX</td>
+        </tr>
+        <tr>
+           <th align="left"><label>ステータス：</label></th>
+            <td align="left" style="width: device-width;">予約受付中</td>
+         </tr>
+        </table>
+        <p align="left"><label>タクシー会社より予約の受付が完了したら、スマホに通知され、代表者にメールが送付されます。</label></p>
+        <p align="left"><label>ステータスは予約確定済となります。</label></p>
+        <p align="left"><label>　</label></p>
+        <p align="left"><label>注意：予約完了ではありません。</label></p>
+        <table>
+            <tr>
+                <td align="left"><button type="button" onclick="history.back()">予約登録へ</button></td>
+                <td align="left"><button type="button" name="history.back()">予約確認へ</button></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

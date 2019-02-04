@@ -4,12 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <title>予約一覧</title>
+    <style>
+        table {
+            border-collapse:  collapse; /* セルの線を重ねる */
+        }
+
+        table:nth-child(odd) {
+            background-color:  #ddd;    /* 背景色指定 */
+        }
+
+        th,td {
+            padding: 5px 10px;          /* 余白指定 */
+        }
+
+    </style>
 </head>
 
 
 <body>
 <h1>予約一覧</h1>
-<table th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(' + ${rsvInfo.id} + ');'" border="1" rules="groups">
+<table th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
     <tr>
         <th>予約番号</th>
         <td th:text="${rsvInfo.id}"></td>
@@ -24,7 +38,7 @@
     </tr>
     <tr>
         <th>ステータス</th>
-        <td th:text="*{status}"></td>
+        <td th:text="${rsvInfo.status}"></td>
     </tr>
 </table>
 
@@ -33,7 +47,21 @@
 <script>
 <!--
     function listClicked(id){
-        alert("予約番号:"+id);
+        //フォーム作成
+        var form = document.createElement("form");
+        form.setAttribute("action", "./detail");
+        form.setAttribute("method", "post");
+        form.style.display = "none";
+        document.body.appendChild(form);
+
+        //送信値
+        var input = document.createElement('input');
+        input.setAttribute('type',  'hidden');
+        input.setAttribute('name', 'id');
+        input.setAttribute('value', id);
+        form.appendChild(input);
+
+        form.submit();
     }
 -->
 </script>

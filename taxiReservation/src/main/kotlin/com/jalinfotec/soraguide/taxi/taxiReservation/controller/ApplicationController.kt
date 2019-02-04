@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
 
@@ -100,7 +101,7 @@ class ApplicationController(
     fun list(mav: ModelAndView): ModelAndView {
         mav.viewName = "list"
 
-        //一旦全部取得
+        //TODO 一旦全部取得
         mav.addObject("rsvList",bookingRepository.findAll(Sort(Sort.Direction.ASC,"id")))
         return mav
     }
@@ -108,7 +109,7 @@ class ApplicationController(
     //詳細画面
     @RequestMapping("app/detail")
     @ResponseBody
-    fun detail(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
+    fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "detail"
         val bookingInfo = rsvDetailService.getDetail(id)
 

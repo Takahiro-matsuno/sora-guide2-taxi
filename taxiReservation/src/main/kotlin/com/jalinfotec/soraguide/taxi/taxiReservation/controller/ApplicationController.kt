@@ -20,8 +20,8 @@ import org.springframework.web.servlet.ModelAndView
 class ApplicationController(
         private val taxiRepository: TaxiInfoRepository,
         private val bookingRepository:BookingInfoRepository,
-        private val rsvCompService: ReservationCompleteService,
         private val rsvDetailService: ReservationDetailService,
+        private val rsvCompService: ReservationCompleteService,
         private val rsvChangeService: ReservationChangeService
 ) {
 
@@ -133,7 +133,7 @@ class ApplicationController(
 
     @RequestMapping("app/certificateInput")
     @ResponseBody
-    fun certificateInput(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
+    fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
         mav.addObject("id", id)
         mav.addObject("mail", "")

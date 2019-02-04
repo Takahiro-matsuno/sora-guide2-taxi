@@ -2,16 +2,16 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
-import org.hibernate.Hibernate
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
-import java.util.*
-import java.util.Optional.*
 
 /**
  * サンプル用controllerクラス

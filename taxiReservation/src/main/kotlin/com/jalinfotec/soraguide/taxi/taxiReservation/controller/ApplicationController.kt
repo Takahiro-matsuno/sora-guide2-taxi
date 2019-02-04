@@ -1,7 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
@@ -10,11 +9,9 @@ import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
-import java.util.*
 
 @Controller
 class ApplicationController(
@@ -47,7 +44,7 @@ class ApplicationController(
         }
 
         mav.viewName = "confirmation"
-        mav.addObject("reservationForm",form)
+        mav.addObject("reservationForm", form)
 
         val taxiCompanyName = taxiRepository.findById(form.company_id).get()
         mav.addObject("taxiCompanyName", taxiCompanyName.name)
@@ -72,17 +69,17 @@ class ApplicationController(
     @ResponseBody
     fun changeComplete(mav: ModelAndView,
                        @ModelAttribute("reservationForm") rsvForm: ReservationForm,
-                       @ModelAttribute("id")id:String,
-                       @ModelAttribute("name")name:String): ModelAndView {
+                       @ModelAttribute("id") id: String,
+                       @ModelAttribute("name") name: String): ModelAndView {
         //変更処理
-        rsvChangeService.change(id,rsvForm,name)
+        rsvChangeService.change(id, rsvForm, name)
 
         //TODO 予約情報の取得処理？変更処理からリターンではなく、再度予約情報取得処理を回す方が良いが。。画面表示次第。
 
         //完了画面へ遷移
         mav.viewName = "complete"
         //TODO addObject
-        mav.addObject("title","変更完了")
+        mav.addObject("title", "変更完了")
         return mav
     }
 
@@ -105,27 +102,49 @@ class ApplicationController(
     //詳細画面
     @RequestMapping("app/detail")
     @ResponseBody
-    fun detail(mav: ModelAndView/*,@ModelAttribute("id")id:String*/): ModelAndView {
+    fun detail(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
         mav.viewName = "detail"
-        val bookingInfo = rsvDetailService.getDetail("0000000002")
+        val bookingInfo = rsvDetailService.getDetail(id)
 
-        mav.addObject("rsvDetail",bookingInfo.get())
-        mav.addObject("status",rsvDetailService.statusText)
-        mav.addObject("companyName",rsvDetailService.taxiCompanyName)
+        mav.addObject("rsvDetail", bookingInfo.get())
+        mav.addObject("status", rsvDetailService.statusText)
+        mav.addObject("companyName", rsvDetailService.taxiCompanyName)
         return mav
     }
 
     //変更入力画面
     @RequestMapping("app/change")
     @ResponseBody
-    fun change(mav: ModelAndView,@ModelAttribute("id")id:String): ModelAndView {
+    fun change(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
         mav.viewName = "change"
         val bookingInfo = rsvDetailService.getChangeDetail(id)
 
-        mav.addObject("reservationForm",bookingInfo)
-        mav.addObject("id",id)
+        mav.addObject("reservationForm", bookingInfo)
+        mav.addObject("id", id)
         return mav
     }
 
-    //TODO WEB用のメールのリンクから予約詳細の間に挟む画面
+    @RequestMapping("app/certificateInput")
+    @ResponseBody
+    fun certificateInput(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
+        mav.viewName = "certification"
+        mav.addObject("id", id)
+        mav.addObject("mail", "")
+
+        return mav
+    }
+
+    @RequestMapping("app/certificateResult")
+    @ResponseBody
+    fun certificateResult(mav: ModelAndView, @ModelAttribute("id") id: String,
+                          @ModelAttribute("mail") mail: String): ModelAndView {
+
+        val bookingInfo = rsvDetailService.detailCertificates(id, mail)
+
+        return if (bookingInfo.isPresent) {
+            detail(mav, id)
+        } else {
+            certificateInput(mav, id)
+        }
+    }
 }

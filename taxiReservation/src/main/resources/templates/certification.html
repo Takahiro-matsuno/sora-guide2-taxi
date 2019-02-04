@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約認証</title>
+</head>
+<body>
+<h1>予約認証</h1>
+<form action="./certificateResult" method="post">
+    <table>
+        <tr>
+            <th align="left"><label>予約番号</label></th>
+            <td align="left"><input type="text" style="width: device-width;" th:field="${id}"/></td>
+        </tr>
+        <tr>
+            <th align="left"><label>メールアドレス</label></th>
+            <td align="left"><input type="text" style="width: device-width" th:field="${mail}"/></td>
+        </tr>
+    </table>
+
+    <button type="submit">予約詳細へ</button>
+
+</form>
+
+
+</body>
+</html>

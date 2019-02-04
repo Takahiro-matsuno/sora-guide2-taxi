@@ -51,10 +51,21 @@ class ReservationDetailService(
                 name = bookingInfo.name.trim(),
                 phonetic = bookingInfo.phonetic.trim(),
                 phone = bookingInfo.phone.trim(),
-                mail = bookingInfo.mail,
-                mailCheck = bookingInfo.mail,
+                mail = bookingInfo.mail.trim(),
+                mailCheck = bookingInfo.mail.trim(),
                 comment = bookingInfo.comment.trim()
         )
+    }
+
+    fun detailCertificates(id:String,mail:String):Optional<BookingInformation>{
+        val bookingInfo = getDetail(id)
+        if(!bookingInfo.isPresent){
+            return Optional.empty()
+        }
+        if(bookingInfo.get().mail.trim()!= mail){
+            return Optional.empty()
+        }
+        return bookingInfo
     }
 
     fun statusTextSet(code: Int) {

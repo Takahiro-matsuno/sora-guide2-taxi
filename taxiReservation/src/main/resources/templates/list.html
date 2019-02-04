@@ -6,10 +6,36 @@
     <title>予約一覧</title>
 </head>
 
+
 <body>
 <h1>予約一覧</h1>
-
+<table th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(' + ${rsvInfo.id} + ');'" border="1" rules="groups">
+    <tr>
+        <th>予約番号</th>
+        <td th:text="${rsvInfo.id}"></td>
+    </tr>
+    <tr>
+        <th>乗車日</th>
+        <td th:text="${rsvInfo.date}"></td>
+    </tr>
+    <tr>
+        <th>乗車時間</th>
+        <td th:text="${rsvInfo.time}"></td>
+    </tr>
+    <tr>
+        <th>ステータス</th>
+        <td th:text="*{status}"></td>
+    </tr>
+</table>
 
 </body>
+
+<script>
+<!--
+    function listClicked(id){
+        alert("予約番号:"+id);
+    }
+-->
+</script>
 
 </html>

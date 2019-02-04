@@ -1,10 +1,12 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView
 @Controller
 class ApplicationController(
         private val taxiRepository: TaxiInfoRepository,
+        private val bookingRepository:BookingInfoRepository,
         private val rsvCompService: ReservationCompleteService,
         private val rsvDetailService: ReservationDetailService,
         private val rsvChangeService: ReservationChangeService
@@ -96,6 +99,9 @@ class ApplicationController(
     @ResponseBody
     fun list(mav: ModelAndView): ModelAndView {
         mav.viewName = "list"
+
+        //一旦全部取得
+        mav.addObject("rsvList",bookingRepository.findAll(Sort(Sort.Direction.ASC,"id")))
         return mav
     }
 

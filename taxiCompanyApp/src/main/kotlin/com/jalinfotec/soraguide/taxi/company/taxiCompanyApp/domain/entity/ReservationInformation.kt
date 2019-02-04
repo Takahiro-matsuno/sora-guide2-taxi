@@ -9,7 +9,7 @@ data class ReservationInformation(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "booking_id")
-        var id: String = "初期値",
+        var id: String = "",
 
         var status: Int = 0,
         var date: Date? = null,

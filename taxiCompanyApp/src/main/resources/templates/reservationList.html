@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>そらガイド 予約管理-予約一覧</title>
+    <link th:href="@{/css/leftNavigation.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="leftNavigation">
+        <header>
+            <form role="form" id="home" th:action="@{/reservation/home}" method="get">
+                <button type="submit">ホーム</button>
+            </form>
+            <form role="form" id="list" th:action="@{/reservation/list}" method="get">
+                <button type="submit">予約一覧</button>
+            </form>
+            <form role="form" id="search" th:action="@{/reservation/search}" method="get">
+                <button type="submit">予約検索</button>
+            </form>
+            <form role="form" id="setting" th:action="@{/setting}" method="get">
+                <button type="submit">設定</button>
+            </form>
+            <form role="form" id="logout" th:action="@{/logout}" method="post">
+                <button type="submit">ログアウト</button>
+            </form>
+        </header>
+    </div>
+    <div class="content">
+        <h1>予約一覧</h1>
+        <form role="form" id="detail" th:action="@{/reservation/detail}" method="post">
+            <button type="submit">予約詳細</button>
+        </form>
+    </div>
+
+</body>
+</html>

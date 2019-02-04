@@ -16,18 +16,35 @@ class ReservationController {
     @Autowired
     private lateinit var reservationService: ReservationService
 
+
+    // ホーム画面
+    @RequestMapping(value = ["/reservation/home"], method = [RequestMethod.GET])
+    fun reservationHome(mav: ModelAndView): ModelAndView {
+        mav.viewName = "home"
+        return mav
+    }
+
     // 予約一覧画面
     @RequestMapping(value = ["/reservation/list"])
     fun reservationList(
             @AuthenticationPrincipal user: UserAccount, mav: ModelAndView
     ): ModelAndView {
+        mav.viewName = "reservationList"
+
+        // 予約テーブルから会社IDで検索をかけてデータを取得する
         val companyId = user.getCompanyId()
         println("${user.username}: $companyId")
 
-        val reservationList = reservationService.getList(companyId)
 
-        mav.viewName = "reservationList"
-        if (reservationList.any()) {
+
+        val list = reservationService.getListDefault(companyId)
+        list.forEach {
+            println("予約：${it.id}")
+        }
+
+        if (list.any()) {
+            println("予約なし")
+            println("/reservation")
             mav.addObject("isEmpty", true)
         }
         return mav
@@ -37,9 +54,10 @@ class ReservationController {
     @RequestMapping(value = ["/reservation/detail"], method = [RequestMethod.GET])
     fun getDetail(
             @AuthenticationPrincipal user: UserAccount,
-            @RequestParam(value = "reservationId", required = true)reservationId: String,
-                  mav: ModelAndView
+            @RequestParam(value = "reservationId", required = true) reservationId: String,
+            mav: ModelAndView
     ): ModelAndView {
+        /*
 
         val companyId = user.getCompanyId()
         val reservation = reservationService.getDetail(companyId, reservationId)
@@ -49,10 +67,32 @@ class ReservationController {
             mav.viewName = ""
             return mav
         }
+        */
         mav.viewName = "reservationDetail"
-        mav.addObject("reservation", reservation)
+        //mav.addObject("reservation", reservation)
         return mav
     }
+
+    // 更新エラー画面
+    @RequestMapping(value = ["/reservation/update-error"], method = [RequestMethod.GET])
+    fun updateError(mav: ModelAndView): ModelAndView {
+        mav.viewName = "error"
+        mav.addObject("errorMessage", "")
+        return mav
+    }
+
+    // 検索処理
+    @RequestMapping(value = ["/reservation/search"], method = [RequestMethod.GET])
+    fun search(
+            @AuthenticationPrincipal user: UserAccount,
+            @RequestParam(value = "reservationId", required = true) reservationId: String,
+            mav: ModelAndView
+    ): ModelAndView {
+        // 詳細画面を表示する
+        mav.viewName = "reservationDetail"
+        return mav
+    }
+
     // 更新処理
     @RequestMapping(value = ["/reservation/update"], method = [RequestMethod.POST])
     fun update(): String {
@@ -64,12 +104,5 @@ class ReservationController {
         }
         */
         return "forward:/login"
-    }
-    // 更新エラー画面
-    @RequestMapping(value = ["/reservation/update"], method = [RequestMethod.GET])
-    fun updateError(mav: ModelAndView): ModelAndView {
-        mav.viewName = "updateError"
-        mav.addObject("errorMessage", "")
-        return mav
     }
 }

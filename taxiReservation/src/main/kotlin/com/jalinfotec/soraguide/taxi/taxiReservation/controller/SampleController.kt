@@ -129,7 +129,7 @@ class SampleController(
         }
 
         //変更処理
-        rsvChangeService.change(id,rsvForm)
+        //rsvChangeService.change(id,rsvForm)
 
         //完了画面の確認は別途
         mav.viewName = "testHTML/login"

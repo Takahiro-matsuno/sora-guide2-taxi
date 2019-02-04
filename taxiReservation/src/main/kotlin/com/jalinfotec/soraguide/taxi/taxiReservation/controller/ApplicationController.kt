@@ -75,26 +75,18 @@ class ApplicationController(
                        @ModelAttribute("reservationForm") rsvForm: ReservationForm,
                        @ModelAttribute("id")id:String,
                        @ModelAttribute("name")name:String): ModelAndView {
-        val checkBooking = rsvDetailService.getDetail(id)
-        //検索にかからない場合
-        if(!checkBooking.isPresent){
-            println("ERROR：変更する予約がDBに存在しない")
-            throw Exception()
-        }
-        //ID改ざん対策
-        if(checkBooking.get().name.trim() != name.trim()){
-            println("ERROR：変更前後の予約で名前が一致しない")
-            println("DB->${checkBooking.get().name.trim()}")
-            println("入力->${name.trim()}")
-            throw Exception()
-        }
+
+        println("【変更】予約ID：$id")
 
         //変更処理
-        rsvChangeService.change(id,rsvForm)
+        rsvChangeService.change(id,rsvForm,name)
+
+        //TODO 予約情報の取得処理？変更処理からリターンではなく、再度予約情報取得処理を回す方が良いが。。画面表示次第。
 
         //完了画面へ遷移
         mav.viewName = "complete"
         //TODO addObject
+        mav.addObject("title","変更完了")
         return mav
     }
 
@@ -121,7 +113,7 @@ class ApplicationController(
         mav.viewName = "detail"
         val bookingInfo = rsvDetailService.getDetail("0000000002")
 
-        mav.addObject("rsvDetail",bookingInfo)
+        mav.addObject("rsvDetail",bookingInfo.get())
         mav.addObject("status",rsvDetailService.statusText)
         mav.addObject("companyName",rsvDetailService.taxiCompanyName)
         return mav
@@ -131,7 +123,7 @@ class ApplicationController(
     @RequestMapping("app/change")
     @ResponseBody
     fun change(mav: ModelAndView,@ModelAttribute("id")id:String): ModelAndView {
-        println("送られた予約ID：$id")
+        println("予約ID：$id")
         mav.viewName = "change"
         val bookingInfo = rsvDetailService.getChangeDetail(id)
 

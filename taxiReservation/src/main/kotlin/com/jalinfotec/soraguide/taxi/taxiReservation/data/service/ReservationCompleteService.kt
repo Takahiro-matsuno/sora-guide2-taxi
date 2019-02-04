@@ -44,7 +44,9 @@ class ReservationCompleteService(
     }
 
     @Transactional(readOnly = false)
-    fun complete() {
+    fun complete(input: ReservationForm) {
+        setBooking(input)
+        println("【予約完了】予約ID：${bookingInfo.id}")
         bookingRepository.save(bookingInfo)
     }
 

@@ -61,8 +61,7 @@ class ApplicationController(
                     @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
         //登録処理
         //TODO 登録エラー時の処理を追加する（try-catch）
-        rsvCompService.setBooking(rsvForm)
-        rsvCompService.complete()
+        rsvCompService.complete(rsvForm)
 
         mav.viewName = "complete"
         return mav
@@ -75,9 +74,6 @@ class ApplicationController(
                        @ModelAttribute("reservationForm") rsvForm: ReservationForm,
                        @ModelAttribute("id")id:String,
                        @ModelAttribute("name")name:String): ModelAndView {
-
-        println("【変更】予約ID：$id")
-
         //変更処理
         rsvChangeService.change(id,rsvForm,name)
 
@@ -123,7 +119,6 @@ class ApplicationController(
     @RequestMapping("app/change")
     @ResponseBody
     fun change(mav: ModelAndView,@ModelAttribute("id")id:String): ModelAndView {
-        println("予約ID：$id")
         mav.viewName = "change"
         val bookingInfo = rsvDetailService.getChangeDetail(id)
 

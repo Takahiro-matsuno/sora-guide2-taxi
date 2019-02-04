@@ -14,6 +14,8 @@ class ReservationChangeService(
     var bookingInfo = BookingInformation()
 
     fun change(id: String, changeInfo: ReservationForm, name: String) {
+        println("【予約変更】予約ID：$id")
+
         val bookingInfoOptional = bookingRepository.findById(id)
         changeInfo.name = name
 

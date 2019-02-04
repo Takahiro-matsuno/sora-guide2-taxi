@@ -21,6 +21,8 @@ class ReservationDetailService(
     var statusText: String = ""
 
     fun getDetail(id: String): Optional<BookingInformation> {
+        println("【予約情報取得】予約ID：$id")
+
         //DBから引数のIDとマッチする予約情報を取得
         bookingInfo = bookingRepository.findById(id)
         //タクシー会社IDからタクシー会社名を取得

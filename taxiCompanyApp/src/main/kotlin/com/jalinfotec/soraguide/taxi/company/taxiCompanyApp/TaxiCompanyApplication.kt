@@ -9,4 +9,3 @@ class TaxiCompanyAppApplication
 fun main(args: Array<String>) {
 	runApplication<TaxiCompanyAppApplication>(*args)
 }
-

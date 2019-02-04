@@ -1,48 +1,33 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>ログイン</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="../webjars/bootstrap/3.3.1/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../css/common.css" type="text/css" />
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="../javascript/ie8/html5shiv.js"></script>
-    <script type="text/javascript" src="../javascript/ie8/respond.js"></script>
-    <script type="text/javascript" src="../javascript/ie8/jquery-1.11.3.min.js"></script>
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-    <script type="text/javascript" src="../webjars/jquery/2.1.4/jquery.min.js"></script>
-    <!--<![endif]-->
-    <script type="text/javascript" src="../webjars/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>そらガイド 予約管理-ログイン</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <p><h1 id="title">ログイン</h1></p>
-    </div>
-    <div class="row">
-        <div class="col-md-3 col-lg-3"></div>
-        <div class="col-md-6 col-lg-6">
-            <div class="well well-sm">
-                <form id="login_form" method="post" th:action="@{'/login'}">
-                    <fieldset id="login_field">
-                        <div class="form-group">
-                            <label>ログインID</label>
-                            <input type="text" class="form-control" id="login_id" name="login_id" placeholder="ログインIDを入力してください" autofocus="" required="" />
-                        </div>
-                        <div class="form-group">
-                            <label>パスワード</label>
-                            <input type="password" class="form-control" id="login_password" name="login_password" placeholder="パスワードを入力してください" required="" />
-                        </div>
-                        <div class="form-group">
-                            <input id="login_button" type="submit" value="ログイン" />
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+<div class="box">
+    <h1>そらガイド</h1>
+    <h1>タクシー予約管理システム</h1>
+    <form role="form" id="login" th:action="@{/login}" method="post">
+        <div th:if="${isError}" style="color:red;">
+            <p>ログインに失敗しました。</p>
+            <p>ユーザーID、パスワードを確かめてください。</p>
         </div>
-        <div class="col-md-3 col-lg-3"></div>
-    </div>
+        <div th:if="${isSignup}">
+            <p>ユーザーを登録しました。</p>
+        </div>
+        <div th:if="${isLogout}">
+            <p>ログアウトしました。</p>
+        </div>
+        <input type="text" id="username" name="username" autofocus="autofocus" placeholder="ユーザー" />
+        <br/>
+        <input type="password" id="password" name="password" placeholder="パスワード" />
+        <br/>
+        <button type="submit">ログイン</button>
+    </form>
 </div>
 </body>
 </html>

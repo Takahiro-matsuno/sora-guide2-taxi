@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.71'
+		kotlinVersion = '1.3.20'
 		springBootVersion = '2.1.2.RELEASE'
 	}
 	repositories {
@@ -29,7 +29,9 @@ repositories {
 }
 
 dependencies {
-	// kotlin
+	/*
+	 * kotlin
+	 */
 	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 	implementation "org.jetbrains.kotlin:kotlin-reflect"
@@ -56,8 +58,8 @@ dependencies {
 	
 	// security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.security:spring-security-web:4.2.1.RELEASE'
-	implementation 'org.springframework.security:spring-security-config:4.2.1.RELEASE'
+	implementation 'org.springframework.security:spring-security-web:5.1.3.RELEASE'
+	implementation 'org.springframework.security:spring-security-config:5.1.3.RELEASE'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'

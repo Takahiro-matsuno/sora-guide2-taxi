@@ -7,10 +7,13 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRe
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
+import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Service
 class ReservationCompleteService(
-        private val bookingRepository :BookingInfoRepository,
+        private val bookingRepository: BookingInfoRepository,
         private val numberingRepository: NumberingRepository) {
 
     var bookingInfo = BookingInformation()
@@ -24,7 +27,7 @@ class ReservationCompleteService(
 
                 //入力データをセット
                 date = input.date,
-                time = Time.valueOf(input.time+":00"),
+                time = Time.valueOf(input.time + ":00"),
                 adult = input.adult,
                 child = input.child,
                 taxi_number = input.taxi_number,
@@ -51,9 +54,9 @@ class ReservationCompleteService(
     }
 
     @Transactional(readOnly = false)
-    fun setId():String{
+    fun setId(): String {
         val numbering = numberingRepository.findByName("booking_info")[0]
-        val result = String.format("%010d",numbering.nextValue)
+        val result = String.format("%010d", numbering.nextValue)
 
         numbering.nextValue++
         numberingRepository.save(numbering)
@@ -61,6 +64,4 @@ class ReservationCompleteService(
 
         return result
     }
-
-
 }

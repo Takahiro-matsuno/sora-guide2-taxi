@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView
 @Controller
 class ApplicationController(
         private val taxiRepository: TaxiInfoRepository,
-        private val bookingRepository:BookingInfoRepository,
+        private val bookingRepository: BookingInfoRepository,
         private val rsvDetailService: ReservationDetailService,
         private val rsvCompService: ReservationCompleteService,
         private val rsvChangeService: ReservationChangeService
@@ -40,8 +40,8 @@ class ApplicationController(
     @RequestMapping("app/confirmation")
     @ResponseBody
     fun confirmation(mav: ModelAndView, @Validated @ModelAttribute form: ReservationForm, result: BindingResult): ModelAndView {
-        //TODO 入力チェック処理（未作成）の呼び出し
-        //バリデートの結果でエラーありの場合の処理（現状、フォームにバリデートの定義がないため、デッドロジック）
+        //TODO メアドチェック処理の追加
+        //バリデートエラー
         if (result.hasErrors()) {
             mav.viewName = "registration"
             return mav
@@ -66,9 +66,9 @@ class ApplicationController(
         val rsvDetail = rsvDetailService.getDetail(rsvCompService.bookingInfo.id)
 
         mav.viewName = "complete"
-        mav.addObject("rsvDetail",rsvDetail.get())
-        mav.addObject("statusText",rsvDetailService.statusText)
-        mav.addObject("titleText","予約完了")
+        mav.addObject("rsvDetail", rsvDetail.get())
+        mav.addObject("statusText", rsvDetailService.statusText)
+        mav.addObject("titleText", "予約完了")
         return mav
     }
 
@@ -106,7 +106,7 @@ class ApplicationController(
         mav.viewName = "list"
 
         //TODO 一旦全部取得
-        mav.addObject("rsvList",bookingRepository.findAll(Sort(Sort.Direction.ASC,"id")))
+        mav.addObject("rsvList", bookingRepository.findAll(Sort(Sort.Direction.ASC, "id")))
         return mav
     }
 
@@ -114,6 +114,7 @@ class ApplicationController(
     @RequestMapping("app/detail")
     @ResponseBody
     fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
+        //TODO 直打ち対策
         mav.viewName = "detail"
         val bookingInfo = rsvDetailService.getDetail(id)
 
@@ -127,6 +128,7 @@ class ApplicationController(
     @RequestMapping("app/change")
     @ResponseBody
     fun change(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
+        //TODO 直打ち対策
         mav.viewName = "change"
         val bookingInfo = rsvDetailService.getChangeDetail(id)
 
@@ -135,16 +137,19 @@ class ApplicationController(
         return mav
     }
 
+    //予約認証画面
     @RequestMapping("app/certificateInput")
     @ResponseBody
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
+        //TODO 予約完了メールに記載のアドレスからGETで遷移の想定のため、それ以外をはじくようにする
         mav.addObject("id", id)
         mav.addObject("mail", "")
 
         return mav
     }
 
+    //予約認証画面から予約詳細への遷移
     @RequestMapping("app/certificateResult")
     @ResponseBody
     fun certificateResult(mav: ModelAndView, @ModelAttribute("id") id: String,

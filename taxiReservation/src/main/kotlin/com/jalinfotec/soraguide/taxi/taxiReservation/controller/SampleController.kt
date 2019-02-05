@@ -16,6 +16,9 @@ import org.springframework.web.servlet.ModelAndView
 import java.sql.Date
 import java.sql.Time
 import java.text.SimpleDateFormat
+import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 /**
  * サンプル用controllerクラス
@@ -280,6 +283,41 @@ class SampleController(
         )
         val bookList = mutableListOf(bookingInfo1, bookingInfo2, bookingInfo3, bookingInfo4, bookingInfo5)
         bookingRepository.saveAll(bookList)
+
+        return mav
+    }
+
+    /**
+     * Cookieテスト
+     */
+    @RequestMapping("/cookie")
+    fun cookie(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+        val cookies = request.cookies
+        val bookingIdList: MutableList<String> = mutableListOf()
+        if (cookies != null) {
+            for (cookie in cookies) {
+                if ("rsvId".startsWith(cookie.name)) {
+                    bookingIdList.add(cookie.value)
+                }
+            }
+            val rsvList = bookingRepository.findAllById(bookingIdList)
+            for (rsvInfo in rsvList) {
+                if (rsvInfo.status == 5) {
+
+                }
+            }
+            mav.addObject("rsvList",rsvList)
+        }
+
+        val newCookie = Cookie("rsvId", "0000000001")
+        newCookie.maxAge = 365*24*60*60
+        newCookie.path = "/"
+        if ("https" == request.scheme) {
+            newCookie.secure = true
+        }
+        response.addCookie(newCookie)
+
+        mav.viewName ="list"
 
         return mav
     }

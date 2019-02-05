@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.singup
+package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.user
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,7 +38,7 @@ class SignupController {
         } else {
             val success = uas.registerUser(username = pair.first, password = pair.second)
             // 成功時はログイン画面、失敗時はサインアップ画面を表示する
-            if (success) "forward:login-signup" else "forward:signup-error"
+            if (success) "forward:user-signup" else "forward:signup-error"
         }
     }
     // サインアップのボディデータをパーズする

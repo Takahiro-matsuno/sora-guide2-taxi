@@ -42,7 +42,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	
 	// thymeleaf
+	implementation 'org.thymeleaf:thymeleaf'
+	//implementation 'org.thymeleaf:thymeleaf-spring4'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
+	
 	
 	// http://projectlombok.org/download.html
 	implementation 'org.projectlombok:lombok:1.16.6'

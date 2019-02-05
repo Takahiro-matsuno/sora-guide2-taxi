@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 
 /**
- * ログイン画面からの[/login]へのpostを拾い認証を行う
+ * ログイン画面からの[/user]へのpostを拾い認証を行う
  */
 @EnableWebSecurity
 class SecurityConfig: WebSecurityConfigurerAdapter() {
@@ -39,8 +39,8 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             http.authorizeRequests()
                     .antMatchers(
                             "/",
-                            "/login",
-                            "/login-error",
+                            "/user",
+                            "/user-error",
                             "/signup",
                             "signup-error"
                     ).permitAll() // indexは全ユーザーアクセス許可
@@ -49,16 +49,16 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             // ログイン設定
             http.formLogin()
                     // ログインページのURL
-                    .loginPage("/login")
-                    // ログイン処理URL　[/login]にPOSTされる
-                    .loginProcessingUrl("/login")
+                    .loginPage("/user")
+                    // ログイン処理URL　[/user]にPOSTされる
+                    .loginProcessingUrl("/user")
                     // 認証パラメータ
                     .usernameParameter("username")
                     .passwordParameter("password")
                     // ログイン成功時のURL
                     .defaultSuccessUrl("/reservation/list")
                     // ログイン失敗時のURL
-                    .failureUrl("/login-error")
+                    .failureUrl("/user-error")
                     // ログインページへのアクセス許可
                     .permitAll()
 
@@ -67,7 +67,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                     // ログアウト処理URL　[/logout]にPOSTされる
                     .logoutUrl("/logout")
                     // ログアウト時URL
-                    .logoutSuccessUrl("/login-logout")
+                    .logoutSuccessUrl("/user-logout")
                     // ログアウトページへのアクセスを許可
                     .permitAll()
         }

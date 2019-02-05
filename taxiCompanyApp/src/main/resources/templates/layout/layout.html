@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="UTF-8">
+        <link th:href="@{/css/style.css}" rel="stylesheet"/>
+        <link th:href="@{/css/leftNavigation.css}" rel="stylesheet"/>
+        <title><!-- REPLACE TITLE --></title>
+    </head>
+    <body>
+        <div class="leftNavigation" th:include="layout/header :: leftNavigation">
+            <!-- header -->
+        </div>
+        <section layout:fragment="content">
+            <!-- content -->
+        </section>
+    </body>
+</html>

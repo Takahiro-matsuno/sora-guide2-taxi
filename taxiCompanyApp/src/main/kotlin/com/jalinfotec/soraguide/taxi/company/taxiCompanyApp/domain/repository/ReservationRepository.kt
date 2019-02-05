@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ReservationRepository : JpaRepository<ReservationInformation, String> {
-    //fun findByCompanyId(companyId: String): List<ReservationInformation>
-    //fun findByDetail(companyId: String, reservationId: String): ReservationInformation?
+    // https://qiita.com/sndr/items/af7d12be264c2cc4b252
+    //fun findByIdAndDateGreaterThanEqualOrderByDateAscTimeAsc(id: String): MutableList<ReservationInformation>
+    fun findByCompanyIdOrderByDateAscTimeAsc(company_id: String):MutableList<ReservationInformation>
 }

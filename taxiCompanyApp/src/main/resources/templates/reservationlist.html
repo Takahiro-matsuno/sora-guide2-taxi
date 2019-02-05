@@ -1,15 +1,67 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>予約一覧</title>
+    <title>そらガイド 予約管理-予約一覧</title>
+    <link th:href="@{/css/leftNavigation.css}" rel="stylesheet"/>
 </head>
 <body>
-    <h1>予約一覧</h1>
-    <form role="form" id="logout" th:action="@{/logout}" method="post">
-        <button type="submit">ログアウト</button>
-    </form>
+    <div class="leftNavigation">
+        <header>
+            <form role="form" id="home" th:action="@{/reservation/home}" method="get">
+                <button type="submit">ホーム</button>
+            </form>
+            <form role="form" id="list" th:action="@{/reservation/list}" method="get">
+                <button type="submit">予約一覧</button>
+            </form>
+            <form role="form" id="search" th:action="@{/reservation/search}" method="get">
+                <button type="submit">予約検索</button>
+            </form>
+            <form role="form" id="setting" th:action="@{/setting}" method="get">
+                <button type="submit">設定</button>
+            </form>
+            <form role="form" id="logout" th:action="@{/logout}" method="post">
+                <button type="submit">ログアウト</button>
+            </form>
+        </header>
+    </div>
+    <div class="content">
+        <h1>予約一覧</h1>
+        <table th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
+            <tr>
+                <th>予約番号</th>
+                <th>乗車日</th>
+                <th>乗車時間</th>
+                <th>ステータス</th>
+                <th>乗車人数(大人)</th>
+                <th>乗車人数(子供)</th>
+            </tr>
+            <tr>
+                <td th:text="${rsvInfo.id}"></td>
+                <td th:text="${rsvInfo.date}"></td>
+                <td th:text="${rsvInfo.time}"></td>
+                <td th:text="${rsvInfo.status}"></td>
+                <td th:text="${rsvInfo.adult}"></td>
+                <td th:text="${rsvInfo.child}"></td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        function listClicked(id){
+            //フォーム作成
+            var form = document.createElement("form");
+            form.setAttribute("action", "./reservation/detail");
+            form.setAttribute("method", "get");
+            form.style.display = "none";
+            document.body.appendChild(form);
+            //送信値
+            var input = document.createElement('input');
+            input.setAttribute('type',  'hidden');
+            input.setAttribute('name', 'id');
+            input.setAttribute('value', id);
+            form.appendChild(input);
+            form.submit();
+        }
+    </script>
 </body>
 </html>

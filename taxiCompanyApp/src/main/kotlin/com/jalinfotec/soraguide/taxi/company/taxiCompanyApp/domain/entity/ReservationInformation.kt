@@ -17,7 +17,8 @@ data class ReservationInformation(
         var adult: Int = 0,
         var child: Int = 0,
         var taxi_number: Int = 0,
-        var company_id: String = "",
+        @Column(name = "company_id")
+        var companyId: String = "",
         var destination: String = "",
         var name: String = "",
         var phonetic: String = "",

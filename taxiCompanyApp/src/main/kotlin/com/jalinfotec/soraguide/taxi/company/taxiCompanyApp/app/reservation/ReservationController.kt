@@ -30,21 +30,21 @@ class ReservationController {
             @AuthenticationPrincipal user: UserAccount, mav: ModelAndView
     ): ModelAndView {
         mav.viewName = "reservationList"
-
-        // 予約テーブルから会社IDで検索をかけてデータを取得する
+        /// 予約テーブルから会社IDで検索をかけてデータを取得する
         val companyId = user.getCompanyId()
         println("${user.username}: $companyId")
 
-
-
+        //
         val list = reservationService.getListDefault(companyId)
         list.forEach {
             println("予約：${it.id}")
         }
 
         if (list.any()) {
+            println("予約あり")
+            mav.addObject("rsvList", list)
+        } else {
             println("予約なし")
-            println("/reservation")
             mav.addObject("isEmpty", true)
         }
         return mav

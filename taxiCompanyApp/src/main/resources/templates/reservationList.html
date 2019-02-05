@@ -27,10 +27,41 @@
     </div>
     <div class="content">
         <h1>予約一覧</h1>
-        <form role="form" id="detail" th:action="@{/reservation/detail}" method="post">
-            <button type="submit">予約詳細</button>
-        </form>
+        <table th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
+            <tr>
+                <th>予約番号</th>
+                <th>乗車日</th>
+                <th>乗車時間</th>
+                <th>ステータス</th>
+                <th>乗車人数(大人)</th>
+                <th>乗車人数(子供)</th>
+            </tr>
+            <tr>
+                <td th:text="${rsvInfo.id}"></td>
+                <td th:text="${rsvInfo.date}"></td>
+                <td th:text="${rsvInfo.time}"></td>
+                <td th:text="${rsvInfo.status}"></td>
+                <td th:text="${rsvInfo.adult}"></td>
+                <td th:text="${rsvInfo.child}"></td>
+            </tr>
+        </table>
     </div>
-
+    <script type="text/javascript">
+        function listClicked(id){
+            //フォーム作成
+            var form = document.createElement("form");
+            form.setAttribute("action", "./reservation/detail");
+            form.setAttribute("method", "get");
+            form.style.display = "none";
+            document.body.appendChild(form);
+            //送信値
+            var input = document.createElement('input');
+            input.setAttribute('type',  'hidden');
+            input.setAttribute('name', 'id');
+            input.setAttribute('value', id);
+            form.appendChild(input);
+            form.submit();
+        }
+    </script>
 </body>
 </html>

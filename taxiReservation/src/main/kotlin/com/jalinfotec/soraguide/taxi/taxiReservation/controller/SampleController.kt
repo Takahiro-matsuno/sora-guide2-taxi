@@ -159,12 +159,11 @@ class SampleController(
     //DBデータの初期化用メソッド
     @RequestMapping("/test/setup")
     fun setup(mav: ModelAndView): ModelAndView {
-        mav.viewName="testHTML/allClear"
+        mav.viewName = "testHTML/allClear"
         taxiRepository.deleteAll()
         bookingRepository.deleteAll()
         numberingRepository.save(Numbering(name = "taxi_info", nextValue = 4))
         numberingRepository.save(Numbering(name = "booking_info", nextValue = 6))
-
 
         val taxiInfo1 = TaxiInformation()
         taxiInfo1.id = "0001"
@@ -284,6 +283,4 @@ class SampleController(
 
         return mav
     }
-
-
 }

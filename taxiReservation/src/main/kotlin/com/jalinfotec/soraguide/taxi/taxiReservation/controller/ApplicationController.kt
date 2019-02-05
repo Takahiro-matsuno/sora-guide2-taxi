@@ -63,8 +63,12 @@ class ApplicationController(
         //登録処理
         //TODO 登録エラー時の処理を追加する（try-catch）
         rsvCompService.complete(rsvForm)
+        val rsvDetail = rsvDetailService.getDetail(rsvCompService.bookingInfo.id)
 
         mav.viewName = "complete"
+        mav.addObject("rsvDetail",rsvDetail.get())
+        mav.addObject("statusText",rsvDetailService.statusText)
+        mav.addObject("titleText","予約完了")
         return mav
     }
 

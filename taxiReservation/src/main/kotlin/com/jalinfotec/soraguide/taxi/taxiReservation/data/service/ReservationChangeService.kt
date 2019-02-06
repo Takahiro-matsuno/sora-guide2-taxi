@@ -13,11 +13,10 @@ class ReservationChangeService(
 ) {
     var bookingInfo = BookingInformation()
 
-    fun change(id: String, changeInfo: ReservationForm, name: String) {
-        println("【予約変更】予約ID：$id")
+    fun change(changeInfo: ReservationForm): String {
+        println("【予約変更】予約ID：${changeInfo.id}")
 
-        val bookingInfoOptional = bookingRepository.findById(id)
-        changeInfo.name = name
+        val bookingInfoOptional = bookingRepository.findById(changeInfo.id)
 
         if (!changeValidate(changeInfo, bookingInfoOptional)) {
             throw Exception()
@@ -51,6 +50,8 @@ class ReservationChangeService(
         )
 
         bookingRepository.save(bookingInfo)
+
+        return bookingInfo.id
     }
 
     //予約変更前の妥当性チェック

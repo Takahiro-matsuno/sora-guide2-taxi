@@ -41,6 +41,7 @@ class ReservationDetailService(
         val bookingInfo = getDetail(id).get()
 
         return ReservationForm(
+                id = bookingInfo.id,
                 date = bookingInfo.date,
                 time = bookingInfo.time.toString(),
                 adult = bookingInfo.adult,

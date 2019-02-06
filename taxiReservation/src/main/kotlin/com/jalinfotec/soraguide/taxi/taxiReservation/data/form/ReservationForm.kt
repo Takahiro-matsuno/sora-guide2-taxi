@@ -8,6 +8,8 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 data class ReservationForm(
+        var id:String = "",
+
         //初期値:本日の日付
         @NotNull
         var date: Date = Date(Calendar.getInstance().timeInMillis),

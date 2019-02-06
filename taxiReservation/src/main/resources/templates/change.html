@@ -33,7 +33,8 @@
             </tr>
             <tr>
                 <th align="left"><label>配車台数</label></th>
-                <td align="left"><input type="number" name="disp" style="width: device-width" th:field="*{taxi_number}"/></td>
+                <td align="left"><input type="number" name="disp" style="width: device-width"
+                                        th:field="*{taxi_number}"/></td>
             </tr>
             <tr>
                 <th align="left"><label>目的地</label></th>
@@ -60,9 +61,6 @@
                 </td>
             </tr>
 
-            <input type="hidden" name="id" th:value="${id}">
-            <input type="hidden" name="name" th:value="${reservationForm.name}">
-
             <tr>
                 <td align="left">
                     <button type="reset" name="clearButton">クリア</button>
@@ -72,6 +70,9 @@
                 </td>
             </tr>
         </table>
+
+        <input type="hidden" th:field="${reservationForm.id}">
+        <input type="hidden" th:field="${reservationForm.name}">
     </div>
 </form>
 </body>

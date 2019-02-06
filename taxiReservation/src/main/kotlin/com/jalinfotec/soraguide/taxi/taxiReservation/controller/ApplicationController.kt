@@ -7,7 +7,6 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCha
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationListService
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
@@ -33,6 +32,7 @@ class ApplicationController(
     @RequestMapping("/app/registration")
     @ResponseBody
     fun registration(mav: ModelAndView): ModelAndView {
+        //TODO アプリ遷移かWeb遷移かを判定して表示項目の出し分け
         mav.viewName = "registration"
         mav.addObject("taxiList", taxiRepository.findAll())
         mav.addObject("reservationForm", ReservationForm())
@@ -40,40 +40,53 @@ class ApplicationController(
         return mav
     }
 
-    //予約確認画面
+    //登録確認画面
     @RequestMapping("app/confirmation")
     @ResponseBody
-    fun confirmation(mav: ModelAndView, @Validated @ModelAttribute form: ReservationForm, result: BindingResult): ModelAndView {
-        //TODO メアドチェック処理の追加
+    fun confirmation(mav: ModelAndView, @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult): ModelAndView {
+        //TODO エラー時の画面表示
         //バリデートエラー
         if (result.hasErrors()) {
             mav.viewName = "registration"
             return mav
         }
+        //メール入力エラー
+        if (rsvForm.mail != rsvForm.mailCheck) {
+            mav.viewName = "registration"
+            return mav
+        }
 
+        //確認画面へ遷移
         mav.viewName = "confirmation"
-        mav.addObject("reservationForm", form)
+        mav.addObject("reservationForm", rsvForm)
 
-        val taxiCompanyName = taxiRepository.findById(form.company_id).get()
+        //タクシー会社の表示用のオブジェクトを設置
+        val taxiCompanyName = taxiRepository.findById(rsvForm.company_id).get()
         mav.addObject("taxiCompanyName", taxiCompanyName.name)
         return mav
     }
 
-    //予約完了画面
+    //登録完了画面
     @RequestMapping("app/rsvComplete")
     @ResponseBody
     fun rsvComplete(mav: ModelAndView,
                     @ModelAttribute("reservationForm") rsvForm: ReservationForm,
                     request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         //登録処理
-        //TODO 登録エラー時の処理を追加する（try-catch）
-        val rsvId = rsvCompService.complete(rsvForm, request, response)
-        val rsvDetail = rsvDetailService.getDetail(rsvId)
+        try {
+            val rsvId = rsvCompService.complete(rsvForm, request, response)
+            val rsvDetail = rsvDetailService.getDetail(rsvId)
 
-        mav.viewName = "complete"
-        mav.addObject("rsvDetail", rsvDetail.get())
-        mav.addObject("statusText", rsvDetailService.statusText)
-        mav.addObject("titleText", "予約完了")
+            mav.viewName = "complete"
+            mav.addObject("rsvDetail", rsvDetail.get())
+            mav.addObject("statusText", rsvDetailService.statusText)
+            mav.addObject("titleText", "予約完了")
+
+        } catch (e: Exception) {
+            mav.viewName = "confirmation"
+            mav.addObject("reservationForm", rsvForm)
+        }
+
         return mav
     }
 
@@ -81,17 +94,15 @@ class ApplicationController(
     @RequestMapping("app/changeComplete")
     @ResponseBody
     fun changeComplete(mav: ModelAndView,
-                       @ModelAttribute("reservationForm") rsvForm: ReservationForm,
-                       @ModelAttribute("id") id: String,
-                       @ModelAttribute("name") name: String): ModelAndView {
+                       @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
         //変更処理
-        rsvChangeService.change(id, rsvForm, name)
-
-        //TODO 予約情報の取得処理？変更処理からリターンではなく、再度予約情報取得処理を回す方が良いが。。画面表示次第。
+        val rsvId = rsvChangeService.change(rsvForm)
+        val rsvDetail = rsvDetailService.getDetail(rsvId)
 
         //完了画面へ遷移
         mav.viewName = "complete"
-        //TODO addObject
+        mav.addObject("rsvDetail", rsvDetail.get())
+        mav.addObject("statusText", rsvDetailService.statusText)
         mav.addObject("title", "変更完了")
         return mav
     }
@@ -110,12 +121,8 @@ class ApplicationController(
     fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "list"
 
-        /*
-        //TODO 一旦全部取得
-        mav.addObject("rsvList", bookingRepository.findAll(Sort(Sort.Direction.ASC, "id")))
-        */
         val list = rsvListService.getList(request, response)
-        mav.addObject("rsvList",list)
+        mav.addObject("rsvList", list)
         return mav
     }
 
@@ -142,7 +149,6 @@ class ApplicationController(
         val bookingInfo = rsvDetailService.getChangeDetail(id)
 
         mav.addObject("reservationForm", bookingInfo)
-        mav.addObject("id", id)
         return mav
     }
 

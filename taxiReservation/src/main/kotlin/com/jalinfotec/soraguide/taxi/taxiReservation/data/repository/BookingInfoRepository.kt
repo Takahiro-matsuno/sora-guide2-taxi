@@ -8,5 +8,17 @@ import java.sql.Date
 
 @Repository
 interface BookingInfoRepository : JpaRepository<BookingInformation, String> {
-    fun findByStatusAndDateGreaterThanEqualOrderByIdAsc(status: Int, date: Date):MutableList<BookingInformation>
+    //お試し
+    fun findByStatusAndDateGreaterThanEqualOrderByIdAsc(status: Int, date: Date): MutableList<BookingInformation>
+
+    /**
+     *予約完了時用の検索処理
+     *以下条件の予約情報を取得する
+     *  1.電話番号が一致する
+     *  2.メールアドレスが一致する
+     *  3.ステータスがキャンセル待ち、完了ではないこと（値が4,5ではない、3以下であること）
+     *  4.乗車日が今日以降であること
+     */
+    fun findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
+            phone: String, mail: String, status: Int, date: Date): MutableList<BookingInformation>
 }

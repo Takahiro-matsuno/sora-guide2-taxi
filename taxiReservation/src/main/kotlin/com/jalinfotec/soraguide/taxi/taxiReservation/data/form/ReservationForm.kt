@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull
 data class ReservationForm(
         //初期値:本日の日付
         @NotNull
-        var date: Date = Date(Calendar.getInstance().getTimeInMillis()),
+        var date: Date = Date(Calendar.getInstance().timeInMillis),
         //??
         @NotEmpty
         var time: String = Time(date.time).toString().substring(0,5),

@@ -198,7 +198,7 @@ class SampleController(
                 destination = "うどん屋さん",
                 name = "お試し太郎一号",
                 phonetic = "オタメシタロウイチゴウ",
-                phone = "08011112222",
+                phone = "0801234567891",
                 mail = "aaa@jalinfotec.co.jp",
                 comment = "コメントテスト1件目",
                 car_number = "",

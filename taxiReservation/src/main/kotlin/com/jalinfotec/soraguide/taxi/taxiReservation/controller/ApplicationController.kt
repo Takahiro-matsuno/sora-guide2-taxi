@@ -6,6 +6,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRep
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationListService
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Controller
 class ApplicationController(
@@ -22,7 +25,8 @@ class ApplicationController(
         private val bookingRepository: BookingInfoRepository,
         private val rsvDetailService: ReservationDetailService,
         private val rsvCompService: ReservationCompleteService,
-        private val rsvChangeService: ReservationChangeService
+        private val rsvChangeService: ReservationChangeService,
+        private val rsvListService: ReservationListService
 ) {
 
     //登録画面
@@ -59,11 +63,12 @@ class ApplicationController(
     @RequestMapping("app/rsvComplete")
     @ResponseBody
     fun rsvComplete(mav: ModelAndView,
-                    @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
+                    @ModelAttribute("reservationForm") rsvForm: ReservationForm,
+                    request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         //登録処理
         //TODO 登録エラー時の処理を追加する（try-catch）
-        rsvCompService.complete(rsvForm)
-        val rsvDetail = rsvDetailService.getDetail(rsvCompService.bookingInfo.id)
+        val rsvId = rsvCompService.complete(rsvForm, request, response)
+        val rsvDetail = rsvDetailService.getDetail(rsvId)
 
         mav.viewName = "complete"
         mav.addObject("rsvDetail", rsvDetail.get())
@@ -102,11 +107,15 @@ class ApplicationController(
     //一覧画面
     @RequestMapping("app/list")
     @ResponseBody
-    fun list(mav: ModelAndView): ModelAndView {
+    fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "list"
 
+        /*
         //TODO 一旦全部取得
         mav.addObject("rsvList", bookingRepository.findAll(Sort(Sort.Direction.ASC, "id")))
+        */
+        val list = rsvListService.getList(request, response)
+        mav.addObject("rsvList",list)
         return mav
     }
 

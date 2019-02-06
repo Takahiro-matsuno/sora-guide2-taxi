@@ -180,7 +180,7 @@ class SampleController(
         taxiInfo2.location = "どこか"
         val taxiInfo3 = TaxiInformation()
         taxiInfo3.id = "0003"
-        taxiInfo3.name = "文字数が多い場合の表示を確認するためのタクシー会社"
+        taxiInfo3.name = "お試しタクシー3"
         taxiInfo3.contact = "08011112222"
         taxiInfo3.location = "高松市"
         val list = mutableListOf(taxiInfo1, taxiInfo2, taxiInfo3)

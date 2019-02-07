@@ -22,6 +22,14 @@ class ReservationService {
     fun getDetail(companyId: String, reservationId: String): ReservationInformation? {
         return repository.findByCompanyIdAndId(companyId, reservationId)
     }
+    @Transactional
+    fun updateDetail(rsvInfo: ReservationInformation): Boolean {
+        val optional = repository.findById(rsvInfo.id)
+        return if (optional.isPresent) {
+            repository.save(rsvInfo)
+            true
+        } else false
+    }
 
 /*
     */

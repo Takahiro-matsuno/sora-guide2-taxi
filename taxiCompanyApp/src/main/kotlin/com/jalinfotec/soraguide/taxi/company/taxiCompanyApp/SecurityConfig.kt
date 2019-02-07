@@ -39,8 +39,8 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             http.authorizeRequests()
                     .antMatchers(
                             "/",
-                            "/user",
-                            "/user-error",
+                            "/login",
+                            "/login-error",
                             "/signup",
                             "signup-error"
                     ).permitAll() // indexは全ユーザーアクセス許可
@@ -49,16 +49,16 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             // ログイン設定
             http.formLogin()
                     // ログインページのURL
-                    .loginPage("/user")
+                    .loginPage("/login")
                     // ログイン処理URL　[/user]にPOSTされる
-                    .loginProcessingUrl("/user")
+                    .loginProcessingUrl("/login")
                     // 認証パラメータ
                     .usernameParameter("username")
                     .passwordParameter("password")
                     // ログイン成功時のURL
                     .defaultSuccessUrl("/reservation/list")
                     // ログイン失敗時のURL
-                    .failureUrl("/user-error")
+                    .failureUrl("/login-error")
                     // ログインページへのアクセス許可
                     .permitAll()
 

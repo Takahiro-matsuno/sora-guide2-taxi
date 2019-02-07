@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <link th:href="@{/css/style.css}" rel="stylesheet"/>
         <link th:href="@{/css/leftNavigation.css}" rel="stylesheet"/>
+        <!-- TODO タイトルを　"予約管理サイト" + "表示ページ"　になるように変更する -->
         <title><!-- REPLACE TITLE --></title>
     </head>
     <body>
@@ -15,5 +16,14 @@
         <section layout:fragment="content">
             <!-- content -->
         </section>
+        <script type="text/javascript">
+            //
+            function getDetail(id) {
+                //フォーム作成
+                var form = document.getElementById("listForm" + id);
+                form.submit();
+            }
+            //
+        </script>
     </body>
 </html>

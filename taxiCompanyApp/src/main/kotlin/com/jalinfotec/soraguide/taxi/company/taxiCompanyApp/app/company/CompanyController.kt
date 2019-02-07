@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView
 @Controller
 class CompanyController {
 
-    //
+    // 会社情報画面の表示
     @RequestMapping(value = ["/company/setting"], method = [RequestMethod.GET])
     fun getCompany(
             @AuthenticationPrincipal user: UserAccount,
@@ -19,5 +19,12 @@ class CompanyController {
 
         mav.viewName = "contents/companySetting"
         return mav
+    }
+
+    // 会社情報の更新
+    @RequestMapping(value = ["company/update"], method = [RequestMethod.POST])
+    fun updateCompanyInfo(): String {
+        return "forward:/compnay/setting" // success
+        //return "forward:/error" // failed
     }
 }

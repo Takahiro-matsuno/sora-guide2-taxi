@@ -8,33 +8,33 @@ import org.springframework.web.servlet.ModelAndView
 @Controller
 class SigninController {
 
-    // 認証前のログイン画面表示
-    @RequestMapping(value = ["/", "/user"], method = [RequestMethod.GET])
+    // ログイン画面表示
+    @RequestMapping(value = ["/", "/login"], method = [RequestMethod.GET])
     fun index( mav: ModelAndView): ModelAndView {
-        mav.viewName = "user"
+        mav.viewName = "login"
         return mav
     }
 
     // 認証失敗時のログイン画面表示
-    @RequestMapping(value = ["/user-error"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/login-error"], method = [RequestMethod.GET])
     fun loginError(mav: ModelAndView): ModelAndView {
-        mav.viewName = "user"
+        mav.viewName = "login"
         // ログインエラーテキストを表示させる
         mav.addObject("isError", true)
         return mav
     }
 
     //
-    @RequestMapping(value = ["/user-signup"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/login-signup"], method = [RequestMethod.GET])
     fun signupSuccess(mav: ModelAndView): ModelAndView {
-        mav.viewName = "user"
+        mav.viewName = "login"
         mav.addObject("isSignup", true)
         return mav
     }
     //
-    @RequestMapping(value = ["/user-logout"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/login-logout"], method = [RequestMethod.GET])
     fun logout(mav: ModelAndView): ModelAndView {
-        mav.viewName = "user"
+        mav.viewName = "login"
         mav.addObject("isLogout", true)
         return mav
     }

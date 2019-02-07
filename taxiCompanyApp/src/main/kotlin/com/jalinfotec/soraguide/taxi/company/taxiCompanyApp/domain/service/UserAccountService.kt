@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.beans.factory.annotation.Autowired
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -65,5 +66,9 @@ class UserAccountService : UserDetailsService {
             repository.save(user)
             true
         } else false
+    }
+    @Transactional
+    fun findByUsername(username: String): Account? {
+        return repository.findByUsername(username)
     }
 }

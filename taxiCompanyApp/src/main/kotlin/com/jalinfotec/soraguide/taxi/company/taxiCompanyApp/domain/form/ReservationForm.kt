@@ -1,14 +1,9 @@
-package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity
+package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form
+
 import java.sql.Date
 import java.sql.Time
-import javax.persistence.*
 
-@Entity
-@Table(name = "booking_info")
-data class ReservationInformation(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "booking_id")
+class ReservationForm(
         var id: String = "",
         var status: Int = 0,
         var date: Date? = null,
@@ -16,7 +11,6 @@ data class ReservationInformation(
         var adult: Int = 0,
         var child: Int = 0,
         var taxi_number: Int = 0,
-        @Column(name = "company_id")
         var companyId: String = "",
         var destination: String = "",
         var name: String = "",

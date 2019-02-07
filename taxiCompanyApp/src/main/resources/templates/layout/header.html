@@ -4,10 +4,10 @@
       xmlns:th="http://www.thymeleaf.org">
     <body>
         <header th:fragment="leftNavigation">
-            <form role="form" id="home" th:action="@{/home}" method="get">
+            <form role="form" th:action="@{/home}" method="get">
                 <button type="submit">ホーム</button>
             </form>
-            <form role="form" id="list" th:action="@{/reservation/list}" method="get">
+            <form role="form" th:action="@{/reservation/list}" method="get">
                 <button type="submit">予約一覧</button>
             </form>
             <p>予約検索</p>
@@ -15,13 +15,13 @@
             <form role="form" id="search" th:action="@{/reservation/search}" method="get">
                 <button type="submit">予約検索</button>
             </form>-->
-            <form role="form" id="companySetting" th:action="@{/company/setting}" method="get">
+            <form role="form" th:action="@{/company/setting}" method="get">
                 <button type="submit">会社設定</button>
             </form>
-            <form role="form" id="userSetting" th:action="@{/user/setting}" method="get">
+            <form role="form" th:action="@{/user/setting}" method="get">
                 <button type="submit">ユーザー設定</button>
             </form>
-            <form role="form" id="logout" th:action="@{/logout}" method="post">
+            <form role="form" th:action="@{/logout}" method="post">
                 <button type="submit">ログアウト</button>
             </form>
         </header>

@@ -5,7 +5,7 @@ body{
 .leftNavigation{
     width: 250px;
     text-align: center;
-    background-color: #888;
+    background-color: #b0d600;
     color: #fff;
 }
 .content{
@@ -13,4 +13,31 @@ body{
     background-color: #eee;
     text-align: center;
     margin-left: 10px;
+}
+ul {
+	width: 250px;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	background-color: #b0d600;
+}
+li a {
+	display: block;
+	padding: 8px 16px;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+li {
+	text-align: center;
+}
+li:last-child {
+	border-bottom: none;
+}
+li a.active {
+	color: #ffffff;
+	background-color: #da3c41;
+}
+li a:hover:not(.active) {
+	color: #ffffff;
+	background-color: #1b2538;
 }

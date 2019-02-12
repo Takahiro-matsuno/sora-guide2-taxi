@@ -23,7 +23,6 @@ class SigninController {
         mav.addObject("isError", true)
         return mav
     }
-
     //
     @RequestMapping(value = ["/login-signup"], method = [RequestMethod.GET])
     fun signupSuccess(mav: ModelAndView): ModelAndView {
@@ -32,7 +31,7 @@ class SigninController {
         return mav
     }
     //
-    @RequestMapping(value = ["/login-logout"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/logout"], method = [RequestMethod.GET])
     fun logout(mav: ModelAndView): ModelAndView {
         mav.viewName = "login"
         mav.addObject("isLogout", true)

@@ -67,7 +67,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                     // ログアウト処理URL　[/logout]にPOSTされる
                     .logoutUrl("/logout")
                     // ログアウト時URL
-                    .logoutSuccessUrl("/user-logout")
+                    .logoutSuccessUrl("/logout")
                     // ログアウトページへのアクセスを許可
                     .permitAll()
         }

@@ -1,10 +1,10 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.Numbering
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 class SampleController(
         private val taxiRepository: TaxiInfoRepository,
-        private val bookingRepository: BookingInfoRepository,
+        private val reservationRepository: ReservationInfoRepository,
         private val numberingRepository: NumberingRepository,
         private val rdb: ReservationDetailService,
         private val rsvCompService: ReservationCompleteService,
@@ -38,8 +38,8 @@ class SampleController(
 
     // 疎通確認
     @RequestMapping("hello")
-    fun hello(@RequestParam(value = "name") name: String?): String {
-        return if (name == null) "who are you?" else "name"
+    fun hello(@RequestParam(value = "company_name") name: String?): String {
+        return if (name == null) "who are you?" else "company_name"
     }
 
     // データベースアクセス
@@ -95,10 +95,10 @@ class SampleController(
     @ResponseBody
     fun changeTest(mav: ModelAndView): ModelAndView {
         mav.viewName = "testHTML/index"
-        val bookInfo = bookingRepository.findById("0000000001").get()
-        bookInfo.name = "江戸川コナン"
-        bookInfo.phonetic = "エドガワコナン"
-        bookingRepository.save(bookInfo)
+        val bookInfo = reservationRepository.findById("0000000001").get()
+        bookInfo.passenger_name = "江戸川コナン"
+        bookInfo.passenger_phonetic = "エドガワコナン"
+        reservationRepository.save(bookInfo)
         return mav
     }
 
@@ -120,18 +120,18 @@ class SampleController(
     fun reservationCompTest(mav: ModelAndView,
                             @ModelAttribute("reservationForm") rsvForm: ReservationForm,
                             @ModelAttribute("id") id: String,
-                            @ModelAttribute("name") name: String): ModelAndView {
+                            @ModelAttribute("company_name") name: String): ModelAndView {
 
-        val checkBooking = bookingRepository.findById(id)
+        val checkBooking = reservationRepository.findById(id)
         //検索にかからない場合
         if (!checkBooking.isPresent) {
             println("ERROR：変更する予約がDBに存在しない")
             throw Exception()
         }
         //ID改ざん対策
-        if (checkBooking.get().name.trim() != name.trim()) {
+        if (checkBooking.get().passenger_name.trim() != name.trim()) {
             println("ERROR：変更前後の予約で名前が一致しない")
-            println("DB->${checkBooking.get().name.trim()}")
+            println("DB->${checkBooking.get().passenger_name.trim()}")
             println("入力->${name.trim()}")
             throw Exception()
         }
@@ -153,7 +153,7 @@ class SampleController(
         val dateString = sdf.format(java.util.Date())
 
         val date = Date.valueOf(dateString)
-        mav.addObject("rsvList", bookingRepository.findByStatusAndDateGreaterThanEqualOrderByIdAsc(1, date))
+        mav.addObject("rsvList", reservationRepository.findByStatusAndDateGreaterThanEqualOrderByIdAsc(1, date))
 
         return mav
 
@@ -164,40 +164,40 @@ class SampleController(
     fun setup(mav: ModelAndView): ModelAndView {
         mav.viewName = "testHTML/allClear"
         taxiRepository.deleteAll()
-        bookingRepository.deleteAll()
+        reservationRepository.deleteAll()
         numberingRepository.save(Numbering(name = "taxi_info", nextValue = 4))
         numberingRepository.save(Numbering(name = "booking_info", nextValue = 6))
 
         val taxiInfo1 = TaxiInformation()
         taxiInfo1.id = "0001"
-        taxiInfo1.name = "お試しタクシー1"
+        taxiInfo1.company_name = "お試しタクシー1"
         taxiInfo1.contact = "08011112222"
         taxiInfo1.location = "高松市"
         val taxiInfo2 = TaxiInformation()
         taxiInfo2.id = "0002"
-        taxiInfo2.name = "お試しタクシー2"
+        taxiInfo2.company_name = "お試しタクシー2"
         taxiInfo2.contact = "080123456789"
         taxiInfo2.location = "どこか"
         val taxiInfo3 = TaxiInformation()
         taxiInfo3.id = "0003"
-        taxiInfo3.name = "お試しタクシー3"
+        taxiInfo3.company_name = "お試しタクシー3"
         taxiInfo3.contact = "08011112222"
         taxiInfo3.location = "高松市"
         val list = mutableListOf(taxiInfo1, taxiInfo2, taxiInfo3)
         taxiRepository.saveAll(list)
 
-        val bookingInfo1 = BookingInformation(
+        val bookingInfo1 = ReservationInformation(
                 id = "0000000001",
                 status = 1,
                 date = Date.valueOf("2019-03-04"),
                 time = Time.valueOf("10:00:00"),
                 adult = 1,
                 child = 2,
-                taxi_number = 1,
+                car_dispatch_number = 1,
                 company_id = "0001",
                 destination = "うどん屋さん",
-                name = "お試し太郎一号",
-                phonetic = "オタメシタロウイチゴウ",
+                passenger_name = "お試し太郎一号",
+                passenger_phonetic = "オタメシタロウイチゴウ",
                 phone = "0801234567891",
                 mail = "aaa@jalinfotec.co.jp",
                 comment = "コメントテスト1件目",
@@ -205,18 +205,18 @@ class SampleController(
                 car_contact = "",
                 notice = ""
         )
-        val bookingInfo2 = BookingInformation(
+        val bookingInfo2 = ReservationInformation(
                 id = "0000000002",
                 status = 5,
                 date = Date.valueOf("2018-12-31"),
                 time = Time.valueOf("22:55:00"),
                 adult = 3,
                 child = 1,
-                taxi_number = 2,
+                car_dispatch_number = 2,
                 company_id = "0002",
                 destination = "目的地サンプル",
-                name = "お試し太郎二号",
-                phonetic = "オタメシタロウ二ゴウ",
+                passenger_name = "お試し太郎二号",
+                passenger_phonetic = "オタメシタロウ二ゴウ",
                 phone = "0801234567892",
                 mail = "bbb@jalinfotec.co.jp",
                 comment = "コメントテスト2件目",
@@ -224,18 +224,18 @@ class SampleController(
                 car_contact = "",
                 notice = ""
         )
-        val bookingInfo3 = BookingInformation(
+        val bookingInfo3 = ReservationInformation(
                 id = "0000000003",
                 status = 2,
                 date = Date.valueOf("2018-12-31"),
                 time = Time.valueOf("22:55:00"),
                 adult = 3,
                 child = 1,
-                taxi_number = 2,
+                car_dispatch_number = 2,
                 company_id = "0003",
                 destination = "目的地はどこだ",
-                name = "お試し太郎SAN号",
-                phonetic = "オタメシタロウサンゴウ",
+                passenger_name = "お試し太郎SAN号",
+                passenger_phonetic = "オタメシタロウサンゴウ",
                 phone = "0801234567893",
                 mail = "ccc@jalinfotec.co.jp",
                 comment = "コメントテスト3件目",
@@ -243,18 +243,18 @@ class SampleController(
                 car_contact = "",
                 notice = ""
         )
-        val bookingInfo4 = BookingInformation(
+        val bookingInfo4 = ReservationInformation(
                 id = "0000000004",
                 status = 4,
                 date = Date.valueOf("2019-05-05"),
                 time = Time.valueOf("12:45:00"),
                 adult = 9,
                 child = 5,
-                taxi_number = 6,
+                car_dispatch_number = 6,
                 company_id = "0001",
                 destination = "目的地がいっぱい",
-                name = "お試し太郎四号",
-                phonetic = "オタメシタロウヨンゴウ",
+                passenger_name = "お試し太郎四号",
+                passenger_phonetic = "オタメシタロウヨンゴウ",
                 phone = "0801234567894",
                 mail = "ddd@jalinfotec.co.jp",
                 comment = "コメントテスト4件目",
@@ -262,18 +262,18 @@ class SampleController(
                 car_contact = "",
                 notice = ""
         )
-        val bookingInfo5 = BookingInformation(
+        val bookingInfo5 = ReservationInformation(
                 id = "0000000005",
                 status = 3,
                 date = Date.valueOf("2020-07-25"),
                 time = Time.valueOf("01:35:00"),
                 adult = 2,
                 child = 0,
-                taxi_number = 1,
+                car_dispatch_number = 1,
                 company_id = "0003",
                 destination = "オリンピックの会場",
-                name = "お試し太郎五号",
-                phonetic = "オタメシタロウゴゴウ",
+                passenger_name = "お試し太郎五号",
+                passenger_phonetic = "オタメシタロウゴゴウ",
                 phone = "0801234567895",
                 mail = "eee@jalinfotec.co.jp",
                 comment = "コメントテスト5件目",
@@ -282,7 +282,7 @@ class SampleController(
                 notice = ""
         )
         val bookList = mutableListOf(bookingInfo1, bookingInfo2, bookingInfo3, bookingInfo4, bookingInfo5)
-        bookingRepository.saveAll(bookList)
+        reservationRepository.saveAll(bookList)
 
         return mav
     }
@@ -300,7 +300,7 @@ class SampleController(
                     bookingIdList.add(cookie.value)
                 }
             }
-            val rsvList = bookingRepository.findAllById(bookingIdList)
+            val rsvList = reservationRepository.findAllById(bookingIdList)
             for (rsvInfo in rsvList) {
                 if (rsvInfo.status == 5) {
 

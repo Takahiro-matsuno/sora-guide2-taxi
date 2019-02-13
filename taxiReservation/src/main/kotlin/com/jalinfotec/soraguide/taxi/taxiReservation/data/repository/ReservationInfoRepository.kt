@@ -1,15 +1,15 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.repository
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.sql.Date
 
 
 @Repository
-interface BookingInfoRepository : JpaRepository<BookingInformation, String> {
+interface ReservationInfoRepository : JpaRepository<ReservationInformation, String> {
     //お試し
-    fun findByStatusAndDateGreaterThanEqualOrderByIdAsc(status: Int, date: Date): MutableList<BookingInformation>
+    fun findByStatusAndDateGreaterThanEqualOrderByIdAsc(status: Int, date: Date): MutableList<ReservationInformation>
 
     /**
      *予約完了時用の検索処理
@@ -20,5 +20,5 @@ interface BookingInfoRepository : JpaRepository<BookingInformation, String> {
      *  4.乗車日が今日以降であること
      */
     fun findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
-            phone: String, mail: String, status: Int, date: Date): MutableList<BookingInformation>
+            phone: String, mail: String, status: Int, date: Date): MutableList<ReservationInformation>
 }

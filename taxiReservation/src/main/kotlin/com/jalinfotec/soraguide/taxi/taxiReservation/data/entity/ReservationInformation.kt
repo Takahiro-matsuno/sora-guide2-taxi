@@ -6,22 +6,30 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "booking_info")
-data class BookingInformation(
+data class ReservationInformation(
         @Id
-        @Column(name = "booking_id")
+        @Column(name = "reservation_id")
         var id: String = "初期値",
 
         var status: Int = 0,
+
+        @Column(name = "ride_on_date")
         var date: Date = Date(0),
+
+        @Column(name = "ride_on_time")
         var time: Time = Time(date.time),
+
         var adult: Int = 0,
         var child: Int = 0,
-        var taxi_number: Int = 0,
+        var car_dispatch_number: Int = 0,
         var company_id: String = "",
         var destination: String = "",
-        var name: String = "",
-        var phonetic: String = "",
+        var passenger_name: String = "",
+        var passenger_phonetic: String = "",
+
+        @Column(name = "passenger_contact")
         var phone: String = "",
+
         var mail: String = "",
         var comment: String = "",
         var car_number: String = "",

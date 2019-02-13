@@ -1,40 +1,38 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import org.springframework.stereotype.Service
-import java.sql.Date
-import java.sql.Time
 import java.util.*
 import kotlin.NoSuchElementException
 
 @Service
 class ReservationDetailService(
-        private val bookingRepository: BookingInfoRepository,
+        private val reservationRepository: ReservationInfoRepository,
         private val taxiRepository: TaxiInfoRepository,
-        private var bookingInfo: Optional<BookingInformation>
+        private var reservationInfo: Optional<ReservationInformation>
 ) {
 
     var taxiCompanyName: String = ""
     var statusText: String = ""
 
-    fun getDetail(id: String): Optional<BookingInformation> {
+    fun getDetail(id: String): Optional<ReservationInformation> {
         println("【予約情報取得】予約ID：$id")
 
         //DBから引数のIDとマッチする予約情報を取得
-        bookingInfo = bookingRepository.findById(id)
+        reservationInfo = reservationRepository.findById(id)
         //タクシー会社IDからタクシー会社名を取得
         try {
-            taxiCompanyName = taxiRepository.findById(bookingInfo.get().company_id).get().name
-            statusTextSet(bookingInfo.get().status)
+            taxiCompanyName = taxiRepository.findById(reservationInfo.get().company_id).get().company_name
+            statusTextSet(reservationInfo.get().status)
         }catch (e:NoSuchElementException){
             taxiCompanyName = ""
             statusText = ""
         }
 
-        return bookingInfo
+        return reservationInfo
     }
 
     fun getChangeDetail(id: String): ReservationForm {
@@ -46,11 +44,11 @@ class ReservationDetailService(
                 time = bookingInfo.time.toString(),
                 adult = bookingInfo.adult,
                 child = bookingInfo.child,
-                taxi_number = bookingInfo.taxi_number,
+                car_dispatch = bookingInfo.car_dispatch_number,
                 company_id = bookingInfo.company_id,
                 destination = bookingInfo.destination.trim(),
-                name = bookingInfo.name.trim(),
-                phonetic = bookingInfo.phonetic.trim(),
+                name = bookingInfo.passenger_name.trim(),
+                phonetic = bookingInfo.passenger_phonetic.trim(),
                 phone = bookingInfo.phone.trim(),
                 mail = bookingInfo.mail.trim(),
                 mailCheck = bookingInfo.mail.trim(),
@@ -58,7 +56,7 @@ class ReservationDetailService(
         )
     }
 
-    fun detailCertificates(id:String,mail:String):Optional<BookingInformation>{
+    fun detailCertificates(id:String,mail:String):Optional<ReservationInformation>{
         val bookingInfo = getDetail(id)
         if(!bookingInfo.isPresent){
             return Optional.empty()

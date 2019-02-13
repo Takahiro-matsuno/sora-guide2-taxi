@@ -1,9 +1,9 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.CookieManager
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,20 +15,20 @@ import javax.servlet.http.HttpServletResponse
 
 @Service
 class ReservationCompleteService(
-        private val bookingRepository: BookingInfoRepository,
+        private val reservationRepository: ReservationInfoRepository,
         private val numberingRepository: NumberingRepository) {
 
     @Transactional(readOnly = false)
     fun complete(input: ReservationForm, request: HttpServletRequest, response: HttpServletResponse): String {
         val bookingInfo = setBooking(input)
         println("【予約完了】予約ID：${bookingInfo.id}")
-        bookingRepository.save(bookingInfo)
+        reservationRepository.save(bookingInfo)
         cookieUpdate(bookingInfo, request, response)
         return bookingInfo.id
     }
 
-    fun setBooking(input: ReservationForm): BookingInformation {
-        return BookingInformation(
+    fun setBooking(input: ReservationForm): ReservationInformation {
+        return ReservationInformation(
                 id = setId(),
 
                 //予約時のステータスは1で固定
@@ -39,11 +39,11 @@ class ReservationCompleteService(
                 time = Time.valueOf(input.time + ":00"),
                 adult = input.adult,
                 child = input.child,
-                taxi_number = input.taxi_number,
+                car_dispatch_number = input.car_dispatch,
                 company_id = input.company_id,
                 destination = input.destination,
-                name = input.name,
-                phonetic = input.phonetic,
+                passenger_name = input.name,
+                passenger_phonetic = input.phonetic,
                 phone = input.phone,
                 mail = input.mail,
                 comment = input.comment,
@@ -66,7 +66,7 @@ class ReservationCompleteService(
         return result
     }
 
-    fun cookieUpdate(inputBookingInfo: BookingInformation, request: HttpServletRequest, response: HttpServletResponse) {
+    fun cookieUpdate(inputReservationInfo: ReservationInformation, request: HttpServletRequest, response: HttpServletResponse) {
         val cookieManager = CookieManager()
 
         //以下条件の予約情報を取得する
@@ -75,8 +75,8 @@ class ReservationCompleteService(
         //3.ステータスがキャンセル待ち(4)、または完了(5)ではない
         //4.乗車日が過去日でない
         val bookingInfoList =
-                bookingRepository.findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
-                        inputBookingInfo.phone, inputBookingInfo.mail, 4, Date(Calendar.getInstance().timeInMillis)
+                reservationRepository.findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
+                        inputReservationInfo.phone, inputReservationInfo.mail, 4, Date(Calendar.getInstance().timeInMillis)
                 )
 
         //取得した予約情報から予約番号をカンマ区切りでString変数に格納する

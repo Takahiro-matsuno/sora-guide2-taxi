@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 class ApplicationController(
         private val taxiRepository: TaxiInfoRepository,
-        private val bookingRepository: BookingInfoRepository,
+        private val reservationRepository: ReservationInfoRepository,
         private val rsvDetailService: ReservationDetailService,
         private val rsvCompService: ReservationCompleteService,
         private val rsvChangeService: ReservationChangeService,
@@ -61,8 +61,8 @@ class ApplicationController(
         mav.addObject("reservationForm", rsvForm)
 
         //タクシー会社の表示用のオブジェクトを設置
-        val taxiCompanyName = taxiRepository.findById(rsvForm.company_id).get()
-        mav.addObject("taxiCompanyName", taxiCompanyName.name)
+        val taxiInformation = taxiRepository.findById(rsvForm.company_id).get()
+        mav.addObject("taxiCompanyName", taxiInformation.company_name)
         return mav
     }
 

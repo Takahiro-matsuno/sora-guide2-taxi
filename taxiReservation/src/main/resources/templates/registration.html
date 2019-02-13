@@ -41,7 +41,7 @@
             <tr>
                 <th align="left"><label>配車台数</label></th>
                 <td align="left"><input type="number" name="disp" style="width: device-width"
-                                        th:field="*{taxi_number}"/></td>
+                                        th:field="*{car_dispatch}"/></td>
             </tr>
             <tr>
                 <th align="left"><label>タクシー会社</label></th>
@@ -49,7 +49,7 @@
                 <td>
                     <select id="singleSelect" name="selectedItem" th:field="*{company_id}">
                         <option value="">---</option>
-                        <option th:each="item : ${taxiList}" th:value="${item.id}" th:text="${item.name}">
+                        <option th:each="item : ${taxiList}" th:value="${item.id}" th:text="${item.company_name}">
                         </option>
                     </select>
                 </td>
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <th align="left"><label>氏名</label></th>
-                <td align="left"><input type="name" name="name" style="width: device-width" th:field="*{name}"/></td>
+                <td align="left"><input type="text" name="name" style="width: device-width" th:field="*{name}"/></td>
             </tr>
             <tr>
                 <th align="left"><label>フリガナ</label></th>

@@ -1,22 +1,22 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.BookingInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.BookingInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import org.springframework.stereotype.Service
 import java.sql.Time
 import java.util.*
 
 @Service
 class ReservationChangeService(
-        private val bookingRepository: BookingInfoRepository
+        private val reservationRepository: ReservationInfoRepository
 ) {
-    var bookingInfo = BookingInformation()
+    var bookingInfo = ReservationInformation()
 
     fun change(changeInfo: ReservationForm): String {
         println("【予約変更】予約ID：${changeInfo.id}")
 
-        val bookingInfoOptional = bookingRepository.findById(changeInfo.id)
+        val bookingInfoOptional = reservationRepository.findById(changeInfo.id)
 
         if (!changeValidate(changeInfo, bookingInfoOptional)) {
             throw Exception()
@@ -28,12 +28,12 @@ class ReservationChangeService(
             changeInfo.time += ":00"
         }
 
-        bookingInfo = BookingInformation(
+        bookingInfo = ReservationInformation(
                 id = beforeInfo.id,
                 status = beforeInfo.status,
                 company_id = beforeInfo.company_id,
-                name = beforeInfo.name,
-                phonetic = beforeInfo.phonetic,
+                passenger_name = beforeInfo.passenger_name,
+                passenger_phonetic = beforeInfo.passenger_phonetic,
                 car_contact = beforeInfo.car_contact,
                 car_number = beforeInfo.car_number,
                 notice = beforeInfo.notice,
@@ -42,29 +42,29 @@ class ReservationChangeService(
                 time = Time.valueOf(changeInfo.time),
                 adult = changeInfo.adult,
                 child = changeInfo.child,
-                taxi_number = changeInfo.taxi_number,
+                car_dispatch_number = changeInfo.car_dispatch,
                 destination = changeInfo.destination,
                 phone = changeInfo.phone,
                 mail = changeInfo.mail,
                 comment = changeInfo.comment
         )
 
-        bookingRepository.save(bookingInfo)
+        reservationRepository.save(bookingInfo)
 
         return bookingInfo.id
     }
 
     //予約変更前の妥当性チェック
-    fun changeValidate(changeInfo: ReservationForm, bookingInfoOptional: Optional<BookingInformation>): Boolean {
+    fun changeValidate(changeInfo: ReservationForm, reservationInfoOptional: Optional<ReservationInformation>): Boolean {
         //検索にかからない場合
-        if (!bookingInfoOptional.isPresent) {
+        if (!reservationInfoOptional.isPresent) {
             println("ERROR：変更する予約がDBに存在しない")
             return false
         }
         //ID改ざん対策
-        if (bookingInfoOptional.get().name.trim() != changeInfo.name.trim()) {
+        if (reservationInfoOptional.get().passenger_name.trim() != changeInfo.name.trim()) {
             println("ERROR：変更前後の予約で名前が一致しない")
-            println("DB->${bookingInfoOptional.get().name.trim()}")
+            println("DB->${reservationInfoOptional.get().passenger_name.trim()}")
             println("入力->${changeInfo.name.trim()}")
             return false
         }
@@ -72,9 +72,9 @@ class ReservationChangeService(
     }
 
     fun delete(id: String) {
-        val beforeInfo = bookingRepository.findById(id).get()
+        val beforeInfo = reservationRepository.findById(id).get()
         beforeInfo.status = 4
-        bookingRepository.save(bookingInfo)
+        reservationRepository.save(bookingInfo)
     }
 
 

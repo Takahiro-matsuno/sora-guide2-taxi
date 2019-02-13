@@ -24,7 +24,7 @@ data class ReservationForm(
         var child: Int = 0,
 
         @NotEmpty
-        var taxi_number: Int = 1,
+        var car_dispatch: Int = 1,
 
         @NotNull
         var company_id: String = "",

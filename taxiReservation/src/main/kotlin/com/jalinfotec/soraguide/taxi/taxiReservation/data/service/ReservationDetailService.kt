@@ -27,7 +27,7 @@ class ReservationDetailService(
         try {
             taxiCompanyName = taxiRepository.findById(reservationInfo.get().company_id).get().company_name
             statusTextSet(reservationInfo.get().status)
-        }catch (e:NoSuchElementException){
+        } catch (e: NoSuchElementException) {
             taxiCompanyName = ""
             statusText = ""
         }
@@ -56,12 +56,12 @@ class ReservationDetailService(
         )
     }
 
-    fun detailCertificates(id:String,mail:String):Optional<ReservationInformation>{
+    fun detailCertificates(id: String, mail: String): Optional<ReservationInformation> {
         val bookingInfo = getDetail(id)
-        if(!bookingInfo.isPresent){
+        if (!bookingInfo.isPresent) {
             return Optional.empty()
         }
-        if(bookingInfo.get().mail.trim()!= mail){
+        if (bookingInfo.get().mail.trim() != mail) {
             return Optional.empty()
         }
         return bookingInfo

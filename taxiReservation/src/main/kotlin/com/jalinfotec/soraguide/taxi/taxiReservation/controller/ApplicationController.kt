@@ -110,8 +110,17 @@ class ApplicationController(
     //取消完了画面
     @RequestMapping("app/deleteComplete")
     @ResponseBody
-    fun deleteComplete(mav: ModelAndView): ModelAndView {
+    fun deleteComplete(mav: ModelAndView,
+                       @ModelAttribute("id") id: String): ModelAndView {
+        //取消処理
+        val rsvId = rsvChangeService.delete(id)
+        val rsvDetail = rsvDetailService.getDetail(rsvId)
+
+        //完了画面へ遷移
         mav.viewName = "complete"
+        mav.addObject("rsvDetail", rsvDetail.get())
+        mav.addObject("statusText", rsvDetailService.statusText)
+        mav.addObject("title", "取消完了")
         return mav
     }
 

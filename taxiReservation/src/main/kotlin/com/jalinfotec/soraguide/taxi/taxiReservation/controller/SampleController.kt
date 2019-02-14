@@ -13,6 +13,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDet
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.CookieManager
 import java.sql.Date
 import java.sql.Time
 import java.text.SimpleDateFormat
@@ -68,8 +69,10 @@ class SampleController(
 
     @RequestMapping("/")
     @ResponseBody
-    fun home(mav: ModelAndView): ModelAndView {
-        mav.viewName = "testHTML/reservationList"
+    fun home(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+        mav.viewName = "index"
+        val cookieManager = CookieManager()
+        cookieManager.setCookie(request,response,"0000000001-0000000002-0000000005")
         return mav
     }
 
@@ -163,8 +166,8 @@ class SampleController(
     @RequestMapping("/test/setup")
     fun setup(mav: ModelAndView): ModelAndView {
         mav.viewName = "testHTML/allClear"
-        taxiRepository.deleteAll()
         reservationRepository.deleteAll()
+        taxiRepository.deleteAll()
         numberingRepository.save(Numbering(name = "taxi_info", nextValue = 4))
         numberingRepository.save(Numbering(name = "booking_info", nextValue = 6))
 
@@ -207,8 +210,8 @@ class SampleController(
         )
         val bookingInfo2 = ReservationInformation(
                 id = "0000000002",
-                status = 5,
-                date = Date.valueOf("2018-12-31"),
+                status = 2,
+                date = Date.valueOf("2019-05-01"),
                 time = Time.valueOf("22:55:00"),
                 adult = 3,
                 child = 1,
@@ -306,18 +309,33 @@ class SampleController(
 
                 }
             }
-            mav.addObject("rsvList",rsvList)
+            mav.addObject("rsvList", rsvList)
         }
 
         val newCookie = Cookie("rsvId", "0000000001")
-        newCookie.maxAge = 365*24*60*60
+        newCookie.maxAge = 365 * 24 * 60 * 60
         newCookie.path = "/"
         if ("https" == request.scheme) {
             newCookie.secure = true
         }
         response.addCookie(newCookie)
 
-        mav.viewName ="list"
+        mav.viewName = "list"
+
+        return mav
+    }
+
+    @RequestMapping("/setCookie")
+    fun setCookie(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse,
+                  @ModelAttribute("rsvId") rsvId: String): ModelAndView {
+        mav.viewName = "index"
+
+        val cookieManager = CookieManager()
+        val setId = String.format("%010d", rsvId.toInt())
+        cookieManager.setCookie(request, response, setId)
+
+        mav.addObject("rsvId", rsvId)
+        mav.addObject("text", "Cookieを設定しました")
 
         return mav
     }

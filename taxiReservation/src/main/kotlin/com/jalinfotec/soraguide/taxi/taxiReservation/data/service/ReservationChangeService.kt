@@ -71,10 +71,14 @@ class ReservationChangeService(
         return true
     }
 
-    fun delete(id: String) {
-        val beforeInfo = reservationRepository.findById(id).get()
+    fun delete(id: String) : String {
+        val bookingInfoOptional = reservationRepository.findById(id)
+
+        val beforeInfo = bookingInfoOptional.get()
         beforeInfo.status = 4
-        reservationRepository.save(bookingInfo)
+        reservationRepository.save(beforeInfo)
+
+        return beforeInfo.id
     }
 
 

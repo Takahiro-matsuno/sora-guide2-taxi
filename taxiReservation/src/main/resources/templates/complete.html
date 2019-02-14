@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約完了画面</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -18,34 +19,38 @@
     <h1 th:text="${titleText}"></h1>
     <!--  <p>以下の項目を入力してください</p> -->
 </header>
-    <div id="contents" th:object="${rsvDetail}">
-        <table>
+<div id="contents" th:object="${rsvDetail}">
+    <table>
         <tr>
             <th align="right" th:text="*{passenger_name}" style="width: device-width;"></th>
             <th align="left"><label>様</label></th>
         </tr>
-        </table>
-           <p align="left"><label>タクシーのご予約内容がタクシー会社に送信されました。</label></p>
-        <table>
+    </table>
+    <p align="left"><label>タクシーのご予約内容がタクシー会社に送信されました。</label></p>
+    <table>
         <tr>
             <th align="left"><label>予約番号：</label></th>
             <td align="left" th:text="*{id}" style="width: device-width;"></td>
         </tr>
         <tr>
-           <th align="left"><label>ステータス：</label></th>
-            <td align="left"  th:text="${statusText}" style="width: device-width;"></td>
-         </tr>
-        </table>
-        <p align="left"><label>タクシー会社より予約の受付が完了したら、スマホに通知され、代表者にメールが送付されます。</label></p>
-        <p align="left"><label>ステータスは予約確定済となります。</label></p>
-        <p align="left"><label>　</label></p>
-        <p align="left"><label>注意：予約完了ではありません。</label></p>
-        <table>
-            <tr>
-                <td align="left"><button type="button" onClick="location.href='/app/registration'">予約登録へ</button></td>
-                <td align="right"><button type="button" onClick="location.href='/app/list'">予約確認へ</button></td>
-            </tr>
-        </table>
-    </div>
+            <th align="left"><label>ステータス：</label></th>
+            <td align="left" th:text="${statusText}" style="width: device-width;"></td>
+        </tr>
+    </table>
+    <p align="left"><label>タクシー会社より予約の受付が完了したら、スマホに通知され、代表者にメールが送付されます。</label></p>
+    <p align="left"><label>ステータスは予約確定済となります。</label></p>
+    <p align="left"><label>　</label></p>
+    <p align="left"><label>注意：予約完了ではありません。</label></p>
+    <table>
+        <tr>
+            <td align="left">
+                <button type="button" onClick="location.href='./registration'">予約登録へ</button>
+            </td>
+            <td align="right">
+                <button type="button" onClick="location.href='./list'">予約確認へ</button>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

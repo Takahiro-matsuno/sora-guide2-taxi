@@ -3,22 +3,39 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>予約画面（お試し）</title>
+    <title>タクシー予約機能テスト用ページ</title>
 </head>
 
 <body>
-<h1>ログイン画面</h1>
+<h1>タクシー予約機能テスト用ページ</h1>
 
-<form method="post" action="/login">
-    <p>ID：
-        <input type="text" name="loginId" size="15" maxlength="10" th:value="${value}">
-    </p>
-    <p>パスワード：
-        <input type="password" name="password" size="15" maxlength="10" th:value="${value}">
-    </p>
+<p>以下ボタンを選択し、各機能へ遷移</p>
 
-    <button type="submit">ログイン</button>
+<p>予約登録⇒予約確認⇒登録完了</p>
+<button type="button" onClick="location.href='./app/registration'">予約登録</button><br><br>
+
+<p>予約一覧⇒予約詳細⇒変更入力⇒変更完了</p>
+<p>予約一覧⇒予約詳細⇒取消完了</p>
+<button type="button" onClick="location.href='./app/list'">予約一覧</button><br><br>
+
+<p>予約認証画面（予約完了メールのURLからの遷移を想定）</p>
+<button type="button" onClick="location.href='./app/certificateResult'">予約認証</button>
+
+<h3>メモ</h3>
+<ul>
+    <li>予約一覧表示確認用にCookieに予約番号を2件だけセット</li>
+    <li>変更、取消の完了画面は文言等未設定（予約完了と同じものをとりあえずで出している）</li>
+    <li>予約一覧画面はアプリのみ遷移可能、予約登録画面からタブ選択で遷移する想定</li>
+</ul>
+
+<!--
+<form action="./setCookie" method="post">
+    <p>一覧はCookieに保存されている予約番号を元に表示</p>
+    <p>以下、テスト用のCookie設定フォーム（予約番号1とか2とか入れて設定してください）</p>
+    <input type="text" th:field="${rsvId}">
+    <button type="submit">Cookieを設定</button>
 </form>
+-->
 
 </body>
 

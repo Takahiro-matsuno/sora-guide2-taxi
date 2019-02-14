@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.beans.factory.annotation.Autowired
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -37,7 +36,7 @@ class UserAccountService : UserDetailsService {
             throw UsernameNotFoundException("User not found: $username")
         }
 
-        if (!ac.enabled){ // ユーザーが許可されていない場合
+        if (!ac.enableFlg){ // ユーザーが許可されていない場合
             println("user not allowed: $username")
             throw UsernameNotFoundException("User not found: $username")
         }
@@ -45,7 +44,7 @@ class UserAccountService : UserDetailsService {
     }
     // アクセス権限の取得
     private fun getAuthorities(account: Account): Collection<GrantedAuthority> {
-        return if (account.admin_flg) {
+        return if (account.adminFlg) {
             AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER")
         } else {
             AuthorityUtils.createAuthorityList("ROLE_USER")
@@ -62,7 +61,7 @@ class UserAccountService : UserDetailsService {
     @Transactional
     fun registerUser(username: String, password: String): Boolean {
         return if (repository.findByUsername(username) == null) {
-            val user = Account(username = username, password = passwordEncoder.encode(password), admin_flg = false)
+            val user = Account(username = username, password = passwordEncoder.encode(password), adminFlg = false)
             repository.save(user)
             true
         } else false

@@ -39,9 +39,9 @@ class UserAccount(
         return true
     }
     override fun isEnabled(): Boolean {
-        return user.enabled
+        return user.enableFlg
     }
     fun getCompanyId(): String {
-        return user.company_id
+        return user.companyId
     }
 }

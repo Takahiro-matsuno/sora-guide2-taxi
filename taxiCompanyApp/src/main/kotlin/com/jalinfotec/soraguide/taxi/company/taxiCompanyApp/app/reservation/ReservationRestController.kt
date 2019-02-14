@@ -24,7 +24,7 @@ class ReservationRestController {
         /**
          * TODO Cookieに最終アクセス日付を付加する
          * TODO 予約テーブルに更新日を追加
-         * TODO 予約テーブルから会社IDで検索をかけて条件に合致するレコード数を返却（company_id = :会社ID and update_date > 最終アクセス日付)
+         * TODO 予約テーブルから会社IDで検索をかけて条件に合致するレコード数を返却（companyId = :会社ID and update_date > 最終アクセス日付)
          */
         // sample
         val staStr = "{ \"update_num\": "

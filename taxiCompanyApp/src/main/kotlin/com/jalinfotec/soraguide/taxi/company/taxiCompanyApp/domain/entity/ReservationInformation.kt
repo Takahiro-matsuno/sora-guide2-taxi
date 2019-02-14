@@ -21,7 +21,7 @@ data class ReservationInformation(
         var child: Int = 0,
         var car_dispatch_number: Int = 0,
 
-        @Column(name = "company_id")
+        @Column(name = "companyId")
         var companyId: String = "",
 
         var destination: String = "",

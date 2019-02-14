@@ -8,7 +8,7 @@ class Account(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "user_id", nullable = false, unique = true)
-        var id: Long = 0L,
+        var userId: Long = 0L,
 
         @Column(name = "user_name", nullable = false, unique = true)
         var username: String = "",
@@ -17,11 +17,11 @@ class Account(
         var password: String,
 
         @Column(name = "enable_flg", nullable = false)
-        var enabled: Boolean = true,
+        var enableFlg: Boolean = true,
 
-        @Column(name = "admin_flg", nullable = false)
-        val admin_flg: Boolean,
+        @Column(name = "adminFlg", nullable = false)
+        val adminFlg: Boolean,
 
-        @Column(name = "company_id", nullable = false)
-        val company_id: String = "0002"
+        @Column(name = "companyId", nullable = false)
+        val companyId: String = "0002"
         )

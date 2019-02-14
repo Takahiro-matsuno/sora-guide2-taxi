@@ -23,17 +23,21 @@ class ReservationListService(
 
         //表示対象の予約を確認
         val newBookingIdList = mutableListOf<String>()
-        for (book in bookingList) {
+        val iterator = bookingList.iterator()
+        while (iterator.hasNext()) {
+            val book = iterator.next()
             //ステータスが4or5（キャンセル済みor完了）のものは弾く
             //乗車日が過去日のものは弾く
-            if (book.status >= 4) {
-                println("予約番号${book.id}はステータスがキャンセル済みor完了のため表示対象外")
-                bookingList.remove(book)
-            } else if (book.date < Calendar.getInstance().time) {
-                println("予約番号${book.id}は乗車日が過去日のため表示対象外")
-                bookingList.remove(book)
-            } else {
-                newBookingIdList.add(book.id)
+            when {
+                book.status >= 4 -> {
+                    println("予約番号${book.id}はステータスがキャンセル済みor完了のため表示対象外")
+                    iterator.remove()
+                }
+                compareByDate(book.date) -> {
+                    println("予約番号${book.id}は乗車日が過去日のため表示対象外")
+                    iterator.remove()
+                }
+                else -> newBookingIdList.add(book.id)
             }
         }
 
@@ -45,5 +49,15 @@ class ReservationListService(
 
         //表示対象の予約リストを返す
         return bookingList
+    }
+
+    fun compareByDate(rsvDate:Date):Boolean{
+        val nowDate = Calendar.getInstance()
+        nowDate.set(Calendar.HOUR_OF_DAY, 0)
+        nowDate.set(Calendar.MINUTE, 0)
+        nowDate.set(Calendar.SECOND, 0)
+        nowDate.set(Calendar.MILLISECOND, 0)
+
+        return rsvDate.before(nowDate.time)
     }
 }

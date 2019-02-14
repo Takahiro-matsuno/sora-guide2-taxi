@@ -5,11 +5,11 @@ import java.sql.Time
 import javax.persistence.*
 
 @Entity
-@Table(name = "booking_info")
+@Table(name = "reservation_info")
 data class ReservationInformation(
         @Id
         @Column(name = "reservation_id")
-        var id: String = "初期値",
+        var id: String = "",
 
         var status: Int = 0,
 

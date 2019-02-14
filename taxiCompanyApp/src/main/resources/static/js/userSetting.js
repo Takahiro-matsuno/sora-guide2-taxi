@@ -1,5 +1,5 @@
+// パスワードチェック
 function checkPassword() {
-    console.log("きた");
 
     var checkNowNew = false;
     var checkNewCon = false;
@@ -17,7 +17,6 @@ function checkPassword() {
             checkNowNew = true;
         } else {
             message = "同じパスワードは設定できません。";
-            console.log(message);
         }
     }
     // 新・確認パスワード
@@ -26,10 +25,15 @@ function checkPassword() {
             checkNewCon = true;
         } else if (message === "") {
             message = "新しいパスワードと確認用のパスワードが一致しません。";
-            console.log(message);
         }
     }
 
     errorElement.innerText = message;
     return checkNowNew && checkNewCon;
+}
+// パスワード変更POST
+function postPasswordChange(form) {
+    if (checkPassword()) {
+        form.submit();
+    }
 }

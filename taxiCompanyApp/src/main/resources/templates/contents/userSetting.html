@@ -9,17 +9,19 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <div class="content" th:object="${account}">
+    <div class="content">
         <h1>パスワード変更</h1>
-        <form id="passwordChange" action="/user/change-password" method="post">
+        <form id="passwordChange" role="form" th:action="@{/user/password-change}" method="post">
+            <p th:text="${username}"></p>
             <p id="errorMessage"></p>
-            <input type="password" id="nowPassword" onblur="checkPassword()" name="nowPassword" placeholder="現在のパスワード" required />
+            <input type="password" id="nowPassword" onblur="checkPassword()" name="nowPassword" placeholder="現在のパスワード" required/>
             <br/>
-            <input type="password" id="newPassword" onblur="checkPassword()" name="newPassword" placeholder="新しいパスワード" required />
+            <input type="password" id="newPassword" onblur="checkPassword()" name="newPassword" placeholder="新しいパスワード" required/>
             <br/>
-            <input type="password" id="confirmPassword" name="confirmPassword" onblur="checkPassword()" placeholder="新しいパスワード(確認)" required />
+            <input type="password" id="confirmPassword" onblur="checkPassword()"
+                   placeholder="新しいパスワード(確認)" required/>
             <br/>
-            <input type="submit" value="変更する">
+            <input type="submit" value="変更する" />
         </form>
     </div>
 </section>

@@ -16,15 +16,7 @@
         <section layout:fragment="content">
             <!-- content -->
         </section>
-        <script type="text/javascript">
-            //
-            function getDetail(id) {
-                //フォーム作成
-                var form = document.getElementById("listForm" + id);
-                form.submit();
-            }
-            //
-        </script>
+        <script type="text/javascript" th:src="@{/js/reservationList.js}"></script>
         <script type="text/javascript" th:src="@{/js/userSetting.js}"></script>
     </body>
 </html>

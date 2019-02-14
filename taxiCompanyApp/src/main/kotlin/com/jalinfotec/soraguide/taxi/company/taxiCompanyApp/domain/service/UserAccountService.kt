@@ -70,4 +70,17 @@ class UserAccountService : UserDetailsService {
     fun findByUsername(username: String): Account? {
         return repository.findByUsername(username)
     }
+    @Transactional
+    fun changePassword(username: String, nowPassword: String, newPassword: String): Boolean {
+        val user = repository.findByUsername(username) ?: return false // エラー
+
+        return if (passwordEncoder.encode(nowPassword) != user.password) {
+            // TODO パスワードが違います。
+            false
+        } else {
+            user.password = passwordEncoder.encode(newPassword)
+            repository.save(user)
+            true
+        }
+    }
 }

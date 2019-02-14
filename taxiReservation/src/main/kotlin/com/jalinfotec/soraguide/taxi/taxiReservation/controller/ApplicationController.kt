@@ -33,6 +33,12 @@ class ApplicationController(
 
         val list = rsvListService.getList(request, response)
         mav.addObject("rsvList", list)
+
+        if (list.isEmpty()) {
+            mav.addObject("isEmpty", true)
+        } else {
+            mav.addObject("isEmpty", false)
+        }
         return mav
     }
 

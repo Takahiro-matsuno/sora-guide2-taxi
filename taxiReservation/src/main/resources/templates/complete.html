@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
-    <title>予約完了画面</title>
+    <title th:text="${title}"></title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <!--   <link rel="stylesheet" href="sample.css"> -->
@@ -15,10 +15,6 @@
     <![endif]-->
 </head>
 <body>
-<header>
-    <h1 th:text="${titleText}"></h1>
-    <!--  <p>以下の項目を入力してください</p> -->
-</header>
 <div id="contents" th:object="${rsvDetail}">
     <table>
         <tr>
@@ -26,7 +22,7 @@
             <th align="left"><label>様</label></th>
         </tr>
     </table>
-    <p align="left"><label>タクシーのご予約内容がタクシー会社に送信されました。</label></p>
+    <p align="left" th:text="${headText}"></p>
     <table>
         <tr>
             <th align="left"><label>予約番号：</label></th>
@@ -37,10 +33,14 @@
             <td align="left" th:text="${statusText}" style="width: device-width;"></td>
         </tr>
     </table>
-    <p align="left"><label>タクシー会社より予約の受付が完了したら、スマホに通知され、代表者にメールが送付されます。</label></p>
-    <p align="left"><label>ステータスは予約確定済となります。</label></p>
-    <p align="left"><label>　</label></p>
-    <p align="left"><label>注意：予約完了ではありません。</label></p>
+
+    <th:block th:if="${message}">
+        <th:block th:each="str, stat : ${message.split('\r\n|\r|\n', -1)}">
+            <th:block th:text="${str}"/>
+            <br th:if="${!stat.last}"/>
+        </th:block>
+    </th:block>
+
     <table>
         <tr>
             <td align="left">

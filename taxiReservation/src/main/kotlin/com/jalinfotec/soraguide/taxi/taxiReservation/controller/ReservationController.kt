@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
+import java.util.*
 
 /**
  * 登録フローの画面表示用コントローラクラス
@@ -39,14 +40,21 @@ class ReservationController(
         //TODO エラー時の画面表示
         //バリデートエラー
         if (result.hasErrors()) {
+            println("フォームの入力チェックでエラー")
             mav.viewName = "registration"
+            mav.addObject("taxiList", taxiRepository.findAll())
+            mav.addObject("errorMassage","未入力の項目があります。")
             return mav
         }
-        //メール入力エラー
-        if (rsvForm.mail != rsvForm.mailCheck) {
+        //入力不正
+        if (rsvFormValidate(rsvForm)) {
+            println("メソッドの入力チェックでエラー")
             mav.viewName = "registration"
+            mav.addObject("taxiList", taxiRepository.findAll())
             return mav
         }
+
+        println("チェックOK")
 
         //確認画面へ遷移
         mav.viewName = "confirmation"
@@ -56,6 +64,35 @@ class ReservationController(
         val taxiInformation = taxiRepository.findById(rsvForm.company_id).get()
         mav.addObject("taxiCompanyName", taxiInformation.company_name)
         return mav
+    }
+
+    fun rsvFormValidate(rsvForm: ReservationForm): Boolean {
+        var isError = false
+
+        //メール同一チェック
+        if (rsvForm.mail != rsvForm.mailCheck) {
+            println("メール不一致")
+            isError = true
+        }
+
+        //タクシー会社リスト未選択エラー
+        if (rsvForm.company_id == "") {
+            println("タクシー会社未選択")
+            isError = true
+        }
+
+        //乗車日付の過去日チェック
+        val nowDate = Calendar.getInstance()
+        nowDate.set(Calendar.HOUR_OF_DAY, 0)
+        nowDate.set(Calendar.MINUTE, 0)
+        nowDate.set(Calendar.SECOND, 0)
+        nowDate.set(Calendar.MILLISECOND, 0)
+        if (rsvForm.date.before(nowDate.time)) {
+            println("乗車日が過去日")
+            isError = true
+        }
+
+        return isError
     }
 
 }

@@ -15,7 +15,7 @@ class CookieManager {
         response.addCookie(newCookie)
     }
 
-    fun getFromCookie(request: HttpServletRequest):List<String> {
+    fun getFromCookie(request: HttpServletRequest): List<String> {
         val cookies = request.cookies
         var bookingId: String? = null
 

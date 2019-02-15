@@ -37,6 +37,9 @@ class ReservationDetailService(
 
     fun getChangeDetail(id: String): ReservationForm {
         val bookingInfo = getDetail(id).get()
+        val rsvForm = ReservationForm()
+        rsvForm.id = bookingInfo.id
+        rsvForm.date = bookingInfo.date
 
         return ReservationForm(
                 id = bookingInfo.id,

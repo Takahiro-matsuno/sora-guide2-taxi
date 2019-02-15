@@ -19,10 +19,8 @@
             padding: 5px 10px;
         }
 
-
     </style>
 </head>
-
 
 <body>
 <h1>予約一覧</h1>
@@ -30,7 +28,6 @@
 <div th:if="${isEmpty}">
     表示可能な予約がありません。
 </div>
-
 
 <table th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
     <tr>

@@ -23,8 +23,6 @@ class ApplicationController(
         private val rsvDetailService: ReservationDetailService,
         private val rsvListService: ReservationListService
 ) {
-
-
     //一覧画面
     @RequestMapping("app/list")
     @ResponseBody

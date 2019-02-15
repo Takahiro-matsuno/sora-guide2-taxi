@@ -18,7 +18,7 @@ class ReservationListService(
         //Cookieから予約番号を取得（CookieManager呼び出し）
         val bookingIdList = cookieManager.getFromCookie(request)
 
-        //予約番号をSQL投げ
+        //予約情報の取得
         val bookingList = reservationRepository.findAllById(bookingIdList)
 
         //表示対象の予約を確認
@@ -51,7 +51,7 @@ class ReservationListService(
         return bookingList
     }
 
-    fun compareByDate(rsvDate:Date):Boolean{
+    fun compareByDate(rsvDate: Date): Boolean {
         val nowDate = Calendar.getInstance()
         nowDate.set(Calendar.HOUR_OF_DAY, 0)
         nowDate.set(Calendar.MINUTE, 0)

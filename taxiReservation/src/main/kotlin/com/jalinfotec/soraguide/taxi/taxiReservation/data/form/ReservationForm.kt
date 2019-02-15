@@ -1,54 +1,63 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.form
 
-import java.sql.Time
 import java.sql.Date
+import java.sql.Time
 import java.util.*
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
+import javax.validation.constraints.*
 
 data class ReservationForm(
         var id:String = "",
 
         //初期値:本日の日付
-        @NotNull
         var date: Date = Date(Calendar.getInstance().timeInMillis),
-        //??
-        @NotEmpty
-        var time: String = Time(date.time).toString().substring(0,5),
 
-        @NotEmpty
+        //??
+        var time: String = Time(date.time).toString().substring(0, 5),
+
+        @get:NotNull
+        @get:Max(20)
         var adult: Int = 1,
 
-        @NotEmpty
+        @get:NotNull
+        @get:Max(20)
         var child: Int = 0,
 
-        @NotEmpty
+        @get:NotNull
+        @get:Max(20)
         var car_dispatch: Int = 1,
 
-        @NotNull
+        @get:NotEmpty
+        @get:Size(max = 4)
         var company_id: String = "",
 
-        @NotNull
+        @get:NotEmpty
+        @get:Size(min = 2, max = 30)
         var destination: String = "",
 
-        @NotNull
+        @get:NotEmpty
+        @get:Size(min = 1, max = 20)
         var name: String = "",
 
-        @NotNull
+        @get:NotEmpty
+        @get:Size(min = 1, max = 30)
         var phonetic: String = "",
 
-        @NotNull
+        @get:NotEmpty
+        @get:Size(min = 1, max = 15)
         var phone: String = "",
 
-        @NotEmpty
+        @get:NotEmpty
         @Email
+        @get:Size(min = 1, max = 50)
         var mail: String = "",
 
-        @NotEmpty
+        @get:NotEmpty
         @Email
+        @get:Size(min = 1, max = 50)
         var mailCheck: String = "",
 
         //任意項目
+        @get:NotNull
+        @get:Size(max = 99)
         var comment: String = ""
 )

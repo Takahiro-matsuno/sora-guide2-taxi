@@ -55,29 +55,29 @@
             </tr>
             <tr>
                 <th align="left"><label>目的地</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{destination}"/>
+                <td align="left"><input type="text" style="width: device-width" th:field="*{destination}" required/>
                 </td>
             </tr>
             <tr>
                 <th align="left"><label>氏名</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{name}"/></td>
+                <td align="left"><input type="text" style="width: device-width" th:field="*{name}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>フリガナ</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{phonetic}"/>
+                <td align="left"><input type="text" style="width: device-width" th:field="*{phonetic}" required/>
                 </td>
             </tr>
             <tr>
                 <th align="left"><label>電話番号</label></th>
-                <td align="left"><input type="tel" style="width: device-width" th:field="*{phone}"/></td>
+                <td align="left"><input type="tel" style="width: device-width" th:field="*{phone}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>メールアドレス</label></th>
-                <td align="left"><input type="email" style="width: device-width" th:field="*{mail}"/></td>
+                <td align="left"><input type="email" style="width: device-width" th:field="*{mail}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>メールアドレス(確認)</label></th>
-                <td align="left"><input type="email" style="width: device-width" th:field="*{mailCheck}"/>
+                <td align="left"><input type="email" style="width: device-width" th:field="*{mailCheck}" required/>
                 </td>
             </tr>
             <tr>
@@ -87,10 +87,10 @@
             </tr>
             <tr>
                 <td align="left">
-                    <button type="reset" name="clearButton">クリア</button>
+                    <button type="reset">クリア</button>
                 </td>
                 <td align="left">
-                    <button type="submit" name="chkButton">入力確認</button>
+                    <button type="submit">入力確認</button>
                 </td>
             </tr>
         </table>

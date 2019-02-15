@@ -6,6 +6,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCom
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
@@ -26,8 +27,7 @@ class ActionCompController(
 ) {
 
     //登録完了画面
-    @RequestMapping("app/rsvComplete")
-    @ResponseBody
+    @PostMapping("app/rsvComplete")
     fun rsvComplete(mav: ModelAndView,
                     @ModelAttribute("reservationForm") rsvForm: ReservationForm,
                     request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
@@ -44,8 +44,7 @@ class ActionCompController(
     }
 
     //変更完了画面
-    @RequestMapping("app/changeComplete")
-    @ResponseBody
+    @PostMapping("app/changeComplete")
     fun changeComplete(mav: ModelAndView,
                        @ModelAttribute("reservationForm") rsvForm: ReservationForm): ModelAndView {
         val rsvId: String
@@ -61,8 +60,7 @@ class ActionCompController(
     }
 
     //取消完了画面
-    @RequestMapping("app/deleteComplete")
-    @ResponseBody
+    @PostMapping("app/deleteComplete")
     fun deleteComplete(mav: ModelAndView,
                        @ModelAttribute("id") id: String): ModelAndView {
         val rsvId: String

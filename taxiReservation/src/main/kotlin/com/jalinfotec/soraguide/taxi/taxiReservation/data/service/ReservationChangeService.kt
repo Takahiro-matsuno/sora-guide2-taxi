@@ -22,21 +22,32 @@ class ReservationChangeService(
             throw Exception()
         }
 
-        val beforeInfo = bookingInfoOptional.get()
+        val rsvInfo = bookingInfoOptional.get()
         //Time型の形式揃え
         if (changeInfo.time.length == 5) {
             changeInfo.time += ":00"
         }
 
+        rsvInfo.date = changeInfo.date
+        rsvInfo.time = Time.valueOf(changeInfo.time)
+        rsvInfo.adult = changeInfo.adult
+        rsvInfo.child = changeInfo.child
+        rsvInfo.car_dispatch_number = changeInfo.car_dispatch
+        rsvInfo.destination = changeInfo.destination
+        rsvInfo.phone = changeInfo.phone
+        rsvInfo.mail = changeInfo.mail
+        rsvInfo.comment = changeInfo.comment
+
+        /*
         bookingInfo = ReservationInformation(
-                id = beforeInfo.id,
-                status = beforeInfo.status,
-                company_id = beforeInfo.company_id,
-                passenger_name = beforeInfo.passenger_name,
-                passenger_phonetic = beforeInfo.passenger_phonetic,
-                car_contact = beforeInfo.car_contact,
-                car_number = beforeInfo.car_number,
-                notice = beforeInfo.notice,
+                id = rsvInfo.id,
+                status = rsvInfo.status,
+                company_id = rsvInfo.company_id,
+                passenger_name = rsvInfo.passenger_name,
+                passenger_phonetic = rsvInfo.passenger_phonetic,
+                car_contact = rsvInfo.car_contact,
+                car_number = rsvInfo.car_number,
+                notice = rsvInfo.notice,
 
                 date = changeInfo.date,
                 time = Time.valueOf(changeInfo.time),
@@ -47,9 +58,9 @@ class ReservationChangeService(
                 phone = changeInfo.phone,
                 mail = changeInfo.mail,
                 comment = changeInfo.comment
-        )
+        )*/
 
-        reservationRepository.save(bookingInfo)
+        reservationRepository.save(rsvInfo)
 
         return bookingInfo.id
     }

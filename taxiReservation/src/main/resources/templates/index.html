@@ -12,20 +12,29 @@
 <p>以下ボタンを選択し、各機能へ遷移</p>
 
 <p>予約登録⇒予約確認⇒登録完了</p>
-<button type="button" onClick="location.href='./app/registration'">予約登録</button><br><br>
+<button type="button" onClick="location.href='./app/registration'">予約登録</button>
+<br><br>
 
 <p>予約一覧⇒予約詳細⇒変更入力⇒変更完了</p>
 <p>予約一覧⇒予約詳細⇒取消完了</p>
-<button type="button" onClick="location.href='./app/list'">予約一覧</button><br><br>
+<button type="button" onClick="location.href='./app/list'">予約一覧</button>
+<br><br>
 
 <p>予約認証画面（予約完了メールのURLからの遷移を想定）</p>
 <button type="button" onClick="location.href='./app/certificateResult'">予約認証</button>
+
+<p>タクシー会社管理画面</p>
+<button type="button"
+        onClick="location.href='https://taximanagementapp.azurewebsites.net/taxiCompanyApp-0.0.1-SNAPSHOT'">管理画面
+</button>
 
 <h3>メモ</h3>
 <ul>
     <li>予約一覧表示確認用にCookieに予約番号を3件だけセット</li>
     <li>予約一覧画面はアプリのみ遷移可能とする予定、予約登録画面からタブ選択で遷移する想定</li>
     <li>変更入力画面は変更可能となりそうな項目のみ表示している、各項目の変更可否は要検討</li>
+    <li>403エラーが出たらおそらく鯖落ちしてます。。管理画面側で起こりがち？</li>
+    <li>予約詳細から取消完了への遷移はダイアログの表示を挟む予定⇒実装について確認中</li>
 </ul>
 
 <!--

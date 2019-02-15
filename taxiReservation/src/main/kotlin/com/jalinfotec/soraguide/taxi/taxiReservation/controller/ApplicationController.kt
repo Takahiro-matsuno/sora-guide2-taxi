@@ -3,10 +3,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationListService
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -24,8 +21,7 @@ class ApplicationController(
         private val rsvListService: ReservationListService
 ) {
     //一覧画面
-    @RequestMapping("app/list")
-    @ResponseBody
+    @GetMapping("app/list")
     fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "list"
 
@@ -41,8 +37,7 @@ class ApplicationController(
     }
 
     //詳細画面
-    @RequestMapping("app/detail")
-    @ResponseBody
+    @GetMapping("app/detail")
     fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "detail"
@@ -55,8 +50,7 @@ class ApplicationController(
     }
 
     //変更入力画面
-    @RequestMapping("app/change")
-    @ResponseBody
+    @GetMapping("app/change")
     fun change(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "change"
@@ -65,10 +59,8 @@ class ApplicationController(
         mav.addObject("reservationForm", bookingInfo)
         return mav
     }
-
     //予約認証画面
-    @RequestMapping("app/certificateInput")
-    @ResponseBody
+    @PostMapping("app/certificateInput")
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
         //TODO 予約完了メールに記載のアドレスからGETで遷移の想定のため、それ以外をはじくようにする
@@ -79,8 +71,7 @@ class ApplicationController(
     }
 
     //予約認証画面から予約詳細への遷移
-    @RequestMapping("app/certificateResult")
-    @ResponseBody
+    @PostMapping("app/certificateResult")
     fun certificateResult(mav: ModelAndView, @ModelAttribute("id") id: String,
                           @ModelAttribute("mail") mail: String): ModelAndView {
 

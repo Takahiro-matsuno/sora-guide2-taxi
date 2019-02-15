@@ -5,9 +5,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRep
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import java.util.*
 
@@ -22,8 +20,7 @@ class ReservationController(
 ) {
 
     //登録画面
-    @RequestMapping("/app/registration")
-    @ResponseBody
+    @GetMapping("/app/registration")
     fun registration(mav: ModelAndView): ModelAndView {
         //TODO アプリ遷移かWeb遷移かを判定して表示項目の出し分け
         mav.viewName = "registration"
@@ -34,8 +31,7 @@ class ReservationController(
     }
 
     //登録確認画面
-    @RequestMapping("app/confirmation")
-    @ResponseBody
+    @PostMapping("app/confirmation")
     fun confirmation(mav: ModelAndView, @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult): ModelAndView {
         //TODO エラー時の画面表示
         //バリデートエラー
@@ -65,7 +61,7 @@ class ReservationController(
         mav.addObject("taxiCompanyName", taxiInformation.company_name)
         return mav
     }
-
+    // TODO バリデーションでクラスを切る
     fun rsvFormValidate(rsvForm: ReservationForm): Boolean {
         var isError = false
 

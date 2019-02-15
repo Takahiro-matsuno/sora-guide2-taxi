@@ -44,6 +44,7 @@ data class ReservationForm(
 
         @get:NotEmpty
         @get:Size(min = 1, max = 15)
+        @get:Pattern(regexp = "[0-9]*",message = "エラー")
         var phone: String = "",
 
         @get:NotEmpty

@@ -14,13 +14,16 @@
     <script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
     <![endif]-->
 </head>
+
 <body>
-<header>
-    <h1>予約登録</h1>
-    <p>以下の項目を入力してください</p>
-    <p th:text="${errorMassage}" style="color: red"></p>
-</header>
 <form action="./confirmation" method="post" th:object="${reservationForm}">
+    <header>
+        <h1>予約登録</h1>
+        <p>以下の項目を入力してください</p>
+        <ul>
+            <li th:each="e:${#fields.detailedErrors()}" style="color: red" th:text="${e.message}"></li>
+        </ul>
+    </header>
     <div id="contents">
         <table>
             <tr>

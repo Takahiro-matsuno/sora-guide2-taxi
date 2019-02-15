@@ -37,7 +37,7 @@ class ApplicationController(
     }
 
     //詳細画面
-    @GetMapping("app/detail")
+    @PostMapping("app/detail")
     fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "detail"
@@ -50,7 +50,7 @@ class ApplicationController(
     }
 
     //変更入力画面
-    @GetMapping("app/change")
+    @PostMapping("app/change")
     fun change(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "change"
@@ -60,7 +60,7 @@ class ApplicationController(
         return mav
     }
     //予約認証画面
-    @PostMapping("app/certificateInput")
+    @GetMapping("app/certificateInput")
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
         //TODO 予約完了メールに記載のアドレスからGETで遷移の想定のため、それ以外をはじくようにする

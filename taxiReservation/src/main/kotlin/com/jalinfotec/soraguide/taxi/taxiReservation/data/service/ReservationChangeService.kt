@@ -11,7 +11,6 @@ import java.util.*
 class ReservationChangeService(
         private val reservationRepository: ReservationInfoRepository
 ) {
-    var bookingInfo = ReservationInformation()
 
     fun change(changeInfo: ReservationForm): String {
         println("【予約変更】予約ID：${changeInfo.id}")
@@ -62,7 +61,7 @@ class ReservationChangeService(
 
         reservationRepository.save(rsvInfo)
 
-        return bookingInfo.id
+        return rsvInfo.id
     }
 
     //予約変更前の妥当性チェック

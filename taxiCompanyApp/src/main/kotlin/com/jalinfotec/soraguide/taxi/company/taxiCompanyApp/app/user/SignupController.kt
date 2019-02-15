@@ -3,10 +3,13 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.user
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.ModelAndView
+
+// テスト用ページなので更新は不要
 
 @Controller
 class SignupController {
@@ -41,6 +44,13 @@ class SignupController {
             if (success) "forward:user-signup" else "forward:signup-error"
         }
     }
+
+    @GetMapping(value = ["/login-signup"])
+    fun signupSuccess(mav: ModelAndView): ModelAndView {
+        mav.viewName = "login"
+        return mav
+    }
+
     // サインアップのボディデータをパーズする
     private fun parseBodyData(body: String): Pair<String, String>? {
         val staStr = "&username="

@@ -13,8 +13,8 @@
     <div class="content">
         <h1>予約詳細</h1>
         <!-- TODO ユーザー操作によって編集モードへ切り替え機能を実装 -->
-        <a class="raised" >編集する</a>
-        <!-- TODO ReservartionInformationへのobject変換が上手くいかない問題を解決する -->
+        <a class="raised">編集する</a>
+        <!-- TODO ReservationInformationへのobject変換が上手くいかない問題を解決する -->
         <form role="form" th:action="@{/reservation/update}" method="post" th:object="${rsvInfo}">
             <table>
                 <thead>
@@ -35,49 +35,52 @@
                 </tr>
                 <tr>
                     <th>日付</th>
-                    <td><input type="date" th:field="*{date}" /></td>
+                    <td><input type="date" th:field="*{date}"/></td>
                 </tr>
                 <tr>
-                    <th>乗車時間</th><td>
-                    <input type="time" th:field="*{time}" /></td>
+                    <th>乗車時間</th>
+                    <td>
+                        <input type="time" th:field="*{time}"/></td>
                 </tr>
                 <tr>
                     <th>大人</th>
                     <td><select th:field="*{adult}">
-                        <option th:each="i : ${pax_range}" th:value="${i}" th:text="${i}" th:selected="${i == rsvInfo.adult}"></option>
+                        <option th:each="i : ${pax_range}" th:value="${i}" th:text="${i}"
+                                th:selected="${i == rsvInfo.adult}"></option>
                     </select></td>
                 </tr>
                 <tr>
                     <th>子供</th>
                     <td><select th:field="*{child}">
-                        <option th:each="i : ${pax_range}" th:value="${i}" th:text="${i}" th:selected="${i == rsvInfo.child}"></option>
+                        <option th:each="i : ${pax_range}" th:value="${i}" th:text="${i}"
+                                th:selected="${i == rsvInfo.child}"></option>
                     </select></td>
                 </tr>
                 <tr>
                     <th>台数</th>
-                    <td><input type="number" th:field="*{car_dispatch_number}" /></td>
+                    <td><input type="number" th:field="*{car_dispatch_number}"/></td>
                     <!-- 会社ID -->
-                    <input type="hidden" th:field="*{companyId}" />
+                    <input type="hidden" th:field="*{companyId}"/>
                 </tr>
                 <tr>
                     <th>目的地</th>
-                    <td><input type="text" th:field="*{destination}" /></td>
+                    <td><input type="text" th:field="*{destination}"/></td>
                 </tr>
                 <tr>
                     <th>名前</th>
-                    <td><input type="text" th:field="*{passenger_name}" /></td>
+                    <td><input type="text" th:field="*{passenger_name}"/></td>
                 </tr>
                 <tr>
                     <th>フリガナ</th>
-                    <td><input type="text" th:field="*{passenger_phonetic}" /></td>
+                    <td><input type="text" th:field="*{passenger_phonetic}"/></td>
                 </tr>
                 <tr>
                     <th>電話番号</th>
-                    <td><input type="text" th:field="*{phone}" /></td>
+                    <td><input type="text" th:field="*{phone}"/></td>
                 </tr>
                 <tr>
                     <th>メールアドレス</th>
-                    <td><input type="text" th:field="*{mail}" /></td>
+                    <td><input type="text" th:field="*{mail}"/></td>
                 </tr>
                 <tr>
                     <th>利用者コメント</th>
@@ -87,14 +90,14 @@
                     <th>車両番号</th>
                     <td><input type="text" th:field="*{car_number}"/></td>
                     <!-- 連絡先 -->
-                    <input type="hidden" th:field="*{car_contact}" />
+                    <input type="hidden" th:field="*{car_contact}"/>
                 </tr>
                 <tr>
                     <th>ご案内事項</th>
-                    <td><textarea th:field="*{notice}" /></td>
+                    <td><textarea th:field="*{notice}"/></td>
                 </tr>
             </table>
-            <a class="raised" input type="submit" >送信</a>
+            <a class="raised" input type="submit">送信</a>
         </form>
     </div>
 </section>

@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.user
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
-import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.UserPassowordChangeForm
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.UserSettingForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -15,7 +15,7 @@ class UserController {
     @Autowired
     lateinit var userService: UserAccountService
 
-    //
+    // パスワード変更画面表示
     @GetMapping(value = ["/user/setting"])
     fun getUser(
             @AuthenticationPrincipal user: UserAccount,
@@ -23,44 +23,31 @@ class UserController {
     ): ModelAndView {
 
         val account = userService.findByUsername(user.username)
-        if (account == null) {
-            // ユーザーなし
-            mav.viewName = "contents/error"
-            mav.addObject("isUserNotFound", true)
-            mav.addObject("username", user.username)
-            return mav
-        }
 
-        mav.viewName = "contents/userSetting"
-        mav.addObject("username", account.username)
-        return mav
+        return if (account == null) {
+            // TODO エラー
+            mav
+        } else {
+            mav.viewName = "contents/userSetting"
+            mav.addObject("usForm", UserSettingForm())
+            mav
+        }
     }
 
-    //
+    // パスワード変更
     @PostMapping(value = ["/user/password-change"])
     fun updateUser(
             @AuthenticationPrincipal user: UserAccount,
-            @RequestBody upcForm: UserPassowordChangeForm,
+            @RequestAttribute(value = "usForm") usForm: UserSettingForm,
             mav: ModelAndView
     ): ModelAndView {
-
-        // TODO Authenticationでパスワードが見える
-        val account = userService.findByUsername(user.username)
-        if (account == null) {
-            // ユーザーなし
-            mav.viewName = "contents/error"
-            mav.addObject("isUserNotFound", true)
-            mav.addObject("username", user.username)
-            return mav
-        }
-
-        mav.viewName = "contents/userSetting"
-        mav.addObject("username", account.username)
-        if (userService.changePassword(user.username, upcForm.nowPassword, upcForm.newPassword)) {
-
+        return if (userService.changePassword(user.username, usForm)) {
+            mav.viewName = "/contents/userSetting"
+            mav.addObject("usForm", UserSettingForm())
+            mav
         } else {
-
+            // TODO エラー
+            mav
         }
-        return mav
     }
 }

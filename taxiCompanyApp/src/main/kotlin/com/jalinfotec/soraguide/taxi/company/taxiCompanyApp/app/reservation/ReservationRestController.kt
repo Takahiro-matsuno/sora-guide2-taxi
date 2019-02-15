@@ -2,19 +2,16 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.reservation
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.ReservationService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class ReservationRestController {
+class ReservationRestController(
+        private val reservationService: ReservationService
+) {
 
-    @Autowired
-    lateinit var reservationService: ReservationService
-
-    @RequestMapping(value = ["/reservation/update"], method = [RequestMethod.GET])
+    @GetMapping(value = ["/reservation/update"])
     fun updateNotice(
             @AuthenticationPrincipal user: UserAccount
     ): String {

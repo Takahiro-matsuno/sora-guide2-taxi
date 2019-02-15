@@ -2,25 +2,22 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.Account
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.UserSettingForm
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.beans.factory.annotation.Autowired
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserAccountService : UserDetailsService {
-
-    @Autowired
-    private lateinit var repository: AccountRepository
-
-    @Autowired
-    private lateinit var passwordEncoder: PasswordEncoder
+class UserAccountService(
+        private val repository: AccountRepository,
+        private val passwordEncoder: PasswordEncoder
+) : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String?): UserDetails {
@@ -58,6 +55,25 @@ class UserAccountService : UserDetailsService {
         repository!!.save(user)
     }
     */
+    // ユーザー取得
+    @Transactional
+    fun findByUsername(username: String): Account? {
+        return repository.findByUsername(username)
+    }
+    // パスワード変更
+    @Transactional
+    fun changePassword(username: String, usForm: UserSettingForm): Boolean {
+        // ユーザー取得、見つからない場合は処理終了
+        val user = repository.findByUsername(username) ?: return false
+
+        return if (passwordEncoder.encode(usForm.nowPassword) == user.password) {
+            // 現在パスワードが一致する場合はパスワード更新
+            user.password = passwordEncoder.encode(usForm.newPassword)
+            repository.save(user)
+            true
+        } else false
+    }
+    // TODO テスト用なので切り出す
     @Transactional
     fun registerUser(username: String, password: String): Boolean {
         return if (repository.findByUsername(username) == null) {
@@ -65,22 +81,5 @@ class UserAccountService : UserDetailsService {
             repository.save(user)
             true
         } else false
-    }
-    @Transactional
-    fun findByUsername(username: String): Account? {
-        return repository.findByUsername(username)
-    }
-    @Transactional
-    fun changePassword(username: String, nowPassword: String, newPassword: String): Boolean {
-        val user = repository.findByUsername(username) ?: return false // エラー
-
-        return if (passwordEncoder.encode(nowPassword) != user.password) {
-            // TODO パスワードが違います。
-            false
-        } else {
-            user.password = passwordEncoder.encode(newPassword)
-            repository.save(user)
-            true
-        }
     }
 }

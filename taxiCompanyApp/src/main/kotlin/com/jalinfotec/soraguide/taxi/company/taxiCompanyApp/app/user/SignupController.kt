@@ -1,20 +1,18 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.user
 
-import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
-import org.springframework.beans.factory.annotation.Autowired
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserSignupService
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.ModelAndView
 
-// テスト用ページなので更新は不要
+// TODO テスト用のため消す
 
 @Controller
-class SignupController {
-    @Autowired
-    private lateinit var uas: UserAccountService
+class SignupController(
+        private val uss: UserSignupService
+) {
 
     // サインアップ画面表示
     @RequestMapping(value = ["/signup"], method = [RequestMethod.GET])
@@ -30,6 +28,7 @@ class SignupController {
         mav.addObject("isError", true)
         return mav
     }
+
     // サインアップ処理
     @RequestMapping(value = ["/signup"], method = [RequestMethod.POST])
     fun signupUser(@RequestBody body: String): String {
@@ -37,18 +36,12 @@ class SignupController {
 
         val pair = parseBodyData(body)
         return if (pair == null) {
-            "forward:signup-error"
+            "forward:/signup-error"
         } else {
-            val success = uas.registerUser(username = pair.first, password = pair.second)
+            val success = uss.registerUser(username = pair.first, password = pair.second)
             // 成功時はログイン画面、失敗時はサインアップ画面を表示する
-            if (success) "forward:user-signup" else "forward:signup-error"
+            if (success) "forward:/login" else "forward:signup-error"
         }
-    }
-
-    @GetMapping(value = ["/login-signup"])
-    fun signupSuccess(mav: ModelAndView): ModelAndView {
-        mav.viewName = "login"
-        return mav
     }
 
     // サインアップのボディデータをパーズする

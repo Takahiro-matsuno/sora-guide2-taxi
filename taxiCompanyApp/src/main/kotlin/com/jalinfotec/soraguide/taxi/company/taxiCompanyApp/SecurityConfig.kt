@@ -15,10 +15,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
  * ログイン画面からの[/user]へのpostを拾い認証を行う
  */
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfigurerAdapter() {
-
-    @Autowired
-    private lateinit var uas: UserAccountService
+class SecurityConfig(
+        private val uas: UserAccountService
+): WebSecurityConfigurerAdapter() {
 
     // todo ２つの違い
     override fun configure(web: WebSecurity?) {
@@ -30,6 +29,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                 "/javascript/**",
                 "/webjars/**")
     }
+
     //
     override fun configure(http: HttpSecurity?) {
 

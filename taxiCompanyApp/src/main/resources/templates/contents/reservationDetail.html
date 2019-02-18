@@ -12,10 +12,8 @@
 <section layout:fragment="content">
     <div class="content">
         <h1>予約詳細</h1>
-        <!-- TODO ユーザー操作によって編集モードへ切り替え機能を実装 -->
-        <a class="raised">編集する</a>
         <!-- TODO ReservationInformationへのobject変換が上手くいかない問題を解決する -->
-        <form role="form" th:action="@{/reservation/update}" method="post" th:object="${rsvInfo}">
+        <form role="form" th:action="@{/reservation/update}" method="post" th:object="${rsvForm}">
             <table>
                 <thead>
                 <tr><!-- 予約番号は変更不可 -->
@@ -24,13 +22,13 @@
                 </tr>
                 <tr>
                     <th>ステータス</th>
-                    <td><select th:field="*{status}">
+                    <td><select th:field="*{statusName}">
                         <!-- TODO Stringのリストが無理だっため、直打ち th:eachが使える場合は置き換える -->
-                        <option th:value="1" th:text="受付中" th:selected="${rsvInfo.status == 1}"></option>
-                        <option th:value="2" th:text="予約確定" th:selected="${rsvInfo.status == 2}"></option>
-                        <option th:value="3" th:text="配車中" th:selected="${rsvInfo.status == 3}"></option>
-                        <option th:value="4" th:text="キャンセル済み" th:selected="${rsvInfo.status == 4}"></option>
-                        <option th:value="5" th:text="確定" th:selected="${rsvInfo.status == 5}"></option>
+                        <option th:value="受付中" th:text="受付中" th:selected='${rsvForm.statusName == "受付中"}'></option>
+                        <option th:value="予約確定" th:text="予約確定" th:selected='${rsvForm.statusName == "予約確定"}'></option>
+                        <option th:value="配車中" th:text="配車中" th:selected='${rsvForm.statusName == "配車中"}'></option>
+                        <option th:value="キャンセル済み" th:text="キャンセル済み" th:selected='${rsvForm.statusName == "キャンセル済み"}'></option>
+                        <option th:value="確定" th:text="確定" th:selected='${rsvForm.statusName == "確定"}'></option>
                     </select></td>
                 </tr>
                 <tr>
@@ -46,21 +44,19 @@
                     <th>大人</th>
                     <td><select th:field="*{adult}">
                         <option th:each="i : ${paxRange}" th:value="${i}" th:text="${i}"
-                                th:selected="${i == rsvInfo.adult}"></option>
+                                th:selected="${i == rsvForm.adult}"></option>
                     </select></td>
                 </tr>
                 <tr>
                     <th>子供</th>
                     <td><select th:field="*{child}">
                         <option th:each="i : ${paxRange}" th:value="${i}" th:text="${i}"
-                                th:selected="${i == rsvInfo.child}"></option>
+                                th:selected="${i == rsvForm.child}"></option>
                     </select></td>
                 </tr>
                 <tr>
                     <th>台数</th>
                     <td><input type="number" th:field="*{carDispatchNumber}"/></td>
-                    <!-- 会社ID -->
-                    <input type="hidden" th:field="*{companyId}"/>
                 </tr>
                 <tr>
                     <th>目的地</th>

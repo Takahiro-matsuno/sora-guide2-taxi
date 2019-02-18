@@ -25,17 +25,26 @@ class ReservationService(
         }
         return formList
     }
+
+    // 予約詳細取得
     @Transactional(readOnly = true)
-    fun getDetail(companyId: String, reservationId: String): ReservationInformation? {
-        return repository.findByCompanyIdAndReservationId(companyId, reservationId)
+    fun getDetail(companyId: String, reservationId: String): ReservationForm? {
+        val rsvInfo = repository.findByCompanyIdAndReservationId(companyId, reservationId) ?: return null
+        return convertRsvInfo2RsvForm(rsvInfo)
     }
+
+    // 予約更新
     @Transactional
-    fun updateDetail(rsvInfo: ReservationInformation): Boolean {
-        val optional = repository.findById(rsvInfo.reservationId)
-        return if (optional.isPresent) {
+    fun updateDetail(rsvForm: ReservationForm): Boolean {
+
+        val optional = repository.findById(rsvForm.reservationId)
+
+        if (optional.isPresent) {
+            val rsvInfo = convertRsvForm2RsvInfo(optional.get(), rsvForm) ?: return false
+            // DB更新
             repository.save(rsvInfo)
-            true
-        } else false
+            return true
+        } else return false
     }
 
     private fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation): ReservationForm? {
@@ -64,7 +73,35 @@ class ReservationService(
 
     }
     private fun convertRsvForm2RsvInfo(rsvInfo: ReservationInformation, rsvForm: ReservationForm): ReservationInformation? {
-        return null
+
+        // ステータスの置き換え
+        rsvInfo.status = -1
+        for (m in Constants.reservationStatus) {
+            if (rsvForm.statusName == m.value) {
+                rsvInfo.status = m.key
+                break
+            }
+        }
+        // ステータスの変換に失敗した場合はNullを返して終了
+        if (rsvInfo.status == -1) return null
+
+        // 予約情報を上書きする
+        rsvInfo.rideOnDate = rsvForm.rideOnDate
+        rsvInfo.rideOnTime = rsvForm.rideOnTime
+        rsvInfo.adult = rsvForm.adult
+        rsvInfo.child = rsvForm.child
+        rsvInfo.carDispatchNumber = rsvForm.carDispatchNumber
+        rsvInfo.destination = rsvForm.destination.trim()
+        rsvInfo.passengerName = rsvForm.passengerName.trim()
+        rsvInfo.passengerPhonetic = rsvForm.passengerPhonetic.trim()
+        rsvInfo.passengerContact = rsvForm.passengerContact.trim()
+        rsvInfo.passengerMail = rsvForm.passengerMail.trim()
+        rsvInfo.comment = rsvForm.comment.trim()
+        rsvInfo.carNumber = rsvForm.carNumber.trim()
+        rsvInfo.carContact = rsvForm.carContact.trim()
+        rsvInfo.notice = rsvForm.notice.trim()
+
+        return rsvInfo
     }
 
 

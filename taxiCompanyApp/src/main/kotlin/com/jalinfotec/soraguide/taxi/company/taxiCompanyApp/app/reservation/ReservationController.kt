@@ -21,12 +21,12 @@ class ReservationController(
             mav: ModelAndView
     ): ModelAndView {
 
-        val rsvList =reservationService.getListDefault(user.getCompanyId())
+        val rsvFormList =reservationService.getListDefault(user.getCompanyId())
 
         mav.viewName = "contents/reservationList"
-        if (rsvList.any()) {
+        if (rsvFormList.any()) {
             // リスト表示のために予約情報一覧を渡す
-            mav.addObject("rsvList", rsvList)
+            mav.addObject("rsvFormList", rsvFormList)
         } else {
             mav.addObject("isEmpty", true)
         }
@@ -37,7 +37,7 @@ class ReservationController(
     @GetMapping(value = ["/reservation/detail"])
     fun getReservationDetail(
             @AuthenticationPrincipal user: UserAccount,
-            @RequestParam(value = "reservationId", required = true) reservationId: String,
+            @RequestParam(value = "reservationId") reservationId: String,
             mav: ModelAndView
     ): ModelAndView {
 
@@ -45,15 +45,15 @@ class ReservationController(
         val companyId = user.getCompanyId()
 
         // 予約テーブルから会社IDと予約番号で検索をかけてデータを取得する
-        val rsvInfo = reservationService.getDetail(companyId, reservationId)
+        val rsvForm = reservationService.getDetail(companyId, reservationId)
 
-        return if (rsvInfo == null) {
+        return if (rsvForm == null) {
             // 予約情報がない場合はエラー画面を表示する
             mav.viewName = "contents/error"
             mav
         } else {
             mav.viewName = "contents/reservationDetail"
-            mav.addObject("rsvInfo", rsvInfo)
+            mav.addObject("rsvForm", rsvForm)
             //mav.addObject("status_list", MetaData.STATUS_LIST)
             mav.addObject("paxRange", Constants.PAX_RANGE)
             return mav
@@ -65,18 +65,16 @@ class ReservationController(
     // 更新処理
     @PutMapping(value = ["/reservation/update"])
     fun update(
-            @RequestAttribute(value = "rsvInfo") rsvForm: ReservationForm
+            @RequestAttribute(value = "rsvForm") rsvForm: ReservationForm
 
     ): String {
-        /*
-        return if (reservationService.updateDetail(rsvInfo)) { // 更新成功
+
+        return if (reservationService.updateDetail(rsvForm)) {
             println("更新成功")
             "forward:/reservation/list"
-        } else { // 更新失敗
+        } else {
             println("更新失敗")
             "forward:/reservation/error"
         }
-        */
-        return "forward:/reservation/list"
     }
 }

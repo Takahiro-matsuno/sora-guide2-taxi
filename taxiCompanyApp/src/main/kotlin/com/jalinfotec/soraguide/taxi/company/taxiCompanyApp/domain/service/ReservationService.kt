@@ -28,9 +28,14 @@ class ReservationService(
 
     // 予約詳細取得
     @Transactional(readOnly = true)
-    fun getDetail(companyId: String, reservationId: String): ReservationForm? {
+    fun getDetail(companyId: String, reservationId: String): Pair<ReservationForm, ArrayList<String>>? {
+        // DBから対象の予約情報を取得する
         val rsvInfo = repository.findByCompanyIdAndReservationId(companyId, reservationId) ?: return null
-        return convertRsvInfo2RsvForm(rsvInfo)
+        // 予約情報を予約情報フォームへ変換
+        val rsvForm = convertRsvInfo2RsvForm(rsvInfo) ?: return null
+        // 予約情報のステータスに合わせて、選択可能なステータスの一覧を取得する
+        val statusList = getStatusList(rsvInfo.status) ?: return null
+        return Pair(rsvForm, statusList)
     }
 
     // 予約更新
@@ -52,6 +57,7 @@ class ReservationService(
         // 予約ステータスの置き換え
         val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
 
+
         return ReservationForm(
                 rsvInfo.reservationId.trim(),
                 statusName,
@@ -68,9 +74,7 @@ class ReservationService(
                 rsvInfo.comment.trim(),
                 rsvInfo.carNumber.trim(),
                 rsvInfo.carContact.trim(),
-                rsvInfo.notice.trim()
-        )
-
+                rsvInfo.notice.trim())
     }
     private fun convertRsvForm2RsvInfo(rsvInfo: ReservationInformation, rsvForm: ReservationForm): ReservationInformation? {
 
@@ -102,6 +106,16 @@ class ReservationService(
         rsvInfo.notice = rsvForm.notice.trim()
 
         return rsvInfo
+    }
+
+    // 表示可能なステータス一覧を取得する
+    private fun getStatusList(status: Int): ArrayList<String>? {
+
+        val list = ArrayList<String>()
+        for (i in status until Constants.reservationStatus.keys.size) {
+            list.add(Constants.reservationStatus[i]!!)
+        }
+        return if (list.any()) list else null
     }
 
 

@@ -45,15 +45,17 @@ class ReservationController(
         val companyId = user.getCompanyId()
 
         // 予約テーブルから会社IDと予約番号で検索をかけてデータを取得する
-        val rsvForm = reservationService.getDetail(companyId, reservationId)
+        val result = reservationService.getDetail(companyId, reservationId)
 
-        return if (rsvForm == null) {
+
+        return if (result == null) {
             // 予約情報がない場合はエラー画面を表示する
             mav.viewName = "contents/error"
             mav
         } else {
             mav.viewName = "contents/reservationDetail"
-            mav.addObject("rsvForm", rsvForm)
+            mav.addObject("rsvForm", result.first)
+            mav.addObject("statusList", result.second)
             //mav.addObject("status_list", MetaData.STATUS_LIST)
             mav.addObject("paxRange", Constants.PAX_RANGE)
             return mav

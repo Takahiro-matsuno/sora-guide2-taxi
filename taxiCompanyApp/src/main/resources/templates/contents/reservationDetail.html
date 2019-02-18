@@ -23,12 +23,8 @@
                 <tr>
                     <th>ステータス</th>
                     <td><select th:field="*{statusName}">
-                        <!-- TODO Stringのリストが無理だっため、直打ち th:eachが使える場合は置き換える -->
-                        <option th:value="受付中" th:text="受付中" th:selected='${rsvForm.statusName == "受付中"}'></option>
-                        <option th:value="予約確定" th:text="予約確定" th:selected='${rsvForm.statusName == "予約確定"}'></option>
-                        <option th:value="配車中" th:text="配車中" th:selected='${rsvForm.statusName == "配車中"}'></option>
-                        <option th:value="キャンセル済み" th:text="キャンセル済み" th:selected='${rsvForm.statusName == "キャンセル済み"}'></option>
-                        <option th:value="確定" th:text="確定" th:selected='${rsvForm.statusName == "確定"}'></option>
+                        <option th:each="status : ${statusList}" th:value="${status}" th:text="${status}"
+                                th:selected="${rsvForm.statusName == status}"></option>
                     </select></td>
                 </tr>
                 <tr>

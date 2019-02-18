@@ -1,8 +1,13 @@
 h1 {
-  /*線の種類（実線） 太さ 色*/
-  border-bottom: solid 3px black;
-  text-align: left;
+    /*線の種類（実線） 太さ 色*/
+    border-bottom: solid 3px black;
+    text-align: left;
 }
-input {
-  text-align: left;
+input[type="password"]{
+    width: 200px;
+    margin-right: auto;
+}
+p {
+    width: 500px;
+    margin-right: auto;
 }

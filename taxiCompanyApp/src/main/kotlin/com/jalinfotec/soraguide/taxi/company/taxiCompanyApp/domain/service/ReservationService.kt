@@ -13,15 +13,15 @@ class ReservationService(
     @Transactional(readOnly = true)
     fun getListDefault(companyId: String): MutableList<ReservationInformation> {
         println("companyId: $companyId")
-        return repository.findByCompanyIdOrderByDateAscTimeAsc(companyId)
+        return repository.findByCompanyIdOrderByRideOnDateAscRideOnTimeAsc(companyId)
     }
     @Transactional
     fun getDetail(companyId: String, reservationId: String): ReservationInformation? {
-        return repository.findByCompanyIdAndId(companyId, reservationId)
+        return repository.findByCompanyIdAndReservationId(companyId, reservationId)
     }
     @Transactional
     fun updateDetail(rsvInfo: ReservationInformation): Boolean {
-        val optional = repository.findById(rsvInfo.id)
+        val optional = repository.findById(rsvInfo.reservationId)
         return if (optional.isPresent) {
             repository.save(rsvInfo)
             true

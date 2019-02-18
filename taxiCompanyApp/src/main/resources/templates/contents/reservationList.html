@@ -20,15 +20,15 @@
                         <th>乗車人数(大人)</th>
                         <th>乗車人数(子供)</th>
                     </tr>
-                    <tr th:each="rsvInfo :${rsvList}" th:attr="onclick='getDetail(\'' + ${rsvInfo.id} +'\');'">
-                        <td id="reservationId" th:text="${rsvInfo.id}"></td>
-                        <td th:text="${rsvInfo.date}"></td>
-                        <td th:text="${rsvInfo.time}"></td>
+                    <tr th:each="rsvInfo :${rsvList}" th:attr="onclick='getDetail(\'' + ${rsvInfo.reservationId} +'\');'">
+                        <td id="reservationId" th:text="${rsvInfo.reservationId}"></td>
+                        <td th:text="${rsvInfo.rideOnDate}"></td>
+                        <td th:text="${rsvInfo.rideOnTime}"></td>
                         <td th:text="${rsvInfo.status}"></td>
                         <td th:text="${rsvInfo.adult}"></td>
                         <td th:text="${rsvInfo.child}"></td>
-                        <form th:attr="id='listForm' + ${rsvInfo.id}" th:action="@{/reservation/detail}" method="get">
-                            <input th:type="hidden" th:name="reservationId" th:value="${rsvInfo.id}" />
+                        <form th:attr="id='listForm' + ${rsvInfo.reservationId}" th:action="@{/reservation/detail}" method="get">
+                            <input th:type="hidden" th:name="reservationId" th:value="${rsvInfo.reservationId}" />
                         </form>
                     </tr>
                 </table>

@@ -20,7 +20,7 @@
                 <thead>
                 <tr><!-- 予約番号は変更不可 -->
                     <th>予約番号</th>
-                    <td><p th:field="*{id}" th:value="*{id}" th:text="*{id}"></p></td>
+                    <td><p th:field="*{reservationId}" th:value="*{reservationId}" th:text="*{reservationId}"></p></td>
                 </tr>
                 <tr>
                     <th>ステータス</th>
@@ -35,12 +35,12 @@
                 </tr>
                 <tr>
                     <th>日付</th>
-                    <td><input type="date" th:field="*{date}"/></td>
+                    <td><input type="date" th:field="*{rideOnDate}"/></td>
                 </tr>
                 <tr>
                     <th>乗車時間</th>
                     <td>
-                        <input type="time" th:field="*{time}"/></td>
+                        <input type="time" th:field="*{rideOnTime}"/></td>
                 </tr>
                 <tr>
                     <th>大人</th>
@@ -58,7 +58,7 @@
                 </tr>
                 <tr>
                     <th>台数</th>
-                    <td><input type="number" th:field="*{car_dispatch_number}"/></td>
+                    <td><input type="number" th:field="*{carDispatchNumber}"/></td>
                     <!-- 会社ID -->
                     <input type="hidden" th:field="*{companyId}"/>
                 </tr>
@@ -68,19 +68,19 @@
                 </tr>
                 <tr>
                     <th>名前</th>
-                    <td><input type="text" th:field="*{passenger_name}"/></td>
+                    <td><input type="text" th:field="*{passengerName}"/></td>
                 </tr>
                 <tr>
                     <th>フリガナ</th>
-                    <td><input type="text" th:field="*{passenger_phonetic}"/></td>
+                    <td><input type="text" th:field="*{passengerPhonetic}"/></td>
                 </tr>
                 <tr>
                     <th>電話番号</th>
-                    <td><input type="text" th:field="*{phone}"/></td>
+                    <td><input type="text" th:field="*{passengerContact}"/></td>
                 </tr>
                 <tr>
                     <th>メールアドレス</th>
-                    <td><input type="text" th:field="*{mail}"/></td>
+                    <td><input type="text" th:field="*{passengerMail}"/></td>
                 </tr>
                 <tr>
                     <th>利用者コメント</th>
@@ -88,9 +88,9 @@
                 </tr>
                 <tr>
                     <th>車両番号</th>
-                    <td><input type="text" th:field="*{car_number}"/></td>
+                    <td><input type="text" th:field="*{carNumber}"/></td>
                     <!-- 連絡先 -->
-                    <input type="hidden" th:field="*{car_contact}"/>
+                    <input type="hidden" th:field="*{carContact}"/>
                 </tr>
                 <tr>
                     <th>ご案内事項</th>

@@ -3,7 +3,7 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.reservation
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.ReservationService
-import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.MetaData
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -55,7 +55,7 @@ class ReservationController(
             mav.viewName = "contents/reservationDetail"
             mav.addObject("rsvInfo", rsvInfo)
             //mav.addObject("status_list", MetaData.STATUS_LIST)
-            mav.addObject("pax_range", MetaData.PAX_RANGE)
+            mav.addObject("paxRange", Constants.PAX_RANGE)
             return mav
         }
 

@@ -45,14 +45,14 @@
                 <tr>
                     <th>大人</th>
                     <td><select th:field="*{adult}">
-                        <option th:each="i : ${pax_range}" th:value="${i}" th:text="${i}"
+                        <option th:each="i : ${paxRange}" th:value="${i}" th:text="${i}"
                                 th:selected="${i == rsvInfo.adult}"></option>
                     </select></td>
                 </tr>
                 <tr>
                     <th>子供</th>
                     <td><select th:field="*{child}">
-                        <option th:each="i : ${pax_range}" th:value="${i}" th:text="${i}"
+                        <option th:each="i : ${paxRange}" th:value="${i}" th:text="${i}"
                                 th:selected="${i == rsvInfo.child}"></option>
                     </select></td>
                 </tr>

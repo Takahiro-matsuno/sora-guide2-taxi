@@ -15,9 +15,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
  * ログイン画面からの[/user]へのpostを拾い認証を行う
  */
 @EnableWebSecurity
-class SecurityConfig(
-        private val uas: UserAccountService
-): WebSecurityConfigurerAdapter() {
+class SecurityConfig: WebSecurityConfigurerAdapter() {
+
+    // UserAccountServiceをコンストラクターで初期化するとエラーになるため、以下に記載
+    @Autowired
+    private lateinit var uas: UserAccountService
 
     // todo ２つの違い
     override fun configure(web: WebSecurity?) {

@@ -21,13 +21,17 @@ class ReservationController(
             mav: ModelAndView
     ): ModelAndView {
 
+        // 認証ユーザーの会社IDをキーに予約情報フォームを取得
         val rsvFormList =reservationService.getListDefault(user.getCompanyId())
 
         mav.viewName = "contents/reservationList"
         if (rsvFormList.any()) {
-            // リスト表示のために予約情報一覧を渡す
+            // Viewに取得結果を設定
             mav.addObject("rsvFormList", rsvFormList)
         } else {
+            // TODO 0件の場合の挙動を確認する
+            // TODO データ取得なし : "予約はありません。"
+            // TODO DBエラー : "データベースエラー"
             mav.addObject("isEmpty", true)
         }
         return mav
@@ -41,12 +45,9 @@ class ReservationController(
             mav: ModelAndView
     ): ModelAndView {
 
-        // 認証ユーザーから会社IDを取得する
-        val companyId = user.getCompanyId()
 
-        // 予約テーブルから会社IDと予約番号で検索をかけてデータを取得する
-        val result = reservationService.getDetail(companyId, reservationId)
-
+        // 認証ユーザーの会社ID、予約番号をキーに予約情報を取得
+        val result = reservationService.getDetail(user.getCompanyId(), reservationId)
 
         return if (result == null) {
             // 予約情報がない場合はエラー画面を表示する
@@ -54,29 +55,51 @@ class ReservationController(
             mav
         } else {
             mav.viewName = "contents/reservationDetail"
-            mav.addObject("rsvForm", result.first)
-            mav.addObject("statusList", result.second)
-            //mav.addObject("status_list", MetaData.STATUS_LIST)
-            mav.addObject("paxRange", Constants.PAX_RANGE)
+            // Viewに取得結果を設定
+            mav.addObject("rsvForm", result.first)      // 予約情報
+            mav.addObject("statusList", result.second)  // 選択可能な予約ステータス一覧
+            mav.addObject("paxRange", Constants.PAX_RANGE)  // 人数選択の最大値
             return mav
         }
-
     }
 
-    // TODO 更新方法は予約サイトを参考にする
-    // 更新処理
-    @PutMapping(value = ["/reservation/update"])
+    /* TODO 更新時のエラー
+     * エラーメッセージ
+     * 　There was an unexpected error (type=Bad Request, status=400).
+     * 　Missing request attribute 'rsvForm' of type ReservationForm
+     *　RequestBody
+     *   _csrf: 0aae4cca-85b8-44d4-af26-e28360baff81 // TODO ②　①を変更してもダメな場合は"_csrf"について調査
+     *   statusName: キャンセル済み
+     *   rideOnDate: 2019-02-15
+     *   rideOnTime: 18:29:00 // TODO ① Time型の変換
+     *   adult: 1
+     *   child: 0
+     *   carDispatchNumber: 1
+     *   destination: hoge
+     *   passengerName: hoge
+     *   passengerContact: hoge
+     *   passengerMail: 0@0
+     *   comment: hofe
+     *   carNumber:
+     *   carContact:
+     *   notice:
+     * 　
+     */
+    // 予約更新処理
+    @PostMapping(value = ["/reservation/update"])
     fun update(
+            @AuthenticationPrincipal user: UserAccount,
             @RequestAttribute(value = "rsvForm") rsvForm: ReservationForm
-
     ): String {
 
-        return if (reservationService.updateDetail(rsvForm)) {
+
+        return if (reservationService.updateDetail(user.getCompanyId(), rsvForm)) {
             println("更新成功")
-            "forward:/reservation/list"
+            // 予約一覧にフォワードする
+            "forward:/contents/reservationList"
         } else {
             println("更新失敗")
-            "forward:/reservation/error"
+            "forward:/contents/error"
         }
     }
 }

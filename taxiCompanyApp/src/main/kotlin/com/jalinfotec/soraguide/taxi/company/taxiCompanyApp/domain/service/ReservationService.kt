@@ -3,60 +3,93 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.ReservationRepository
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ReservationService(
-        private val repository: ReservationRepository
+        private val rsvRepository: ReservationRepository,
+        private val taxiRepository: TaxiCompanyRepository
 ) {
 
-    // 予約一覧を取得する
+    // 予約情報フォーム一覧を取得する
     @Transactional(readOnly = true)
     fun getListDefault(companyId: String): ArrayList<ReservationForm> {
 
-        val results = repository.findByCompanyIdOrderByRideOnDateAscRideOnTimeAsc(companyId)
         val formList = ArrayList<ReservationForm>()
 
+        if (!taxiRepository.findById(companyId).isPresent) {
+            // タクシー会社が見つからない場合は処理終了
+            return formList
+        }
+
+        // 予約情報一覧取得
+        val results = rsvRepository.findByCompanyIdOrderByRideOnDateAscRideOnTimeAsc(companyId)
+
+        // 予約情報を予約情報フォームに変換
         for (rsvInfo in results) {
             val rsvForm = convertRsvInfo2RsvForm(rsvInfo) ?: continue
             formList.add(rsvForm)
         }
+
         return formList
     }
 
-    // 予約詳細取得
+    // 予約情報フォームと選択可能な予約ステータス一覧を取得
     @Transactional(readOnly = true)
     fun getDetail(companyId: String, reservationId: String): Pair<ReservationForm, ArrayList<String>>? {
+
+        if (!taxiRepository.findById(companyId).isPresent) {
+            // タクシー会社が見つからない場合は処理終了
+            return null
+        }
+
         // DBから対象の予約情報を取得する
-        val rsvInfo = repository.findByCompanyIdAndReservationId(companyId, reservationId) ?: return null
+        val rsvInfo = rsvRepository.findByCompanyIdAndReservationId(companyId, reservationId) ?: return null
+
         // 予約情報を予約情報フォームへ変換
         val rsvForm = convertRsvInfo2RsvForm(rsvInfo) ?: return null
+
         // 予約情報のステータスに合わせて、選択可能なステータスの一覧を取得する
         val statusList = getStatusList(rsvInfo.status) ?: return null
+
         return Pair(rsvForm, statusList)
     }
 
     // 予約更新
     @Transactional
-    fun updateDetail(rsvForm: ReservationForm): Boolean {
+    fun updateDetail(companyId: String, rsvForm: ReservationForm): Boolean {
 
-        val optional = repository.findById(rsvForm.reservationId)
+        if (!taxiRepository.findById(companyId).isPresent) {
+            // タクシー会社が見つからない場合は処理終了
+            return false
+        }
 
-        if (optional.isPresent) {
-            val rsvInfo = convertRsvForm2RsvInfo(optional.get(), rsvForm) ?: return false
-            // DB更新
-            repository.save(rsvInfo)
-            return true
-        } else return false
+        // 予約情報を取得する
+        val preInfo = rsvRepository.findByCompanyIdAndReservationId(companyId, rsvForm.reservationId) ?: return false
+
+        /* TODO 更新ロック
+        if (preInfo.updateTime != rsvForm.updateTime) {
+            // 更新時刻が一致しない場合は処理終了
+            return false
+        }
+         */
+
+        // 予約情報フォームを予約情報に変換する
+        val aftInfo = convertRsvForm2RsvInfo(preInfo, rsvForm) ?: return false
+
+        // DBを更新
+        rsvRepository.save(aftInfo)
+        return true
     }
 
+    // 予約情報をフォームへ変換
     private fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation): ReservationForm? {
 
         // 予約ステータスの置き換え
         val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
-
 
         return ReservationForm(
                 rsvInfo.reservationId.trim(),
@@ -76,6 +109,8 @@ class ReservationService(
                 rsvInfo.carContact.trim(),
                 rsvInfo.notice.trim())
     }
+
+    // フォームを予約情報へ変換
     private fun convertRsvForm2RsvInfo(rsvInfo: ReservationInformation, rsvForm: ReservationForm): ReservationInformation? {
 
         // ステータスの置き換え
@@ -117,15 +152,4 @@ class ReservationService(
         }
         return if (list.any()) list else null
     }
-
-
-/*
-    */
-    /*
-
-    @Transactional
-    fun update(reservation: ReservationInformation): Boolean {
-        return true
-    }
-    */
 }

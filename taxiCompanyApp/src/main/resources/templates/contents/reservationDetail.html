@@ -16,13 +16,14 @@
         <form role="form" th:action="@{/reservation/update}" method="post" th:object="${rsvForm}">
             <table>
                 <thead>
-                <tr><!-- 予約番号は変更不可 -->
-                    <th>予約番号</th>
+                <tr>
+                    <th>予約番号</th><!-- 予約番号は変更不可 -->
                     <td><p th:field="*{reservationId}" th:value="*{reservationId}" th:text="*{reservationId}"></p></td>
                 </tr>
                 <tr>
                     <th>ステータス</th>
                     <td><select th:field="*{statusName}">
+                        <!-- ステータスは選択可能なもののみをリストで受け取り表示する -->
                         <option th:each="status : ${statusList}" th:value="${status}" th:text="${status}"
                                 th:selected="${rsvForm.statusName == status}"></option>
                     </select></td>
@@ -89,7 +90,7 @@
                     <td><textarea th:field="*{notice}"/></td>
                 </tr>
             </table>
-            <a class="raised" input type="submit">送信</a>
+            <input type="submit" class="raised" value="送信" />
         </form>
     </div>
 </section>

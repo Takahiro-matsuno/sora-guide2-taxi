@@ -37,7 +37,7 @@ data class ReservationInformation(
         @Column(name = "passenger_contact")
         var passengerContact: String = "",
 
-        @Column(name = "passenger_mail")
+        @Column(name = "mail")
         var passengerMail: String = "",
         var comment: String = "",
 

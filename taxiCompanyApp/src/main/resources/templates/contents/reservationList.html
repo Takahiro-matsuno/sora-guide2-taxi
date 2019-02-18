@@ -24,7 +24,7 @@
                         <td id="reservationId" th:text="${rsvInfo.reservationId}"></td>
                         <td th:text="${rsvInfo.rideOnDate}"></td>
                         <td th:text="${rsvInfo.rideOnTime}"></td>
-                        <td th:text="${rsvInfo.status}"></td>
+                        <td th:text="${rsvInfo.statusName}"></td>
                         <td th:text="${rsvInfo.adult}"></td>
                         <td th:text="${rsvInfo.child}"></td>
                         <form th:attr="id='listForm' + ${rsvInfo.reservationId}" th:action="@{/reservation/detail}" method="get">

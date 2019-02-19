@@ -63,7 +63,6 @@ class ApplicationController(
     @GetMapping("app/certificateInput")
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
-        //TODO 予約完了メールに記載のアドレスからGETで遷移の想定のため、それ以外をはじくようにする
         mav.addObject("id", id)
         mav.addObject("mail", "")
 

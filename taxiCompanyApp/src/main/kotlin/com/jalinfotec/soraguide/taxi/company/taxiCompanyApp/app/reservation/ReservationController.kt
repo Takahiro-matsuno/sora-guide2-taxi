@@ -14,7 +14,7 @@ class ReservationController(
         private val reservationService: ReservationService
 ) {
 
-    // 予約一覧画面
+    // 予約一覧表示
     @GetMapping(value = ["reservation/list"])
     fun getReservationList(
             @AuthenticationPrincipal user: UserAccount,
@@ -30,9 +30,9 @@ class ReservationController(
             mav.addObject("rsvFormList", rsvFormList)
         } else {
             // TODO 0件の場合の挙動を確認する
-            // TODO データ取得なし : "予約はありません。"
             // TODO DBエラー : "データベースエラー"
-            mav.addObject("isEmpty", true)
+            // 予約一覧取得失敗時
+            // mav.addObject("", "予約情報がありません。")
         }
         return mav
     }
@@ -63,22 +63,34 @@ class ReservationController(
         }
     }
 
-    // 予約更新処理
     // TODO ModelAttribute と RequestAttributeの違いを調べる
-    @PostMapping(value = ["/reservation/update"])
-    fun update(
+    // 予約情報の更新
+    // 予約一覧表示（予約詳細からのデータ更新）
+    @PostMapping(value = ["/reservation/list"])
+    fun updateReservation(
             @AuthenticationPrincipal user: UserAccount,
-            @ModelAttribute(value = "rsvForm") rsvForm: ReservationForm
-    ): String {
+            @ModelAttribute(value = "rsvForm") rsvForm: ReservationForm,
+            mav: ModelAndView
+    ): ModelAndView {
 
+        val companyId = user.getCompanyId()
+        mav.viewName = "contents/reservationList"
 
-        return if (reservationService.updateDetail(user.getCompanyId(), rsvForm)) {
-            println("更新成功")
-            // 予約一覧にフォワードする
-            "forward:/contents/reservationList"
-        } else {
-            println("更新失敗")
-            "forward:/contents/error"
+        // 予約情報更新処理
+        if (!reservationService.updateDetail(companyId, rsvForm)) {
+            // 更新エラー表示をViewに追加
+            //mav.addObject("", "更新に失敗しました")
         }
+
+        // 予約一覧の取得
+        val rsvFormList = reservationService.getListDefault(companyId)
+
+        if (rsvFormList.any()) {
+            mav.addObject("rsvFormList", rsvFormList)
+        } else {
+            // 予約一覧取得失敗時
+            // mav.addObject("", "予約情報がありません。")
+        }
+        return mav
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView
 class IndexController {
 
     //
-    @GetMapping(value = ["/home"])
+    @GetMapping(value = ["/index"])
     fun getCompany(
             @AuthenticationPrincipal user: UserAccount,
             mav: ModelAndView

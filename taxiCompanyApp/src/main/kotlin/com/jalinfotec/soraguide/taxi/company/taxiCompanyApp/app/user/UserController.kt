@@ -38,7 +38,7 @@ class UserController {
     @PostMapping(value = ["/user/password-change"])
     fun updateUser(
             @AuthenticationPrincipal user: UserAccount,
-            @RequestAttribute(value = "usForm") usForm: UserSettingForm,
+            @ModelAttribute(value = "usForm") usForm: UserSettingForm,
             mav: ModelAndView
     ): ModelAndView {
         return if (userService.changePassword(user.username, usForm)) {

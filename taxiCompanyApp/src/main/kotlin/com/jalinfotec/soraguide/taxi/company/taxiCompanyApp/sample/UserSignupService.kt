@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service
+package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.sample
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.Account

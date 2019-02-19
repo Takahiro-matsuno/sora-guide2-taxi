@@ -63,33 +63,12 @@ class ReservationController(
         }
     }
 
-    /* TODO 更新時のエラー
-     * エラーメッセージ
-     * 　There was an unexpected error (type=Bad Request, status=400).
-     * 　Missing request attribute 'rsvForm' of type ReservationForm
-     *　RequestBody
-     *   _csrf: 0aae4cca-85b8-44d4-af26-e28360baff81 // TODO ②　①を変更してもダメな場合は"_csrf"について調査
-     *   statusName: キャンセル済み
-     *   rideOnDate: 2019-02-15
-     *   rideOnTime: 18:29:00 // TODO ① Time型の変換
-     *   adult: 1
-     *   child: 0
-     *   carDispatchNumber: 1
-     *   destination: hoge
-     *   passengerName: hoge
-     *   passengerContact: hoge
-     *   passengerMail: 0@0
-     *   comment: hofe
-     *   carNumber:
-     *   carContact:
-     *   notice:
-     * 　
-     */
     // 予約更新処理
+    // TODO ModelAttribute と RequestAttributeの違いを調べる
     @PostMapping(value = ["/reservation/update"])
     fun update(
             @AuthenticationPrincipal user: UserAccount,
-            @RequestAttribute(value = "rsvForm") rsvForm: ReservationForm
+            @ModelAttribute(value = "rsvForm") rsvForm: ReservationForm
     ): String {
 
 

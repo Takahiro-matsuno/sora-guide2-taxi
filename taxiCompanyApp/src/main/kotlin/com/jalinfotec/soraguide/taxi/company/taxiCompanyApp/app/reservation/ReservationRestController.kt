@@ -12,7 +12,7 @@ class ReservationRestController(
 ) {
 
     @GetMapping(value = ["/reservation/update"])
-    fun updateNotice(
+    fun getUpdateNotice(
             @AuthenticationPrincipal user: UserAccount
     ): String {
         // 認証ユーザーから会社IDを取得する

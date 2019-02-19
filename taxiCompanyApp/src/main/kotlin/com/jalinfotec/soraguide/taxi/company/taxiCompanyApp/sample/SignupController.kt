@@ -1,6 +1,5 @@
-package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.user
+package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.sample
 
-import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserSignupService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

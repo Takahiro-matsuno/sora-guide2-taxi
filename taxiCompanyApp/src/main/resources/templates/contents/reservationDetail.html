@@ -18,7 +18,7 @@
                 <thead>
                 <tr>
                     <th>予約番号</th><!-- 予約番号は変更不可 -->
-                    <td><p th:field="*{reservationId}" th:value="*{reservationId}" th:text="*{reservationId}"></p></td>
+                    <td><input type="text" readonly="readonly" th:field="*{reservationId}" /></td>
                 </tr>
                 <tr>
                     <th>ステータス</th>

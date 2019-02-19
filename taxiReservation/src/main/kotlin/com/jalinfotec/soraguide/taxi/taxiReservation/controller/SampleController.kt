@@ -71,8 +71,8 @@ class SampleController(
     @ResponseBody
     fun home(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "index"
-        val cookieManager = CookieManager()
-        cookieManager.setCookie(request, response, "0000000001-0000000002-0000000005")
+        //val cookieManager = CookieManager()
+        //cookieManager.setCookie(request, response, "0000000001-0000000002-0000000005")
         return mav
     }
 

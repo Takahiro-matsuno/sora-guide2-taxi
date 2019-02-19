@@ -51,7 +51,7 @@ class ApplicationController(
 
     //変更入力画面
     @PostMapping("app/change")
-    fun change(mav: ModelAndView, @ModelAttribute("id") id: String): ModelAndView {
+    fun change(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "change"
         val bookingInfo = rsvDetailService.getChangeDetail(id)
@@ -72,8 +72,8 @@ class ApplicationController(
 
     //予約認証画面から予約詳細への遷移
     @PostMapping("app/certificateResult")
-    fun certificateResult(mav: ModelAndView, @ModelAttribute("id") id: String,
-                          @ModelAttribute("mail") mail: String): ModelAndView {
+    fun certificateResult(mav: ModelAndView, @RequestParam("id") id: String,
+                          @RequestParam("mail") mail: String): ModelAndView {
 
         val bookingInfo = rsvDetailService.detailCertificates(id, mail)
 

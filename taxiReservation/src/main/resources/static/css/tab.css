@@ -1,0 +1,18 @@
+ul
+{
+margin: 0px 50px;
+}
+li
+{
+float: left;
+text-align: center;
+width: 110px;
+margin-bottom: 0px;
+margin-top: 10px;
+margin-left: 1px;
+margin-right: 1px;
+background-color: #008000;
+color: white;
+padding-top: 3px;
+padding-bottom: 3px;
+}

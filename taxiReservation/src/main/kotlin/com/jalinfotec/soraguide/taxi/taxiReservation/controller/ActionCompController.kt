@@ -5,10 +5,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCha
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -62,7 +59,7 @@ class ActionCompController(
     //取消完了画面
     @PostMapping("app/deleteComplete")
     fun deleteComplete(mav: ModelAndView,
-                       @ModelAttribute("id") id: String): ModelAndView {
+                       @RequestParam("id") id: String): ModelAndView {
         val rsvId: String
 
         //取消処理

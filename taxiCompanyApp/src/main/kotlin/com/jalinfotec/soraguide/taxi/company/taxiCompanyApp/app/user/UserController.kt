@@ -22,32 +22,45 @@ class UserController {
             mav: ModelAndView
     ): ModelAndView {
 
-        val account = userService.findByUsername(user.username)
-
-        return if (account == null) {
-            // TODO エラー
+        // アカウント取得
+        return if (userService.findByCompanyIdAndUsername(user.getCompanyId(), user.username)) {
+            mav.viewName = "contents/userSetting"
+            mav.addObject("usForm", UserSettingForm(username = user.username))
             mav
         } else {
-            mav.viewName = "contents/userSetting"
-            mav.addObject("usForm", UserSettingForm())
+            // アカウントが見つからない場合はエラー
+            // TODO エラー
+            mav.viewName = "contents/error"
+            //mav.addObject("", "ユーザーが見つかりません。")
             mav
         }
     }
 
     // パスワード変更
-    @PostMapping(value = ["/user/password-change"])
-    fun updateUser(
+    @PostMapping(value = ["/user/setting"])
+    fun changePassword(
             @AuthenticationPrincipal user: UserAccount,
             @ModelAttribute(value = "usForm") usForm: UserSettingForm,
             mav: ModelAndView
     ): ModelAndView {
-        return if (userService.changePassword(user.username, usForm)) {
-            mav.viewName = "/contents/userSetting"
-            mav.addObject("usForm", UserSettingForm())
-            mav
-        } else {
+
+        // TODO 更新されないエラーを解決する
+        // TODO SUBMITの制御をする
+        if (user.username != usForm.username) {
             // TODO エラー
-            mav
+            // ユーザー名が一致しない場合はエラー
+            mav.viewName = "contents/error"
+            //mav.addObject("", "ユーザーが見つかりません。")
+            return mav
         }
+
+        // ユーザー情報更新処理
+        mav.viewName = "/contents/userSetting"
+        if (userService.changePassword(user, usForm)) {
+            mav.addObject("usForm", UserSettingForm(username = user.username))
+        } else {
+            //mav.addObject("","更新に失敗しました。")
+        }
+        return mav
     }
 }

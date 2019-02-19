@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 // TODO テスト用のため消す
 @Service
 class UserSignupService(
-        private val repository: AccountRepository,
+        private val aRepository: AccountRepository,
         private val passwordEncoder: PasswordEncoder
 ): UserDetailsService {
 
@@ -27,7 +27,7 @@ class UserSignupService(
             throw UsernameNotFoundException("Username is empty")
         }
 
-        val ac = repository.findByUsername(username)
+        val ac = aRepository.findByUsername(username)
         if (ac == null) { //　ユーザー名が見つからなかった場合
             println("username not found: $username")
             throw UsernameNotFoundException("User not found: $username")
@@ -49,11 +49,12 @@ class UserSignupService(
         }
     }
 
+    // ユーザー登録
     @Transactional
     fun registerUser(username: String, password: String): Boolean {
-        return if (repository.findByUsername(username) == null) {
+        return if (aRepository.findByUsername(username) == null) {
             val user = Account(username = username, password = passwordEncoder.encode(password), adminFlg = false)
-            repository.save(user)
+            aRepository.save(user)
             true
         } else false
     }

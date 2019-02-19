@@ -9,13 +9,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserAccountService(
-        private val repository: AccountRepository,
+        private val taxiRepositoty: TaxiCompanyRepository,
+        private val accRepository: AccountRepository,
         private val passwordEncoder: PasswordEncoder
 ) : UserDetailsService {
 
@@ -27,7 +29,7 @@ class UserAccountService(
             throw UsernameNotFoundException("Username is empty")
         }
 
-        val ac = repository.findByUsername(username)
+        val ac = accRepository.findByUsername(username)
         if (ac == null) { //　ユーザー名が見つからなかった場合
             println("username not found: $username")
             throw UsernameNotFoundException("User not found: $username")
@@ -53,25 +55,37 @@ class UserAccountService(
     @Transactional
     fun registerAdmin(username: String, password: String) {
         val user = Account(username = username, password = passwordEncoder!!.encode(password), isAdmin = true)
-        repository!!.save(user)
+        accRepository!!.save(user)
     }
     */
     // ユーザー取得
     @Transactional
-    fun findByUsername(username: String): Account? {
-        return repository.findByUsername(username)
+    fun findByCompanyIdAndUsername(companyId: String, username: String): Boolean {
+        if (!taxiRepositoty.findById(companyId).isPresent) {
+            // タクシー会社が見つからない場合は処理終了
+            return false
+        }
+        return true
     }
 
     // パスワード変更
     @Transactional
-    fun changePassword(username: String, usForm: UserSettingForm): Boolean {
+    fun changePassword(account: UserAccount, usForm: UserSettingForm): Boolean {
+
+        val companyId = account.getCompanyId()
+
+        if (!taxiRepositoty.findById(companyId).isPresent) {
+            // タクシー会社が見つからない場合は処理終了
+            return false
+        }
+
         // ユーザー取得、見つからない場合は処理終了
-        val user = repository.findByUsername(username) ?: return false
+        val user = accRepository.findByCompanyIdAndUsername(companyId, account.username) ?: return false
 
         return if (passwordEncoder.encode(usForm.nowPassword) == user.password) {
-            // 現在パスワードが一致する場合はパスワード更新
+            // 現在パスワードが一致する場合はパスワードを更新
             user.password = passwordEncoder.encode(usForm.newPassword)
-            repository.save(user)
+            accRepository.save(user)
             true
         } else false
     }

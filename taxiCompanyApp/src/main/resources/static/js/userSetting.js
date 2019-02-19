@@ -31,9 +31,3 @@ function checkPassword() {
     errorElement.innerText = message;
     return checkNowNew && checkNewCon;
 }
-// パスワード変更POST
-function postPasswordChange(form) {
-    if (checkPassword()) {
-        form.submit();
-    }
-}

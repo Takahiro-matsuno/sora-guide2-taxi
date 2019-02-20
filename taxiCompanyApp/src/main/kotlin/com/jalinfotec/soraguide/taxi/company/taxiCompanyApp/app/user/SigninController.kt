@@ -19,7 +19,7 @@ class SigninController {
     fun loginError(mav: ModelAndView): ModelAndView {
         mav.viewName = "login"
         // ログインエラーテキストを表示させる
-        mav.addObject("isError", true)
+        mav.addObject("errorMessage", "ログインに失敗しました。")
         return mav
     }
 
@@ -27,7 +27,7 @@ class SigninController {
     @GetMapping(value = ["/logout"])
     fun logout(mav: ModelAndView): ModelAndView {
         mav.viewName = "login"
-        mav.addObject("isLogout", true)
+        mav.addObject("message", "ログアウトしました。")
         return mav
     }
 }

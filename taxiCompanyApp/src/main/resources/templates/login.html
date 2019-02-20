@@ -12,16 +12,17 @@
     <h1>そらガイド</h1>
     <h1>タクシー予約管理システム</h1>
     <form name='form-login' role="form" id="form-login" th:action="@{/login}" method="post">
+        <p th:text="${message}" style="color: black"></p>
+        <p th:text="${errorMessage}" style="color: red"></p>
+        <!--
         <div th:if="${isError}" style="color:red;">
             <p>ログインに失敗しました。</p>
             <p>ユーザーID、パスワードを確かめてください。</p>
         </div>
-        <div th:if="${isSignup}" style="color:black;">
-            <p>ユーザーを登録しました。</p>
-        </div>
         <div th:if="${isLogout}" style="color:black;">
             <p>ログアウトしました。</p>
         </div>
+        -->
         <span class="fontawesome-user"></span>
         <input type="text" name="username" autofocus="autofocus" placeholder="ユーザー"/>
         <br/>

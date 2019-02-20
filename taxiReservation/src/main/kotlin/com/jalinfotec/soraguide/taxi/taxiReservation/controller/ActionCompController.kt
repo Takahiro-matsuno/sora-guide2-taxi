@@ -57,8 +57,8 @@ class ActionCompController(
     }
 
     //取消完了画面
-    @PostMapping("app/deleteComplete")
-    fun deleteComplete(mav: ModelAndView,
+    @PostMapping("app/cancelComplete")
+    fun cancelComplete(mav: ModelAndView,
                        @RequestParam("id") id: String): ModelAndView {
         val rsvId: String
 
@@ -69,7 +69,7 @@ class ActionCompController(
             mav.viewName = "error"
             return mav
         }
-        return completeTransition(mav, rsvId, "delete")
+        return completeTransition(mav, rsvId, "cancel")
     }
 
     fun completeTransition(mav: ModelAndView, id: String, actionName: String): ModelAndView {
@@ -99,7 +99,7 @@ class ActionCompController(
                         "タクシー会社より変更の受付が完了したら、スマホに通知され、代表者にメールが送付されます。")
             }
 
-            "delete" -> {
+            "cancel" -> {
                 mav.addObject("title", "取消完了")
                 mav.addObject("headText",
                         "タクシーのご予約を取り消しました。")

@@ -7,20 +7,16 @@
     <title>会社情報設定</title>
 </head>
 <body>
-<section layout:fragment="content">
+<section layout:fragment="content" th:object="${taxiForm}">
     <div class="content">
         <h1>会社情報設定</h1>
+        <h2 th:text="*{companyName}"></h2>
+        <form th:action="@{/company/setting}" method="post">
+            <input type="text" th:field="*{companyName}" placeholder="新しい会社名" required/>
+            <br/>
+            <input type="submit" value="更新する" />
+        </form>
     </div>
 </section>
-<script type="text/javascript">
-
-    /** 詳細情報の変更
-     * TODO ユーザー操作により編集モードの切り替えをする
-     */
-
-    /**　会社情報更新
-     * TODO action="/company/update" method="post"してデータ更新
-     */
-</script>
 </body>
 </html>

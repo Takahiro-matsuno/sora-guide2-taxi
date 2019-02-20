@@ -5,6 +5,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
 
+// TODO ユニーク設定
 @Entity
 @Table(name = "taxi_info")
 class TaxiInformation(

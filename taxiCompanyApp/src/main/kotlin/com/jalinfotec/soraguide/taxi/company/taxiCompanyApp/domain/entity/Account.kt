@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity
 
 import javax.persistence.*
 
+// TODO ユニーク設定
 @Entity
 @Table(name = "user_info")
 class Account(

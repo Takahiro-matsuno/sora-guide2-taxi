@@ -4,6 +4,7 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.Accoun
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
+
 @Repository
 interface AccountRepository: JpaRepository<Account, Long> {
     fun findByUsername(userName: String): Account?

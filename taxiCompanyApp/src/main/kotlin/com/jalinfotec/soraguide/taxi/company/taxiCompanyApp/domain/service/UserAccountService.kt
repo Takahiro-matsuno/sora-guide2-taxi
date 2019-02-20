@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserAccountService(
-        private val taxiRepositoty: TaxiCompanyRepository,
+        private val taxiRepository: TaxiCompanyRepository,
         private val accRepository: AccountRepository,
         private val passwordEncoder: PasswordEncoder
 ) : UserDetailsService {
@@ -61,7 +61,7 @@ class UserAccountService(
     // ユーザー取得
     @Transactional
     fun findByCompanyIdAndUsername(companyId: String, username: String): Boolean {
-        if (!taxiRepositoty.findById(companyId).isPresent) {
+        if (!taxiRepository.findById(companyId).isPresent) {
             // タクシー会社が見つからない場合は処理終了
             return false
         }
@@ -71,11 +71,13 @@ class UserAccountService(
     // パスワード変更
     @Transactional
     fun changePassword(account: UserAccount, usForm: UserSettingForm): Boolean {
+        println("ちぇんぱす")
 
         val companyId = account.getCompanyId()
 
-        if (!taxiRepositoty.findById(companyId).isPresent) {
+        if (!taxiRepository.findById(companyId).isPresent) {
             // タクシー会社が見つからない場合は処理終了
+            println("かいしゃのん")
             return false
         }
 
@@ -83,10 +85,16 @@ class UserAccountService(
         val user = accRepository.findByCompanyIdAndUsername(companyId, account.username) ?: return false
 
         return if (passwordEncoder.encode(usForm.nowPassword) == user.password) {
+            println("ゆーざーあり")
             // 現在パスワードが一致する場合はパスワードを更新
             user.password = passwordEncoder.encode(usForm.newPassword)
             accRepository.save(user)
             true
-        } else false
+        } else {
+            println("ぱすちがい")
+            println(passwordEncoder.encode(usForm.nowPassword))
+            println(user.password)
+            false
+        }
     }
 }

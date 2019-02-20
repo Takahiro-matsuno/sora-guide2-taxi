@@ -12,8 +12,8 @@
 <section layout:fragment="content">
     <div class="content">
         <h1>パスワード変更</h1>
+        <p id="errorMessage" th:text="${message}"></p>
         <form id="passwordChange" th:action="@{/user/setting}" method="post" th:object="${usForm}">
-            <p id="errorMessage"></p>
             <p th:text="*{'ユーザー名：' + username}"></p>
             <input type="hidden"  th:field="*{username}" />
             <input type="password" th:field="*{nowPassword}" th:value="*{nowPassword}" id="nowPassword"

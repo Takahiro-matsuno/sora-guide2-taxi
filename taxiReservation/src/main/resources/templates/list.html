@@ -29,7 +29,7 @@
     <li class="active">予約一覧</li>
 </ul>
 <br/><br/>
-<div th:if="${isEmpty}">
+<div th:if="${#lists.isEmpty(rsvList)}">
     表示可能な予約がありません。
 </div>
 

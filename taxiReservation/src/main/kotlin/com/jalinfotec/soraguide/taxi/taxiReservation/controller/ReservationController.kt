@@ -1,8 +1,8 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.TaxiInformationService
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.FormValidate
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
@@ -21,10 +21,9 @@ import javax.servlet.http.HttpServletRequest
  */
 @Controller
 class ReservationController(
-        private val taxiInfoService: TaxiInformationService
+        private val taxiInformationService: TaxiInformationService
 ) {
 
-    // TODO　全体　リポジトリーの結果を直接渡さない
     //登録画面
     @GetMapping("/app/registration")
     fun registration(mav: ModelAndView, request: HttpServletRequest): ModelAndView {
@@ -37,7 +36,25 @@ class ReservationController(
             isTabDisplay = true
         }
 
-        mav.addObject("taxiList", taxiInfoService.getTaxiNameList())
+        mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
+        mav.addObject("reservationForm", setRsvForm(ReservationForm()))
+        mav.addObject("isTab", isTabDisplay)
+
+        return mav
+    }
+
+    @PostMapping("/app/registration")
+    fun backRegistration(mav: ModelAndView, request: HttpServletRequest): ModelAndView {
+        mav.viewName = "registration"
+
+        //スマホアプリ遷移の場合は画面上部にタブを表示
+        val userAgent = request.getHeader("user-agent")
+        var isTabDisplay = false
+        if (userAgent.indexOf("sora-GuideApp") > 0) {
+            isTabDisplay = true
+        }
+
+        mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", setRsvForm(ReservationForm()))
         mav.addObject("isTab", isTabDisplay)
 
@@ -47,22 +64,25 @@ class ReservationController(
     //登録確認画面
     @PostMapping("app/confirmation")
     fun confirmation(mav: ModelAndView, @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult): ModelAndView {
-        //TODO エラー時の画面表示
         //単項目チェック
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
             val messageList = result.fieldErrors
             mav.viewName = "registration"
-            mav.addObject("taxiList", taxiInfoService.getTaxiNameList())
+            mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
             mav.addObject("errorMassage", messageList[0].defaultMessage)
             return mav
         }
 
+        val rsvFormValidate = FormValidate()
+        val formValidateMessage = rsvFormValidate.registrationCheck(rsvForm)
+
         //相関チェックと不足している単項目チェック
-        if (rsvFormValidate(rsvForm)) {
+        if (formValidateMessage.isNotEmpty()) {
             println("メソッドの入力チェックでエラー")
             mav.viewName = "registration"
-            mav.addObject("taxiList", taxiInfoService.getTaxiNameList())
+            mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
+            mav.addObject("errorMassage", formValidateMessage)
             return mav
         }
 
@@ -70,40 +90,7 @@ class ReservationController(
         mav.viewName = "confirmation"
         mav.addObject("reservationForm", rsvForm)
 
-        //タクシー会社の表示用のオブジェクトを設置
-        //val taxiInformation = taxiRepository.findById(rsvForm.company_name).get()
-        //mav.addObject("taxiCompanyName", taxiInformation.company_name)
         return mav
-    }
-
-    // TODO バリデーションでクラスを切る
-    fun rsvFormValidate(rsvForm: ReservationForm): Boolean {
-        var isError = false
-
-        //メール同一チェック
-        if (rsvForm.mail != rsvForm.mailCheck) {
-            println("メール不一致")
-            isError = true
-        }
-
-        //タクシー会社リスト未選択エラー
-        if (rsvForm.company_name == "") {
-            println("タクシー会社未選択")
-            isError = true
-        }
-
-        //乗車日付の過去日チェック
-        val nowDate = Calendar.getInstance()
-        nowDate.set(Calendar.HOUR_OF_DAY, 0)
-        nowDate.set(Calendar.MINUTE, 0)
-        nowDate.set(Calendar.SECOND, 0)
-        nowDate.set(Calendar.MILLISECOND, 0)
-        if (rsvForm.date.before(nowDate.time)) {
-            println("乗車日が過去日")
-            isError = true
-        }
-
-        return isError
     }
 
     //ReservationFormの初期化処理

@@ -28,27 +28,19 @@ class ApplicationController(
 
         val list = rsvListService.getList(request, response)
         mav.addObject("rsvList", list)
+        mav.addObject("isEmpty", list.isEmpty())
 
-        if (list.isEmpty()) {
-            mav.addObject("isEmpty", true)
-        } else {
-            mav.addObject("isEmpty", false)
-        }
         return mav
     }
 
-    // TODO NOT BOOKING
-    // TODO
     //詳細画面
     @PostMapping("app/detail")
     fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "detail"
-        val bookingInfo = rsvDetailService.getDetail(id)
+        val rsvDetail = rsvDetailService.getDetail(id) ?: throw Exception()
 
-        mav.addObject("rsvDetail", bookingInfo.get())
-        mav.addObject("status", rsvDetailService.statusText)
-        mav.addObject("companyName", rsvDetailService.taxiCompanyName)
+        mav.addObject("rsvDetail", rsvDetail)
         return mav
     }
 
@@ -62,6 +54,7 @@ class ApplicationController(
         mav.addObject("reservationForm", bookingInfo)
         return mav
     }
+
     //予約認証画面
     @GetMapping("app/certificateInput")
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
@@ -77,9 +70,9 @@ class ApplicationController(
     fun certificateResult(mav: ModelAndView, @RequestParam("id") id: String,
                           @RequestParam("mail") mail: String): ModelAndView {
 
-        val bookingInfo = rsvDetailService.detailCertificates(id, mail)
+        val rsvDetail = rsvDetailService.detailCertificates(id, mail)
 
-        return if (bookingInfo.isPresent) {
+        return if (rsvDetail != null) {
             detail(mav, id)
         } else {
             certificateInput(mav, id)

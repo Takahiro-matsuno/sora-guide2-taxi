@@ -45,7 +45,7 @@ function cancelCheck(id){
         </tr>
         <tr>
             <th>ステータス</th>
-            <td th:text="${status}"></td>
+            <td th:text="*{status}"></td>
         </tr>
         <tr>
             <th>日付</th>
@@ -65,11 +65,11 @@ function cancelCheck(id){
         </tr>
         <tr>
             <th>台数</th>
-            <td th:text="*{car_dispatch_number}"></td>
+            <td th:text="*{car_dispatch}"></td>
         </tr>
         <tr>
             <th>会社名</th>
-            <td th:text="${companyName}"></td>
+            <td th:text="*{company_name}"></td>
         </tr>
         <tr>
             <th>目的地</th>

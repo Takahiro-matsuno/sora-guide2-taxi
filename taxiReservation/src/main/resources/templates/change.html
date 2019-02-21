@@ -9,11 +9,12 @@
 <body>
 <header>
     <h1>予約変更</h1>
-    <p>以下の項目を入力してください</p>
 </header>
 
 <form action="./changeComplete" method="post" th:object="${reservationForm}">
     <div id="contents">
+        <p>以下の項目を入力してください</p>
+        <p style="color: red" th:text="${errorMassage}"></p>
         <table>
             <tr>
                 <th align="left"><label>乗車日</label></th>

@@ -14,7 +14,7 @@ class ReservationService(
         private val taxiRepository: TaxiCompanyRepository
 ) {
 
-    // 予約情報フォーム一覧を取得する
+    // 予約情報フォームの一覧を取得する
     @Transactional(readOnly = true)
     fun getListDefault(companyId: String): ArrayList<ReservationForm> {
 
@@ -114,14 +114,14 @@ class ReservationService(
     private fun convertRsvForm2RsvInfo(rsvInfo: ReservationInformation, rsvForm: ReservationForm): ReservationInformation? {
 
         // ステータスの置き換え
-        rsvInfo.status = -1
+        rsvInfo.status = -1 // ありえない値を設定
         for (m in Constants.reservationStatus) {
             if (rsvForm.statusName == m.value) {
                 rsvInfo.status = m.key
                 break
             }
         }
-        // ステータスの変換に失敗した場合はNullを返して終了
+        // -1の場合は変換失敗
         if (rsvInfo.status == -1) return null
 
         // 予約情報を上書きする
@@ -147,6 +147,8 @@ class ReservationService(
     private fun getStatusList(status: Int): ArrayList<String>? {
 
         val list = ArrayList<String>()
+        // 現在のステータス以上を追加する
+        // TODO タクシー会社ユースケースが決まり次第処理を変更する
         for (i in status until Constants.reservationStatus.keys.size) {
             list.add(Constants.reservationStatus[i]!!)
         }

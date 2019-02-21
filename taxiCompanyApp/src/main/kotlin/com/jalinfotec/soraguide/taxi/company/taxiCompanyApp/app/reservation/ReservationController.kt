@@ -14,7 +14,7 @@ class ReservationController(
         private val reservationService: ReservationService
 ) {
 
-    // 予約一覧表示
+    // 予約一覧画面の表示
     @GetMapping(value = ["reservation/list"])
     fun getReservationList(
             @AuthenticationPrincipal user: UserAccount,
@@ -79,7 +79,8 @@ class ReservationController(
         // 予約情報更新処理
         if (!reservationService.updateDetail(companyId, rsvForm)) {
             // 更新エラー表示をViewに追加
-            //mav.addObject("", "更新に失敗しました")
+            // TODO 処理未チェック
+            mav.addObject("errorMessage", "更新に失敗しました")
         }
 
         // 予約一覧の取得

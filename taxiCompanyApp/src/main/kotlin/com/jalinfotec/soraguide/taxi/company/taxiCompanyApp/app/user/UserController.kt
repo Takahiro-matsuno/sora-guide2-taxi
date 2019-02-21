@@ -36,14 +36,7 @@ class UserController {
         }
     }
 
-
-    /** TODO パスワードの更新できないエラーを解決する
-     * UserAccountServiceでフォーム(暗号化済み)のパスワードとDBのパスワード(暗号化済み)が一致しないエラー
-     * - 同じ文字列でも毎回異なる結果に暗号化されるため、パスワードが一致しない
-     * - 現在のユーザー取得はユーザー名のみでの検索しかないため、ユーザー名＋パスワードでの取得をする
-     * - UserDetailsServiceではなく以下を使う
-     *  https://qiita.com/pale2f/items/3fb28e76f969d7c18f06
-     */
+    // TODO パスワードチェックをJSかサーバー側で実装する
     // パスワード変更
     @PostMapping(value = ["/user/setting"])
     fun changePassword(

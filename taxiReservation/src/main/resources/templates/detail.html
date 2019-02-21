@@ -8,7 +8,9 @@
 <!--
 
 function cancelCheck(id){
-	if(window.confirm('取り消してよろしいですか？')){
+    var result = window.confirm('取り消してよろしいですか？')
+
+	if(result){
 		//フォーム作成
         var form = document.createElement("form");
         form.setAttribute("action", "./cancelComplete");

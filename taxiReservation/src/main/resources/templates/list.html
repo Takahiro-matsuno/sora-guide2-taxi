@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/css/tab.css}" rel="stylesheet"/>
     <title>予約一覧</title>
     <style>
         table {
@@ -23,8 +24,11 @@
 </head>
 
 <body>
-<h1>予約一覧</h1>
-
+<ul class="tabs">
+    <li rel="tab1" onClick="location.href='./registration'">予約登録</li>
+    <li class="active">予約一覧</li>
+</ul>
+<br/><br/>
 <div th:if="${isEmpty}">
     表示可能な予約がありません。
 </div>

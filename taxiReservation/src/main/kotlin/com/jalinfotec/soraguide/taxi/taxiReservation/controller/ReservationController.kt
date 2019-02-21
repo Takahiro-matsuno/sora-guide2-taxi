@@ -19,6 +19,7 @@ class ReservationController(
         private val taxiRepository: TaxiInfoRepository
 ) {
 
+    // TODO　全体　リポジトリーの結果を直接渡さない
     //登録画面
     @GetMapping("/app/registration")
     fun registration(mav: ModelAndView): ModelAndView {

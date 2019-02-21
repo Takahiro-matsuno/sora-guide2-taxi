@@ -45,7 +45,6 @@ class ReservationController(
             mav: ModelAndView
     ): ModelAndView {
 
-
         // 認証ユーザーの会社ID、予約番号をキーに予約情報を取得
         val result = reservationService.getDetail(user.getCompanyId(), reservationId)
 

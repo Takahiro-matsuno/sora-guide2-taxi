@@ -149,7 +149,7 @@ class ReservationService(
         val list = ArrayList<String>()
         // 現在のステータス以上を追加する
         // TODO タクシー会社ユースケースが決まり次第処理を変更する
-        for (i in status until Constants.reservationStatus.keys.size) {
+        for (i in status .. Constants.reservationStatus.keys.size) {
             list.add(Constants.reservationStatus[i]!!)
         }
         return if (list.any()) list else null

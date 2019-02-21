@@ -15,6 +15,7 @@ class ReservationDetailService(
         private var reservationInfo: Optional<ReservationInformation>
 ) {
 
+    // TODO 以下を含めたフォームを作る、後に消える
     var taxiCompanyName: String = ""
     var statusText: String = ""
 

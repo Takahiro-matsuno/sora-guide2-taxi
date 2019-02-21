@@ -23,6 +23,8 @@ class ActionCompController(
         private val rsvChangeService: ReservationChangeService
 ) {
 
+    enum class ActionType { ADD, CHANGE, CANCEL }
+
     //登録完了画面
     @PostMapping("app/rsvComplete")
     fun rsvComplete(mav: ModelAndView,

@@ -20,6 +20,7 @@ class ApplicationController(
         private val rsvDetailService: ReservationDetailService,
         private val rsvListService: ReservationListService
 ) {
+    // TODO 一覧表示フォームを作る
     //一覧画面
     @GetMapping("app/list")
     fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
@@ -36,6 +37,8 @@ class ApplicationController(
         return mav
     }
 
+    // TODO NOT BOOKING
+    // TODO
     //詳細画面
     @PostMapping("app/detail")
     fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {

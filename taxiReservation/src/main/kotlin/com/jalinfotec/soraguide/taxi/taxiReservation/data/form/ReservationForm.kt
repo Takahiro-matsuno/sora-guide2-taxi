@@ -2,14 +2,13 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.form
 
 import java.sql.Date
 import java.sql.Time
-import java.util.*
 import javax.validation.constraints.*
 
 data class ReservationForm(
         var id:String = "",
 
         //初期値:本日の日付
-        var date: Date = Date(Calendar.getInstance().timeInMillis),
+        var date: Date = Date(System.currentTimeMillis()),
 
         //??
         var time: String = Time(date.time).toString().substring(0, 5),

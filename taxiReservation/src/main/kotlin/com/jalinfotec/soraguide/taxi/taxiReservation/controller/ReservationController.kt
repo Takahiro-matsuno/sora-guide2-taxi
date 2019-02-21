@@ -7,7 +7,10 @@ import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
-import java.util.*
+import java.sql.Date
+import java.sql.Time
+import java.util.Calendar
+
 
 /**
  * 登録フローの画面表示用コントローラクラス
@@ -25,8 +28,9 @@ class ReservationController(
     fun registration(mav: ModelAndView): ModelAndView {
         //TODO アプリ遷移かWeb遷移かを判定して表示項目の出し分け
         mav.viewName = "registration"
+        val rsvForm = ReservationForm()
         mav.addObject("taxiList", taxiRepository.findAll())
-        mav.addObject("reservationForm", ReservationForm())
+        mav.addObject("reservationForm", setRsvForm(rsvForm))
 
         return mav
     }
@@ -35,23 +39,22 @@ class ReservationController(
     @PostMapping("app/confirmation")
     fun confirmation(mav: ModelAndView, @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult): ModelAndView {
         //TODO エラー時の画面表示
-        //バリデートエラー
+        //単項目チェック
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
             mav.viewName = "registration"
             mav.addObject("taxiList", taxiRepository.findAll())
-            mav.addObject("errorMassage","未入力の項目があります。")
+            mav.addObject("errorMassage", "未入力の項目があります。")
             return mav
         }
-        //入力不正
+
+        //相関チェックと不足している単項目チェック
         if (rsvFormValidate(rsvForm)) {
             println("メソッドの入力チェックでエラー")
             mav.viewName = "registration"
             mav.addObject("taxiList", taxiRepository.findAll())
             return mav
         }
-
-        println("チェックOK")
 
         //確認画面へ遷移
         mav.viewName = "confirmation"
@@ -62,6 +65,7 @@ class ReservationController(
         mav.addObject("taxiCompanyName", taxiInformation.company_name)
         return mav
     }
+
     // TODO バリデーションでクラスを切る
     fun rsvFormValidate(rsvForm: ReservationForm): Boolean {
         var isError = false
@@ -92,4 +96,24 @@ class ReservationController(
         return isError
     }
 
+    //ReservationFormの初期化処理
+    //基本的な初期化はフォームクラスで行うが、日付と時間は再設定する
+    fun setRsvForm(rsvForm: ReservationForm): ReservationForm {
+        //日付設定用にカレンダークラスの変数を宣言
+        val cal = Calendar.getInstance()
+
+        //Formから初期値（現在時刻）を取得
+        cal.time = rsvForm.date
+
+        //5分単位で丸める処理
+        val minute = cal.get(Calendar.MINUTE)
+        val addValue = 5 - (minute % 5)
+        cal.add(Calendar.MINUTE, addValue)
+
+        //Formの更新
+        rsvForm.date = Date(cal.timeInMillis)
+        rsvForm.time = Time(rsvForm.date.time).toString().substring(0, 5)
+
+        return rsvForm
+    }
 }

@@ -26,8 +26,7 @@ data class ReservationForm(
         var car_dispatch: Int = 1,
 
         @get:NotEmpty
-        @get:Size(max = 4)
-        var company_id: String = "",
+        var company_name: String = "",
 
         @get:NotEmpty
         @get:Size(min = 2, max = 30)

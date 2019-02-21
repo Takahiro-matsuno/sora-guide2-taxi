@@ -9,7 +9,8 @@ data class TaxiInformation(
         @Column(name="company_id")
         var id: String = "",
 
-        var company_name: String = "",
+        @Column(name="company_name")
+        var companyName: String = "",
         var contact: String = "",
         var location: String =""
 )

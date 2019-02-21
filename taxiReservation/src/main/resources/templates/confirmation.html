@@ -48,8 +48,8 @@
             </tr>
             <tr>
                 <th align="left"><label>タクシー会社</label></th>
-                <input type="hidden" name="company_id" th:value="*{company_id}"/>
-                <td align="left" th:text="${taxiCompanyName}" style="width: device-width;"></td>
+                <input type="hidden" name="company_name" th:value="*{company_name}"/>
+                <td align="left" th:text="*{company_name}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>目的地</label></th>

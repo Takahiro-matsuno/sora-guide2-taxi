@@ -173,17 +173,17 @@ class SampleController(
 
         val taxiInfo1 = TaxiInformation()
         taxiInfo1.id = "0001"
-        taxiInfo1.company_name = "お試しタクシー1"
+        taxiInfo1.companyName = "お試しタクシー1"
         taxiInfo1.contact = "08011112222"
         taxiInfo1.location = "高松市"
         val taxiInfo2 = TaxiInformation()
         taxiInfo2.id = "0002"
-        taxiInfo2.company_name = "お試しタクシー2"
+        taxiInfo2.companyName = "お試しタクシー2"
         taxiInfo2.contact = "080123456789"
         taxiInfo2.location = "どこか"
         val taxiInfo3 = TaxiInformation()
         taxiInfo3.id = "0003"
-        taxiInfo3.company_name = "お試しタクシー3"
+        taxiInfo3.companyName = "お試しタクシー3"
         taxiInfo3.contact = "08011112222"
         taxiInfo3.location = "高松市"
         val list = mutableListOf(taxiInfo1, taxiInfo2, taxiInfo3)

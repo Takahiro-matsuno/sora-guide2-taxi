@@ -26,7 +26,7 @@ class ReservationDetailService(
         reservationInfo = reservationRepository.findById(id)
         //タクシー会社IDからタクシー会社名を取得
         try {
-            taxiCompanyName = taxiRepository.findById(reservationInfo.get().company_id).get().company_name
+            taxiCompanyName = taxiRepository.findById(reservationInfo.get().company_id).get().companyName
             statusTextSet(reservationInfo.get().status)
         } catch (e: NoSuchElementException) {
             taxiCompanyName = ""
@@ -49,7 +49,7 @@ class ReservationDetailService(
                 adult = bookingInfo.adult,
                 child = bookingInfo.child,
                 car_dispatch = bookingInfo.car_dispatch_number,
-                company_id = bookingInfo.company_id,
+                company_name = bookingInfo.company_id,
                 destination = bookingInfo.destination.trim(),
                 name = bookingInfo.passenger_name.trim(),
                 phonetic = bookingInfo.passenger_phonetic.trim(),

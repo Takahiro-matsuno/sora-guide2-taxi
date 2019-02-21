@@ -37,28 +37,6 @@ class ReservationChangeService(
         rsvInfo.mail = changeInfo.mail
         rsvInfo.comment = changeInfo.comment
 
-        /*
-        bookingInfo = ReservationInformation(
-                id = rsvInfo.id,
-                status = rsvInfo.status,
-                company_id = rsvInfo.company_id,
-                passenger_name = rsvInfo.passenger_name,
-                passenger_phonetic = rsvInfo.passenger_phonetic,
-                car_contact = rsvInfo.car_contact,
-                car_number = rsvInfo.car_number,
-                notice = rsvInfo.notice,
-
-                date = changeInfo.date,
-                time = Time.valueOf(changeInfo.time),
-                adult = changeInfo.adult,
-                child = changeInfo.child,
-                car_dispatch_number = changeInfo.car_dispatch,
-                destination = changeInfo.destination,
-                phone = changeInfo.phone,
-                mail = changeInfo.mail,
-                comment = changeInfo.comment
-        )*/
-
         reservationRepository.save(rsvInfo)
 
         return rsvInfo.id

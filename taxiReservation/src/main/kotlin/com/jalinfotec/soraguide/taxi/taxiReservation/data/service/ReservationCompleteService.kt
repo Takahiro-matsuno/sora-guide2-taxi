@@ -5,6 +5,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInfo
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Date
@@ -16,7 +17,8 @@ import javax.servlet.http.HttpServletResponse
 @Service
 class ReservationCompleteService(
         private val reservationRepository: ReservationInfoRepository,
-        private val numberingRepository: NumberingRepository) {
+        private val numberingRepository: NumberingRepository,
+        private val taxiInfoService: TaxiInformationService) {
 
     @Transactional(readOnly = false)
     fun complete(input: ReservationForm, request: HttpServletRequest, response: HttpServletResponse): String {
@@ -28,6 +30,9 @@ class ReservationCompleteService(
     }
 
     fun setBooking(input: ReservationForm): ReservationInformation {
+        //選択した会社名から会社IDを検索
+        val taxiCompanyId = taxiInfoService.getCompanyId(input.company_name)
+
         return ReservationInformation(
                 id = setId(),
 
@@ -40,7 +45,7 @@ class ReservationCompleteService(
                 adult = input.adult,
                 child = input.child,
                 car_dispatch_number = input.car_dispatch,
-                company_id = input.company_id,
+                company_id = taxiCompanyId,
                 destination = input.destination,
                 passenger_name = input.name,
                 passenger_phonetic = input.phonetic,

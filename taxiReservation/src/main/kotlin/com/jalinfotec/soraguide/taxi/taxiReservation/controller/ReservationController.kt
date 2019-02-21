@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.TaxiInformationService
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView
 import java.sql.Date
 import java.sql.Time
 import java.util.Calendar
+import javax.servlet.http.HttpServletRequest
 
 
 /**
@@ -19,18 +21,25 @@ import java.util.Calendar
  */
 @Controller
 class ReservationController(
-        private val taxiRepository: TaxiInfoRepository
+        private val taxiInfoService: TaxiInformationService
 ) {
 
     // TODO　全体　リポジトリーの結果を直接渡さない
     //登録画面
     @GetMapping("/app/registration")
-    fun registration(mav: ModelAndView): ModelAndView {
-        //TODO アプリ遷移かWeb遷移かを判定して表示項目の出し分け
+    fun registration(mav: ModelAndView, request: HttpServletRequest): ModelAndView {
         mav.viewName = "registration"
-        val rsvForm = ReservationForm()
-        mav.addObject("taxiList", taxiRepository.findAll())
-        mav.addObject("reservationForm", setRsvForm(rsvForm))
+
+        //スマホアプリ遷移の場合は画面上部にタブを表示
+        val userAgent = request.getHeader("user-agent")
+        var isTabDisplay = false
+        if (userAgent.indexOf("sora-GuideApp") > 0) {
+            isTabDisplay = true
+        }
+
+        mav.addObject("taxiList", taxiInfoService.getTaxiNameList())
+        mav.addObject("reservationForm", setRsvForm(ReservationForm()))
+        mav.addObject("isTab", isTabDisplay)
 
         return mav
     }
@@ -42,9 +51,10 @@ class ReservationController(
         //単項目チェック
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
+            val messageList = result.fieldErrors
             mav.viewName = "registration"
-            mav.addObject("taxiList", taxiRepository.findAll())
-            mav.addObject("errorMassage", "未入力の項目があります。")
+            mav.addObject("taxiList", taxiInfoService.getTaxiNameList())
+            mav.addObject("errorMassage", messageList[0].defaultMessage)
             return mav
         }
 
@@ -52,7 +62,7 @@ class ReservationController(
         if (rsvFormValidate(rsvForm)) {
             println("メソッドの入力チェックでエラー")
             mav.viewName = "registration"
-            mav.addObject("taxiList", taxiRepository.findAll())
+            mav.addObject("taxiList", taxiInfoService.getTaxiNameList())
             return mav
         }
 
@@ -61,8 +71,8 @@ class ReservationController(
         mav.addObject("reservationForm", rsvForm)
 
         //タクシー会社の表示用のオブジェクトを設置
-        val taxiInformation = taxiRepository.findById(rsvForm.company_id).get()
-        mav.addObject("taxiCompanyName", taxiInformation.company_name)
+        //val taxiInformation = taxiRepository.findById(rsvForm.company_name).get()
+        //mav.addObject("taxiCompanyName", taxiInformation.company_name)
         return mav
     }
 
@@ -77,7 +87,7 @@ class ReservationController(
         }
 
         //タクシー会社リスト未選択エラー
-        if (rsvForm.company_id == "") {
+        if (rsvForm.company_name == "") {
             println("タクシー会社未選択")
             isError = true
         }

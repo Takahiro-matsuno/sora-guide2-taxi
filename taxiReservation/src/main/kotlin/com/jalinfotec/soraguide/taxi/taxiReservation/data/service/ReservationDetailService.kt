@@ -32,25 +32,6 @@ class ReservationDetailService(
         } else null
     }
 
-    fun getChangeDetail(id: String): ChangeForm {
-        //DBから引数のIDとマッチする予約情報を取得
-        val rsvInfo = reservationRepository.findById(id).get()
-
-        return ChangeForm(
-                id = rsvInfo.id,
-                date = rsvInfo.date,
-                time = rsvInfo.time.toString(),
-                adult = rsvInfo.adult,
-                child = rsvInfo.child,
-                car_dispatch = rsvInfo.car_dispatch_number,
-                destination = rsvInfo.destination.trim(),
-                phone = rsvInfo.phone.trim(),
-                mail = rsvInfo.mail.trim(),
-                mailCheck = rsvInfo.mail.trim(),
-                comment = rsvInfo.comment.trim()
-        )
-    }
-
     fun detailCertificates(id: String, mail: String, request: HttpServletRequest): DetailForm? {
         val rsvInfo = getDetail(id, request) ?: return null
         if (rsvInfo.mail.trim() != mail) {

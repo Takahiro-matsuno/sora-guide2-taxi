@@ -100,7 +100,7 @@ class ActionCompController(
 
         //変更処理
         try {
-            rsvId = rsvChangeService.change(rsvForm)
+            rsvId = rsvChangeService.change(rsvForm, request)
         } catch (e: Exception) {
             mav.viewName = "error"
             return mav
@@ -117,7 +117,7 @@ class ActionCompController(
 
         //取消処理
         try {
-            rsvId = rsvChangeService.delete(id)
+            rsvId = rsvChangeService.delete(id, request)
         } catch (e: Exception) {
             mav.viewName = "error"
             return mav

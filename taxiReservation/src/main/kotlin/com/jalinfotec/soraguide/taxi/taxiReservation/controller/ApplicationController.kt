@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationListService
 import org.springframework.stereotype.Controller
@@ -18,7 +19,8 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 class ApplicationController(
         private val rsvDetailService: ReservationDetailService,
-        private val rsvListService: ReservationListService
+        private val rsvListService: ReservationListService,
+        private val rsvChangeService: ReservationChangeService
 ) {
     // TODO 一覧表示フォームを作る
     //一覧画面
@@ -47,10 +49,11 @@ class ApplicationController(
 
     //変更入力画面
     @PostMapping("app/change")
-    fun change(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
+    fun change(mav: ModelAndView, @RequestParam("id") id: String,
+               request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "change"
-        val rsvInfo = rsvDetailService.getChangeDetail(id)
+        val rsvInfo = rsvChangeService.getChangeDetail(id, request)
 
         mav.addObject("reservationForm", rsvInfo)
         return mav

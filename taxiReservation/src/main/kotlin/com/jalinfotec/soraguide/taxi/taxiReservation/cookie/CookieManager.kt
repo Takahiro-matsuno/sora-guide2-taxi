@@ -9,39 +9,83 @@ import javax.servlet.http.HttpServletResponse
  * スマホアプリから実行している場合のみ、Cookieのやり取りを行う
  */
 class CookieManager {
-    fun setCookie(request: HttpServletRequest, response: HttpServletResponse, rsvId: String) {
+
+    companion object {
+        //開発中はUSER-AGENTの判定を切りたい
+        //TEST_MODEがtrueの時はUSER-AGENT判定無し
+        const val TEST_MODE = true
+    }
+
+    fun setCookie(request: HttpServletRequest, response: HttpServletResponse, uuid: String) {
         //UserAgentでアプリのWebViewから開いているかどうか判定
-        //val userAgent = request.getHeader("user-agent")
-      //  if (userAgent.indexOf("sora-GuideApp") > 0) {
-            val newCookie = Cookie("rsvId", rsvId)
+        val userAgent = request.getHeader("user-agent")
+        if (TEST_MODE || userAgent.indexOf("sora-GuideApp") > 0) {
+            val newCookie = Cookie("uuid", uuid)
             newCookie.maxAge = 10 * 365 * 24 * 60 * 60
             newCookie.path = "/"
             if ("https" == request.scheme) {
                 newCookie.secure = true
             }
             response.addCookie(newCookie)
-        //}
+        }
     }
 
-    fun getFromCookie(request: HttpServletRequest): List<String> {
+    fun getFromCookie(request: HttpServletRequest): String? {
         //UserAgentでアプリのWebViewから開いているかどうか判定
         val userAgent = request.getHeader("user-agent")
-        var bookingId: String? = null
+        var uuid: String? = null
 
-        //if (userAgent.indexOf("sora-GuideApp") > 0) {
+        if (TEST_MODE || userAgent.indexOf("sora-GuideApp") > 0) {
             val cookies = request.cookies
 
             if (cookies != null) {
                 for (cookie in cookies) {
-                    //Cookieから"rsvId"で保存している値を検索
-                    if ("rsvId" == cookie.name) {
-                        bookingId = cookie.value
+                    //Cookieから"uuid"で保存している値を検索
+                    if ("uuid" == cookie.name) {
+                        uuid = cookie.value
                     }
                 }
             }
-        //}
+        }
 
-        //予約番号はハイフン区切りで格納されているので分割してリスト化
-        return bookingId?.split("-") ?: listOf()
+        return uuid
     }
+
 }
+
+/*
+fun setCookie(request: HttpServletRequest, response: HttpServletResponse, rsvId: String) {
+    //UserAgentでアプリのWebViewから開いているかどうか判定
+    //val userAgent = request.getHeader("user-agent")
+  //  if (userAgent.indexOf("sora-GuideApp") > 0) {
+        val newCookie = Cookie("rsvId", rsvId)
+        newCookie.maxAge = 10 * 365 * 24 * 60 * 60
+        newCookie.path = "/"
+        if ("https" == request.scheme) {
+            newCookie.secure = true
+        }
+        response.addCookie(newCookie)
+    //}
+}
+
+fun getFromCookie(request: HttpServletRequest): List<String> {
+    //UserAgentでアプリのWebViewから開いているかどうか判定
+    val userAgent = request.getHeader("user-agent")
+    var bookingId: String? = null
+
+    //if (userAgent.indexOf("sora-GuideApp") > 0) {
+        val cookies = request.cookies
+
+        if (cookies != null) {
+            for (cookie in cookies) {
+                //Cookieから"rsvId"で保存している値を検索
+                if ("rsvId" == cookie.name) {
+                    bookingId = cookie.value
+                }
+            }
+        }
+    //}
+
+    //予約番号はハイフン区切りで格納されているので分割してリスト化
+    return bookingId?.split("-") ?: listOf()
+}*/

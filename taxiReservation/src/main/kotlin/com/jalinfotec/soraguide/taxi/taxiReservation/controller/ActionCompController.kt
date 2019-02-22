@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
@@ -67,14 +68,14 @@ class ActionCompController(
             mav.addObject("reservationForm", rsvForm)
         }
 
-        return completeTransition(mav, rsvId, ActionType.ADD)
+        return completeTransition(mav, rsvId, ActionType.ADD, request, response)
     }
 
     //変更完了画面
     @PostMapping("app/changeComplete")
     fun changeComplete(mav: ModelAndView,
-                       @Validated @ModelAttribute("reservationForm") rsvForm: ReservationForm,
-                       result: BindingResult): ModelAndView {
+                       @Validated @ModelAttribute("reservationForm") rsvForm: ChangeForm,
+                       result: BindingResult, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         //単項目チェック
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
@@ -85,7 +86,7 @@ class ActionCompController(
         }
 
         val rsvFormValidate = FormValidate()
-        val formValidateMessage = rsvFormValidate.registrationCheck(rsvForm)
+        val formValidateMessage = rsvFormValidate.changeCheck(rsvForm)
 
         //相関チェックと不足している単項目チェック
         if (formValidateMessage.isNotEmpty()) {
@@ -104,13 +105,14 @@ class ActionCompController(
             mav.viewName = "error"
             return mav
         }
-        return completeTransition(mav, rsvId, ActionType.CHANGE)
+        return completeTransition(mav, rsvId, ActionType.CHANGE, request, response)
     }
 
     //取消完了画面
     @PostMapping("app/cancelComplete")
     fun cancelComplete(mav: ModelAndView,
-                       @RequestParam("id") id: String): ModelAndView {
+                       @RequestParam("id") id: String,
+                       request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         val rsvId: String
 
         //取消処理
@@ -120,15 +122,15 @@ class ActionCompController(
             mav.viewName = "error"
             return mav
         }
-        return completeTransition(mav, rsvId, ActionType.CHANGE)
+        return completeTransition(mav, rsvId, ActionType.CHANGE, request, response)
     }
 
-    fun completeTransition(mav: ModelAndView, id: String, actionType: Enum<ActionType>): ModelAndView {
-        val rsvDetail = rsvDetailService.getDetail(id)
+    fun completeTransition(mav: ModelAndView, id: String, actionType: Enum<ActionType>,
+                           request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+        val rsvDetail = rsvDetailService.getDetail(id, request)
 
         mav.viewName = "complete"
         mav.addObject("rsvDetail", rsvDetail)
-        mav.addObject("statusText", rsvDetailService.statusText)
 
         when (actionType) {
             ActionType.ADD -> {

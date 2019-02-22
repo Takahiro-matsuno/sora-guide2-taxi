@@ -35,10 +35,11 @@ class ApplicationController(
 
     //詳細画面
     @PostMapping("app/detail")
-    fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
+    fun detail(mav: ModelAndView, @RequestParam("id") id: String,
+               request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "detail"
-        val rsvDetail = rsvDetailService.getDetail(id) ?: throw Exception()
+        val rsvDetail = rsvDetailService.getDetail(id, request) ?: throw Exception()
 
         mav.addObject("rsvDetail", rsvDetail)
         return mav
@@ -49,9 +50,9 @@ class ApplicationController(
     fun change(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         //TODO 直打ち対策
         mav.viewName = "change"
-        val bookingInfo = rsvDetailService.getChangeDetail(id)
+        val rsvInfo = rsvDetailService.getChangeDetail(id)
 
-        mav.addObject("reservationForm", bookingInfo)
+        mav.addObject("reservationForm", rsvInfo)
         return mav
     }
 
@@ -68,12 +69,13 @@ class ApplicationController(
     //予約認証画面から予約詳細への遷移
     @PostMapping("app/certificateResult")
     fun certificateResult(mav: ModelAndView, @RequestParam("id") id: String,
-                          @RequestParam("mail") mail: String): ModelAndView {
+                          @RequestParam("mail") mail: String,
+                          request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
 
-        val rsvDetail = rsvDetailService.detailCertificates(id, mail)
+        val rsvDetail = rsvDetailService.detailCertificates(id, mail, request)
 
         return if (rsvDetail != null) {
-            detail(mav, id)
+            detail(mav, id, request, response)
         } else {
             certificateInput(mav, id)
         }

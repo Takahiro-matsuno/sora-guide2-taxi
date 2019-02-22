@@ -1,16 +1,14 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.CookieManager
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Date
 import java.sql.Time
-import java.util.*
+import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -22,16 +20,17 @@ class ReservationCompleteService(
 
     @Transactional(readOnly = false)
     fun complete(input: ReservationForm, request: HttpServletRequest, response: HttpServletResponse): String {
-        val bookingInfo = setBooking(input)
-        println("【予約完了】予約ID：${bookingInfo.id}")
-        reservationRepository.save(bookingInfo)
-        cookieUpdate(bookingInfo, request, response)
-        return bookingInfo.id
+        val rsvInfo = setReservation(input, request)
+        println("【予約完了】予約ID：${rsvInfo.id}")
+        reservationRepository.save(rsvInfo)
+        //cookieUpdate(bookingInfo, request, response)
+        return rsvInfo.id
     }
 
-    fun setBooking(input: ReservationForm): ReservationInformation {
+    private fun setReservation(input: ReservationForm, request: HttpServletRequest): ReservationInformation {
         //選択した会社名から会社IDを検索
         val taxiCompanyId = taxiInfoService.getCompanyId(input.company_name)
+        val uuid = UuidManager().getUuid(request) ?: ""
 
         return ReservationInformation(
                 id = setId(),
@@ -56,7 +55,10 @@ class ReservationCompleteService(
                 //タクシー会社入力欄はブランク
                 car_number = "",
                 car_contact = "",
-                notice = ""
+                notice = "",
+
+                uuid = uuid,
+                last_update = Timestamp(System.currentTimeMillis())
         )
     }
 
@@ -71,6 +73,7 @@ class ReservationCompleteService(
         return result
     }
 
+    /*
     fun cookieUpdate(inputReservationInfo: ReservationInformation, request: HttpServletRequest, response: HttpServletResponse) {
         val cookieManager = CookieManager()
 
@@ -94,5 +97,5 @@ class ReservationCompleteService(
 
         //Cookieの値を更新する（名前は"rsvId"）
         cookieManager.setCookie(request, response, idStr)
-    }
+    }*/
 }

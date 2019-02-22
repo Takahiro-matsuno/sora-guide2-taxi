@@ -4,6 +4,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInfo
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.sql.Date
+import java.util.*
 
 
 @Repository
@@ -21,4 +22,9 @@ interface ReservationInfoRepository : JpaRepository<ReservationInformation, Stri
      */
     fun findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
             phone: String, mail: String, status: Int, date: Date): MutableList<ReservationInformation>
+
+    fun findByUuidAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(uuid: String, status: Int, date: Date)
+            : MutableList<ReservationInformation>
+
+    fun findByIdAndUuid(id: String, uuid: String): Optional<ReservationInformation>
 }

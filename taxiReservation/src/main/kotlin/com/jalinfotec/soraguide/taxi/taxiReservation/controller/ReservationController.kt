@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.TaxiInformationService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.FormValidate
@@ -12,6 +13,7 @@ import java.sql.Date
 import java.sql.Time
 import java.util.Calendar
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 
 /**
@@ -26,7 +28,7 @@ class ReservationController(
 
     //登録画面
     @GetMapping("/app/registration")
-    fun registration(mav: ModelAndView, request: HttpServletRequest): ModelAndView {
+    fun registration(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "registration"
 
         //スマホアプリ遷移の場合は画面上部にタブを表示
@@ -35,6 +37,8 @@ class ReservationController(
         if (userAgent.indexOf("sora-GuideApp") > 0) {
             isTabDisplay = true
         }
+
+        UuidManager().check(request, response)
 
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", setRsvForm(ReservationForm()))

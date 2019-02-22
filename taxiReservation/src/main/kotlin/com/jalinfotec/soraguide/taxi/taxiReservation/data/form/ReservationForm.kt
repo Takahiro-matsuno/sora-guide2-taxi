@@ -5,7 +5,7 @@ import java.sql.Time
 import javax.validation.constraints.*
 
 data class ReservationForm(
-        var id:String = "",
+        var id: String = "",
 
         //初期値:本日の日付
         var date: Date = Date(System.currentTimeMillis()),
@@ -14,7 +14,7 @@ data class ReservationForm(
         var time: String = Time(date.time).toString().substring(0, 5),
 
         @get:NotNull
-        @get:Max(20)
+        @get:Max(value = 20)
         var adult: Int = 1,
 
         @get:NotNull
@@ -42,7 +42,7 @@ data class ReservationForm(
 
         @get:NotEmpty
         @get:Size(min = 1, max = 15)
-        @get:Pattern(regexp = "[0-9]*",message = "エラー")
+        @get:Pattern(regexp = "[0-9]*", message = "エラー")
         var phone: String = "",
 
         @get:NotEmpty

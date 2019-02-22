@@ -39,21 +39,21 @@
             </tr>
             <tr>
                 <th align="left"><label>目的地</label></th>
-                <td align="left"><input type="text" name="dest" style="width: device-width" th:field="*{destination}"/>
+                <td align="left"><input type="text" name="dest" style="width: device-width" th:field="*{destination}" required/>
                 </td>
             </tr>
             <tr>
                 <th align="left"><label>電話番号</label></th>
-                <td align="left"><input type="tel" name="phone" style="width: device-width" th:field="*{phone}"/></td>
+                <td align="left"><input type="tel" name="phone" style="width: device-width" th:field="*{phone}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>メールアドレス</label></th>
-                <td align="left"><input type="email" name="mail" style="width: device-width" th:field="*{mail}"/></td>
+                <td align="left"><input type="email" name="mail" style="width: device-width" th:field="*{mail}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>メールアドレス(確認)</label></th>
                 <td align="left"><input type="email" name="mail_chk" style="width: device-width"
-                                        th:field="*{mailCheck}"/>
+                                        th:field="*{mailCheck}" required/>
                 </td>
             </tr>
             <tr>
@@ -73,7 +73,6 @@
         </table>
 
         <input type="hidden" th:field="${reservationForm.id}">
-        <input type="hidden" th:field="${reservationForm.name}">
     </div>
 </form>
 </body>

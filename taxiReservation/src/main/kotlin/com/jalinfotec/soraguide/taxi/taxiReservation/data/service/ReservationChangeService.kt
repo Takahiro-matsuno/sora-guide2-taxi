@@ -1,27 +1,27 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import org.springframework.stereotype.Service
 import java.sql.Time
-import java.util.*
+import java.sql.Timestamp
 
 @Service
 class ReservationChangeService(
         private val reservationRepository: ReservationInfoRepository
 ) {
 
-    fun change(changeInfo: ReservationForm): String {
+    fun change(changeInfo: ChangeForm): String {
         println("【予約変更】予約ID：${changeInfo.id}")
 
-        val bookingInfoOptional = reservationRepository.findById(changeInfo.id)
+        val rsvInfoOptional = reservationRepository.findById(changeInfo.id)
 
-        if (!changeValidate(changeInfo, bookingInfoOptional)) {
+        if (!rsvInfoOptional.isPresent) {
+            println("ERROR：変更する予約がDBに存在しない")
             throw Exception()
         }
 
-        val rsvInfo = bookingInfoOptional.get()
+        val rsvInfo = rsvInfoOptional.get()
         //Time型の形式揃え
         if (changeInfo.time.length == 5) {
             changeInfo.time += ":00"
@@ -36,27 +36,11 @@ class ReservationChangeService(
         rsvInfo.phone = changeInfo.phone
         rsvInfo.mail = changeInfo.mail
         rsvInfo.comment = changeInfo.comment
+        rsvInfo.last_update = Timestamp(System.currentTimeMillis())
 
         reservationRepository.save(rsvInfo)
 
         return rsvInfo.id
-    }
-
-    //予約変更前の妥当性チェック
-    fun changeValidate(changeInfo: ReservationForm, reservationInfoOptional: Optional<ReservationInformation>): Boolean {
-        //検索にかからない場合
-        if (!reservationInfoOptional.isPresent) {
-            println("ERROR：変更する予約がDBに存在しない")
-            return false
-        }
-        //ID改ざん対策
-        if (reservationInfoOptional.get().passenger_name.trim() != changeInfo.name.trim()) {
-            println("ERROR：変更前後の予約で名前が一致しない")
-            println("DB->${reservationInfoOptional.get().passenger_name.trim()}")
-            println("入力->${changeInfo.name.trim()}")
-            return false
-        }
-        return true
     }
 
     fun delete(id: String) : String {

@@ -43,123 +43,13 @@ class SampleController(
         return if (name == null) "who are you?" else "company_name"
     }
 
-    // データベースアクセス
-    @RequestMapping("db")
-    fun db(mav: ModelAndView, @RequestParam("id") id: String?): ModelAndView {
-        mav.viewName = "/testHTML/dbRead"
-        if (id != null) {
-            mav.addObject("dataList", taxiRepository.findById(id))
-        } else {
-            mav.addObject("dataList", taxiRepository.findAll())
-        }
-        return mav
-    }
-
-    // thymeleaf表示
-    @RequestMapping("view")
-    fun view() {
-
-    }
-
-    // thymeleafにdbデータ埋め込み
-    @RequestMapping("dbView")
-    fun dbView() {
-
-    }
-
     @RequestMapping("/")
     @ResponseBody
     fun home(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "index"
-        val cookieManager = CookieManager()
-        cookieManager.setCookie(request, response, "0000000001-0000000002-0000000005")
+        //val cookieManager = CookieManager()
+        //cookieManager.setCookie(request, response, "0000000001-0000000002-0000000005")
         return mav
-    }
-
-    @RequestMapping("/login")
-    @ResponseBody
-    fun login(mav: ModelAndView): ModelAndView {
-        mav.viewName = "testHTML/reservationDetail"
-        mav.addObject("test", "aaa")
-        return mav
-    }
-
-    @RequestMapping("/bookingInfo")
-    @ResponseBody
-    fun detailTest(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
-        mav.viewName = "testHTML/reservationDetail"
-        mav.addObject("dataList", rdb.getDetail(id))
-        mav.addObject("status", rdb.statusText)
-        mav.addObject("companyName", rdb.taxiCompanyName)
-        return mav
-    }
-
-    @RequestMapping("/changeTest")
-    @ResponseBody
-    fun changeTest(mav: ModelAndView): ModelAndView {
-        mav.viewName = "testHTML/index"
-        val bookInfo = reservationRepository.findById("0000000001").get()
-        bookInfo.passenger_name = "江戸川コナン"
-        bookInfo.passenger_phonetic = "エドガワコナン"
-        reservationRepository.save(bookInfo)
-        return mav
-    }
-
-    /**
-     * 登録処理テスト用
-     */
-    @RequestMapping("/reservationTest")
-    @ResponseBody
-    fun reservationTest(mav: ModelAndView): ModelAndView {
-        mav.viewName = "testHTML/registrationTest"
-        mav.addObject("taxiList", taxiRepository.findAll())
-        mav.addObject("reservationForm", rsvDetailservice.getChangeDetail("0000000003"))
-
-        return mav
-    }
-
-    @RequestMapping("/reservationCompTest")
-    @ResponseBody
-    fun reservationCompTest(mav: ModelAndView,
-                            @ModelAttribute("reservationForm") rsvForm: ReservationForm,
-                            @ModelAttribute("id") id: String,
-                            @ModelAttribute("company_name") name: String): ModelAndView {
-
-        val checkBooking = reservationRepository.findById(id)
-        //検索にかからない場合
-        if (!checkBooking.isPresent) {
-            println("ERROR：変更する予約がDBに存在しない")
-            throw Exception()
-        }
-        //ID改ざん対策
-        if (checkBooking.get().passenger_name.trim() != name.trim()) {
-            println("ERROR：変更前後の予約で名前が一致しない")
-            println("DB->${checkBooking.get().passenger_name.trim()}")
-            println("入力->${name.trim()}")
-            throw Exception()
-        }
-
-        //変更処理
-        //rsvChangeService.change(id,rsvForm)
-
-        //完了画面の確認は別途
-        mav.viewName = "testHTML/login"
-        return mav
-    }
-
-    @RequestMapping("/bookingSearch")
-    @ResponseBody
-    fun bookingSearch(mav: ModelAndView): ModelAndView {
-        mav.viewName = "list"
-
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        val dateString = sdf.format(java.util.Date())
-
-        val date = Date.valueOf(dateString)
-        mav.addObject("rsvList", reservationRepository.findByStatusAndDateGreaterThanEqualOrderByIdAsc(1, date))
-
-        return mav
-
     }
 
     //DBデータの初期化用メソッド
@@ -286,56 +176,6 @@ class SampleController(
         )
         val bookList = mutableListOf(bookingInfo1, bookingInfo2, bookingInfo3, bookingInfo4, bookingInfo5)
         reservationRepository.saveAll(bookList)
-
-        return mav
-    }
-
-    /**
-     * Cookieテスト
-     */
-    @RequestMapping("/cookie")
-    fun cookie(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
-        val cookies = request.cookies
-        val bookingIdList: MutableList<String> = mutableListOf()
-        if (cookies != null) {
-            for (cookie in cookies) {
-                if ("rsvId".startsWith(cookie.name)) {
-                    bookingIdList.add(cookie.value)
-                }
-            }
-            val rsvList = reservationRepository.findAllById(bookingIdList)
-            for (rsvInfo in rsvList) {
-                if (rsvInfo.status == 5) {
-
-                }
-            }
-            mav.addObject("rsvList", rsvList)
-        }
-
-        val newCookie = Cookie("rsvId", "0000000001")
-        newCookie.maxAge = 365 * 24 * 60 * 60
-        newCookie.path = "/"
-        if ("https" == request.scheme) {
-            newCookie.secure = true
-        }
-        response.addCookie(newCookie)
-
-        mav.viewName = "list"
-
-        return mav
-    }
-
-    @RequestMapping("/setCookie")
-    fun setCookie(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse,
-                  @ModelAttribute("rsvId") rsvId: String): ModelAndView {
-        mav.viewName = "index"
-
-        val cookieManager = CookieManager()
-        val setId = String.format("%010d", rsvId.toInt())
-        cookieManager.setCookie(request, response, setId)
-
-        mav.addObject("rsvId", rsvId)
-        mav.addObject("text", "Cookieを設定しました")
 
         return mav
     }

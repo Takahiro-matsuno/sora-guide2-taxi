@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.validation
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import java.util.*
 
@@ -29,7 +30,7 @@ class FormValidate {
     }
 
     //TODO 変更用のチェック処理の追加
-    fun changeCheck(changeForm :ReservationForm):String{
+    fun changeCheck(changeForm : ChangeForm):String{
         return ""
     }
 

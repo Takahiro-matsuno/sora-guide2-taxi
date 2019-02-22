@@ -10,47 +10,33 @@ import javax.servlet.http.HttpServletResponse
  */
 class CookieManager {
 
-    companion object {
-        //開発中はUSER-AGENTの判定を切りたい
-        //TEST_MODEがtrueの時はUSER-AGENT判定無し
-        const val TEST_MODE = true
-    }
-
     fun setCookie(request: HttpServletRequest, response: HttpServletResponse, uuid: String) {
-        //UserAgentでアプリのWebViewから開いているかどうか判定
-        val userAgent = request.getHeader("user-agent")
-        if (TEST_MODE || userAgent.indexOf("sora-GuideApp") > 0) {
-            val newCookie = Cookie("uuid", uuid)
-            newCookie.maxAge = 10 * 365 * 24 * 60 * 60
-            newCookie.path = "/"
-            if ("https" == request.scheme) {
-                newCookie.secure = true
-            }
-            response.addCookie(newCookie)
+        val newCookie = Cookie("uuid", uuid)
+        newCookie.maxAge = 10 * 365 * 24 * 60 * 60
+        newCookie.path = "/"
+        if ("https" == request.scheme) {
+            newCookie.secure = true
         }
+        response.addCookie(newCookie)
+
     }
 
     fun getFromCookie(request: HttpServletRequest): String? {
-        //UserAgentでアプリのWebViewから開いているかどうか判定
-        val userAgent = request.getHeader("user-agent")
         var uuid: String? = null
 
-        if (TEST_MODE || userAgent.indexOf("sora-GuideApp") > 0) {
-            val cookies = request.cookies
+        val cookies = request.cookies
 
-            if (cookies != null) {
-                for (cookie in cookies) {
-                    //Cookieから"uuid"で保存している値を検索
-                    if ("uuid" == cookie.name) {
-                        uuid = cookie.value
-                    }
+        if (cookies != null) {
+            for (cookie in cookies) {
+                //Cookieから"uuid"で保存している値を検索
+                if ("uuid" == cookie.name) {
+                    uuid = cookie.value
+                    break
                 }
             }
         }
-
         return uuid
     }
-
 }
 
 /*

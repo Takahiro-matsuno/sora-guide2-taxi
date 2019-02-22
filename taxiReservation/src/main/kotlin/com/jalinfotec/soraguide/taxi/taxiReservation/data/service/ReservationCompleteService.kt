@@ -19,7 +19,7 @@ class ReservationCompleteService(
         private val taxiInfoService: TaxiInformationService) {
 
     @Transactional(readOnly = false)
-    fun complete(input: ReservationForm, request: HttpServletRequest, response: HttpServletResponse): String {
+    fun complete(input: ReservationForm, request: HttpServletRequest): String {
         val rsvInfo = setReservation(input, request)
         println("【予約完了】予約ID：${rsvInfo.id}")
         reservationRepository.save(rsvInfo)

@@ -22,7 +22,6 @@ class ApplicationController(
         private val rsvListService: ReservationListService,
         private val rsvChangeService: ReservationChangeService
 ) {
-    // TODO 一覧表示フォームを作る
     //一覧画面
     @GetMapping("app/list")
     fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
@@ -37,9 +36,9 @@ class ApplicationController(
 
     //詳細画面
     @PostMapping("app/detail")
-    fun detail(mav: ModelAndView, @RequestParam("id") id: String,
-               request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
-        //TODO 直打ち対策
+    fun detail(mav: ModelAndView,
+               @RequestParam("id") id: String,
+               request: HttpServletRequest): ModelAndView {
         mav.viewName = "detail"
         val rsvDetail = rsvDetailService.getDetail(id, request) ?: throw Exception()
 
@@ -49,9 +48,9 @@ class ApplicationController(
 
     //変更入力画面
     @PostMapping("app/change")
-    fun change(mav: ModelAndView, @RequestParam("id") id: String,
-               request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
-        //TODO 直打ち対策
+    fun change(mav: ModelAndView,
+               @RequestParam("id") id: String,
+               request: HttpServletRequest): ModelAndView {
         mav.viewName = "change"
         val rsvInfo = rsvChangeService.getChangeDetail(id, request)
 
@@ -75,10 +74,12 @@ class ApplicationController(
                           @RequestParam("mail") mail: String,
                           request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
 
-        val rsvDetail = rsvDetailService.detailCertificates(id, mail, request)
+        val rsvDetail = rsvDetailService.detailCertificates(id, mail, request, response)
 
         return if (rsvDetail != null) {
-            detail(mav, id, request, response)
+            mav.viewName = "detail"
+            mav.addObject("rsvDetail", rsvDetail)
+            mav
         } else {
             certificateInput(mav, id)
         }

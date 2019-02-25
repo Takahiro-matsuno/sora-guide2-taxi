@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationListService
 import org.springframework.stereotype.Controller
@@ -18,9 +19,9 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 class ApplicationController(
         private val rsvDetailService: ReservationDetailService,
-        private val rsvListService: ReservationListService
+        private val rsvListService: ReservationListService,
+        private val rsvChangeService: ReservationChangeService
 ) {
-    // TODO 一覧表示フォームを作る
     //一覧画面
     @GetMapping("app/list")
     fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
@@ -28,45 +29,40 @@ class ApplicationController(
 
         val list = rsvListService.getList(request, response)
         mav.addObject("rsvList", list)
+        mav.addObject("isEmpty", list.isEmpty())
 
-        if (list.isEmpty()) {
-            mav.addObject("isEmpty", true)
-        } else {
-            mav.addObject("isEmpty", false)
-        }
         return mav
     }
 
-    // TODO NOT BOOKING
-    // TODO
     //詳細画面
     @PostMapping("app/detail")
-    fun detail(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
-        //TODO 直打ち対策
+    fun detail(mav: ModelAndView,
+               @RequestParam("id") id: String,
+               request: HttpServletRequest): ModelAndView {
         mav.viewName = "detail"
-        val bookingInfo = rsvDetailService.getDetail(id)
+        val rsvDetail = rsvDetailService.getDetail(id, request) ?: throw Exception()
 
-        mav.addObject("rsvDetail", bookingInfo.get())
-        mav.addObject("status", rsvDetailService.statusText)
-        mav.addObject("companyName", rsvDetailService.taxiCompanyName)
+        mav.addObject("rsvDetail", rsvDetail)
         return mav
     }
 
     //変更入力画面
     @PostMapping("app/change")
-    fun change(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
-        //TODO 直打ち対策
+    fun change(mav: ModelAndView,
+               @RequestParam("id") id: String,
+               request: HttpServletRequest): ModelAndView {
         mav.viewName = "change"
-        val bookingInfo = rsvDetailService.getChangeDetail(id)
+        val rsvInfo = rsvChangeService.getChangeDetail(id, request)
 
-        mav.addObject("reservationForm", bookingInfo)
+        mav.addObject("reservationForm", rsvInfo)
         return mav
     }
+
     //予約認証画面
     @GetMapping("app/certificateInput")
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
-        mav.addObject("id", id)
+        mav.addObject("reservationId", id)
         mav.addObject("mail", "")
 
         return mav
@@ -75,13 +71,17 @@ class ApplicationController(
     //予約認証画面から予約詳細への遷移
     @PostMapping("app/certificateResult")
     fun certificateResult(mav: ModelAndView, @RequestParam("id") id: String,
-                          @RequestParam("mail") mail: String): ModelAndView {
+                          @RequestParam("mail") mail: String,
+                          request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
 
-        val bookingInfo = rsvDetailService.detailCertificates(id, mail)
+        val rsvDetail = rsvDetailService.detailCertificates(id, mail, request, response)
 
-        return if (bookingInfo.isPresent) {
-            detail(mav, id)
+        return if (rsvDetail != null) {
+            mav.viewName = "detail"
+            mav.addObject("rsvDetail", rsvDetail)
+            mav
         } else {
+            mav.addObject("errorMassage","予約番号、またはメールアドレスに誤りがあります。")
             certificateInput(mav, id)
         }
     }

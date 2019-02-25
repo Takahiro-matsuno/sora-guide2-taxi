@@ -6,13 +6,6 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約確認画面</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <!--   <link rel="stylesheet" href="sample.css"> -->
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-    <![endif]-->
 </head>
 <body>
 <header>
@@ -24,17 +17,14 @@
         <table>
             <tr>
                 <th align="left"><label>乗車日</label></th>
-                <input type="hidden" name="date" th:value="*{date}"/>
                 <td align="left" th:text="*{date}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>乗車時間</label></th>
-                <input type="hidden" name="time" th:value="*{time}"/>
                 <td align="left" th:text="*{time}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>人数(大人)</label></th>
-                <input type="hidden" name="adult" th:value="*{adult}"/>
                 <td align="left" th:text="*{adult}" style="width: device-width;"></td>
             </tr>
             <tr>
@@ -43,46 +33,37 @@
             </tr>
             <tr>
                 <th align="left"><label>配車台数</label></th>
-                <input type="hidden" name="car_dispatch" th:value="*{car_dispatch}"/>
                 <td align="left" th:text="*{car_dispatch}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>タクシー会社</label></th>
-                <input type="hidden" name="company_id" th:value="*{company_id}"/>
-                <td align="left" th:text="${taxiCompanyName}" style="width: device-width;"></td>
+                <td align="left" th:text="*{company_name}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>目的地</label></th>
-                <input type="hidden" name="destination" th:value="*{destination}"/>
                 <td align="left" th:text="*{destination}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>氏名</label></th>
-                <input type="hidden" name="name" th:value="*{name}"/>
                 <td align="left" th:text="*{name}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>フリガナ</label></th>
-                <input type="hidden" name="phonetic" th:value="*{phonetic}"/>
                 <td align="left" th:text="*{phonetic}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>電話番号</label></th>
-                <input type="hidden" name="phone" th:value="*{phone}"/>
                 <td align="left" th:text="*{phone}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>メールアドレス</label></th>
-                <input type="hidden" name="mail" th:value="*{mail}"/>
                 <td align="left" th:text="*{mail}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>コメント(任意)</label></th>
-                <input type="hidden" name="comment" th:value="*{comment}"/>
                 <td align="left" th:text="*{comment}" style="width: device-width;"></td>
             </tr>
             <tr>
-                <!--<input type="hidden" name="reservationForm" th:value="${reservationForm}" />-->
                 <td align="left">
                     <button type="button" onclick="history.back()">戻る</button>
                 </td>
@@ -92,6 +73,18 @@
             </tr>
         </table>
     </div>
+    <input type="hidden" name="date" th:value="*{date}"/>
+    <input type="hidden" name="time" th:value="*{time}"/>
+    <input type="hidden" name="adult" th:value="*{adult}"/>
+    <input type="hidden" name="child" th:value="*{child}"/>
+    <input type="hidden" name="car_dispatch" th:value="*{car_dispatch}"/>
+    <input type="hidden" name="company_name" th:value="*{company_name}"/>
+    <input type="hidden" name="destination" th:value="*{destination}"/>
+    <input type="hidden" name="name" th:value="*{name}"/>
+    <input type="hidden" name="phonetic" th:value="*{phonetic}"/>
+    <input type="hidden" name="phone" th:value="*{phone}"/>
+    <input type="hidden" name="mail" th:value="*{mail}"/>
+    <input type="hidden" name="comment" th:value="*{comment}"/>
 </form>
 </body>
 </html>

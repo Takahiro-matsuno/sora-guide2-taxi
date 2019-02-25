@@ -3,11 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約認証</title>
 </head>
 <body>
 <h1>予約認証</h1>
 <form action="./certificateResult" method="post">
+    <p style="color: red" th:text="${errorMassage}"></p>
     <table>
         <tr>
             <th align="left"><label>予約番号</label></th>
@@ -15,7 +18,7 @@
         </tr>
         <tr>
             <th align="left"><label>メールアドレス</label></th>
-            <td align="left"><input type="text" style="width: device-width" th:field="${mail}" required /></td>
+            <td align="left"><input type="text" style="width: device-width" name="mail" required /></td>
         </tr>
     </table>
 

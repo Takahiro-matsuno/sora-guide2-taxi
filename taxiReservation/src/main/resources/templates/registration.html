@@ -3,23 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+    <title>予約登録画面</title>
     <link th:href="@{/css/tab.css}" rel="stylesheet"/>
-    <title>予約登録</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
 </head>
 
 <body>
-<ul class="tabs">
-    <li class="active" rel="tab1">予約登録</li>
-    <li onClick="location.href='./list'">予約一覧</li>
-</ul>
+<header>
+    <ul th:if="${isTab}" class="tabs">
+        <li class="active" rel="tab1">予約登録</li>
+        <li onClick="location.href='./list'">予約一覧</li>
+    </ul>
+    <h1 th:unless="${isTab}">予約登録</h1>
+</header>
 <form action="./confirmation" method="post" th:object="${reservationForm}">
     <div id="contents">
         <p>以下の項目を入力してください</p>
-        <ul>
-            <li th:each="e:${#fields.detailedErrors()}" style="color: red" th:text="${e.message}"></li>
-        </ul>
+        <p style="color: red" th:text="${errorMassage}"></p>
         <table>
             <tr>
                 <th align="left"><label>乗車日</label></th>
@@ -27,7 +28,7 @@
             </tr>
             <tr>
                 <th align="left"><label>乗車時間</label></th>
-                <td align="left"><input type="time" style="width: device-width" th:field="*{time}"/></td>
+                <td align="left"><input type="time" style="width: device-width" th:field="*{time}" step="300"/></td>
             </tr>
             <tr>
                 <th align="left"><label>人数(大人)</label></th>
@@ -44,9 +45,10 @@
             <tr>
                 <th align="left"><label>タクシー会社</label></th>
                 <td>
-                    <select id="singleSelect" th:field="*{company_id}">
+                    <select id="singleSelect" th:field="*{company_name}">
                         <option value="">---</option>
-                        <option th:each="item : ${taxiList}" th:value="${item.id}" th:text="${item.company_name}">
+                        <option th:each="item : ${taxiList}" th:value="${item}" th:text="${item}"
+                                th:selected="${item}==*{company_name}">
                         </option>
                     </select>
                 </td>

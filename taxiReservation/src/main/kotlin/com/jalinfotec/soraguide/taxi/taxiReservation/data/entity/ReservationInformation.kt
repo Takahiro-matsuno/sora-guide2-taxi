@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.entity
 
 import java.sql.Date
 import java.sql.Time
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -9,30 +10,46 @@ import javax.persistence.*
 data class ReservationInformation(
         @Id
         @Column(name = "reservation_id")
-        var id: String = "",
+        var reservationId: String = "",
 
         var status: Int = 0,
 
         @Column(name = "ride_on_date")
-        var date: Date = Date(0),
+        var rideOnDate: Date = Date(0),
 
         @Column(name = "ride_on_time")
-        var time: Time = Time(date.time),
+        var rideOnTime: Time = Time(rideOnDate.time),
 
         var adult: Int = 0,
         var child: Int = 0,
-        var car_dispatch_number: Int = 0,
-        var company_id: String = "",
+
+        @Column(name = "car_dispatch_number")
+        var carDispatchNumber: Int = 0,
+
+        @Column(name = "company_id")
+        var companyId: String = "",
         var destination: String = "",
-        var passenger_name: String = "",
-        var passenger_phonetic: String = "",
+
+        @Column(name = "passenger_name")
+        var passengerName: String = "",
+
+        @Column(name = "passenger_phonetic")
+        var passengerPhonetic: String = "",
 
         @Column(name = "passenger_contact")
-        var phone: String = "",
+        var passengerContact: String = "",
 
         var mail: String = "",
         var comment: String = "",
-        var car_number: String = "",
-        var car_contact: String = "",
-        var notice: String = ""
+
+        @Column(name = "car_number")
+        var carNumber: String = "",
+
+        @Column(name = "car_contact")
+        var carContact: String = "",
+        var notice: String = "",
+        var uuid: String = "",
+
+        @Column(name = "last_update")
+        var lastUpdate: Timestamp = Timestamp(0)
 )

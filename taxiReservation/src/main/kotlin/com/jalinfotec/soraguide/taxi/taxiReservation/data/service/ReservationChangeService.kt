@@ -1,95 +1,121 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import org.springframework.stereotype.Service
 import java.sql.Time
-import java.util.*
+import java.sql.Timestamp
+import javax.servlet.http.HttpServletRequest
 
 @Service
 class ReservationChangeService(
         private val reservationRepository: ReservationInfoRepository
 ) {
 
-    fun change(changeInfo: ReservationForm): String {
-        println("【予約変更】予約ID：${changeInfo.id}")
+    /**
+     * 変更入力画面用のForm設定
+     */
+    fun getChangeDetail(id: String, request: HttpServletRequest): ChangeForm {
+        println("【変更入力】予約番号：$id")
 
-        val bookingInfoOptional = reservationRepository.findById(changeInfo.id)
+        //予約情報取得
+        val rsvInfo = getRsvInfo(id, request)
 
-        if (!changeValidate(changeInfo, bookingInfoOptional)) {
+        return ChangeForm(
+                id = rsvInfo.reservationId,
+                date = rsvInfo.rideOnDate,
+                time = rsvInfo.rideOnTime.toString(),
+                adult = rsvInfo.adult,
+                child = rsvInfo.child,
+                car_dispatch = rsvInfo.carDispatchNumber,
+                destination = rsvInfo.destination.trim(),
+                phone = rsvInfo.passengerContact.trim(),
+                mail = rsvInfo.mail.trim(),
+                mailCheck = rsvInfo.mail.trim(),
+                comment = rsvInfo.comment.trim(),
+                lastUpdate = rsvInfo.lastUpdate
+        )
+    }
+
+    /**
+     * 予約変更処理
+     */
+    fun change(changeInfo: ChangeForm, request: HttpServletRequest): String {
+        println("【予約変更】予約番号：${changeInfo.id}")
+
+        //予約情報取得
+        val rsvInfo = getRsvInfo(changeInfo.id, request)
+
+        //最終更新日の確認
+        if(rsvInfo.lastUpdate != changeInfo.lastUpdate){
+            println("最終更新日アンマッチ")
             throw Exception()
         }
 
-        val rsvInfo = bookingInfoOptional.get()
         //Time型の形式揃え
         if (changeInfo.time.length == 5) {
             changeInfo.time += ":00"
         }
 
-        rsvInfo.date = changeInfo.date
-        rsvInfo.time = Time.valueOf(changeInfo.time)
+        //FormからEntityに変更項目のみ詰め替え
+        rsvInfo.rideOnDate = changeInfo.date
+        rsvInfo.rideOnTime = Time.valueOf(changeInfo.time)
         rsvInfo.adult = changeInfo.adult
         rsvInfo.child = changeInfo.child
-        rsvInfo.car_dispatch_number = changeInfo.car_dispatch
+        rsvInfo.carDispatchNumber = changeInfo.car_dispatch
         rsvInfo.destination = changeInfo.destination
-        rsvInfo.phone = changeInfo.phone
+        rsvInfo.passengerContact = changeInfo.phone
         rsvInfo.mail = changeInfo.mail
         rsvInfo.comment = changeInfo.comment
+        rsvInfo.lastUpdate = Timestamp(System.currentTimeMillis())
 
-        /*
-        bookingInfo = ReservationInformation(
-                id = rsvInfo.id,
-                status = rsvInfo.status,
-                company_id = rsvInfo.company_id,
-                passenger_name = rsvInfo.passenger_name,
-                passenger_phonetic = rsvInfo.passenger_phonetic,
-                car_contact = rsvInfo.car_contact,
-                car_number = rsvInfo.car_number,
-                notice = rsvInfo.notice,
-
-                date = changeInfo.date,
-                time = Time.valueOf(changeInfo.time),
-                adult = changeInfo.adult,
-                child = changeInfo.child,
-                car_dispatch_number = changeInfo.car_dispatch,
-                destination = changeInfo.destination,
-                phone = changeInfo.phone,
-                mail = changeInfo.mail,
-                comment = changeInfo.comment
-        )*/
-
+        //SQL呼び出し
         reservationRepository.save(rsvInfo)
 
-        return rsvInfo.id
+        return rsvInfo.reservationId
     }
 
-    //予約変更前の妥当性チェック
-    fun changeValidate(changeInfo: ReservationForm, reservationInfoOptional: Optional<ReservationInformation>): Boolean {
-        //検索にかからない場合
-        if (!reservationInfoOptional.isPresent) {
+    /**
+     * 予約取消処理
+     */
+    fun delete(id: String, lastUpdate: Timestamp, request: HttpServletRequest): String {
+        println("【予約取消】予約番号：$id")
+
+        //予約情報取得
+        val rsvInfo = getRsvInfo(id, request)
+
+        //最終更新日の確認
+        if(rsvInfo.lastUpdate != lastUpdate){
+            println("最終更新日アンマッチ")
+            throw Exception()
+        }
+
+        //取消処理
+        rsvInfo.status = 4
+        reservationRepository.save(rsvInfo)
+
+        return rsvInfo.reservationId
+    }
+
+    /**
+     * 予約変更、取消フロー用の予約情報取得処理
+     *
+     * 予約番号とUUIDを用いて予約検索を行う
+     * 予約情報が存在しない場合はエラーを投げる。
+     */
+    fun getRsvInfo(id: String, request: HttpServletRequest): ReservationInformation {
+        val uuid = UuidManager().getUuid(request) ?: ""
+
+        val rsvInfoOptional = reservationRepository.findByReservationIdAndUuid(id, uuid)
+
+        //予約が存在しない場合、エラー
+        if (!rsvInfoOptional.isPresent) {
             println("ERROR：変更する予約がDBに存在しない")
-            return false
+            throw Exception()
         }
-        //ID改ざん対策
-        if (reservationInfoOptional.get().passenger_name.trim() != changeInfo.name.trim()) {
-            println("ERROR：変更前後の予約で名前が一致しない")
-            println("DB->${reservationInfoOptional.get().passenger_name.trim()}")
-            println("入力->${changeInfo.name.trim()}")
-            return false
-        }
-        return true
+
+        return rsvInfoOptional.get()
     }
-
-    fun delete(id: String) : String {
-        val bookingInfoOptional = reservationRepository.findById(id)
-
-        val beforeInfo = bookingInfoOptional.get()
-        beforeInfo.status = 4
-        reservationRepository.save(beforeInfo)
-
-        return beforeInfo.id
-    }
-
-
 }

@@ -7,7 +7,7 @@ import javax.persistence.*
 data class Numbering(
         @Id
         @Column(name = "tablename")
-        var name: String = "",
+        var tableName: String = "",
 
         @Column(name = "nextvalue")
         var nextValue: Int = 1

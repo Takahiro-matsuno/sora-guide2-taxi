@@ -6,19 +6,12 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title th:text="${title}"></title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <!--   <link rel="stylesheet" href="sample.css"> -->
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-    <![endif]-->
 </head>
 <body>
 <div id="contents" th:object="${rsvDetail}">
     <table>
         <tr>
-            <th align="right" th:text="*{passenger_name}" style="width: device-width;"></th>
+            <th align="right" th:text="*{passengerName}" style="width: device-width;"></th>
             <th align="left"><label>様</label></th>
         </tr>
     </table>
@@ -26,11 +19,11 @@
     <table>
         <tr>
             <th align="left"><label>予約番号：</label></th>
-            <td align="left" th:text="*{id}" style="width: device-width;"></td>
+            <td align="left" th:text="*{reservationId}" style="width: device-width;"></td>
         </tr>
         <tr>
             <th align="left"><label>ステータス：</label></th>
-            <td align="left" th:text="${statusText}" style="width: device-width;"></td>
+            <td align="left" th:text="*{status}" style="width: device-width;"></td>
         </tr>
     </table>
 

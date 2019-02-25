@@ -9,39 +9,32 @@ import javax.servlet.http.HttpServletResponse
  * スマホアプリから実行している場合のみ、Cookieのやり取りを行う
  */
 class CookieManager {
-    fun setCookie(request: HttpServletRequest, response: HttpServletResponse, rsvId: String) {
-        //UserAgentでアプリのWebViewから開いているかどうか判定
-        //val userAgent = request.getHeader("user-agent")
-      //  if (userAgent.indexOf("sora-GuideApp") > 0) {
-            val newCookie = Cookie("rsvId", rsvId)
-            newCookie.maxAge = 10 * 365 * 24 * 60 * 60
-            newCookie.path = "/"
-            if ("https" == request.scheme) {
-                newCookie.secure = true
-            }
-            response.addCookie(newCookie)
-        //}
+
+    fun setCookie(request: HttpServletRequest, response: HttpServletResponse, uuid: String) {
+        val newCookie = Cookie("uuid", uuid)
+        newCookie.maxAge = 10 * 365 * 24 * 60 * 60
+        newCookie.path = "/"
+        if ("https" == request.scheme) {
+            newCookie.secure = true
+        }
+        response.addCookie(newCookie)
+
     }
 
-    fun getFromCookie(request: HttpServletRequest): List<String> {
-        //UserAgentでアプリのWebViewから開いているかどうか判定
-        val userAgent = request.getHeader("user-agent")
-        var bookingId: String? = null
+    fun getFromCookie(request: HttpServletRequest): String? {
+        var uuid: String? = null
 
-        //if (userAgent.indexOf("sora-GuideApp") > 0) {
-            val cookies = request.cookies
+        val cookies = request.cookies
 
-            if (cookies != null) {
-                for (cookie in cookies) {
-                    //Cookieから"rsvId"で保存している値を検索
-                    if ("rsvId" == cookie.name) {
-                        bookingId = cookie.value
-                    }
+        if (cookies != null) {
+            for (cookie in cookies) {
+                //Cookieから"uuid"で保存している値を検索
+                if ("uuid" == cookie.name) {
+                    uuid = cookie.value
+                    break
                 }
             }
-        //}
-
-        //予約番号はハイフン区切りで格納されているので分割してリスト化
-        return bookingId?.split("-") ?: listOf()
+        }
+        return uuid
     }
 }

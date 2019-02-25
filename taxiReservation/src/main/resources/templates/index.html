@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>タクシー予約機能テスト用ページ</title>
 </head>
 
@@ -18,14 +20,14 @@
 <p>予約一覧⇒予約詳細⇒変更入力⇒変更完了</p>
 <p>予約一覧⇒予約詳細⇒取消完了</p>
 <button type="button" onClick="location.href='./app/list'">予約一覧</button>
-<br><br>onClick="location.href='./app/list'"
+<br><br>
 
 <p>予約認証画面（予約完了メールのURLからの遷移を想定）</p>
-<button type="button" onClick="location.href='./app/certificateResult'">予約認証</button>
+<button type="button" onClick="location.href='./app/certificateInput?id=0000000001'">予約認証</button>
 
 <p>タクシー会社管理画面</p>
 <button type="button"
-        onClick="location.href='https://taximanagementapp.azurewebsites.net/taxiCompanyApp-0.0.1-SNAPSHOT'">管理画面
+        onClick="location.href='https://taximanagementapp.azurewebsites.net/company'">管理画面
 </button>
 
 <h3>メモ</h3>

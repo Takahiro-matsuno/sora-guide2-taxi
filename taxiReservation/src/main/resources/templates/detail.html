@@ -3,11 +3,43 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約詳細</title>
-
     <script type="text/javascript">
-        //キャンセルボタン押下時のモーダル表示処理
+<!--
+
+function cancelCheck(id,lastUpdate){
+    var result = window.confirm('取り消してよろしいですか？')
+
+	if(result){
+		//フォーム作成
+        var form = document.createElement("form");
+        form.setAttribute("action", "./cancelComplete");
+        form.setAttribute("method", "post");
+        form.style.display = "none";
+        document.body.appendChild(form);
+
+        //送信値
+        var input = document.createElement('input');
+        input.setAttribute('type',  'hidden');
+        input.setAttribute('name', 'id');
+        input.setAttribute('value', id);
+        form.appendChild(input);
+
+        input = document.createElement('input');
+        input.setAttribute('type',  'hidden');
+        input.setAttribute('name', 'lastUpdate');
+        input.setAttribute('value', lastUpdate);
+        form.appendChild(input);
+
+        form.submit();
+	}
+}
+-->
+
     </script>
+
 </head>
 
 <body>
@@ -21,7 +53,7 @@
         </tr>
         <tr>
             <th>ステータス</th>
-            <td th:text="${status}"></td>
+            <td th:text="*{status}"></td>
         </tr>
         <tr>
             <th>日付</th>
@@ -41,11 +73,11 @@
         </tr>
         <tr>
             <th>台数</th>
-            <td th:text="*{car_dispatch_number}"></td>
+            <td th:text="*{car_dispatch}"></td>
         </tr>
         <tr>
             <th>会社名</th>
-            <td th:text="${companyName}"></td>
+            <td th:text="*{company_name}"></td>
         </tr>
         <tr>
             <th>目的地</th>
@@ -87,12 +119,11 @@
         </tr>
     </table>
 
-   <!--遷移先は適当-->
-    <button type="submit" id="cancel" formaction="./deleteComplete" name="id" th:value="${rsvDetail.id}">
+    <button type="button" th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
         取消する
     </button>
 
-    <button type="submit" id="change" formaction="./change" name="id" th:value="${rsvDetail.id}">
+    <button type="submit" formaction="./change" name="id" th:value="${rsvDetail.id}">
         変更する
     </button>
 

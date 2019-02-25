@@ -65,10 +65,10 @@
             </tr>
             <tr>
                 <td align="left">
-                    <button type="button" onclick="history.back()">戻る</button>
+                    <button type="submit" formaction="./registration">戻る</button>
                 </td>
                 <td align="left">
-                    <button type="submit" name="sendButton">送信</button>
+                    <button type="submit">送信</button>
                 </td>
             </tr>
         </table>
@@ -84,6 +84,7 @@
     <input type="hidden" name="phonetic" th:value="*{phonetic}"/>
     <input type="hidden" name="phone" th:value="*{phone}"/>
     <input type="hidden" name="mail" th:value="*{mail}"/>
+    <input type="hidden" name="mailCheck" th:value="*{mailCheck}"/>
     <input type="hidden" name="comment" th:value="*{comment}"/>
 </form>
 </body>

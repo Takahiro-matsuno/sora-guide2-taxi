@@ -48,7 +48,7 @@ class ReservationController(
     }
 
     @PostMapping("/app/registration")
-    fun backRegistration(mav: ModelAndView, request: HttpServletRequest): ModelAndView {
+    fun backRegistration(mav: ModelAndView, rsvForm: ReservationForm, request: HttpServletRequest): ModelAndView {
         mav.viewName = "registration"
 
         //スマホアプリ遷移の場合は画面上部にタブを表示
@@ -59,7 +59,7 @@ class ReservationController(
         }
 
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
-        mav.addObject("reservationForm", setRsvForm(ReservationForm()))
+        mav.addObject("reservationForm", rsvForm)
         mav.addObject("isTab", isTabDisplay)
 
         return mav

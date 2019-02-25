@@ -35,7 +35,7 @@ class UserAccountService(
             throw UsernameNotFoundException("User not found: $username")
         }
 
-        if (!ac.enableFlg){ // ユーザーが許可されていない場合
+        if (!ac.enableFlg) { // ユーザーが許可されていない場合
             println("user not allowed: $username")
             throw UsernameNotFoundException("User not found: $username")
         }
@@ -50,6 +50,7 @@ class UserAccountService(
             AuthorityUtils.createAuthorityList("ROLE_USER")
         }
     }
+
     /*
     // 管理者追加
     @Transactional
@@ -82,8 +83,9 @@ class UserAccountService(
         // ユーザー取得、見つからない場合は処理終了
         val user = accRepository.findByCompanyIdAndUsername(companyId, account.username) ?: return false
 
-        // TODO パスワードが暗号化されているためチェックできない
-        return if (passwordEncoder.encode(usForm.nowPassword) == user.password) {
+        //現パスワード照会
+        //return if (passwordEncoder.encode(usForm.nowPassword) == user.password) {
+        return if (passwordEncoder.matches(usForm.nowPassword, user.password)) {
             // 現在パスワードが一致する場合はパスワードを更新
             user.password = passwordEncoder.encode(usForm.newPassword)
             accRepository.save(user)

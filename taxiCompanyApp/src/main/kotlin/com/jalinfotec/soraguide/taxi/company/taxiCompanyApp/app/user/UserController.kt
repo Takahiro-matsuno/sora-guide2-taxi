@@ -57,6 +57,7 @@ class UserController {
         mav.viewName = "/contents/userSetting"
         if (userService.changePassword(user, usForm)) {
             // 更新成功
+            mav.addObject("message","ユーザ情報を更新しました。")
             mav.addObject("usForm", UserSettingForm(username = user.username))
         } else {
             // 更新失敗

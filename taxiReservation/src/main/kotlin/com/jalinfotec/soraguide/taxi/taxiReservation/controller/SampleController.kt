@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.CookieManager
 import java.sql.Date
 import java.sql.Time
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
@@ -30,11 +31,7 @@ import javax.servlet.http.HttpServletResponse
 class SampleController(
         private val taxiRepository: TaxiInfoRepository,
         private val reservationRepository: ReservationInfoRepository,
-        private val numberingRepository: NumberingRepository,
-        private val rdb: ReservationDetailService,
-        private val rsvCompService: ReservationCompleteService,
-        private val rsvDetailservice: ReservationDetailService,
-        private val rsvChangeService: ReservationChangeService
+        private val numberingRepository: NumberingRepository
 ) {
 
     // 疎通確認
@@ -96,7 +93,9 @@ class SampleController(
                 comment = "コメントテスト1件目",
                 car_number = "",
                 car_contact = "",
-                notice = ""
+                notice = "",
+                uuid = "",
+                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo2 = ReservationInformation(
                 id = "0000000002",
@@ -115,7 +114,9 @@ class SampleController(
                 comment = "コメントテスト2件目",
                 car_number = "",
                 car_contact = "",
-                notice = ""
+                notice = "",
+                uuid = "",
+                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo3 = ReservationInformation(
                 id = "0000000003",
@@ -134,7 +135,9 @@ class SampleController(
                 comment = "コメントテスト3件目",
                 car_number = "",
                 car_contact = "",
-                notice = ""
+                notice = "",
+                uuid = "",
+                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo4 = ReservationInformation(
                 id = "0000000004",
@@ -153,7 +156,9 @@ class SampleController(
                 comment = "コメントテスト4件目",
                 car_number = "",
                 car_contact = "",
-                notice = ""
+                notice = "",
+                uuid = "",
+                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo5 = ReservationInformation(
                 id = "0000000005",
@@ -172,7 +177,9 @@ class SampleController(
                 comment = "コメントテスト5件目",
                 car_number = "",
                 car_contact = "",
-                notice = ""
+                notice = "",
+                uuid = "",
+                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookList = mutableListOf(bookingInfo1, bookingInfo2, bookingInfo3, bookingInfo4, bookingInfo5)
         reservationRepository.saveAll(bookList)

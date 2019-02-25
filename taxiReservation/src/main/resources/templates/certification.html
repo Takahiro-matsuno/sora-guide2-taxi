@@ -8,6 +8,7 @@
 <body>
 <h1>予約認証</h1>
 <form action="./certificateResult" method="post">
+    <p style="color: red" th:text="${errorMassage}"></p>
     <table>
         <tr>
             <th align="left"><label>予約番号</label></th>

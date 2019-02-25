@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.LastUpdateManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.DetailForm
@@ -76,10 +77,14 @@ class ReservationDetailService(
 
         //CookieにUUIDを設定
         val newUuid = UuidManager().setUuid(request, response, rsvInfoOptional.get().uuid)
-        if(rsvInfoOptional.get().uuid.isBlank()){
+        if (rsvInfoOptional.get().uuid.isBlank()) {
             rsvInfoOptional.get().uuid = newUuid
             reservationRepository.save(rsvInfoOptional.get())
         }
+
+        //Sessionに予約情報の最終更新日を保持
+        val lastUpdateManager = LastUpdateManager()
+        lastUpdateManager.setSession(rsvInfoOptional.get().last_update, request)
 
         return convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)
     }

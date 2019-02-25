@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.LastUpdateManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
@@ -21,7 +22,7 @@ class ReservationChangeService(
         println("【変更入力】予約番号：$id")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(id,request)
+        val rsvInfo = getRsvInfo(id, request)
 
         return ChangeForm(
                 id = rsvInfo.id,
@@ -45,7 +46,14 @@ class ReservationChangeService(
         println("【予約変更】予約番号：${changeInfo.id}")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(changeInfo.id,request)
+        val rsvInfo = getRsvInfo(changeInfo.id, request)
+
+        //最終更新日の確認
+        val lastUpdateManager = LastUpdateManager()
+        if(!lastUpdateManager.checkSession(rsvInfo.last_update, request)){
+            println("最終更新日アンマッチ")
+            return rsvInfo.id
+        }
 
         //Time型の形式揃え
         if (changeInfo.time.length == 5) {
@@ -77,7 +85,7 @@ class ReservationChangeService(
         println("【予約取消】予約番号：$id")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(id,request)
+        val rsvInfo = getRsvInfo(id, request)
 
         //取消処理
         rsvInfo.status = 4

@@ -52,7 +52,7 @@ class ReservationChangeService(
         val lastUpdateManager = LastUpdateManager()
         if(!lastUpdateManager.checkSession(rsvInfo.last_update, request)){
             println("最終更新日アンマッチ")
-            return rsvInfo.id
+            throw Exception()
         }
 
         //Time型の形式揃え
@@ -91,7 +91,7 @@ class ReservationChangeService(
         val lastUpdateManager = LastUpdateManager()
         if(!lastUpdateManager.checkSession(rsvInfo.last_update, request)){
             println("最終更新日アンマッチ")
-            return rsvInfo.id
+            throw Exception()
         }
 
         //取消処理

@@ -29,8 +29,11 @@ class FormValidate {
         return ""
     }
 
-    //TODO 変更用のチェック処理の追加
     fun changeCheck(changeForm : ChangeForm):String{
+        if (!rideOnDateValidate(changeForm.date)) {
+            return dateErrorMassage
+        }
+
         return ""
     }
 

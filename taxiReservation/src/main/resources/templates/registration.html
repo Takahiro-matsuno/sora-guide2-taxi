@@ -3,24 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
-    <title>予約登録画面</title>
+    <link th:href="@{/css/tab.css}" rel="stylesheet"/>
+    <title>予約登録</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link th:href="@{/css/tab.css}" rel="stylesheet"/>
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-    <![endif]-->
 </head>
 
 <body>
+<ul class="tabs">
+    <li class="active" rel="tab1">予約登録</li>
+    <li onClick="location.href='./list'">予約一覧</li>
+</ul>
 <form action="./confirmation" method="post" th:object="${reservationForm}">
-    <ul class="tabs">
-        <li class="active" rel="tab1">予約登録</li>
-        <li onClick="location.href='./list'">予約一覧</li>
-    </ul>
     <div id="contents">
         <p>以下の項目を入力してください</p>
         <ul>

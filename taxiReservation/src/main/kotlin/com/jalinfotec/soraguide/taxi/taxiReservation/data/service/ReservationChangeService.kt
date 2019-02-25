@@ -24,18 +24,18 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(id, request)
 
         return ChangeForm(
-                id = rsvInfo.id,
-                date = rsvInfo.date,
-                time = rsvInfo.time.toString(),
+                id = rsvInfo.reservationId,
+                date = rsvInfo.rideOnDate,
+                time = rsvInfo.rideOnTime.toString(),
                 adult = rsvInfo.adult,
                 child = rsvInfo.child,
-                car_dispatch = rsvInfo.car_dispatch_number,
+                car_dispatch = rsvInfo.carDispatchNumber,
                 destination = rsvInfo.destination.trim(),
-                phone = rsvInfo.phone.trim(),
+                phone = rsvInfo.passengerContact.trim(),
                 mail = rsvInfo.mail.trim(),
                 mailCheck = rsvInfo.mail.trim(),
                 comment = rsvInfo.comment.trim(),
-                lastUpdate = rsvInfo.last_update
+                lastUpdate = rsvInfo.lastUpdate
         )
     }
 
@@ -49,7 +49,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(changeInfo.id, request)
 
         //最終更新日の確認
-        if(rsvInfo.last_update != changeInfo.lastUpdate){
+        if(rsvInfo.lastUpdate != changeInfo.lastUpdate){
             println("最終更新日アンマッチ")
             throw Exception()
         }
@@ -60,21 +60,21 @@ class ReservationChangeService(
         }
 
         //FormからEntityに変更項目のみ詰め替え
-        rsvInfo.date = changeInfo.date
-        rsvInfo.time = Time.valueOf(changeInfo.time)
+        rsvInfo.rideOnDate = changeInfo.date
+        rsvInfo.rideOnTime = Time.valueOf(changeInfo.time)
         rsvInfo.adult = changeInfo.adult
         rsvInfo.child = changeInfo.child
-        rsvInfo.car_dispatch_number = changeInfo.car_dispatch
+        rsvInfo.carDispatchNumber = changeInfo.car_dispatch
         rsvInfo.destination = changeInfo.destination
-        rsvInfo.phone = changeInfo.phone
+        rsvInfo.passengerContact = changeInfo.phone
         rsvInfo.mail = changeInfo.mail
         rsvInfo.comment = changeInfo.comment
-        rsvInfo.last_update = Timestamp(System.currentTimeMillis())
+        rsvInfo.lastUpdate = Timestamp(System.currentTimeMillis())
 
         //SQL呼び出し
         reservationRepository.save(rsvInfo)
 
-        return rsvInfo.id
+        return rsvInfo.reservationId
     }
 
     /**
@@ -87,7 +87,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(id, request)
 
         //最終更新日の確認
-        if(rsvInfo.last_update != lastUpdate){
+        if(rsvInfo.lastUpdate != lastUpdate){
             println("最終更新日アンマッチ")
             throw Exception()
         }
@@ -96,7 +96,7 @@ class ReservationChangeService(
         rsvInfo.status = 4
         reservationRepository.save(rsvInfo)
 
-        return rsvInfo.id
+        return rsvInfo.reservationId
     }
 
     /**
@@ -108,7 +108,7 @@ class ReservationChangeService(
     fun getRsvInfo(id: String, request: HttpServletRequest): ReservationInformation {
         val uuid = UuidManager().getUuid(request) ?: ""
 
-        val rsvInfoOptional = reservationRepository.findByIdAndUuid(id, uuid)
+        val rsvInfoOptional = reservationRepository.findByReservationIdAndUuid(id, uuid)
 
         //予約が存在しない場合、エラー
         if (!rsvInfoOptional.isPresent) {

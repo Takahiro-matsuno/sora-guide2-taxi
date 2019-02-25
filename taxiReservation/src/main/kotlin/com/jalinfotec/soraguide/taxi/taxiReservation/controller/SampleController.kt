@@ -3,22 +3,15 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.Numbering
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.TaxiInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationCompleteService
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationDetailService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
-import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.CookieManager
 import java.sql.Date
 import java.sql.Time
 import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -55,8 +48,8 @@ class SampleController(
         mav.viewName = "testHTML/allClear"
         reservationRepository.deleteAll()
         taxiRepository.deleteAll()
-        numberingRepository.save(Numbering(name = "taxi_info", nextValue = 4))
-        numberingRepository.save(Numbering(name = "booking_info", nextValue = 6))
+        numberingRepository.save(Numbering(tableName = "taxi_info", nextValue = 4))
+        numberingRepository.save(Numbering(tableName = "booking_info", nextValue = 6))
 
         val taxiInfo1 = TaxiInformation()
         taxiInfo1.id = "0001"
@@ -77,109 +70,109 @@ class SampleController(
         taxiRepository.saveAll(list)
 
         val bookingInfo1 = ReservationInformation(
-                id = "0000000001",
+                reservationId = "0000000001",
                 status = 1,
-                date = Date.valueOf("2019-03-04"),
-                time = Time.valueOf("10:00:00"),
+                rideOnDate = Date.valueOf("2019-03-04"),
+                rideOnTime = Time.valueOf("10:00:00"),
                 adult = 1,
                 child = 2,
-                car_dispatch_number = 1,
-                company_id = "0001",
+                carDispatchNumber = 1,
+                companyId = "0001",
                 destination = "うどん屋さん",
-                passenger_name = "お試し太郎一号",
-                passenger_phonetic = "オタメシタロウイチゴウ",
-                phone = "0801234567891",
+                passengerName = "お試し太郎一号",
+                passengerPhonetic = "オタメシタロウイチゴウ",
+                passengerContact = "0801234567891",
                 mail = "aaa@jalinfotec.co.jp",
                 comment = "コメントテスト1件目",
-                car_number = "",
-                car_contact = "",
+                carNumber = "",
+                carContact = "",
                 notice = "",
                 uuid = "",
-                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
+                lastUpdate = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo2 = ReservationInformation(
-                id = "0000000002",
+                reservationId = "0000000002",
                 status = 2,
-                date = Date.valueOf("2019-05-01"),
-                time = Time.valueOf("22:55:00"),
+                rideOnDate = Date.valueOf("2019-05-01"),
+                rideOnTime = Time.valueOf("22:55:00"),
                 adult = 3,
                 child = 1,
-                car_dispatch_number = 2,
-                company_id = "0002",
+                carDispatchNumber = 2,
+                companyId = "0002",
                 destination = "目的地サンプル",
-                passenger_name = "お試し太郎二号",
-                passenger_phonetic = "オタメシタロウ二ゴウ",
-                phone = "0801234567892",
+                passengerName = "お試し太郎二号",
+                passengerPhonetic = "オタメシタロウ二ゴウ",
+                passengerContact = "0801234567892",
                 mail = "bbb@jalinfotec.co.jp",
                 comment = "コメントテスト2件目",
-                car_number = "",
-                car_contact = "",
+                carNumber = "",
+                carContact = "",
                 notice = "",
                 uuid = "",
-                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
+                lastUpdate = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo3 = ReservationInformation(
-                id = "0000000003",
+                reservationId = "0000000003",
                 status = 2,
-                date = Date.valueOf("2018-12-31"),
-                time = Time.valueOf("22:55:00"),
+                rideOnDate = Date.valueOf("2018-12-31"),
+                rideOnTime = Time.valueOf("22:55:00"),
                 adult = 3,
                 child = 1,
-                car_dispatch_number = 2,
-                company_id = "0003",
+                carDispatchNumber = 2,
+                companyId = "0003",
                 destination = "目的地はどこだ",
-                passenger_name = "お試し太郎SAN号",
-                passenger_phonetic = "オタメシタロウサンゴウ",
-                phone = "0801234567893",
+                passengerName = "お試し太郎SAN号",
+                passengerPhonetic = "オタメシタロウサンゴウ",
+                passengerContact = "0801234567893",
                 mail = "ccc@jalinfotec.co.jp",
                 comment = "コメントテスト3件目",
-                car_number = "",
-                car_contact = "",
+                carNumber = "",
+                carContact = "",
                 notice = "",
                 uuid = "",
-                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
+                lastUpdate = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo4 = ReservationInformation(
-                id = "0000000004",
+                reservationId = "0000000004",
                 status = 4,
-                date = Date.valueOf("2019-05-05"),
-                time = Time.valueOf("12:45:00"),
+                rideOnDate = Date.valueOf("2019-05-05"),
+                rideOnTime = Time.valueOf("12:45:00"),
                 adult = 9,
                 child = 5,
-                car_dispatch_number = 6,
-                company_id = "0001",
+                carDispatchNumber = 6,
+                companyId = "0001",
                 destination = "目的地がいっぱい",
-                passenger_name = "お試し太郎四号",
-                passenger_phonetic = "オタメシタロウヨンゴウ",
-                phone = "0801234567894",
+                passengerName = "お試し太郎四号",
+                passengerPhonetic = "オタメシタロウヨンゴウ",
+                passengerContact = "0801234567894",
                 mail = "ddd@jalinfotec.co.jp",
                 comment = "コメントテスト4件目",
-                car_number = "",
-                car_contact = "",
+                carNumber = "",
+                carContact = "",
                 notice = "",
                 uuid = "",
-                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
+                lastUpdate = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookingInfo5 = ReservationInformation(
-                id = "0000000005",
+                reservationId = "0000000005",
                 status = 3,
-                date = Date.valueOf("2020-07-25"),
-                time = Time.valueOf("01:35:00"),
+                rideOnDate = Date.valueOf("2020-07-25"),
+                rideOnTime = Time.valueOf("01:35:00"),
                 adult = 2,
                 child = 0,
-                car_dispatch_number = 1,
-                company_id = "0003",
+                carDispatchNumber = 1,
+                companyId = "0003",
                 destination = "オリンピックの会場",
-                passenger_name = "お試し太郎五号",
-                passenger_phonetic = "オタメシタロウゴゴウ",
-                phone = "0801234567895",
+                passengerName = "お試し太郎五号",
+                passengerPhonetic = "オタメシタロウゴゴウ",
+                passengerContact = "0801234567895",
                 mail = "eee@jalinfotec.co.jp",
                 comment = "コメントテスト5件目",
-                car_number = "",
-                car_contact = "",
+                carNumber = "",
+                carContact = "",
                 notice = "",
                 uuid = "",
-                last_update = Timestamp.valueOf("2019-01-01 08:00:00")
+                lastUpdate = Timestamp.valueOf("2019-01-01 08:00:00")
         )
         val bookList = mutableListOf(bookingInfo1, bookingInfo2, bookingInfo3, bookingInfo4, bookingInfo5)
         reservationRepository.saveAll(bookList)

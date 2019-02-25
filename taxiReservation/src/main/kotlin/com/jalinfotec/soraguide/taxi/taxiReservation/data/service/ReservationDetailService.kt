@@ -25,9 +25,9 @@ class ReservationDetailService(
         val uuid = UuidManager().getUuid(request) ?: throw Exception()
 
         //DBから引数のIDとマッチする予約情報を取得
-        val rsvInfoOptional = reservationRepository.findByIdAndUuid(id, uuid)
+        val rsvInfoOptional = reservationRepository.findByReservationIdAndUuid(id, uuid)
         //タクシー会社IDからタクシー会社名を取得
-        val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().company_id)
+        val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().companyId)
 
         return if (rsvInfoOptional.isPresent && companyNameOptional.isPresent) {
             convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)
@@ -47,9 +47,9 @@ class ReservationDetailService(
         if (!rsvInfoOptional.isPresent || statusName.isNullOrEmpty()) {
             throw Exception()
         }
-        return mutableMapOf(Pair("id", rsvInfoOptional.get().id),
+        return mutableMapOf(Pair("reservationId", rsvInfoOptional.get().reservationId),
                 Pair("status", statusName!!),
-                "passenger_name" to rsvInfoOptional.get().passenger_name)
+                "passengerName" to rsvInfoOptional.get().passengerName)
     }
 
     /**
@@ -61,7 +61,7 @@ class ReservationDetailService(
         //DBから引数のIDとマッチする予約情報を取得
         val rsvInfoOptional = reservationRepository.findById(id)
         //タクシー会社IDからタクシー会社名を取得
-        val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().company_id)
+        val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().companyId)
 
         if (rsvInfoOptional.isPresent && companyNameOptional.isPresent) {
             //メールアドレス一致チェック
@@ -94,24 +94,24 @@ class ReservationDetailService(
         val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
 
         return DetailForm(
-                rsvInfo.id,
+                rsvInfo.reservationId,
                 statusName,
-                rsvInfo.date.toString(),
-                rsvInfo.time.toString(),
+                rsvInfo.rideOnDate.toString(),
+                rsvInfo.rideOnTime.toString(),
                 rsvInfo.adult.toString(),
                 rsvInfo.child.toString(),
-                rsvInfo.car_dispatch_number.toString(),
+                rsvInfo.carDispatchNumber.toString(),
                 companyName,
                 rsvInfo.destination,
-                rsvInfo.passenger_name,
-                rsvInfo.passenger_phonetic,
-                rsvInfo.phone,
+                rsvInfo.passengerName,
+                rsvInfo.passengerPhonetic,
+                rsvInfo.passengerContact,
                 rsvInfo.mail,
                 rsvInfo.comment,
-                rsvInfo.car_number,
-                rsvInfo.car_contact,
+                rsvInfo.carNumber,
+                rsvInfo.carContact,
                 rsvInfo.notice,
-                rsvInfo.last_update
+                rsvInfo.lastUpdate
         )
     }
 }

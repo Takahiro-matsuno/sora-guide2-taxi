@@ -23,7 +23,7 @@ class ReservationListService(
 
         //予約情報の取得
         val rsvInfoList =
-                reservationRepository.findByUuidAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
+                reservationRepository.findByUuidAndStatusLessThanAndRideOnDateGreaterThanEqualOrderByReservationIdAsc(
                         uuid, 3, Date(System.currentTimeMillis()))
         val rsvList = mutableListOf<ListForm>()
 
@@ -46,10 +46,10 @@ class ReservationListService(
         val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
 
         return ListForm(
-                rsvInfo.id,
+                rsvInfo.reservationId,
                 statusName,
-                rsvInfo.date.toString(),
-                rsvInfo.time.toString()
+                rsvInfo.rideOnDate.toString(),
+                rsvInfo.rideOnTime.toString()
         )
     }
 }

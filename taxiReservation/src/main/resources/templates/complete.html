@@ -11,7 +11,7 @@
 <div id="contents" th:object="${rsvDetail}">
     <table>
         <tr>
-            <th align="right" th:text="*{passenger_name}" style="width: device-width;"></th>
+            <th align="right" th:text="*{passengerName}" style="width: device-width;"></th>
             <th align="left"><label>様</label></th>
         </tr>
     </table>
@@ -19,7 +19,7 @@
     <table>
         <tr>
             <th align="left"><label>予約番号：</label></th>
-            <td align="left" th:text="*{id}" style="width: device-width;"></td>
+            <td align="left" th:text="*{reservationId}" style="width: device-width;"></td>
         </tr>
         <tr>
             <th align="left"><label>ステータス：</label></th>

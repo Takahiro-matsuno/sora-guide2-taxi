@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 @Service
 class ReservationCompleteService(
@@ -21,10 +20,10 @@ class ReservationCompleteService(
     @Transactional(readOnly = false)
     fun complete(input: ReservationForm, request: HttpServletRequest): String {
         val rsvInfo = setReservation(input, request)
-        println("【予約完了】予約ID：${rsvInfo.id}")
+        println("【予約完了】予約ID：${rsvInfo.reservationId}")
         reservationRepository.save(rsvInfo)
         //cookieUpdate(bookingInfo, request, response)
-        return rsvInfo.id
+        return rsvInfo.reservationId
     }
 
     private fun setReservation(input: ReservationForm, request: HttpServletRequest): ReservationInformation {
@@ -33,38 +32,38 @@ class ReservationCompleteService(
         val uuid = UuidManager().getUuid(request) ?: ""
 
         return ReservationInformation(
-                id = setId(),
+                reservationId = setId(),
 
                 //予約時のステータスは1で固定
                 status = 1,
 
                 //入力データをセット
-                date = input.date,
-                time = Time.valueOf(input.time + ":00"),
+                rideOnDate = input.date,
+                rideOnTime = Time.valueOf(input.time + ":00"),
                 adult = input.adult,
                 child = input.child,
-                car_dispatch_number = input.car_dispatch,
-                company_id = taxiCompanyId,
+                carDispatchNumber = input.car_dispatch,
+                companyId = taxiCompanyId,
                 destination = input.destination,
-                passenger_name = input.name,
-                passenger_phonetic = input.phonetic,
-                phone = input.phone,
+                passengerName = input.name,
+                passengerPhonetic = input.phonetic,
+                passengerContact = input.phone,
                 mail = input.mail,
                 comment = input.comment,
 
                 //タクシー会社入力欄はブランク
-                car_number = "",
-                car_contact = "",
+                carNumber = "",
+                carContact = "",
                 notice = "",
 
                 uuid = uuid,
-                last_update = Timestamp(System.currentTimeMillis())
+                lastUpdate = Timestamp(System.currentTimeMillis())
         )
     }
 
     @Transactional(readOnly = false)
     fun setId(): String {
-        val numbering = numberingRepository.findByName("booking_info")[0]
+        val numbering = numberingRepository.findById("booking_info").get()
         val result = String.format("%010d", numbering.nextValue)
 
         numbering.nextValue++
@@ -84,14 +83,14 @@ class ReservationCompleteService(
         //4.乗車日が過去日でない
         val bookingInfoList =
                 reservationRepository.findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
-                        inputReservationInfo.phone, inputReservationInfo.mail, 4, Date(Calendar.getInstance().timeInMillis)
+                        inputReservationInfo.passengerContact, inputReservationInfo.mail, 4, Date(Calendar.getInstance().timeInMillis)
                 )
 
         //取得した予約情報から予約番号をカンマ区切りでString変数に格納する
         val idList = mutableListOf<String>()
         for (book in bookingInfoList) {
-            println("【Cookie更新】予約ID：${book.id}")
-            idList.add(book.id)
+            println("【Cookie更新】予約ID：${book.reservationId}")
+            idList.add(book.reservationId)
         }
         val idStr = idList.joinToString("-")
 

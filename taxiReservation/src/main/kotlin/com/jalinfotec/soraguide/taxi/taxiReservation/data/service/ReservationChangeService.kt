@@ -87,6 +87,13 @@ class ReservationChangeService(
         //予約情報取得
         val rsvInfo = getRsvInfo(id, request)
 
+        //最終更新日の確認
+        val lastUpdateManager = LastUpdateManager()
+        if(!lastUpdateManager.checkSession(rsvInfo.last_update, request)){
+            println("最終更新日アンマッチ")
+            return rsvInfo.id
+        }
+
         //取消処理
         rsvInfo.status = 4
         reservationRepository.save(rsvInfo)

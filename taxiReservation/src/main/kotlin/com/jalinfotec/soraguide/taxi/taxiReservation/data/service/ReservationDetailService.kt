@@ -30,6 +30,10 @@ class ReservationDetailService(
         //タクシー会社IDからタクシー会社名を取得
         val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().company_id)
 
+        //Sessionに予約情報の最終更新日を保持
+        val lastUpdateManager = LastUpdateManager()
+        lastUpdateManager.setSession(rsvInfoOptional.get().last_update, request)
+
         return if (rsvInfoOptional.isPresent && companyNameOptional.isPresent) {
             convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)
         } else null

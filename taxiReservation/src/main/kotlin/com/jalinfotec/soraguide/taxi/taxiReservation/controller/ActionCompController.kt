@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -109,12 +110,13 @@ class ActionCompController(
     @PostMapping("app/cancelComplete")
     fun cancelComplete(mav: ModelAndView,
                        @RequestParam("id") id: String,
+                       @RequestParam("lastUpdate") lastUpdate: Timestamp,
                        request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
 
         //取消処理
         val rsvId: String
         try {
-            rsvId = rsvChangeService.delete(id, request)
+            rsvId = rsvChangeService.delete(id, lastUpdate, request)
         } catch (e: Exception) {
             mav.viewName = "error"
             return mav

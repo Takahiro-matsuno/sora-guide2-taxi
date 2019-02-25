@@ -9,7 +9,7 @@
     <script type="text/javascript">
 <!--
 
-function cancelCheck(id){
+function cancelCheck(id,lastUpdate){
     var result = window.confirm('取り消してよろしいですか？')
 
 	if(result){
@@ -25,6 +25,12 @@ function cancelCheck(id){
         input.setAttribute('type',  'hidden');
         input.setAttribute('name', 'id');
         input.setAttribute('value', id);
+        form.appendChild(input);
+
+        input = document.createElement('input');
+        input.setAttribute('type',  'hidden');
+        input.setAttribute('name', 'lastUpdate');
+        input.setAttribute('value', lastUpdate);
         form.appendChild(input);
 
         form.submit();
@@ -113,7 +119,7 @@ function cancelCheck(id){
         </tr>
     </table>
 
-    <button type="button" th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} +'\');'">
+    <button type="button" th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
         取消する
     </button>
 

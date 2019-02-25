@@ -1,6 +1,5 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.LastUpdateManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
@@ -35,7 +34,8 @@ class ReservationChangeService(
                 phone = rsvInfo.phone.trim(),
                 mail = rsvInfo.mail.trim(),
                 mailCheck = rsvInfo.mail.trim(),
-                comment = rsvInfo.comment.trim()
+                comment = rsvInfo.comment.trim(),
+                lastUpdate = rsvInfo.last_update
         )
     }
 
@@ -49,8 +49,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(changeInfo.id, request)
 
         //最終更新日の確認
-        val lastUpdateManager = LastUpdateManager()
-        if(!lastUpdateManager.checkSession(rsvInfo.last_update, request)){
+        if(rsvInfo.last_update != changeInfo.lastUpdate){
             println("最終更新日アンマッチ")
             throw Exception()
         }
@@ -81,15 +80,14 @@ class ReservationChangeService(
     /**
      * 予約取消処理
      */
-    fun delete(id: String, request: HttpServletRequest): String {
+    fun delete(id: String, lastUpdate: Timestamp, request: HttpServletRequest): String {
         println("【予約取消】予約番号：$id")
 
         //予約情報取得
         val rsvInfo = getRsvInfo(id, request)
 
         //最終更新日の確認
-        val lastUpdateManager = LastUpdateManager()
-        if(!lastUpdateManager.checkSession(rsvInfo.last_update, request)){
+        if(rsvInfo.last_update != lastUpdate){
             println("最終更新日アンマッチ")
             throw Exception()
         }

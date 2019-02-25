@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.form
 
 import java.sql.Date
 import java.sql.Time
+import java.sql.Timestamp
 import javax.validation.constraints.*
 
 //TODO まだコピーしただけなのでアチコチ直す
@@ -44,5 +45,7 @@ data class ChangeForm(
         //任意項目
         @get:NotNull
         @get:Size(max = 99)
-        var comment: String = ""
+        var comment: String = "",
+
+        var lastUpdate : Timestamp = Timestamp(0)
 )

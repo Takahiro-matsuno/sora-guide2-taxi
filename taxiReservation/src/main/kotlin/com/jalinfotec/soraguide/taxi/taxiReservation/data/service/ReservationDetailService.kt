@@ -1,6 +1,5 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.LastUpdateManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.DetailForm
@@ -29,10 +28,6 @@ class ReservationDetailService(
         val rsvInfoOptional = reservationRepository.findByIdAndUuid(id, uuid)
         //タクシー会社IDからタクシー会社名を取得
         val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().company_id)
-
-        //Sessionに予約情報の最終更新日を保持
-        val lastUpdateManager = LastUpdateManager()
-        lastUpdateManager.setSession(rsvInfoOptional.get().last_update, request)
 
         return if (rsvInfoOptional.isPresent && companyNameOptional.isPresent) {
             convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)
@@ -86,10 +81,6 @@ class ReservationDetailService(
             reservationRepository.save(rsvInfoOptional.get())
         }
 
-        //Sessionに予約情報の最終更新日を保持
-        val lastUpdateManager = LastUpdateManager()
-        lastUpdateManager.setSession(rsvInfoOptional.get().last_update, request)
-
         return convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)
     }
 
@@ -110,6 +101,7 @@ class ReservationDetailService(
                 rsvInfo.adult.toString(),
                 rsvInfo.child.toString(),
                 rsvInfo.car_dispatch_number.toString(),
+                companyName,
                 rsvInfo.destination,
                 rsvInfo.passenger_name,
                 rsvInfo.passenger_phonetic,
@@ -118,7 +110,8 @@ class ReservationDetailService(
                 rsvInfo.comment,
                 rsvInfo.car_number,
                 rsvInfo.car_contact,
-                rsvInfo.notice
+                rsvInfo.notice,
+                rsvInfo.last_update
         )
     }
 }

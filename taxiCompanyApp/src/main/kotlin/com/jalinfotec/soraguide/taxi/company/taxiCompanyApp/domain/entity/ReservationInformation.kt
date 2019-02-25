@@ -1,6 +1,8 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity
+
 import java.sql.Date
 import java.sql.Time
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -46,5 +48,10 @@ data class ReservationInformation(
 
         @Column(name = "car_contact")
         var carContact: String = "",
-        var notice: String = ""
+        var notice: String = "",
+
+        var uuid: String = "",
+
+        @Column(name = "last_update")
+        var lastUpdate: Timestamp = Timestamp(0)
 )

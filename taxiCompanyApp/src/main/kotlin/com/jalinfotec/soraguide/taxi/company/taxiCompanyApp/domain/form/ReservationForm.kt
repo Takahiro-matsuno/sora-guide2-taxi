@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form
 
 import java.sql.Date
 import java.sql.Time
+import java.sql.Timestamp
 
 data class ReservationForm(
         var reservationId: String,
@@ -19,5 +20,6 @@ data class ReservationForm(
         var comment: String,
         var carNumber: String,
         var carContact: String,
-        var notice: String
+        var notice: String,
+        var lastUpdate: Timestamp
 )

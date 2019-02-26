@@ -18,7 +18,7 @@
                 <thead>
                 <tr>
                     <th>予約番号</th><!-- 予約番号は変更不可 -->
-                    <td><input type="text" readonly="readonly" th:field="*{reservationId}" /></td>
+                    <td><input type="text" readonly="readonly" th:field="*{reservationId}"/></td>
                 </tr>
                 <tr>
                     <th>ステータス</th>
@@ -90,7 +90,8 @@
                     <td><textarea th:field="*{notice}"/></td>
                 </tr>
             </table>
-            <input type="submit" class="raised" value="更新する" />
+            <input type="submit" class="raised" value="送信"/>
+            <input type="hidden" th:field="*{lastUpdate}"/>
         </form>
     </div>
 </section>

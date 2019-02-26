@@ -7,6 +7,7 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.Ta
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Timestamp
 
 @Service
 class ReservationService(
@@ -70,12 +71,11 @@ class ReservationService(
         // 予約情報を取得する
         val preInfo = rsvRepository.findByCompanyIdAndReservationId(companyId, rsvForm.reservationId) ?: return false
 
-        /* TODO 更新ロック
-        if (preInfo.updateTime != rsvForm.updateTime) {
+        if (preInfo.lastUpdate != rsvForm.lastUpdate) {
             // 更新時刻が一致しない場合は処理終了
+            println("更新時刻の不一致")
             return false
         }
-         */
 
         // 予約情報フォームを予約情報に変換する
         val aftInfo = convertRsvForm2RsvInfo(preInfo, rsvForm) ?: return false
@@ -107,7 +107,8 @@ class ReservationService(
                 rsvInfo.comment.trim(),
                 rsvInfo.carNumber.trim(),
                 rsvInfo.carContact.trim(),
-                rsvInfo.notice.trim())
+                rsvInfo.notice.trim(),
+                rsvInfo.lastUpdate)
     }
 
     // フォームを予約情報へ変換
@@ -139,6 +140,7 @@ class ReservationService(
         rsvInfo.carNumber = rsvForm.carNumber.trim()
         rsvInfo.carContact = rsvForm.carContact.trim()
         rsvInfo.notice = rsvForm.notice.trim()
+        rsvInfo.lastUpdate = Timestamp(System.currentTimeMillis())
 
         return rsvInfo
     }

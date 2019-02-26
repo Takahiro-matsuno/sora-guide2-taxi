@@ -7,7 +7,9 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.FormValidat
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.ModelAndView
 import java.sql.Date
 import java.sql.Time
@@ -101,19 +103,21 @@ class ReservationController(
     //基本的な初期化はフォームクラスで行うが、日付と時間は再設定する
     fun setRsvForm(rsvForm: ReservationForm): ReservationForm {
         //日付設定用にカレンダークラスの変数を宣言
-        val cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
-
-        //Formから初期値（現在時刻）を取得
-        cal.time = rsvForm.date
+        val cal = Calendar.getInstance()
 
         //5分単位で丸める処理
         val minute = cal.get(Calendar.MINUTE)
         val addValue = 5 - (minute % 5)
         cal.add(Calendar.MINUTE, addValue)
 
+        // 日本標準時に合わせる
+        cal.add(Calendar.HOUR_OF_DAY, 9)
+
+        println(cal.time.toString())
+
         //Formの更新
-        rsvForm.date = Date(cal.timeInMillis)
-        rsvForm.time = Time(rsvForm.date.time).toString().substring(0, 5)
+        rsvForm.date = Date(cal.time.time)
+        rsvForm.time = Time(cal.time.time).toString().substring(0, 5)
 
         return rsvForm
     }

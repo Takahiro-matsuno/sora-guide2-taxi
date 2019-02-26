@@ -8,7 +8,7 @@ import javax.validation.constraints.*
 data class ReservationForm(
         var id: String = "",
 
-        var date: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).timeInMillis),
+        var date: Date = Date(Calendar.getInstance().timeInMillis),
 
         var time: String = Time(date.time).toString().substring(0, 5),
 

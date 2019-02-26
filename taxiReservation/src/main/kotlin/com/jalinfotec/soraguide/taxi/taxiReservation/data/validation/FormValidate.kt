@@ -74,6 +74,7 @@ class FormValidate {
      * メールの形式チェック
      */
     private fun mailValidate(mail: String): Boolean {
+        //メールアドレス形式を正規表現でチェック
         val pattern = Pattern.compile("^(([0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]"
                 + "+(\\.[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+)*)|(\"[^\"]*\"))"
                 + "@[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+"
@@ -86,7 +87,14 @@ class FormValidate {
      * 搭乗日の妥当性チェック
      */
     private fun rideOnDateValidate(date: Date, timeStr: String): Boolean {
-        val nowDate = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+        //今日の日付を取得（世界標準時）
+        val nowDate = Calendar.getInstance()
+
+        //取得した日付を日本標準時に変換し、時間だけ抜き出し
+        nowDate.add(Calendar.HOUR_OF_DAY, 9)
+        val nowTime = Time(nowDate.timeInMillis).toLocalTime()
+
+        //日付比較のために、時間パラメータを0に設定
         nowDate.set(Calendar.HOUR_OF_DAY, 0)
         nowDate.set(Calendar.MINUTE, 0)
         nowDate.set(Calendar.SECOND, 0)
@@ -98,7 +106,6 @@ class FormValidate {
             return false
         } else if (date == nowDate.time) {
             //今日の日付を指定している場合のみ、時間もチェックする
-            val nowTime = Time(System.currentTimeMillis()).toLocalTime()
             val time = Time.valueOf("$timeStr:00").toLocalTime()
             println("現在時刻:$nowTime")
             println("入力された時刻:$time")

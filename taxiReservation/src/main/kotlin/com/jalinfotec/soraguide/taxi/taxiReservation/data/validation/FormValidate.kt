@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.validation
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
+import java.sql.Time
 import java.util.*
 
 
@@ -62,8 +63,6 @@ class FormValidate {
      * 搭乗日の妥当性チェック
      */
     private fun rideOnDateValidate(date: Date, timeStr: String): Boolean {
-        //TODO 時間のチェックも入れたい
-
         val nowDate = Calendar.getInstance()
         nowDate.set(Calendar.HOUR_OF_DAY, 0)
         nowDate.set(Calendar.MINUTE, 0)
@@ -74,18 +73,17 @@ class FormValidate {
         if (date.before(nowDate.time)) {
             println("【ERROR】乗車日が過去日")
             return false
-            /*
         } else if (date == nowDate.time) {
             //今日の日付を指定している場合のみ、時間もチェックする
-            val nowTime = ZonedDateTime(System.currentTimeMillis())
-            val time = Time.valueOf("$timeStr:00")
+            val nowTime = Time(System.currentTimeMillis()).toLocalTime()
+            val time = Time.valueOf("$timeStr:00").toLocalTime()
             println("現在時刻:$nowTime")
             println("入力された時刻:$time")
             //時間の過去チェック
-            if(time.before(nowTime)){
+            if(time.isBefore(nowTime)){
                 println("【ERROR】乗車時間を過ぎている")
                 return false
-            }*/
+            }
         }
         return true
     }

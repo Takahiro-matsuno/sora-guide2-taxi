@@ -17,14 +17,15 @@
             <p th:text="*{'ユーザー名：' + username}"></p>
             <input type="hidden"  th:field="*{username}" />
             <input type="password" th:field="*{nowPassword}" th:value="*{nowPassword}" id="nowPassword"
-                   onblur="checkPassword()" placeholder="現在のパスワード" required/>
+                   onblur="setMessage()" oninput="setFormDisabled()" placeholder="現在のパスワード" />
             <br/>
             <input type="password" th:field="*{newPassword}" th:value="*{newPassword}" id="newPassword"
-                   onblur="checkPassword()" placeholder="新しいパスワード" required/>
+                   onblur="setMessage()" oninput="setFormDisabled()" placeholder="新しいパスワード"/>
             <br/>
-            <input type="password" id="confirmPassword" onblur="checkPassword()" placeholder="新しいパスワード(確認)" required/>
+            <input type="password" id="confirmPassword"
+                   onblur="setMessage()" oninput="setFormDisabled()" placeholder="新しいパスワード(確認)"/>
             <br/>
-            <input id="passwordChangeSubmit" type="submit" value="変更する"/>
+            <input type="submit" id="submit" value="変更する" disabled="disabled" />
         </form>
     </div>
 </section>

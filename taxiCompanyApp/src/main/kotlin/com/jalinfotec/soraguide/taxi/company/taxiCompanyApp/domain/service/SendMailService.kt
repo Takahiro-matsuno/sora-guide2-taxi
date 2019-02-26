@@ -9,7 +9,7 @@ class SendMailService(
         private val sendGrid: SendGrid
 ) {
 
-    fun sendRegTmpMail(toAddress: String): Boolean {
+    fun sendMail(toAddress: String): Boolean {
         // 送信するメールを作成する
         val mail = createMail(toAddress)
 

@@ -4,11 +4,13 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import java.sql.Time
 import java.util.*
+import java.util.regex.Pattern
 
 
 class FormValidate {
     companion object {
-        const val mailErrorMessage: String = "入力されたメールアドレスが一致しません"
+        const val mailDiscordErrorMessage: String = "入力されたメールアドレスが一致しません"
+        const val mailValidateErrorMessage: String = "メールアドレスの形式が正しくありません"
         const val dateErrorMassage: String = "乗車日、乗車時間に過去の日時は指定できません"
     }
 
@@ -20,8 +22,12 @@ class FormValidate {
             return dateErrorMassage
         }
 
-        if (!mailValidate(rsvForm.mail, rsvForm.mailCheck)) {
-            return mailErrorMessage
+        if (!mailMatchCheck(rsvForm.mail, rsvForm.mailCheck)) {
+            return mailDiscordErrorMessage
+        }
+
+        if (!mailValidate(rsvForm.mail)) {
+            return mailValidateErrorMessage
         }
 
         return ""
@@ -34,6 +40,11 @@ class FormValidate {
         if (!rideOnDateValidate(rsvForm.date, rsvForm.time)) {
             return dateErrorMassage
         }
+
+        if (!mailValidate(rsvForm.mail)) {
+            return mailValidateErrorMessage
+        }
+
         return ""
     }
 
@@ -51,12 +62,24 @@ class FormValidate {
     /**
      * メールの一致チェック
      */
-    private fun mailValidate(mail: String, mailCheck: String): Boolean {
+    private fun mailMatchCheck(mail: String, mailCheck: String): Boolean {
         //メール同一チェック
         return if (mail != mailCheck) {
             println("メール不一致")
             false
         } else true
+    }
+
+    /**
+     * メールの形式チェック
+     */
+    private fun mailValidate(mail: String): Boolean {
+        val pattern = Pattern.compile("^(([0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]"
+                + "+(\\.[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+)*)|(\"[^\"]*\"))"
+                + "@[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+"
+                + "(\\.[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+)*$")
+
+        return pattern.matcher(mail).find()
     }
 
     /**
@@ -80,7 +103,7 @@ class FormValidate {
             println("現在時刻:$nowTime")
             println("入力された時刻:$time")
             //時間の過去チェック
-            if(time.isBefore(nowTime)){
+            if (time.isBefore(nowTime)) {
                 println("【ERROR】乗車時間を過ぎている")
                 return false
             }

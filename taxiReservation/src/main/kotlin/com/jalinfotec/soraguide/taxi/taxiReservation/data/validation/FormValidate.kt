@@ -86,7 +86,7 @@ class FormValidate {
      * 搭乗日の妥当性チェック
      */
     private fun rideOnDateValidate(date: Date, timeStr: String): Boolean {
-        val nowDate = Calendar.getInstance()
+        val nowDate = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
         nowDate.set(Calendar.HOUR_OF_DAY, 0)
         nowDate.set(Calendar.MINUTE, 0)
         nowDate.set(Calendar.SECOND, 0)

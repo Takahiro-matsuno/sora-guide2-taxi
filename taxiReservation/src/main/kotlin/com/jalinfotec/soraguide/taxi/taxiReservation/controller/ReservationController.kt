@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import java.sql.Date
 import java.sql.Time
-import java.util.Calendar
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -101,7 +101,7 @@ class ReservationController(
     //基本的な初期化はフォームクラスで行うが、日付と時間は再設定する
     fun setRsvForm(rsvForm: ReservationForm): ReservationForm {
         //日付設定用にカレンダークラスの変数を宣言
-        val cal = Calendar.getInstance()
+        val cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
 
         //Formから初期値（現在時刻）を取得
         cal.time = rsvForm.date

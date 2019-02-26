@@ -26,7 +26,7 @@ data class ChangeForm(
         var car_dispatch: Int = 1,
 
         @get:NotEmpty(message = "目的地")
-        @get:Size(min = 2, max = 30)
+        @get:Size(min = 1, max = 30)
         var destination: String = "",
 
         @get:NotEmpty(message = "電番")

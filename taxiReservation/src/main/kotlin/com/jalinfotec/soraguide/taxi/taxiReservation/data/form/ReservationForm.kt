@@ -7,10 +7,8 @@ import javax.validation.constraints.*
 data class ReservationForm(
         var id: String = "",
 
-        //初期値:本日の日付
         var date: Date = Date(System.currentTimeMillis()),
 
-        //??
         var time: String = Time(date.time).toString().substring(0, 5),
 
         @get:NotNull
@@ -29,7 +27,7 @@ data class ReservationForm(
         var company_name: String = "",
 
         @get:NotEmpty
-        @get:Size(min = 2, max = 30)
+        @get:Size(min = 1, max = 30)
         var destination: String = "",
 
         @get:NotEmpty

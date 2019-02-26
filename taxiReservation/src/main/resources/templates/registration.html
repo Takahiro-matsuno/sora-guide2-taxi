@@ -24,23 +24,23 @@
         <table>
             <tr>
                 <th align="left"><label>乗車日</label></th>
-                <td align="left"><input type="date" style="width: device-width;" th:field="*{date}"/></td>
+                <td align="left"><input type="date" style="width: device-width;" th:field="*{date}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>乗車時間</label></th>
-                <td align="left"><input type="time" style="width: device-width" th:field="*{time}" step="300"/></td>
+                <td align="left"><input type="time" style="width: device-width" th:field="*{time}" step="300" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>人数(大人)</label></th>
-                <td align="left"><input type="number" style="width: device-width" th:field="*{adult}"/></td>
+                <td align="left"><input type="number" style="width: device-width" th:field="*{adult}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>人数(子供)</label></th>
-                <td align="left"><input type="number" style="width: device-width" th:field="*{child}"/></td>
+                <td align="left"><input type="number" style="width: device-width" th:field="*{child}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>配車台数</label></th>
-                <td align="left"><input type="number" style="width: device-width" th:field="*{car_dispatch}"/></td>
+                <td align="left"><input type="number" style="width: device-width" th:field="*{car_dispatch}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>タクシー会社</label></th>

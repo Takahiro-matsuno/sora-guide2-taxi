@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TaxiInfoRepository : JpaRepository<TaxiInformation, String> {
     fun findByCompanyName(companyName: String): TaxiInformation
+    fun findAllByOrderById(): MutableList<TaxiInformation>
 }

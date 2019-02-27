@@ -6,40 +6,6 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約詳細</title>
-    <script type="text/javascript">
-<!--
-
-function cancelCheck(id,lastUpdate){
-    var result = window.confirm('取り消してよろしいですか？')
-
-	if(result){
-		//フォーム作成
-        var form = document.createElement("form");
-        form.setAttribute("action", "./cancelComplete");
-        form.setAttribute("method", "post");
-        form.style.display = "none";
-        document.body.appendChild(form);
-
-        //送信値
-        var input = document.createElement('input');
-        input.setAttribute('type',  'hidden');
-        input.setAttribute('name', 'id');
-        input.setAttribute('value', id);
-        form.appendChild(input);
-
-        input = document.createElement('input');
-        input.setAttribute('type',  'hidden');
-        input.setAttribute('name', 'lastUpdate');
-        input.setAttribute('value', lastUpdate);
-        form.appendChild(input);
-
-        form.submit();
-	}
-}
--->
-
-    </script>
-
 </head>
 
 <body>
@@ -119,7 +85,8 @@ function cancelCheck(id,lastUpdate){
         </tr>
     </table>
 
-    <button type="button" th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
+    <button type="button"
+            th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
         取消する
     </button>
 
@@ -129,7 +96,7 @@ function cancelCheck(id,lastUpdate){
 
 </form>
 
+<script type="text/javascript" th:src="@{/js/detailCancel.js}"></script>
 
 </body>
-
 </html>

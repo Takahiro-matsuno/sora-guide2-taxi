@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -28,15 +28,14 @@
 <p>タクシー会社管理画面</p>
 <button type="button"
         onClick="location.href='https://taximanagementapp.azurewebsites.net/company'">管理画面
-</button>
+</button><br/>
+<label>ID:[hoge] PW:[hogehoge] or [hoge]</label>
 
 <h3>メモ</h3>
 <ul>
-    <li>予約一覧表示確認用にCookieに予約番号を3件だけセット</li>
     <li>予約一覧画面はアプリのみ遷移可能とする予定、予約登録画面からタブ選択で遷移する想定</li>
     <li>変更入力画面は変更可能となりそうな項目のみ表示している、各項目の変更可否は要検討</li>
-    <li>403エラーが出たらおそらく鯖落ちしてます。。管理画面側で起こりがち？</li>
-    <li>予約詳細から取消完了への遷移はダイアログの表示を挟む予定⇒実装について確認中</li>
+    <li>空色の403エラーが出たらおそらく鯖落ちしてます。。</li>
 </ul>
 
 <!--

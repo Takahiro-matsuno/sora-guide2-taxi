@@ -121,7 +121,7 @@ class ActionCompController(
             mav.viewName = "error"
             return mav
         }
-        return completeTransition(mav, rsvId, ActionType.CHANGE, request)
+        return completeTransition(mav, rsvId, ActionType.CANCEL, request)
     }
 
     fun completeTransition(mav: ModelAndView, id: String, actionType: Enum<ActionType>,

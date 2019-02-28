@@ -5,7 +5,6 @@ import java.sql.Time
 import java.sql.Timestamp
 import javax.validation.constraints.*
 
-//TODO まだコピーしただけなのでアチコチ直す
 data class ChangeForm(
         var id: String = "",
 
@@ -33,14 +32,6 @@ data class ChangeForm(
         @get:Size(min = 1, max = 15)
         @get:Pattern(regexp = "[0-9]*", message = "エラー")
         var phone: String = "",
-
-        @get:NotEmpty(message = "メール1")
-        @Email
-        @get:Size(min = 1, max = 50)
-        var mail: String = "",
-
-        @Email
-        var mailCheck: String = "",
 
         //任意項目
         @get:NotNull

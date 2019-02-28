@@ -22,5 +22,4 @@ class TaxiInformationService(
     fun getCompanyId(companyName: String): String {
         return taxiRepository.findByCompanyName(companyName).id
     }
-
 }

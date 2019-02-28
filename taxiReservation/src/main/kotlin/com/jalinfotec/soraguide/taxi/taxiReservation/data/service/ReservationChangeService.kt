@@ -32,8 +32,6 @@ class ReservationChangeService(
                 car_dispatch = rsvInfo.carDispatchNumber,
                 destination = rsvInfo.destination.trim(),
                 phone = rsvInfo.passengerContact.trim(),
-                mail = rsvInfo.mail.trim(),
-                mailCheck = rsvInfo.mail.trim(),
                 comment = rsvInfo.comment.trim(),
                 lastUpdate = rsvInfo.lastUpdate
         )
@@ -67,7 +65,6 @@ class ReservationChangeService(
         rsvInfo.carDispatchNumber = changeInfo.car_dispatch
         rsvInfo.destination = changeInfo.destination
         rsvInfo.passengerContact = changeInfo.phone
-        rsvInfo.mail = changeInfo.mail
         rsvInfo.comment = changeInfo.comment
         rsvInfo.lastUpdate = Timestamp(System.currentTimeMillis())
 

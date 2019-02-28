@@ -26,7 +26,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(rsvId)
 
         //予約変更可否チェック
-        if(!checkStatus(rsvInfo.status)) {
+        if (!checkStatus(rsvInfo.status)) {
             throw Exception()
         }
 
@@ -56,7 +56,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(rsvId)
 
         //予約変更可否チェック
-        if(!checkStatus(rsvInfo.status)) {
+        if (!checkStatus(rsvInfo.status)) {
             throw Exception()
         }
 
@@ -82,6 +82,12 @@ class ReservationChangeService(
         rsvInfo.comment = changeInfo.comment
         rsvInfo.lastUpdate = Timestamp(System.currentTimeMillis())
 
+        //ステータス設定
+        if (rsvInfo.status == 2) {
+            //ステータスが予約確定の場合、変更時にステータスを「変更受付中」に更新する
+            rsvInfo.status = 3
+        }
+
         //SQL呼び出し
         reservationRepository.save(rsvInfo)
 
@@ -103,7 +109,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(rsvId)
 
         //予約変更可否チェック
-        if(!checkStatus(rsvInfo.status)) {
+        if (!checkStatus(rsvInfo.status)) {
             throw Exception()
         }
 
@@ -113,8 +119,16 @@ class ReservationChangeService(
             throw Exception()
         }
 
-        //取消処理
-        rsvInfo.status = 4
+        //ステータスを更新
+        if (rsvInfo.status == 1) {
+            //ステータスが受付中の場合はタクシー会社の確認無しで「キャンセル済」とする
+            rsvInfo.status = 6
+        } else {
+            //ステータスを「キャンセル受付中」とする
+            rsvInfo.status = 5
+        }
+
+        //DBアクセス
         reservationRepository.save(rsvInfo)
 
         //セッションの予約番号を開放する

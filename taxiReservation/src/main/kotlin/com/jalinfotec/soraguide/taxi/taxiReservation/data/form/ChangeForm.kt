@@ -6,6 +6,8 @@ import java.sql.Timestamp
 import javax.validation.constraints.*
 
 data class ChangeForm(
+        var id: String = "",
+
         var date: Date = Date(0),
 
         var time: String = Time(date.time).toString().substring(0, 5),

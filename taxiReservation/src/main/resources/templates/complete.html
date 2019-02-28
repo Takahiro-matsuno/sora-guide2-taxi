@@ -36,11 +36,11 @@
 
     <table>
         <tr>
-            <td align="left">
+            <td>
                 <button type="button" onClick="location.href='./registration'">予約登録へ</button>
             </td>
-            <td align="right">
-                <button type="button" onClick="location.href='./list'">予約確認へ</button>
+            <td th:if="${isListButton}">
+                <button type="button" onClick="location.href='./list'">予約一覧へ</button>
             </td>
         </tr>
     </table>

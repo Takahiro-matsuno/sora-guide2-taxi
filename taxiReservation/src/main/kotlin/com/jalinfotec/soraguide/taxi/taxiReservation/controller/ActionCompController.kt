@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UserAgentManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.ReservationChangeService
@@ -109,13 +110,14 @@ class ActionCompController(
     //取消完了画面
     @PostMapping("app/cancelComplete")
     fun cancelComplete(mav: ModelAndView,
+                       @RequestParam("id") id: String,
                        @RequestParam("lastUpdate") lastUpdate: Timestamp,
                        request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
 
         //取消処理
         val rsvId: String
         try {
-            rsvId = rsvChangeService.delete(lastUpdate, request)
+            rsvId = rsvChangeService.delete(id, lastUpdate, request)
         } catch (e: Exception) {
             mav.viewName = "error"
             return mav
@@ -129,6 +131,13 @@ class ActionCompController(
 
         mav.viewName = "complete"
         mav.addObject("rsvDetail", rsvDetail)
+
+        //スマホアプリ遷移の場合は「予約一覧へ」ボタン表示
+        var isListButton = false
+        if (UserAgentManager().checkAndroidApp(request)) {
+            isListButton = true
+        }
+        mav.addObject("isListButton", isListButton)
 
         when (actionType) {
             ActionType.ADD -> {

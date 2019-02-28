@@ -21,17 +21,24 @@ class SessionManager {
      * 呼び出し
      *   変更入力画面表示処理、変更処理、取消処理
      */
-    fun getSession(request: HttpServletRequest): String {
+    fun checkSession(checkId: String, request: HttpServletRequest): String {
         val session = request.session
+        val rsvId: String
 
         try {
-            val rsvId = session.getAttribute("rsvId") as String
+            rsvId = session.getAttribute("rsvId") as String
             println("【Session】予約番号取得:$rsvId")
-            return rsvId
         } catch (e: Exception) {
             println("セッションに予約番号が存在しない")
             throw Exception()
         }
+
+        //引数のIDとセッションのIDが一致していない場合はエラー（改ざん、ブラウザバック対策）
+        if (rsvId != checkId) {
+            throw Exception()
+        }
+
+        return rsvId
     }
 
     /**

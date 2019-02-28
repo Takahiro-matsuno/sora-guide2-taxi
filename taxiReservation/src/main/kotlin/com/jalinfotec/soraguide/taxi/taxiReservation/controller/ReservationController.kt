@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UserAgentManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.service.TaxiInformationService
@@ -34,9 +35,8 @@ class ReservationController(
         mav.viewName = "registration"
 
         //スマホアプリ遷移の場合は画面上部にタブを表示
-        val userAgent = request.getHeader("user-agent")
         var isTabDisplay = false
-        if (userAgent.indexOf("sora-GuideApp") > 0) {
+        if (UserAgentManager().checkAndroidApp(request)) {
             isTabDisplay = true
         }
 
@@ -54,9 +54,8 @@ class ReservationController(
         mav.viewName = "registration"
 
         //スマホアプリ遷移の場合は画面上部にタブを表示
-        val userAgent = request.getHeader("user-agent")
         var isTabDisplay = false
-        if (userAgent.indexOf("sora-GuideApp") > 0) {
+        if (UserAgentManager().checkAndroidApp(request)) {
             isTabDisplay = true
         }
 

@@ -47,11 +47,12 @@ class ApplicationController(
     }
 
     //変更入力画面
-    @GetMapping("app/change")
+    @PostMapping("app/change")
     fun change(mav: ModelAndView,
+               @RequestParam("id") id: String,
                request: HttpServletRequest): ModelAndView {
         mav.viewName = "change"
-        val rsvInfo = rsvChangeService.getChangeDetail(request)
+        val rsvInfo = rsvChangeService.getChangeDetail(id, request)
 
         mav.addObject("reservationForm", rsvInfo)
         return mav
@@ -80,7 +81,7 @@ class ApplicationController(
             mav.addObject("rsvDetail", rsvDetail)
             mav
         } else {
-            mav.addObject("errorMassage","予約番号、またはメールアドレスに誤りがあります。")
+            mav.addObject("errorMassage", "予約番号、またはメールアドレスに誤りがあります。")
             certificateInput(mav, id)
         }
     }

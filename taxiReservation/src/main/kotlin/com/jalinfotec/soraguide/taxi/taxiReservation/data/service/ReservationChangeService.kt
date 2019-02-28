@@ -17,8 +17,8 @@ class ReservationChangeService(
     /**
      * 変更入力画面用のForm設定
      */
-    fun getChangeDetail(request: HttpServletRequest): ChangeForm {
-        val rsvId = SessionManager().getSession(request)
+    fun getChangeDetail(id: String, request: HttpServletRequest): ChangeForm {
+        val rsvId = SessionManager().checkSession(id, request)
 
         println("【変更入力】予約番号：$rsvId")
 
@@ -31,6 +31,7 @@ class ReservationChangeService(
         }
 
         return ChangeForm(
+                id = rsvInfo.reservationId,
                 date = rsvInfo.rideOnDate,
                 time = rsvInfo.rideOnTime.toString().substring(0, 5),
                 adult = rsvInfo.adult,
@@ -48,7 +49,7 @@ class ReservationChangeService(
      */
     fun change(changeInfo: ChangeForm, request: HttpServletRequest): String {
         val sessionManager = SessionManager()
-        val rsvId = sessionManager.getSession(request)
+        val rsvId = sessionManager.checkSession(changeInfo.id, request)
 
         println("【予約変更】予約番号：$rsvId")
 
@@ -100,9 +101,9 @@ class ReservationChangeService(
     /**
      * 予約取消処理
      */
-    fun delete(lastUpdate: Timestamp, request: HttpServletRequest): String {
+    fun delete(id: String, lastUpdate: Timestamp, request: HttpServletRequest): String {
         val sessionManager = SessionManager()
-        val rsvId = sessionManager.getSession(request)
+        val rsvId = sessionManager.checkSession(id, request)
         println("【予約取消】予約番号：$rsvId")
 
         //予約情報取得

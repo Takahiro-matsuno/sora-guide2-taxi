@@ -6,6 +6,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約変更画面</title>
+    <link th:href="@{/css/inputForm.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -50,7 +51,8 @@
             </tr>
             <tr>
                 <th align="left"><label>コメント(任意)</label></th>
-                <td align="left"><input type="text" name="comment" style="width: device-width" th:field="*{comment}"/>
+                <td align="left"><textarea th:field="*{comment}"
+                                           placeholder="特別なご要望などがありましたらご入力ください"></textarea>
                 </td>
             </tr>
 
@@ -64,6 +66,7 @@
             </tr>
         </table>
 
+        <input type="hidden" th:field="${reservationForm.id}">
         <input type="hidden" th:field="${reservationForm.lastUpdate}">
     </div>
 </form>

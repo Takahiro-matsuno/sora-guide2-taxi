@@ -87,11 +87,11 @@
 
     <div th:if="${'rsvDetail.isChange'}">
         <button type="button"
-                th:attr="onclick='cancelCheck(\'' + ${rsvDetail.lastUpdate} + '\');'">
+                th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
             取消する
         </button>
 
-        <button type="button" onclick="location.href='./change'">
+        <button type="submit" formaction="./change" name="id" th:value="${rsvDetail.id}">
             変更する
         </button>
     </div>

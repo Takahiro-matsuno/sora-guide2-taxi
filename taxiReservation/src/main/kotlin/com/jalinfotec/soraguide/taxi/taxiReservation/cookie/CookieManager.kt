@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse
 
 /**
  * Cookie管理クラス
- * スマホアプリから実行している場合のみ、Cookieのやり取りを行う
  */
 class CookieManager {
 

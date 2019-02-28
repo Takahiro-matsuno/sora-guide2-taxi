@@ -28,7 +28,7 @@
 <body>
 <ul class="tabs">
     <li rel="tab1" onClick="location.href='./registration'">予約登録</li>
-    <li class="active">予約一覧</li>
+    <li class="active" onClick="location.href='./list'">予約一覧</li>
 </ul>
 <br/><br/>
 <div th:if="${#lists.isEmpty(rsvList)}">

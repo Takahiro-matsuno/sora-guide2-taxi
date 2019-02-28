@@ -1,6 +1,17 @@
 // パスワードチェック
+var submit = document.getElementById("submit");
+function setMessage() {
+    checkPassword()
+}
+function setFormDisabled() {
+    var disabled = "disabled";
+    if (checkPassword()) {
+        submit.removeAttribute(disabled);
+    } else {
+        submit.setAttribute(disabled, disabled);
+    }
+}
 function checkPassword() {
-
     var checkNowNew = false;
     var checkNewCon = false;
 
@@ -19,6 +30,7 @@ function checkPassword() {
             message = "同じパスワードは設定できません。";
         }
     }
+
     // 新・確認パスワード
     if (newValue !== "" && conValue !== "") {
         if (newValue === conValue) {

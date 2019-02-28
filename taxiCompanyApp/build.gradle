@@ -71,6 +71,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	
+	// sendgrid
+	implementation 'com.sendgrid:sendgrid-java:4.3.0'
+	
 	// gson
 	implementation 'com.google.code.gson:gson:2.8.5'
 }

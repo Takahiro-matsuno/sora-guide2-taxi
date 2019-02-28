@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.SessionManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.DetailForm
@@ -26,12 +27,85 @@ class ReservationDetailService(
 
         //DBから引数のIDとマッチする予約情報を取得
         val rsvInfoOptional = reservationRepository.findByReservationIdAndUuid(id, uuid)
-        //タクシー会社IDからタクシー会社名を取得
-        val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().companyId)
 
-        return if (rsvInfoOptional.isPresent && companyNameOptional.isPresent) {
-            convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)
+        return if (rsvInfoOptional.isPresent) {
+            //セッションに予約番号を設定
+            setRsvId2Session(rsvInfoOptional.get().reservationId, request)
+            convertRsvInfo2RsvForm(rsvInfoOptional.get())
         } else null
+    }
+
+    /**
+     * 【予約サイト】予約認証
+     */
+    fun detailCertificates(id: String, mail: String, request: HttpServletRequest, response: HttpServletResponse): DetailForm? {
+        println("【予約認証】予約番号：$id")
+
+        //DBから引数のIDとマッチする予約情報を取得
+        val rsvInfoOptional = reservationRepository.findById(id)
+
+        if (rsvInfoOptional.isPresent) {
+            //メールアドレス一致チェック
+            if (rsvInfoOptional.get().mail.trim() != mail) {
+                println("メールアドレス不一致")
+                return null
+            }
+        } else {
+            println("予約情報が取得できない")
+            return null
+        }
+
+        //セッションに予約番号を設定
+        setRsvId2Session(rsvInfoOptional.get().reservationId, request)
+
+        return convertRsvInfo2RsvForm(rsvInfoOptional.get())
+    }
+
+    /**
+     * セッションマネージャを呼び出す
+     * 予約番号をセッションに保持する処理
+     */
+    fun setRsvId2Session(rsvId: String, request: HttpServletRequest) {
+        val sessionManager = SessionManager()
+        sessionManager.setSession(rsvId, request)
+    }
+
+    /**
+     * 予約情報Entityを予約情報フォームへ詰め替え
+     */
+    fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation): DetailForm? {
+
+        //タクシー会社IDからタクシー会社名を取得
+        val companyNameOptional = taxiRepository.findById(rsvInfo.companyId)
+
+        // 予約ステータス文言の設定
+        val statusName = Constants.reservationStatus[rsvInfo.status]
+
+        return if (companyNameOptional.isPresent && statusName != null) {
+            DetailForm(
+                    rsvInfo.reservationId,
+                    statusName,
+                    rsvInfo.rideOnDate.toString(),
+                    rsvInfo.rideOnTime.toString(),
+                    rsvInfo.adult.toString(),
+                    rsvInfo.child.toString(),
+                    rsvInfo.carDispatchNumber.toString(),
+                    companyNameOptional.get().companyName,
+                    rsvInfo.destination,
+                    rsvInfo.passengerName,
+                    rsvInfo.passengerPhonetic,
+                    rsvInfo.passengerContact,
+                    rsvInfo.mail,
+                    rsvInfo.comment,
+                    rsvInfo.carNumber,
+                    rsvInfo.carContact,
+                    rsvInfo.notice,
+                    rsvInfo.lastUpdate
+            )
+        } else {
+            println("タクシー会社情報、または予約ステータスの取得エラー")
+            null
+        }
     }
 
     /**
@@ -52,59 +126,4 @@ class ReservationDetailService(
                 "passengerName" to rsvInfoOptional.get().passengerName)
     }
 
-    /**
-     * 【予約サイト】予約認証
-     */
-    fun detailCertificates(id: String, mail: String, request: HttpServletRequest, response: HttpServletResponse): DetailForm? {
-        println("【予約認証】予約番号：$id")
-
-        //DBから引数のIDとマッチする予約情報を取得
-        val rsvInfoOptional = reservationRepository.findById(id)
-        //タクシー会社IDからタクシー会社名を取得
-        val companyNameOptional = taxiRepository.findById(rsvInfoOptional.get().companyId)
-
-        if (rsvInfoOptional.isPresent && companyNameOptional.isPresent) {
-            //メールアドレス一致チェック
-            if (rsvInfoOptional.get().mail.trim() != mail) {
-                println("メールアドレス不一致")
-                return null
-            }
-        } else {
-            println("予約情報、またはタクシー会社情報が取得できない")
-            return null
-        }
-
-        return convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)
-    }
-
-    /**
-     * 予約情報Entityを予約情報フォームへ詰め替え
-     */
-    fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation,
-                               companyName: String): DetailForm? {
-
-        // 予約ステータス文言の設定
-        val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
-
-        return DetailForm(
-                rsvInfo.reservationId,
-                statusName,
-                rsvInfo.rideOnDate.toString(),
-                rsvInfo.rideOnTime.toString(),
-                rsvInfo.adult.toString(),
-                rsvInfo.child.toString(),
-                rsvInfo.carDispatchNumber.toString(),
-                companyName,
-                rsvInfo.destination,
-                rsvInfo.passengerName,
-                rsvInfo.passengerPhonetic,
-                rsvInfo.passengerContact,
-                rsvInfo.mail,
-                rsvInfo.comment,
-                rsvInfo.carNumber,
-                rsvInfo.carContact,
-                rsvInfo.notice,
-                rsvInfo.lastUpdate
-        )
-    }
 }

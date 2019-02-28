@@ -47,12 +47,11 @@ class ApplicationController(
     }
 
     //変更入力画面
-    @PostMapping("app/change")
+    @GetMapping("app/change")
     fun change(mav: ModelAndView,
-               @RequestParam("id") id: String,
                request: HttpServletRequest): ModelAndView {
         mav.viewName = "change"
-        val rsvInfo = rsvChangeService.getChangeDetail(id, request)
+        val rsvInfo = rsvChangeService.getChangeDetail(request)
 
         mav.addObject("reservationForm", rsvInfo)
         return mav

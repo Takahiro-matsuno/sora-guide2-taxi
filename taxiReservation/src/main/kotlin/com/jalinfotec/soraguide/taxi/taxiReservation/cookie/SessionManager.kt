@@ -7,9 +7,10 @@ class SessionManager {
      * セッション生成、予約番号を保持
      *
      * 呼び出し
-     *   予約詳細取得処理、変更用予約情報取得処理
+     *   予約詳細取得処理
      */
     fun setSession(rsvId: String, request: HttpServletRequest) {
+        println("【Session】予約番号セット:$rsvId")
         val session = request.session
         session.setAttribute("rsvId", rsvId)
     }
@@ -24,9 +25,11 @@ class SessionManager {
         val session = request.session
 
         try {
-            return session.getAttribute("LastUpdate") as String
+            val rsvId = session.getAttribute("rsvId") as String
+            println("【Session】予約番号取得:$rsvId")
+            return rsvId
         } catch (e: Exception) {
-            println("セッションに最終更新日が存在しない")
+            println("セッションに予約番号が存在しない")
             throw Exception()
         }
     }
@@ -37,7 +40,8 @@ class SessionManager {
      * 呼び出し
      *   変更処理、取消処理
      */
-    fun deleteSession(request: HttpServletRequest){
+    fun deleteSession(request: HttpServletRequest) {
+        println("【Session】予約番号開放")
         val session = request.session
         session.removeAttribute("rsvId")
     }

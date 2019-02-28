@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.SessionManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
@@ -16,14 +17,15 @@ class ReservationChangeService(
     /**
      * 変更入力画面用のForm設定
      */
-    fun getChangeDetail(id: String, request: HttpServletRequest): ChangeForm {
-        println("【変更入力】予約番号：$id")
+    fun getChangeDetail(request: HttpServletRequest): ChangeForm {
+        val rsvId = SessionManager().getSession(request)
+
+        println("【変更入力】予約番号：$rsvId")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(id)
+        val rsvInfo = getRsvInfo(rsvId)
 
         return ChangeForm(
-                id = rsvInfo.reservationId,
                 date = rsvInfo.rideOnDate,
                 time = rsvInfo.rideOnTime.toString().substring(0, 5),
                 adult = rsvInfo.adult,
@@ -40,13 +42,16 @@ class ReservationChangeService(
      * 予約変更処理
      */
     fun change(changeInfo: ChangeForm, request: HttpServletRequest): String {
-        println("【予約変更】予約番号：${changeInfo.id}")
+        val sessionManager = SessionManager()
+        val rsvId = sessionManager.getSession(request)
+
+        println("【予約変更】予約番号：$rsvId")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(changeInfo.id)
+        val rsvInfo = getRsvInfo(rsvId)
 
         //最終更新日の確認
-        if(rsvInfo.lastUpdate != changeInfo.lastUpdate){
+        if (rsvInfo.lastUpdate != changeInfo.lastUpdate) {
             println("最終更新日アンマッチ")
             throw Exception()
         }
@@ -70,20 +75,25 @@ class ReservationChangeService(
         //SQL呼び出し
         reservationRepository.save(rsvInfo)
 
+        //セッションの予約番号を開放する
+        sessionManager.deleteSession(request)
+
         return rsvInfo.reservationId
     }
 
     /**
      * 予約取消処理
      */
-    fun delete(id: String, lastUpdate: Timestamp, request: HttpServletRequest): String {
-        println("【予約取消】予約番号：$id")
+    fun delete(lastUpdate: Timestamp, request: HttpServletRequest): String {
+        val sessionManager = SessionManager()
+        val rsvId = sessionManager.getSession(request)
+        println("【予約取消】予約番号：$rsvId")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(id)
+        val rsvInfo = getRsvInfo(rsvId)
 
         //最終更新日の確認
-        if(rsvInfo.lastUpdate != lastUpdate){
+        if (rsvInfo.lastUpdate != lastUpdate) {
             println("最終更新日アンマッチ")
             throw Exception()
         }
@@ -91,6 +101,9 @@ class ReservationChangeService(
         //取消処理
         rsvInfo.status = 4
         reservationRepository.save(rsvInfo)
+
+        //セッションの予約番号を開放する
+        sessionManager.deleteSession(request)
 
         return rsvInfo.reservationId
     }

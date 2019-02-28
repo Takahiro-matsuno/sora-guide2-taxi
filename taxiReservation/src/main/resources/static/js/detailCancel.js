@@ -1,4 +1,4 @@
-function cancelCheck(id,lastUpdate){
+function cancelCheck(lastUpdate){
     var result = window.confirm('取り消してよろしいですか？')
 
 	if(result){
@@ -11,12 +11,6 @@ function cancelCheck(id,lastUpdate){
 
         //送信値
         var input = document.createElement('input');
-        input.setAttribute('type',  'hidden');
-        input.setAttribute('name', 'id');
-        input.setAttribute('value', id);
-        form.appendChild(input);
-
-        input = document.createElement('input');
         input.setAttribute('type',  'hidden');
         input.setAttribute('name', 'lastUpdate');
         input.setAttribute('value', lastUpdate);

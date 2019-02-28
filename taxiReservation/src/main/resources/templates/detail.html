@@ -86,11 +86,11 @@
     </table>
 
     <button type="button"
-            th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
+            th:attr="onclick='cancelCheck(\'' + ${rsvDetail.lastUpdate} + '\');'">
         取消する
     </button>
 
-    <button type="submit" formaction="./change" name="id" th:value="${rsvDetail.id}">
+    <button type="button"  onclick="location.href='./change'">
         変更する
     </button>
 

@@ -109,14 +109,13 @@ class ActionCompController(
     //取消完了画面
     @PostMapping("app/cancelComplete")
     fun cancelComplete(mav: ModelAndView,
-                       @RequestParam("id") id: String,
                        @RequestParam("lastUpdate") lastUpdate: Timestamp,
                        request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
 
         //取消処理
         val rsvId: String
         try {
-            rsvId = rsvChangeService.delete(id, lastUpdate, request)
+            rsvId = rsvChangeService.delete(lastUpdate, request)
         } catch (e: Exception) {
             mav.viewName = "error"
             return mav

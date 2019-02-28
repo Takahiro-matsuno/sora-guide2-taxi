@@ -24,7 +24,7 @@ class ReservationListService(
         //予約情報の取得
         val rsvInfoList =
                 reservationRepository.findByUuidAndStatusLessThanAndRideOnDateGreaterThanEqualOrderByRideOnDateAscRideOnTimeAsc(
-                        uuid, 3, Date(System.currentTimeMillis()))
+                        uuid, 6, Date(System.currentTimeMillis()))
         val rsvList = mutableListOf<ListForm>()
 
         //予約情報のForm変換

@@ -2,7 +2,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.form
 
 import java.sql.Timestamp
 
-data class DetailForm (
+data class DetailForm(
         var id: String = "",
         var status: String = "",
         var date: String = "",
@@ -20,5 +20,6 @@ data class DetailForm (
         var car_number: String = "",
         var car_contact: String = "",
         var notice: String = "",
-        var lastUpdate : Timestamp = Timestamp(0)
+        var lastUpdate: Timestamp = Timestamp(0),
+        var isChange: Boolean = false
 )

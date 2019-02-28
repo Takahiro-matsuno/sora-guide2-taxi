@@ -47,11 +47,11 @@ class ReservationDetailService(
         if (rsvInfoOptional.isPresent) {
             //メールアドレス一致チェック
             if (rsvInfoOptional.get().mail.trim() != mail) {
-                println("メールアドレス不一致")
+                println("【ERROR】メールアドレス不一致")
                 return null
             }
         } else {
-            println("予約情報が取得できない")
+            println("【ERROR】予約情報が取得できない")
             return null
         }
 
@@ -100,10 +100,11 @@ class ReservationDetailService(
                     rsvInfo.carNumber,
                     rsvInfo.carContact,
                     rsvInfo.notice,
-                    rsvInfo.lastUpdate
+                    rsvInfo.lastUpdate,
+                    checkStatus(rsvInfo.status)
             )
         } else {
-            println("タクシー会社情報、または予約ステータスの取得エラー")
+            println("【ERROR】タクシー会社情報、または予約ステータスの取得エラー")
             null
         }
     }
@@ -126,4 +127,15 @@ class ReservationDetailService(
                 "passengerName" to rsvInfoOptional.get().passengerName)
     }
 
+
+    /**
+     * 予約変更可否チェック
+     */
+    fun checkStatus(status: Int): Boolean {
+        if (status >= 4) {
+            println("変更ボタン非表示:変更不可のステータス")
+            return false
+        }
+        return true
+    }
 }

@@ -25,6 +25,11 @@ class ReservationChangeService(
         //予約情報取得
         val rsvInfo = getRsvInfo(rsvId)
 
+        //予約変更可否チェック
+        if(!checkStatus(rsvInfo.status)) {
+            throw Exception()
+        }
+
         return ChangeForm(
                 date = rsvInfo.rideOnDate,
                 time = rsvInfo.rideOnTime.toString().substring(0, 5),
@@ -49,6 +54,11 @@ class ReservationChangeService(
 
         //予約情報取得
         val rsvInfo = getRsvInfo(rsvId)
+
+        //予約変更可否チェック
+        if(!checkStatus(rsvInfo.status)) {
+            throw Exception()
+        }
 
         //最終更新日の確認
         if (rsvInfo.lastUpdate != changeInfo.lastUpdate) {
@@ -92,6 +102,11 @@ class ReservationChangeService(
         //予約情報取得
         val rsvInfo = getRsvInfo(rsvId)
 
+        //予約変更可否チェック
+        if(!checkStatus(rsvInfo.status)) {
+            throw Exception()
+        }
+
         //最終更新日の確認
         if (rsvInfo.lastUpdate != lastUpdate) {
             println("最終更新日アンマッチ")
@@ -111,7 +126,7 @@ class ReservationChangeService(
     /**
      * 予約変更、取消フロー用の予約情報取得処理
      *
-     * 予約番号とUUIDを用いて予約検索を行う
+     * セッションに保持している予約番号を用いて予約検索を行う
      * 予約情報が存在しない場合はエラーを投げる。
      */
     fun getRsvInfo(id: String): ReservationInformation {
@@ -124,5 +139,16 @@ class ReservationChangeService(
         }
 
         return rsvInfoOptional.get()
+    }
+
+    /**
+     * 予約変更可否チェック
+     */
+    fun checkStatus(status: Int): Boolean {
+        if (status >= 4) {
+            println("ERROR:変更不可のステータス")
+            return false
+        }
+        return true
     }
 }

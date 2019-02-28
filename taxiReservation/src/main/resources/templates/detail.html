@@ -85,14 +85,16 @@
         </tr>
     </table>
 
-    <button type="button"
-            th:attr="onclick='cancelCheck(\'' + ${rsvDetail.lastUpdate} + '\');'">
-        取消する
-    </button>
+    <div th:if="${'rsvDetail.isChange'}">
+        <button type="button"
+                th:attr="onclick='cancelCheck(\'' + ${rsvDetail.lastUpdate} + '\');'">
+            取消する
+        </button>
 
-    <button type="button"  onclick="location.href='./change'">
-        変更する
-    </button>
+        <button type="button" onclick="location.href='./change'">
+            変更する
+        </button>
+    </div>
 
 </form>
 

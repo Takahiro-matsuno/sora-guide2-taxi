@@ -149,11 +149,18 @@ class ReservationService(
     private fun getStatusList(status: Int): ArrayList<String>? {
 
         val list = ArrayList<String>()
+        /*
         // 現在のステータス以上を追加する
         // TODO タクシー会社ユースケースが決まり次第処理を変更する
         for (i in status until Constants.reservationStatus.keys.size) {
             list.add(Constants.reservationStatus[i]!!)
-        }
+        }*/
+
+        list.add(Constants.reservationStatus[2]!!)
+        list.add(Constants.reservationStatus[4]!!)
+        list.add(Constants.reservationStatus[6]!!)
+        list.add(Constants.reservationStatus[7]!!)
+
         return if (list.any()) list else null
     }
 }

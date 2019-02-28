@@ -17,7 +17,7 @@ class ReservationDetailService(
 ) {
 
     /**
-     * 予約詳細取得
+     * 【予約アプリ】予約詳細取得
      */
     fun getDetail(id: String, request: HttpServletRequest): DetailForm? {
         println("【予約情報取得】予約ID：$id")
@@ -53,7 +53,7 @@ class ReservationDetailService(
     }
 
     /**
-     * 予約認証
+     * 【予約サイト】予約認証
      */
     fun detailCertificates(id: String, mail: String, request: HttpServletRequest, response: HttpServletResponse): DetailForm? {
         println("【予約認証】予約番号：$id")
@@ -72,13 +72,6 @@ class ReservationDetailService(
         } else {
             println("予約情報、またはタクシー会社情報が取得できない")
             return null
-        }
-
-        //CookieにUUIDを設定
-        val newUuid = UuidManager().setUuid(request, response, rsvInfoOptional.get().uuid)
-        if (rsvInfoOptional.get().uuid.isBlank()) {
-            rsvInfoOptional.get().uuid = newUuid
-            reservationRepository.save(rsvInfoOptional.get())
         }
 
         return convertRsvInfo2RsvForm(rsvInfoOptional.get(), companyNameOptional.get().companyName)

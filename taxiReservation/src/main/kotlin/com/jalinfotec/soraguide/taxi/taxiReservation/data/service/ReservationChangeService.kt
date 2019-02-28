@@ -1,6 +1,5 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
@@ -21,12 +20,12 @@ class ReservationChangeService(
         println("【変更入力】予約番号：$id")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(id, request)
+        val rsvInfo = getRsvInfo(id)
 
         return ChangeForm(
                 id = rsvInfo.reservationId,
                 date = rsvInfo.rideOnDate,
-                time = rsvInfo.rideOnTime.toString(),
+                time = rsvInfo.rideOnTime.toString().substring(0, 5),
                 adult = rsvInfo.adult,
                 child = rsvInfo.child,
                 car_dispatch = rsvInfo.carDispatchNumber,
@@ -44,7 +43,7 @@ class ReservationChangeService(
         println("【予約変更】予約番号：${changeInfo.id}")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(changeInfo.id, request)
+        val rsvInfo = getRsvInfo(changeInfo.id)
 
         //最終更新日の確認
         if(rsvInfo.lastUpdate != changeInfo.lastUpdate){
@@ -81,7 +80,7 @@ class ReservationChangeService(
         println("【予約取消】予約番号：$id")
 
         //予約情報取得
-        val rsvInfo = getRsvInfo(id, request)
+        val rsvInfo = getRsvInfo(id)
 
         //最終更新日の確認
         if(rsvInfo.lastUpdate != lastUpdate){
@@ -102,10 +101,8 @@ class ReservationChangeService(
      * 予約番号とUUIDを用いて予約検索を行う
      * 予約情報が存在しない場合はエラーを投げる。
      */
-    fun getRsvInfo(id: String, request: HttpServletRequest): ReservationInformation {
-        val uuid = UuidManager().getUuid(request) ?: ""
-
-        val rsvInfoOptional = reservationRepository.findByReservationIdAndUuid(id, uuid)
+    fun getRsvInfo(id: String): ReservationInformation {
+        val rsvInfoOptional = reservationRepository.findById(id)
 
         //予約が存在しない場合、エラー
         if (!rsvInfoOptional.isPresent) {

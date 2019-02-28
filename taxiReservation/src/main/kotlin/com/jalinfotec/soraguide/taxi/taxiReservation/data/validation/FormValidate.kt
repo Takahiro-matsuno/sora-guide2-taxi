@@ -87,6 +87,7 @@ class FormValidate {
      * 搭乗日の妥当性チェック
      */
     private fun rideOnDateValidate(date: Date, timeStr: String): Boolean {
+        println("引数チェック:$date , $timeStr")
         //今日の日付を取得（世界標準時）
         val nowDate = Calendar.getInstance()
 

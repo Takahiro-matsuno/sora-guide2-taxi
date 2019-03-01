@@ -6,6 +6,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ListForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.lang.Exception
 import java.sql.Date
 import javax.servlet.http.HttpServletRequest
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse
 class ReservationListService(
         private val reservationRepository: ReservationInfoRepository) {
 
+    @Transactional
     fun getList(request: HttpServletRequest, response: HttpServletResponse): MutableList<ListForm> {
         val cookieManager = CookieManager()
 

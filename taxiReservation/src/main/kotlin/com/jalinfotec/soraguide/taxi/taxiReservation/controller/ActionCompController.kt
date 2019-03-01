@@ -145,7 +145,7 @@ class ActionCompController(
                 mav.addObject("headText",
                         "タクシーのご予約内容がタクシー会社に送信されました。")
                 mav.addObject("message",
-                        "タクシー会社より予約の受付が完了したら、スマホに通知され、代表者にメールが送付されます。\n" +
+                        "タクシー会社より予約の受付が完了したら、代表者にメールが送付されます。\n" +
                                 "ステータスは予約確定済となります。\n" +
                                 "\n" +
                                 "注意：予約完了ではありません。")
@@ -156,7 +156,7 @@ class ActionCompController(
                 mav.addObject("headText",
                         "ご予約の変更内容がタクシー会社に送信されました。")
                 mav.addObject("message",
-                        "タクシー会社より変更の受付が完了したら、スマホに通知され、代表者にメールが送付されます。")
+                        "タクシー会社より変更の受付が完了したら、代表者にメールが送付されます。")
             }
 
             ActionType.CANCEL -> {

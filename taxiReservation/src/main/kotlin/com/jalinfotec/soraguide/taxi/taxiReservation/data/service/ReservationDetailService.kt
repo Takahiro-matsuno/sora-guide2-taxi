@@ -8,6 +8,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.Reservation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -20,6 +21,7 @@ class ReservationDetailService(
     /**
      * 【予約アプリ】予約詳細取得
      */
+    @Transactional
     fun getDetail(id: String, request: HttpServletRequest): DetailForm? {
         println("【予約情報取得】予約ID：$id")
 
@@ -38,6 +40,7 @@ class ReservationDetailService(
     /**
      * 【予約サイト】予約認証
      */
+    @Transactional
     fun detailCertificates(id: String, mail: String, request: HttpServletRequest, response: HttpServletResponse): DetailForm? {
         println("【予約認証】予約番号：$id")
 
@@ -73,6 +76,7 @@ class ReservationDetailService(
     /**
      * 予約情報Entityを予約情報フォームへ詰め替え
      */
+    @Transactional
     fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation): DetailForm? {
 
         //タクシー会社IDからタクシー会社名を取得
@@ -112,6 +116,7 @@ class ReservationDetailService(
     /**
      * 各種完了画面表示用コンテンツ取得
      */
+    @Transactional
     fun getDetailForActionComplete(id: String): MutableMap<String, String> {
         println("【予約情報取得】予約ID：$id")
 

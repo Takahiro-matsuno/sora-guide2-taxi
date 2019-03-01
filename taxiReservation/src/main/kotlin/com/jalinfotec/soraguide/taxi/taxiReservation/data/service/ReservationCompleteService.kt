@@ -17,7 +17,7 @@ class ReservationCompleteService(
         private val numberingRepository: NumberingRepository,
         private val taxiInfoService: TaxiInformationService) {
 
-    @Transactional(readOnly = false)
+    @Transactional
     fun complete(input: ReservationForm, request: HttpServletRequest): String {
         val rsvInfo = setReservation(input, request)
         println("【予約完了】予約ID：${rsvInfo.reservationId}")
@@ -26,6 +26,7 @@ class ReservationCompleteService(
         return rsvInfo.reservationId
     }
 
+    @Transactional
     private fun setReservation(input: ReservationForm, request: HttpServletRequest): ReservationInformation {
         //選択した会社名から会社IDを検索
         val taxiCompanyId = taxiInfoService.getCompanyId(input.company_name)
@@ -61,7 +62,7 @@ class ReservationCompleteService(
         )
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     fun setId(): String {
         val numbering = numberingRepository.findById("booking_info").get()
         val result = String.format("%010d", numbering.nextValue)

@@ -6,6 +6,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
@@ -37,8 +38,9 @@ class SampleController(
     @ResponseBody
     fun home(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "index"
-        //val cookieManager = CookieManager()
-        //cookieManager.setCookie(request, response, "0000000001-0000000002-0000000005")
+
+        mav.addObject("isTest",Constants.TEST_MODE)
+
         return mav
     }
 

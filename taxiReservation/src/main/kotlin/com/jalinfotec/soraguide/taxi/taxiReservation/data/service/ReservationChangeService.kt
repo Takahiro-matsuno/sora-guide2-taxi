@@ -5,6 +5,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInfo
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
@@ -47,6 +48,7 @@ class ReservationChangeService(
     /**
      * 予約変更処理
      */
+    @Transactional
     fun change(changeInfo: ChangeForm, request: HttpServletRequest): String {
         val sessionManager = SessionManager()
         val rsvId = sessionManager.checkSession(changeInfo.id, request)
@@ -101,6 +103,7 @@ class ReservationChangeService(
     /**
      * 予約取消処理
      */
+    @Transactional
     fun delete(id: String, lastUpdate: Timestamp, request: HttpServletRequest): String {
         val sessionManager = SessionManager()
         val rsvId = sessionManager.checkSession(id, request)
@@ -144,6 +147,7 @@ class ReservationChangeService(
      * セッションに保持している予約番号を用いて予約検索を行う
      * 予約情報が存在しない場合はエラーを投げる。
      */
+    @Transactional
     fun getRsvInfo(id: String): ReservationInformation {
         val rsvInfoOptional = reservationRepository.findById(id)
 

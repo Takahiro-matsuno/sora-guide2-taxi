@@ -109,9 +109,6 @@ class ReservationController(
         val addValue = 5 - (minute % 5)
         cal.add(Calendar.MINUTE, addValue)
 
-        // 日本標準時に合わせる
-        cal.add(Calendar.HOUR_OF_DAY, 9)
-
         println(cal.time.toString())
 
         //Formの更新

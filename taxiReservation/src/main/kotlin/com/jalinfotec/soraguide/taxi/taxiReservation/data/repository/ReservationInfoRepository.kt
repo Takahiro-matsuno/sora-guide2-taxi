@@ -20,8 +20,14 @@ interface ReservationInfoRepository : JpaRepository<ReservationInformation, Stri
     //fun findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
     //        phone: String, mail: String, status: Int, date: Date): MutableList<ReservationInformation>
 
-    fun findByUuidAndStatusLessThanAndRideOnDateGreaterThanEqualOrderByRideOnDateAscRideOnTimeAsc(
-            uuid: String, status: Int, date: Date): MutableList<ReservationInformation>
+    /**
+     *予約一覧取得用の検索処理
+     *以下条件の予約情報を取得し、乗車日、乗車時間でソートする
+     *  1.UUIDが一致する
+     *  2.乗車日が今日以降であること
+     */
+    fun findByUuidAndRideOnDateGreaterThanEqualOrderByRideOnDateAscRideOnTimeAsc(
+            uuid: String, date: Date): MutableList<ReservationInformation>
 
     fun findByReservationIdAndUuid(id: String, uuid: String): Optional<ReservationInformation>
 }

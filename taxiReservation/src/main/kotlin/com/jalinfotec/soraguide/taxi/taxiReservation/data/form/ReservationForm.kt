@@ -28,7 +28,7 @@ data class ReservationForm(
         var company_name: String = "",
 
         @get:NotEmpty
-        @get:Size(min = 1, max = 30)
+        //@get:Size(min = 1, max = 30)
         var destination: String = "",
 
         @get:NotEmpty

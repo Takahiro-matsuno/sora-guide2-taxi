@@ -4,6 +4,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.SessionManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
@@ -126,10 +127,10 @@ class ReservationChangeService(
         //ステータスを更新
         if (rsvInfo.status == 1) {
             //ステータスが受付中の場合はタクシー会社の確認無しで「キャンセル済」とする
-            rsvInfo.status = 6
+            rsvInfo.status = 5
         } else {
             //ステータスを「キャンセル受付中」とする
-            rsvInfo.status = 5
+            rsvInfo.status = 4
         }
 
         //DBアクセス
@@ -164,7 +165,7 @@ class ReservationChangeService(
      * 予約変更可否チェック
      */
     fun checkStatus(status: Int): Boolean {
-        if (status >= 4) {
+        if (Constants.isChangeByStatus[status] != true) {
             println("ERROR:変更不可のステータス")
             return false
         }

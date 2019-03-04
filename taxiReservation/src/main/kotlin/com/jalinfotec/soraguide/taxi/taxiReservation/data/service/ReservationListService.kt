@@ -25,8 +25,8 @@ class ReservationListService(
 
         //予約情報の取得
         val rsvInfoList =
-                reservationRepository.findByUuidAndStatusLessThanAndRideOnDateGreaterThanEqualOrderByRideOnDateAscRideOnTimeAsc(
-                        uuid, 6, Date(System.currentTimeMillis()))
+                reservationRepository.findByUuidAndRideOnDateGreaterThanEqualOrderByRideOnDateAscRideOnTimeAsc(
+                        uuid, Date(System.currentTimeMillis()))
         val rsvList = mutableListOf<ListForm>()
 
         //予約情報のForm変換
@@ -46,6 +46,9 @@ class ReservationListService(
 
         // 予約ステータスの置き換え
         val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
+
+        // 予約詳細表示不可ステータスの場合は詰め替えを行わない
+        if (Constants.isDetailByStatus[rsvInfo.status] != true) return null
 
         return ListForm(
                 rsvInfo.reservationId,

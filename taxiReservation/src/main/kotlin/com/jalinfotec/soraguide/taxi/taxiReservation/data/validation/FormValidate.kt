@@ -88,11 +88,10 @@ class FormValidate {
      */
     private fun rideOnDateValidate(date: Date, timeStr: String): Boolean {
         println("引数チェック:$date , $timeStr")
-        //今日の日付を取得（世界標準時）
+        //今日の日付を取得
         val nowDate = Calendar.getInstance()
 
-        //取得した日付を日本標準時に変換し、時間だけ抜き出し
-        nowDate.add(Calendar.HOUR_OF_DAY, 9)
+        //取得した日付から時間だけ抜き出し
         val nowTime = Time(nowDate.timeInMillis).toLocalTime()
 
         //日付比較のために、時間パラメータを0に設定

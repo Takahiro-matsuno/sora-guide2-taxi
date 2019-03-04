@@ -28,7 +28,11 @@ class UuidManager {
      * Cookieに設定されているUUIDの取得
      */
     fun getUuid(request: HttpServletRequest): String? {
-        return CookieManager().getFromCookie(request)
+        //UserAgentでアプリのWebViewから開いているかどうか判定
+        if (UserAgentManager().checkAndroidApp(request)) {
+            return CookieManager().getFromCookie(request)
+        }
+        return null
     }
 
     /**

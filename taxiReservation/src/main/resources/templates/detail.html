@@ -12,22 +12,21 @@
 <h1>予約詳細</h1>
 <form method="post">
     <table th:object="${rsvDetail}">
-        <thead>
         <tr>
             <th>予約番号</th>
             <td th:text="*{id}"></td>
         </tr>
         <tr>
             <th>ステータス</th>
-            <td th:text="*{status}"></td>
+            <td th:text="*{reservationStatus}"></td>
         </tr>
         <tr>
             <th>日付</th>
-            <td th:text="*{date}"></td>
+            <td th:text="*{rideOnDate}"></td>
         </tr>
         <tr>
             <th>時間</th>
-            <td th:text="*{time}"></td>
+            <td th:text="*{rideOnTime}"></td>
         </tr>
         <tr>
             <th>大人</th>
@@ -39,11 +38,11 @@
         </tr>
         <tr>
             <th>台数</th>
-            <td th:text="*{car_dispatch}"></td>
+            <td th:text="*{carDispatchNumber}"></td>
         </tr>
         <tr>
             <th>会社名</th>
-            <td th:text="*{company_name}"></td>
+            <td th:text="*{companyName}"></td>
         </tr>
         <tr>
             <th>目的地</th>
@@ -51,17 +50,15 @@
         </tr>
         <tr>
             <th>名前</th>
-            <td th:text="*{passenger_name}"></td>
+            <td th:text="*{passengerName}"></td>
         </tr>
-
         <tr>
             <th>フリガナ</th>
-            <td th:text="*{passenger_phonetic}"></td>
+            <td th:text="*{passengerPhonetic}"></td>
         </tr>
-
         <tr>
             <th>電話番号</th>
-            <td th:text="*{phone}"></td>
+            <td th:text="*{passengerContact}"></td>
         </tr>
         <tr>
             <th>メールアドレス</th>
@@ -73,11 +70,11 @@
         </tr>
         <tr>
             <th>車両番号</th>
-            <td th:text="*{car_number}"></td>
+            <td th:text="*{carNumber}"></td>
         </tr>
         <tr>
             <th>タクシー連絡先</th>
-            <td th:text="*{car_contact}"></td>
+            <td th:text="*{carContact}"></td>
         </tr>
         <tr>
             <th>ご案内事項</th>

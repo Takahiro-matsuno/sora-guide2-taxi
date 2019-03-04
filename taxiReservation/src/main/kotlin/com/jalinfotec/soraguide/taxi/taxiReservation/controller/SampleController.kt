@@ -27,13 +27,6 @@ class SampleController(
         private val reservationRepository: ReservationInfoRepository,
         private val numberingRepository: NumberingRepository
 ) {
-
-    // 疎通確認
-    @RequestMapping("hello")
-    fun hello(@RequestParam(value = "company_name") name: String?): String {
-        return if (name == null) "who are you?" else "company_name"
-    }
-
     @RequestMapping("/")
     @ResponseBody
     fun home(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {

@@ -14,18 +14,26 @@
     <h1>予約変更</h1>
 </header>
 
-<form action="./changeComplete" method="post" th:object="${reservationForm}">
+<form action="./changeComplete" method="post" th:object="${changeForm}">
     <div id="contents">
         <p>以下の項目を入力してください</p>
         <p style="color: red" th:text="${errorMassage}"></p>
         <table>
             <tr>
+                <th align="left"><label>予約番号</label></th>
+                <td align="left" th:text="*{id}"></td>
+            </tr>
+            <tr>
+                <th align="left"><label>ステータス</label></th>
+                <td align="left" th:text="*{reservationStatus}"></td>
+            </tr>
+            <tr>
                 <th align="left"><label>乗車日</label></th>
-                <td align="left"><input type="date" name="day" style="width: device-width;" th:field="*{date}" required/></td>
+                <td align="left"><input type="date" name="day" style="width: device-width;" th:field="*{rideOnDate}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>乗車時間</label></th>
-                <td align="left"><input type="time" name="time" style="width: device-width" th:field="*{time}" step="300" max="23:59" required/></td>
+                <td align="left"><input type="time" name="time" style="width: device-width" th:field="*{rideOnTime}" step="300" max="23:59" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>人数(大人)</label></th>
@@ -38,7 +46,11 @@
             <tr>
                 <th align="left"><label>配車台数</label></th>
                 <td align="left"><input type="number" name="disp" style="width: device-width"
-                                        th:field="*{car_dispatch}"/></td>
+                                        th:field="*{carDispatchNumber}"/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>会社名</label></th>
+                <td align="left" th:text="*{companyName}"></td>
             </tr>
             <tr>
                 <th align="left"><label>目的地</label></th>
@@ -46,14 +58,45 @@
                 </td>
             </tr>
             <tr>
+                <th align="left"><label>名前</label></th>
+                <td  align="left"><input type="text" name="dest" style="width: device-width" th:field="*{passengerName}" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>フリガナ</label></th>
+                <td align="left"><input type="text" name="dest" style="width: device-width" th:field="*{passengerPhonetic}" required/>
+                </td>
+            </tr>
+            <tr>
                 <th align="left"><label>電話番号</label></th>
-                <td align="left"><input type="tel" name="phone" style="width: device-width" th:field="*{phone}" required/></td>
+                <td align="left"><input type="tel" name="phone" style="width: device-width" th:field="*{passengerContact}" required/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>メールアドレス</label></th>
+                <td align="left"><input type="email" style="width: device-width" th:field="*{mail}" required/>
+            </tr>
+            <tr>
+                <th align="left"><label>メールアドレス(確認)</label></th>
+                <td align="left"><input type="email" style="width: device-width" th:field="*{mailCheck}" required/>
+                </td>
             </tr>
             <tr>
                 <th align="left"><label>コメント(任意)</label></th>
                 <td align="left"><textarea th:field="*{comment}"
                                            placeholder="特別なご要望などがありましたらご入力ください"></textarea>
                 </td>
+            </tr>
+            <tr>
+                <th align="left"><label>車両番号</label></th>
+                <td align="left" th:text="*{carNumber}"></td>
+            </tr>
+            <tr>
+                <th align="left"><label>タクシー連絡先</label></th>
+                <td align="left" th:text="*{carContact}"></td>
+            </tr>
+            <tr>
+                <th align="left"><label>ご案内事項</label></th>
+                <td align="left" th:text="*{notice}"></td>
             </tr>
 
             <tr>
@@ -66,8 +109,13 @@
             </tr>
         </table>
 
-        <input type="hidden" th:field="${reservationForm.id}">
-        <input type="hidden" th:field="${reservationForm.lastUpdate}">
+        <input type="hidden" th:field="${changeForm.id}">
+        <input type="hidden" th:field="${changeForm.reservationStatus}">
+        <input type="hidden" th:field="${changeForm.companyName}">
+        <input type="hidden" th:field="${changeForm.carNumber}">
+        <input type="hidden" th:field="${changeForm.carContact}">
+        <input type="hidden" th:field="${changeForm.notice}">
+        <input type="hidden" th:field="${changeForm.lastUpdate}">
     </div>
 </form>
 </body>

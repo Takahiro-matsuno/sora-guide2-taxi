@@ -18,7 +18,7 @@ class FormValidate {
      * 登録画面から確認画面遷移時のバリデートチェック
      */
     fun registrationCheck(rsvForm: ReservationForm): String {
-        if (!rideOnDateValidate(rsvForm.date, rsvForm.time)) {
+        if (!rideOnDateValidate(rsvForm.rideOnDate, rsvForm.rideOnTime)) {
             return dateErrorMassage
         }
 
@@ -37,7 +37,7 @@ class FormValidate {
      * 確認画面から登録完了画面遷移時のバリデートチェック
      */
     fun confirmCheck(rsvForm: ReservationForm): String {
-        if (!rideOnDateValidate(rsvForm.date, rsvForm.time)) {
+        if (!rideOnDateValidate(rsvForm.rideOnDate, rsvForm.rideOnTime)) {
             return dateErrorMassage
         }
 
@@ -52,8 +52,16 @@ class FormValidate {
      * 変更入力画面から変更完了画面遷移時のバリデートチェック
      */
     fun changeCheck(changeForm: ChangeForm): String {
-        if (!rideOnDateValidate(changeForm.date, changeForm.time)) {
+        if (!rideOnDateValidate(changeForm.rideOnDate, changeForm.rideOnTime)) {
             return dateErrorMassage
+        }
+
+        if (!mailMatchCheck(changeForm.mail, changeForm.mailCheck)) {
+            return mailDiscordErrorMessage
+        }
+
+        if (!mailValidate(changeForm.mail)) {
+            return mailValidateErrorMessage
         }
 
         return ""

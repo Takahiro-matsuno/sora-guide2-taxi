@@ -75,7 +75,7 @@ class ActionCompController(
     //変更完了画面
     @PostMapping("app/changeComplete")
     fun changeComplete(mav: ModelAndView,
-                       @Validated @ModelAttribute("reservationForm") rsvForm: ChangeForm,
+                       @Validated @ModelAttribute("changeForm") rsvForm: ChangeForm,
                        result: BindingResult, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         //単項目チェック
         if (result.hasErrors()) {

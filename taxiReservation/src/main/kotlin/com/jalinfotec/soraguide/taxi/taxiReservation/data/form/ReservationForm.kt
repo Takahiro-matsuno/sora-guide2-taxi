@@ -8,9 +8,9 @@ import javax.validation.constraints.*
 data class ReservationForm(
         var id: String = "",
 
-        var date: Date = Date(Calendar.getInstance().timeInMillis),
+        var rideOnDate: Date = Date(Calendar.getInstance().timeInMillis),
 
-        var time: String = Time(date.time).toString().substring(0, 5),
+        var rideOnTime: String = Time(rideOnDate.time).toString().substring(0, 5),
 
         @get:NotNull
         @get:Max(value = 20)
@@ -22,27 +22,27 @@ data class ReservationForm(
 
         @get:NotNull
         @get:Max(20)
-        var car_dispatch: Int = 1,
+        var carDispatchNumber: Int = 1,
 
         @get:NotEmpty
-        var company_name: String = "",
+        var companyName: String = "",
 
         @get:NotEmpty
-        //@get:Size(min = 1, max = 30)
+        @get:Size(min = 1, max = 30)
         var destination: String = "",
 
         @get:NotEmpty
         @get:Size(min = 1, max = 20)
-        var name: String = "",
+        var passengerName: String = "",
 
         @get:NotEmpty
         @get:Size(min = 1, max = 30)
-        var phonetic: String = "",
+        var passengerPhonetic: String = "",
 
         @get:NotEmpty
         @get:Size(min = 1, max = 15)
         @get:Pattern(regexp = "[0-9]*", message = "エラー")
-        var phone: String = "",
+        var passengerContact: String = "",
 
         @get:NotEmpty
         @Email

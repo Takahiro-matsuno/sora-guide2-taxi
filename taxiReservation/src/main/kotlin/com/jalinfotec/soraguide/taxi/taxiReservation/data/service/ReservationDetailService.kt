@@ -128,7 +128,7 @@ class ReservationDetailService(
             throw Exception()
         }
         return mutableMapOf(Pair("reservationId", rsvInfoOptional.get().reservationId),
-                Pair("status", statusName!!),
+                Pair("reservationStatus", statusName!!),
                 "passengerName" to rsvInfoOptional.get().passengerName)
     }
 

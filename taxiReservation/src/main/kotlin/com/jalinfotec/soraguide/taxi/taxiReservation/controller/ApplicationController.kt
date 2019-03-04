@@ -52,9 +52,9 @@ class ApplicationController(
                @RequestParam("id") id: String,
                request: HttpServletRequest): ModelAndView {
         mav.viewName = "change"
-        val rsvInfo = rsvChangeService.getChangeDetail(id, request)
+        val changeForm = rsvChangeService.getChangeDetail(id, request) ?: throw Exception()
 
-        mav.addObject("reservationForm", rsvInfo)
+        mav.addObject("changeForm", changeForm)
         return mav
     }
 

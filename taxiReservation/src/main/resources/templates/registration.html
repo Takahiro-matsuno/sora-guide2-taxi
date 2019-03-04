@@ -25,11 +25,11 @@
         <table>
             <tr>
                 <th align="left"><label>乗車日</label></th>
-                <td align="left"><input type="date" style="width: device-width;" th:field="*{date}" required/></td>
+                <td align="left"><input type="date" style="width: device-width;" th:field="*{rideOnDate}" required/></td>
             </tr>
             <tr>
                 <th align="left"><label>乗車時間</label></th>
-                <td align="left"><input type="time" style="width: device-width" th:field="*{time}" step="300"
+                <td align="left"><input type="time" style="width: device-width" th:field="*{rideOnTime}" step="300"
                                         max="23:59" required/></td>
             </tr>
             <tr>
@@ -42,16 +42,16 @@
             </tr>
             <tr>
                 <th align="left"><label>配車台数</label></th>
-                <td align="left"><input type="number" style="width: device-width" th:field="*{car_dispatch}" required/>
+                <td align="left"><input type="number" style="width: device-width" th:field="*{carDispatchNumber}" required/>
                 </td>
             </tr>
             <tr>
                 <th align="left"><label>タクシー会社</label></th>
                 <td>
-                    <select id="singleSelect" th:field="*{company_name}">
+                    <select id="singleSelect" th:field="*{companyName}">
                         <option value="">---</option>
                         <option th:each="item : ${taxiList}" th:value="${item}" th:text="${item}"
-                                th:selected="${item}==*{company_name}">
+                                th:selected="${item}==*{companyName}">
                         </option>
                     </select>
                 </td>
@@ -64,18 +64,18 @@
             </tr>
             <tr>
                 <th align="left"><label>氏名</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{name}" placeholder="大空旅人"
+                <td align="left"><input type="text" style="width: device-width" th:field="*{passengerName}" placeholder="大空旅人"
                                         required/></td>
             </tr>
             <tr>
                 <th align="left"><label>フリガナ</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{phonetic}"
+                <td align="left"><input type="text" style="width: device-width" th:field="*{passengerPhonetic}"
                                         placeholder="オオゾラタビト" required/>
                 </td>
             </tr>
             <tr>
                 <th align="left"><label>電話番号</label></th>
-                <td align="left"><input type="tel" style="width: device-width" th:field="*{phone}"
+                <td align="left"><input type="tel" style="width: device-width" th:field="*{passengerContact}"
                                         placeholder="08012345678" required/></td>
             </tr>
             <tr>

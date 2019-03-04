@@ -17,11 +17,11 @@
         <table>
             <tr>
                 <th align="left"><label>乗車日</label></th>
-                <td align="left" th:text="*{date}" style="width: device-width;"></td>
+                <td align="left" th:text="*{rideOnDate}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>乗車時間</label></th>
-                <td align="left" th:text="*{time}" style="width: device-width;"></td>
+                <td align="left" th:text="*{rideOnTime}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>人数(大人)</label></th>
@@ -33,11 +33,11 @@
             </tr>
             <tr>
                 <th align="left"><label>配車台数</label></th>
-                <td align="left" th:text="*{car_dispatch}" style="width: device-width;"></td>
+                <td align="left" th:text="*{carDispatchNumber}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>タクシー会社</label></th>
-                <td align="left" th:text="*{company_name}" style="width: device-width;"></td>
+                <td align="left" th:text="*{companyName}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>目的地</label></th>
@@ -45,15 +45,15 @@
             </tr>
             <tr>
                 <th align="left"><label>氏名</label></th>
-                <td align="left" th:text="*{name}" style="width: device-width;"></td>
+                <td align="left" th:text="*{passengerName}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>フリガナ</label></th>
-                <td align="left" th:text="*{phonetic}" style="width: device-width;"></td>
+                <td align="left" th:text="*{passengerPhonetic}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>電話番号</label></th>
-                <td align="left" th:text="*{phone}" style="width: device-width;"></td>
+                <td align="left" th:text="*{passengerContact}" style="width: device-width;"></td>
             </tr>
             <tr>
                 <th align="left"><label>メールアドレス</label></th>
@@ -73,19 +73,19 @@
             </tr>
         </table>
     </div>
-    <input type="hidden" name="date" th:value="*{date}"/>
-    <input type="hidden" name="time" th:value="*{time}"/>
-    <input type="hidden" name="adult" th:value="*{adult}"/>
-    <input type="hidden" name="child" th:value="*{child}"/>
-    <input type="hidden" name="car_dispatch" th:value="*{car_dispatch}"/>
-    <input type="hidden" name="company_name" th:value="*{company_name}"/>
-    <input type="hidden" name="destination" th:value="*{destination}"/>
-    <input type="hidden" name="name" th:value="*{name}"/>
-    <input type="hidden" name="phonetic" th:value="*{phonetic}"/>
-    <input type="hidden" name="phone" th:value="*{phone}"/>
-    <input type="hidden" name="mail" th:value="*{mail}"/>
-    <input type="hidden" name="mailCheck" th:value="*{mailCheck}"/>
-    <input type="hidden" name="comment" th:value="*{comment}"/>
+    <input type="hidden" th:field="*{rideOnDate}"/>
+    <input type="hidden" th:field="*{rideOnTime}"/>
+    <input type="hidden" th:field="*{adult}"/>
+    <input type="hidden" th:field="*{child}"/>
+    <input type="hidden" th:field="*{carDispatchNumber}"/>
+    <input type="hidden" th:field="*{companyName}"/>
+    <input type="hidden" th:field="*{destination}"/>
+    <input type="hidden" th:field="*{passengerName}"/>
+    <input type="hidden" th:field="*{passengerPhonetic}"/>
+    <input type="hidden" th:field="*{passengerContact}"/>
+    <input type="hidden" th:field="*{mail}"/>
+    <input type="hidden" th:field="*{mailCheck}"/>
+    <input type="hidden" th:field="*{comment}"/>
 </form>
 </body>
 </html>

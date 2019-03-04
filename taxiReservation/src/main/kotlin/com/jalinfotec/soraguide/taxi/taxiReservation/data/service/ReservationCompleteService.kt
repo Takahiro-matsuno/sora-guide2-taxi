@@ -29,7 +29,7 @@ class ReservationCompleteService(
     @Transactional
     private fun setReservation(input: ReservationForm, request: HttpServletRequest): ReservationInformation {
         //選択した会社名から会社IDを検索
-        val taxiCompanyId = taxiInfoService.getCompanyId(input.company_name)
+        val taxiCompanyId = taxiInfoService.getCompanyId(input.companyName)
         val uuid = UuidManager().getUuid(request) ?: ""
 
         return ReservationInformation(
@@ -39,16 +39,16 @@ class ReservationCompleteService(
                 status = 1,
 
                 //入力データをセット
-                rideOnDate = input.date,
-                rideOnTime = Time.valueOf(input.time + ":00"),
+                rideOnDate = input.rideOnDate,
+                rideOnTime = Time.valueOf(input.rideOnTime + ":00"),
                 adult = input.adult,
                 child = input.child,
-                carDispatchNumber = input.car_dispatch,
+                carDispatchNumber = input.carDispatchNumber,
                 companyId = taxiCompanyId,
                 destination = input.destination,
-                passengerName = input.name,
-                passengerPhonetic = input.phonetic,
-                passengerContact = input.phone,
+                passengerName = input.passengerName,
+                passengerPhonetic = input.passengerPhonetic,
+                passengerContact = input.passengerContact,
                 mail = input.mail,
                 comment = input.comment,
 
@@ -72,30 +72,4 @@ class ReservationCompleteService(
 
         return result
     }
-
-    /*
-    fun cookieUpdate(inputReservationInfo: ReservationInformation, request: HttpServletRequest, response: HttpServletResponse) {
-        val cookieManager = CookieManager()
-
-        //以下条件の予約情報を取得する
-        //1.予約時の電話番号と一致する
-        //2.予約時のメールアドレスと一致する
-        //3.ステータスがキャンセル待ち(4)、または完了(5)ではない
-        //4.乗車日が過去日でない
-        val bookingInfoList =
-                reservationRepository.findByPhoneAndMailAndStatusLessThanAndDateGreaterThanEqualOrderByIdAsc(
-                        inputReservationInfo.passengerContact, inputReservationInfo.mail, 4, Date(Calendar.getInstance().timeInMillis)
-                )
-
-        //取得した予約情報から予約番号をカンマ区切りでString変数に格納する
-        val idList = mutableListOf<String>()
-        for (book in bookingInfoList) {
-            println("【Cookie更新】予約ID：${book.reservationId}")
-            idList.add(book.reservationId)
-        }
-        val idStr = idList.joinToString("-")
-
-        //Cookieの値を更新する（名前は"rsvId"）
-        cookieManager.setCookie(request, response, idStr)
-    }*/
 }

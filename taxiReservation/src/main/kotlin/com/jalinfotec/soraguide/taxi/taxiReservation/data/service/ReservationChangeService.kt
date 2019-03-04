@@ -4,22 +4,25 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.SessionManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import sun.java2d.cmm.kcms.CMM.checkStatus
 import java.sql.Time
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 
 @Service
 class ReservationChangeService(
-        private val reservationRepository: ReservationInfoRepository
+        private val reservationRepository: ReservationInfoRepository,
+        private val taxiRepository: TaxiInfoRepository
 ) {
 
     /**
      * 変更入力画面用のForm設定
      */
-    fun getChangeDetail(id: String, request: HttpServletRequest): ChangeForm {
+    fun getChangeDetail(id: String, request: HttpServletRequest): ChangeForm? {
         val rsvId = SessionManager().checkSession(id, request)
 
         println("【変更入力】予約番号：$rsvId")
@@ -32,18 +35,40 @@ class ReservationChangeService(
             throw Exception()
         }
 
-        return ChangeForm(
-                id = rsvInfo.reservationId,
-                date = rsvInfo.rideOnDate,
-                time = rsvInfo.rideOnTime.toString().substring(0, 5),
-                adult = rsvInfo.adult,
-                child = rsvInfo.child,
-                car_dispatch = rsvInfo.carDispatchNumber,
-                destination = rsvInfo.destination.trim(),
-                phone = rsvInfo.passengerContact.trim(),
-                comment = rsvInfo.comment.trim(),
-                lastUpdate = rsvInfo.lastUpdate
-        )
+        //タクシー会社IDからタクシー会社名を取得
+        val companyNameOptional = taxiRepository.findById(rsvInfo.companyId)
+
+        // 予約ステータス文言の設定
+        val statusName = Constants.reservationStatus[rsvInfo.status]
+
+
+        return if (companyNameOptional.isPresent && statusName != null) {
+            ChangeForm(
+                    rsvInfo.reservationId,
+                    statusName,
+                    rsvInfo.rideOnDate,
+                    rsvInfo.rideOnTime.toString().substring(0, 5),
+                    rsvInfo.adult,
+                    rsvInfo.child,
+                    rsvInfo.carDispatchNumber,
+                    companyNameOptional.get().companyName,
+                    rsvInfo.destination,
+                    rsvInfo.passengerName,
+                    rsvInfo.passengerPhonetic,
+                    rsvInfo.passengerContact,
+                    rsvInfo.mail,
+                    rsvInfo.mail,
+                    rsvInfo.comment,
+                    rsvInfo.carNumber,
+                    rsvInfo.carContact,
+                    rsvInfo.notice,
+                    rsvInfo.lastUpdate
+            )
+        } else {
+            println("【ERROR】タクシー会社情報、または予約ステータスの取得エラー")
+            null
+        }
+
     }
 
     /**
@@ -71,18 +96,21 @@ class ReservationChangeService(
         }
 
         //Time型の形式揃え
-        if (changeInfo.time.length == 5) {
-            changeInfo.time += ":00"
+        if (changeInfo.rideOnTime.length == 5) {
+            changeInfo.rideOnTime += ":00"
         }
 
         //FormからEntityに変更項目のみ詰め替え
-        rsvInfo.rideOnDate = changeInfo.date
-        rsvInfo.rideOnTime = Time.valueOf(changeInfo.time)
+        rsvInfo.rideOnDate = changeInfo.rideOnDate
+        rsvInfo.rideOnTime = Time.valueOf(changeInfo.rideOnTime)
         rsvInfo.adult = changeInfo.adult
         rsvInfo.child = changeInfo.child
-        rsvInfo.carDispatchNumber = changeInfo.car_dispatch
+        rsvInfo.carDispatchNumber = changeInfo.carDispatchNumber
         rsvInfo.destination = changeInfo.destination
-        rsvInfo.passengerContact = changeInfo.phone
+        rsvInfo.passengerName = changeInfo.passengerName
+        rsvInfo.passengerPhonetic = changeInfo.passengerPhonetic
+        rsvInfo.passengerContact = changeInfo.passengerContact
+        rsvInfo.mail = changeInfo.mail
         rsvInfo.comment = changeInfo.comment
         rsvInfo.lastUpdate = Timestamp(System.currentTimeMillis())
 

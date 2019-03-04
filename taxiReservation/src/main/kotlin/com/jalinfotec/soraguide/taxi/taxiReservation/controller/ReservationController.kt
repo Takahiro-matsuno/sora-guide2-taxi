@@ -112,8 +112,8 @@ class ReservationController(
         println(cal.time.toString())
 
         //Formの更新
-        rsvForm.date = Date(cal.time.time)
-        rsvForm.time = Time(cal.time.time).toString().substring(0, 5)
+        rsvForm.rideOnDate = Date(cal.time.time)
+        rsvForm.rideOnTime = Time(cal.time.time).toString().substring(0, 5)
 
         return rsvForm
     }

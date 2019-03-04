@@ -54,7 +54,8 @@ class ReservationListService(
                 rsvInfo.reservationId,
                 statusName,
                 rsvInfo.rideOnDate.toString(),
-                rsvInfo.rideOnTime.toString()
+                rsvInfo.rideOnTime.toString(),
+                rsvInfo.destination
         )
     }
 }

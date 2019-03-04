@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.utils
 
 object Constants {
-    const val TEST_MODE = false
+    const val TEST_MODE = true
     val PAX_RANGE = 0..20
     val reservationStatus = mutableMapOf(
             1 to "受付中",

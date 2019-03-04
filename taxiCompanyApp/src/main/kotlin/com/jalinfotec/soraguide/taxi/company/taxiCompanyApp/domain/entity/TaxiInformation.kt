@@ -17,8 +17,5 @@ class TaxiInformation(
     var companyName: String,
 
     @Column(name = "contact")
-    var contact: String,
-
-    @Column(name = "location")
-    var location: String
+    var contact: String
 )

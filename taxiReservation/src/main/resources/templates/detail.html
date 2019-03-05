@@ -82,7 +82,7 @@
         </tr>
     </table>
 
-    <div th:if="${'rsvDetail.isChange'}">
+    <div th:if="${rsvDetail.isChange}">
         <button type="button"
                 th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
             取消する

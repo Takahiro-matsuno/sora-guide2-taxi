@@ -5,12 +5,13 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInfo
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.ChangeValidation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import sun.java2d.cmm.kcms.CMM.checkStatus
 import java.sql.Time
 import java.sql.Timestamp
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 @Service
@@ -31,7 +32,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(rsvId)
 
         //予約変更可否チェック
-        if (!checkStatus(rsvInfo.status)) {
+        if (!ChangeValidation().checkChangePossible(rsvInfo)) {
             throw Exception()
         }
 
@@ -85,7 +86,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(rsvId)
 
         //予約変更可否チェック
-        if (!checkStatus(rsvInfo.status)) {
+        if (!ChangeValidation().checkChangePossible(rsvInfo)) {
             throw Exception()
         }
 
@@ -142,7 +143,7 @@ class ReservationChangeService(
         val rsvInfo = getRsvInfo(rsvId)
 
         //予約変更可否チェック
-        if (!checkStatus(rsvInfo.status)) {
+        if (!ChangeValidation().checkChangePossible(rsvInfo)) {
             throw Exception()
         }
 
@@ -187,16 +188,5 @@ class ReservationChangeService(
         }
 
         return rsvInfoOptional.get()
-    }
-
-    /**
-     * 予約変更可否チェック
-     */
-    fun checkStatus(status: Int): Boolean {
-        if (Constants.isChangeByStatus[status] != true) {
-            println("ERROR:変更不可のステータス")
-            return false
-        }
-        return true
     }
 }

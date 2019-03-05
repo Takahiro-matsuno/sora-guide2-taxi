@@ -91,6 +91,7 @@ class ReservationController(
             return mav
         }
 
+        //乗車日付を画面表示用に成形
         rsvForm.rideOnDateStr = rsvForm.rideOnDate.toString().replace("-","/")
 
         //確認画面へ遷移

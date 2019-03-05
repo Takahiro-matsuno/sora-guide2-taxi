@@ -6,6 +6,7 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInfo
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.DetailForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.ChangeValidation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -89,6 +90,8 @@ class ReservationDetailService(
         val rideOnDateStr = rsvInfo.rideOnDate.toString().replace("-","/")
         val rideOnTimeStr = rsvInfo.rideOnTime.toString().substring(0, 5)
 
+        val isChange = ChangeValidation().checkChangePossible(rsvInfo)
+
         return if (companyNameOptional.isPresent && statusName != null) {
             DetailForm(
                     rsvInfo.reservationId,
@@ -109,7 +112,7 @@ class ReservationDetailService(
                     rsvInfo.carContact,
                     rsvInfo.notice,
                     rsvInfo.lastUpdate,
-                    checkStatus(rsvInfo.status)
+                    isChange
             )
         } else {
             println("【ERROR】タクシー会社情報、または予約ステータスの取得エラー")
@@ -134,17 +137,5 @@ class ReservationDetailService(
         return mutableMapOf(Pair("reservationId", rsvInfoOptional.get().reservationId),
                 Pair("reservationStatus", statusName!!),
                 "passengerName" to rsvInfoOptional.get().passengerName)
-    }
-
-
-    /**
-     * 予約変更可否チェック
-     */
-    fun checkStatus(status: Int): Boolean {
-        if (status >= 4) {
-            println("変更ボタン非表示:変更不可のステータス")
-            return false
-        }
-        return true
     }
 }

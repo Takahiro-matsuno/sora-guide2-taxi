@@ -62,7 +62,7 @@ class ApplicationController(
     @GetMapping("app/certificateInput")
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
-        mav.addObject("reservationId", id)
+        mav.addObject("id", id)
         mav.addObject("mail", "")
 
         return mav

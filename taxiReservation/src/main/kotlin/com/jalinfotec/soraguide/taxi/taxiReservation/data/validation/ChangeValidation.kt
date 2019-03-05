@@ -21,6 +21,9 @@ class ChangeValidation {
         val nowDate = Calendar.getInstance()
         println("現在時刻:${nowDate.time}")
 
+
+        nowDate.add(Calendar.MINUTE, 20)
+
         //乗車日時を取得
         val rsvDate = Calendar.getInstance()
         rsvDate.time = rsvInfo.rideOnDate
@@ -28,8 +31,12 @@ class ChangeValidation {
         rsvDate.set(Calendar.MINUTE, rsvInfo.rideOnTime.toLocalTime().minute)
         println("乗車日時:${rsvDate.time}")
 
-        if (rsvDate.before(nowDate)) {
-            println("【ERROR】乗車時間を過ぎている")
+        //予約の20分前
+        rsvDate.add(Calendar.MINUTE, -20)
+
+        //現在時刻が予約の20分前以降だった場合、予約変更不可
+        if (nowDate.after(rsvDate)) {
+            println("【ERROR】変更可能時間を過ぎている")
             return false
         }
 

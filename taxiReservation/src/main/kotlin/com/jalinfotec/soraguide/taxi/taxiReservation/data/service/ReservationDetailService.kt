@@ -85,12 +85,16 @@ class ReservationDetailService(
         // 予約ステータス文言の設定
         val statusName = Constants.reservationStatus[rsvInfo.status]
 
+        // 乗車日時の表示形式を変更
+        val rideOnDateStr = rsvInfo.rideOnDate.toString().replace("-","/")
+        val rideOnTimeStr = rsvInfo.rideOnTime.toString().substring(0, 5)
+
         return if (companyNameOptional.isPresent && statusName != null) {
             DetailForm(
                     rsvInfo.reservationId,
                     statusName,
-                    rsvInfo.rideOnDate.toString(),
-                    rsvInfo.rideOnTime.toString(),
+                    rideOnDateStr,
+                    rideOnTimeStr,
                     rsvInfo.adult.toString(),
                     rsvInfo.child.toString(),
                     rsvInfo.carDispatchNumber.toString(),

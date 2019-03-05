@@ -91,6 +91,8 @@ class ReservationController(
             return mav
         }
 
+        rsvForm.rideOnDateStr = rsvForm.rideOnDate.toString().replace("-","/")
+
         //確認画面へ遷移
         mav.viewName = "confirmation"
         mav.addObject("reservationForm", rsvForm)

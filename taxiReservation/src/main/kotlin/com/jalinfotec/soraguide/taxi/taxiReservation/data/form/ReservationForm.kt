@@ -55,5 +55,7 @@ data class ReservationForm(
         //任意項目
         @get:NotNull
         @get:Size(max = 99)
-        var comment: String = ""
+        var comment: String = "",
+
+        var rideOnDateStr: String = ""
 )

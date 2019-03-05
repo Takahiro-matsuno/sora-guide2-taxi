@@ -50,11 +50,15 @@ class ReservationListService(
         // 予約詳細表示不可ステータスの場合は詰め替えを行わない
         if (Constants.isDetailByStatus[rsvInfo.status] != true) return null
 
+        // 乗車日時の表示形式を変更
+        val rideOnDateStr = rsvInfo.rideOnDate.toString().replace("-","/")
+        val rideOnTimeStr = rsvInfo.rideOnTime.toString().substring(0, 5)
+
         return ListForm(
                 rsvInfo.reservationId,
                 statusName,
-                rsvInfo.rideOnDate.toString(),
-                rsvInfo.rideOnTime.toString(),
+                rideOnDateStr,
+                rideOnTimeStr,
                 rsvInfo.destination
         )
     }

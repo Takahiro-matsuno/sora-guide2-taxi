@@ -21,6 +21,7 @@
                 <th>ステータス</th>
                 <th>乗車人数(大人)</th>
                 <th>乗車人数(子供)</th>
+                <th>配車台数</th>
             </tr>
             <tr th:each="rsvForm :${rsvFormList}" th:attr="onclick='getDetail(\'' + ${rsvForm.reservationId} +'\');'">
                 <td id="reservationId" th:text="${rsvForm.reservationId}"></td>
@@ -29,6 +30,7 @@
                 <td th:text="${rsvForm.statusName}"></td>
                 <td th:text="${rsvForm.adult}"></td>
                 <td th:text="${rsvForm.child}"></td>
+                <td th:text="${rsvForm.carDispatchNumber}"></td>
                 <form th:attr="id='listForm' + ${rsvForm.reservationId}" th:action="@{/reservation/detail}"
                       method="get">
                     <input th:type="hidden" th:name="reservationId" th:value="${rsvForm.reservationId}"/>

@@ -90,13 +90,13 @@
         </tr>
     </table>
 
-    <div th:if="${isChange}">
+    <div th:object="${rsvDetail}" th:if="*{isChange}">
         <button type="button"
-                th:attr="onclick='cancelCheck(\'' + ${rsvDetail.id} + '\',\'' + ${rsvDetail.lastUpdate} + '\');'">
+                th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'">
             取消する
         </button>
 
-        <button type="submit" formaction="./change" name="id" th:value="${rsvDetail.id}">
+        <button type="submit" formaction="./change" name="id" th:value="*{id}">
             変更する
         </button>
     </div>

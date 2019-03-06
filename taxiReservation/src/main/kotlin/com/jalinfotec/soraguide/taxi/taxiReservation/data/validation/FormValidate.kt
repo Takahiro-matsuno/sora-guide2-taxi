@@ -9,15 +9,20 @@ import java.util.regex.Pattern
 
 class FormValidate {
     companion object {
-        const val mailDiscordErrorMessage: String = "入力されたメールアドレスが一致しません"
-        const val mailValidateErrorMessage: String = "メールアドレスの形式が正しくありません"
-        const val dateErrorMassage: String = "乗車日、乗車時間に過去の日時は指定できません"
+        const val passengerErrorMessage:String = "乗車人数は1人以上で指定してください。"
+        const val mailDiscordErrorMessage: String = "入力されたメールアドレスが一致しません。"
+        const val mailValidateErrorMessage: String = "メールアドレスの形式が正しくありません。"
+        const val dateErrorMassage: String = "乗車日、乗車時間に過去の日時は指定できません。"
     }
 
     /**
      * 登録画面から確認画面遷移時のバリデートチェック
      */
     fun registrationCheck(rsvForm: ReservationForm): String {
+        if (!passengerCheck(rsvForm.adult, rsvForm.child)) {
+            return passengerErrorMessage
+        }
+
         if (!rideOnDateValidate(rsvForm.rideOnDate, rsvForm.rideOnTime)) {
             return dateErrorMassage
         }
@@ -37,6 +42,10 @@ class FormValidate {
      * 確認画面から登録完了画面遷移時のバリデートチェック
      */
     fun confirmCheck(rsvForm: ReservationForm): String {
+        if (!passengerCheck(rsvForm.adult, rsvForm.child)) {
+            return passengerErrorMessage
+        }
+
         if (!rideOnDateValidate(rsvForm.rideOnDate, rsvForm.rideOnTime)) {
             return dateErrorMassage
         }
@@ -52,6 +61,10 @@ class FormValidate {
      * 変更入力画面から変更完了画面遷移時のバリデートチェック
      */
     fun changeCheck(changeForm: ChangeForm): String {
+        if (!passengerCheck(changeForm.adult, changeForm.child)) {
+            return passengerErrorMessage
+        }
+
         if (!rideOnDateValidate(changeForm.rideOnDate, changeForm.rideOnTime)) {
             return dateErrorMassage
         }
@@ -65,6 +78,16 @@ class FormValidate {
         }
 
         return ""
+    }
+
+    /**
+     * 乗客数チェック
+     */
+    private fun passengerCheck(adalt: Int, child: Int): Boolean {
+        return if (adalt + child <= 0) {
+            println("最低人数以下")
+            false
+        } else true
     }
 
     /**

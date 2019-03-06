@@ -7,7 +7,6 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.Reservation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.Exception
 import java.sql.Date
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -21,7 +20,7 @@ class ReservationListService(
         val cookieManager = CookieManager()
 
         //CookieからUUIDを取得（CookieManager呼び出し）
-        val uuid = cookieManager.getFromCookie(request) ?: throw Exception()
+        val uuid = cookieManager.getFromCookie(request) ?: throw Exception("えらーだよーん")
 
         //予約情報の取得
         val rsvInfoList =

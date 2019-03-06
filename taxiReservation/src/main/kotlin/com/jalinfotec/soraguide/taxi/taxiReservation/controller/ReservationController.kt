@@ -47,12 +47,6 @@ class ReservationController(
     fun backRegistration(mav: ModelAndView, rsvForm: ReservationForm, request: HttpServletRequest): ModelAndView {
         mav.viewName = "registration"
 
-        //スマホアプリ遷移の場合は画面上部にタブを表示
-        var isTabDisplay = false
-        if (UserAgentManager().checkAndroidApp(request)) {
-            isTabDisplay = true
-        }
-
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", rsvForm)
         mav.addObject("isTab", tabDisplay(request))

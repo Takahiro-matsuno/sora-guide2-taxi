@@ -34,17 +34,11 @@ class ReservationController(
     fun registration(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "registration"
 
-        //スマホアプリ遷移の場合は画面上部にタブを表示
-        var isTabDisplay = false
-        if (UserAgentManager().checkAndroidApp(request)) {
-            isTabDisplay = true
-        }
-
         UuidManager().check(request, response)
 
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", setRsvForm(ReservationForm()))
-        mav.addObject("isTab", isTabDisplay)
+        mav.addObject("isTab", tabDisplay(request))
 
         return mav
     }
@@ -61,38 +55,44 @@ class ReservationController(
 
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", rsvForm)
-        mav.addObject("isTab", isTabDisplay)
+        mav.addObject("isTab", tabDisplay(request))
 
         return mav
     }
 
     //登録確認画面
     @PostMapping("app/confirmation")
-    fun confirmation(mav: ModelAndView, @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult): ModelAndView {
+    fun confirmation(mav: ModelAndView,
+                     @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult,
+                     request: HttpServletRequest): ModelAndView {
+        var isError = false
+
         //単項目チェック
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
-            val messageList = result.fieldErrors
-            mav.viewName = "registration"
-            mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
-            mav.addObject("errorMassage", messageList[0].defaultMessage)
-            return mav
+            isError = true
+            mav.addObject("errorMassage", result.fieldErrors[0].defaultMessage)
         }
 
-        val rsvFormValidate = FormValidate()
-        val formValidateMessage = rsvFormValidate.registrationCheck(rsvForm)
+        val formValidateMessage = FormValidate().registrationCheck(rsvForm)
 
         //相関チェックと不足している単項目チェック
-        if (formValidateMessage.isNotEmpty()) {
+        if (!isError && formValidateMessage.isNotEmpty()) {
             println("メソッドの入力チェックでエラー")
+            isError = true
+            mav.addObject("errorMassage", formValidateMessage)
+        }
+
+        //チェックでエラーがある場合、元の画面へ戻る
+        if(isError){
             mav.viewName = "registration"
             mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
-            mav.addObject("errorMassage", formValidateMessage)
+            mav.addObject("isTab", tabDisplay(request))
             return mav
         }
 
         //乗車日付を画面表示用に成形
-        rsvForm.rideOnDateStr = rsvForm.rideOnDate.toString().replace("-","/")
+        rsvForm.rideOnDateStr = rsvForm.rideOnDate.toString().replace("-", "/")
 
         //確認画面へ遷移
         mav.viewName = "confirmation"
@@ -119,5 +119,13 @@ class ReservationController(
         rsvForm.rideOnTime = Time(cal.time.time).toString().substring(0, 5)
 
         return rsvForm
+    }
+
+    /**
+     *
+     */
+    fun tabDisplay(request: HttpServletRequest): Boolean {
+        //スマホアプリ遷移の場合は画面上部にタブを表示
+        return UserAgentManager().checkAndroidApp(request)
     }
 }

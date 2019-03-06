@@ -97,13 +97,8 @@ class ActionCompController(
         }
 
         //変更処理
-        val rsvId: String
-        try {
-            rsvId = rsvChangeService.change(rsvForm, request)
-        } catch (e: Exception) {
-            mav.viewName = "error"
-            return mav
-        }
+        val rsvId = rsvChangeService.change(rsvForm, request) ?: throw Exception()
+
         return completeTransition(mav, rsvId, ActionType.CHANGE, request)
     }
 
@@ -115,13 +110,8 @@ class ActionCompController(
                        request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
 
         //取消処理
-        val rsvId: String
-        try {
-            rsvId = rsvChangeService.delete(id, lastUpdate, request)
-        } catch (e: Exception) {
-            mav.viewName = "error"
-            return mav
-        }
+        val rsvId = rsvChangeService.delete(id, lastUpdate, request) ?: throw Exception()
+
         return completeTransition(mav, rsvId, ActionType.CANCEL, request)
     }
 
@@ -146,9 +136,7 @@ class ActionCompController(
                         "タクシーのご予約内容がタクシー会社に送信されました。")
                 mav.addObject("message",
                         "タクシー会社より予約の受付が完了したら、代表者にメールが送付されます。\n" +
-                                "ステータスは予約確定済となります。\n" +
-                                "\n" +
-                                "注意：予約完了ではありません。")
+                                "予約の変更、または取消を希望されるお客様は予約詳細から操作いただくか、ご利用のタクシー会社へ直接ご連絡ください。")
             }
 
             ActionType.CHANGE -> {
@@ -156,7 +144,8 @@ class ActionCompController(
                 mav.addObject("headText",
                         "ご予約の変更内容がタクシー会社に送信されました。")
                 mav.addObject("message",
-                        "タクシー会社より変更の受付が完了したら、代表者にメールが送付されます。")
+                        "タクシー会社より変更の受付が完了したら、代表者にメールが送付されます。\n" +
+                                "追加で予約の変更、または取消を希望されるお客様は再度予約詳細から操作していただくか、ご利用のタクシー会社へ直接ご連絡ください。")
             }
 
             ActionType.CANCEL -> {

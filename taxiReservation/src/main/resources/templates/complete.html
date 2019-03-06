@@ -34,6 +34,13 @@
         </th:block>
     </th:block>
 
+    <br><br>
+
+    タクシー会社ご連絡先：
+    <a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a>
+
+    <br><br>
+
     <table>
         <tr>
             <td>

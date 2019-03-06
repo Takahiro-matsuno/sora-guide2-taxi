@@ -21,7 +21,6 @@ class ChangeValidation {
         val nowDate = Calendar.getInstance()
         println("現在時刻:${nowDate.time}")
 
-
         nowDate.add(Calendar.MINUTE, 20)
 
         //乗車日時を取得

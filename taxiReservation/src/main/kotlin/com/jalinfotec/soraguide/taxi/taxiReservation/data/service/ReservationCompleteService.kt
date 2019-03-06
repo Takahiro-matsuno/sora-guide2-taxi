@@ -17,17 +17,25 @@ class ReservationCompleteService(
         private val numberingRepository: NumberingRepository,
         private val taxiInfoService: TaxiInformationService) {
 
+    /**
+     * 予約完了処理
+     */
     @Transactional
     fun complete(input: ReservationForm, request: HttpServletRequest): String {
-        val rsvInfo = setReservation(input, request)
+        val rsvInfo = convertRsvForm2RsvInfo(input, request)
         println("【予約完了】予約ID：${rsvInfo.reservationId}")
+
+        //TODO DB接続エラー
         reservationRepository.save(rsvInfo)
-        //cookieUpdate(bookingInfo, request, response)
+
         return rsvInfo.reservationId
     }
 
-    @Transactional
-    private fun setReservation(input: ReservationForm, request: HttpServletRequest): ReservationInformation {
+    /**
+     * 予約フォームの内容をエンティティに詰め替え
+     */
+    @Transactional(readOnly = true)
+    private fun convertRsvForm2RsvInfo(input: ReservationForm, request: HttpServletRequest): ReservationInformation {
         //選択した会社名から会社IDを検索
         val taxiCompanyId = taxiInfoService.getCompanyId(input.companyName)
         val uuid = UuidManager().getUuid(request) ?: ""
@@ -62,12 +70,17 @@ class ReservationCompleteService(
         )
     }
 
+    /**
+     * 予約番号の設定
+     */
     @Transactional
     fun setId(): String {
+        //TODO DB接続エラー
         val numbering = numberingRepository.findById("booking_info").get()
         val result = String.format("%010d", numbering.nextValue)
 
         numbering.nextValue++
+        //TODO DB接続エラー
         numberingRepository.save(numbering)
 
         return result

@@ -46,15 +46,18 @@ class ReservationDetailService(
         println("【予約認証】予約番号：$id")
 
         //DBから引数のIDとマッチする予約情報を取得
+        //TODO DB接続エラー
         val rsvInfoOptional = reservationRepository.findById(id)
 
         if (rsvInfoOptional.isPresent) {
             //メールアドレス一致チェック
             if (rsvInfoOptional.get().mail.trim() != mail) {
+                //TODO 認証エラー
                 println("【ERROR】メールアドレス不一致")
                 return null
             }
         } else {
+            //TODO 予約照会エラー
             println("【ERROR】予約情報が取得できない")
             return null
         }
@@ -79,20 +82,23 @@ class ReservationDetailService(
      */
     @Transactional
     fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation): DetailForm? {
-
         //タクシー会社IDからタクシー会社名を取得
+        //TODO DB接続エラー
         val companyNameOptional = taxiRepository.findById(rsvInfo.companyId)
 
         // 予約ステータス文言の設定
-        val statusName = Constants.reservationStatus[rsvInfo.status]
+        val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
 
         // 乗車日時の表示形式を変更
-        val rideOnDateStr = rsvInfo.rideOnDate.toString().replace("-","/")
+        val rideOnDateStr = rsvInfo.rideOnDate.toString().replace("-", "/")
         val rideOnTimeStr = rsvInfo.rideOnTime.toString().substring(0, 5)
 
+        //予約変更可否チェック
         val isChange = ChangeValidation().checkChangePossible(rsvInfo)
 
-        return if (companyNameOptional.isPresent && statusName != null) {
+        val companyContact = companyNameOptional.get().contact
+
+        return if (companyNameOptional.isPresent) {
             DetailForm(
                     rsvInfo.reservationId,
                     statusName,
@@ -112,7 +118,8 @@ class ReservationDetailService(
                     rsvInfo.carContact,
                     rsvInfo.notice,
                     rsvInfo.lastUpdate,
-                    isChange
+                    isChange,
+                    companyContact
             )
         } else {
             println("【ERROR】タクシー会社情報、または予約ステータスの取得エラー")
@@ -129,13 +136,15 @@ class ReservationDetailService(
 
         //DBから引数のIDとマッチする予約情報を取得
         val rsvInfoOptional = reservationRepository.findById(id)
+        val taxiInfoOptional = taxiRepository.findById(rsvInfoOptional.get().companyId)
         val statusName = Constants.reservationStatus[rsvInfoOptional.get().status]
 
         if (!rsvInfoOptional.isPresent || statusName.isNullOrEmpty()) {
             throw Exception()
         }
-        return mutableMapOf(Pair("reservationId", rsvInfoOptional.get().reservationId),
-                Pair("reservationStatus", statusName!!),
-                "passengerName" to rsvInfoOptional.get().passengerName)
+        return mutableMapOf("reservationId" to rsvInfoOptional.get().reservationId,
+                "reservationStatus" to statusName!!,
+                "passengerName" to rsvInfoOptional.get().passengerName,
+                "companyContact" to taxiInfoOptional.get().contact)
     }
 }

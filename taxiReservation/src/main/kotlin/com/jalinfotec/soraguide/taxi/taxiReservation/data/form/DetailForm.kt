@@ -21,5 +21,6 @@ data class DetailForm(
         var carContact: String = "",
         var notice: String = "",
         var lastUpdate: Timestamp = Timestamp(0),
-        var isChange: Boolean = false
+        var isChange: Boolean = false,
+        var companyContact: String = ""
 )

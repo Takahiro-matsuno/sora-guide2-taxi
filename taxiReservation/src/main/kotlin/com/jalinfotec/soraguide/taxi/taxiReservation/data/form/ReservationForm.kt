@@ -14,14 +14,17 @@ data class ReservationForm(
 
         @get:NotNull
         @get:Max(value = 20)
+        @get:Min(value = 0)
         var adult: Int = 1,
 
         @get:NotNull
         @get:Max(20)
+        @get:Min(value = 0)
         var child: Int = 0,
 
         @get:NotNull
         @get:Max(20)
+        @get:Min(value = 1)
         var carDispatchNumber: Int = 1,
 
         @get:NotEmpty
@@ -41,7 +44,7 @@ data class ReservationForm(
 
         @get:NotEmpty
         @get:Size(min = 1, max = 15)
-        @get:Pattern(regexp = "[0-9]*", message = "エラー")
+        @get:Pattern(regexp = "[0-9]*")
         var passengerContact: String = "",
 
         @get:NotEmpty

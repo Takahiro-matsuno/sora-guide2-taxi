@@ -5,6 +5,8 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.Reservat
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.ReservationRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
+import com.sendgrid.SendGrid
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
@@ -12,7 +14,8 @@ import java.sql.Timestamp
 @Service
 class ReservationService(
         private val rsvRepository: ReservationRepository,
-        private val taxiRepository: TaxiCompanyRepository
+        private val taxiRepository: TaxiCompanyRepository,
+        private val sendMailService: SendMailService
 ) {
 
     // 予約情報フォームの一覧を取得する
@@ -82,6 +85,14 @@ class ReservationService(
 
         // DBを更新
         rsvRepository.save(aftInfo)
+
+        // メール送信
+        if(sendMailService.sendMail(aftInfo.passengerMail)){
+            println("メール送った")
+        }else{
+            println("めーるおくれなかった。。。")
+        }
+
         return true
     }
 
@@ -151,7 +162,7 @@ class ReservationService(
         val list = ArrayList<String>()
 
         //管理画面では全てのステータスを選択できるようにする。
-        Constants.reservationStatus.forEach{
+        Constants.reservationStatus.forEach {
             list.add(it.value)
         }
 

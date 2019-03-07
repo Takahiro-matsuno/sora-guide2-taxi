@@ -14,7 +14,9 @@
         <form th:action="@{/company/setting}" method="post">
             <input type="text" th:field="*{companyName}" placeholder="新しい会社名" required/>
             <br/>
-            <input type="submit" value="更新する" />
+            <input type="text" th:field="*{companyContact}" placeholder="新しい電話番号" required/>
+            <br/>
+            <input type="submit" value="更新する"/>
         </form>
     </div>
 </section>

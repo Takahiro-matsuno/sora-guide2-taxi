@@ -17,7 +17,7 @@ class TaxiCompanyService(
     fun getTaxiCompanyForm(companyId: String): TaxiCompanyForm? {
         val optional = taxiRepository.findById(companyId)
         return if (optional.isPresent) {
-            TaxiCompanyForm(optional.get().companyName)
+            TaxiCompanyForm(optional.get().companyName, optional.get().contact)
         } else null
     }
 
@@ -31,9 +31,12 @@ class TaxiCompanyService(
             // タクシー会社が見つからない場合は終了
             return false
         }
+
         val taxiCompany = optional.get()
         taxiCompany.companyName = taxiForm.companyName
-        // 会社名を変更する
+        taxiCompany.contact = taxiForm.companyContact
+
+        // 会社情報を変更する
         taxiRepository.save(taxiCompany)
         return true
     }

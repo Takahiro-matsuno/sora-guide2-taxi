@@ -42,7 +42,6 @@ class CompanyController(
             @ModelAttribute taxiForm: TaxiCompanyForm,
             mav: ModelAndView
     ): ModelAndView {
-        // TODO 処理を考える
 
         mav.viewName = "contents/companySetting"
         if (taxiService.updateTaxiCompanyInformation(taxiForm, user)) {

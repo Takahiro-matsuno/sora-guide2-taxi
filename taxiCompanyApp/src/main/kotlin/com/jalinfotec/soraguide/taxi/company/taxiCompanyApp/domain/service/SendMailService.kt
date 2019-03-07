@@ -27,6 +27,7 @@ class SendMailService(
         }
         return response.statusCode in 200..299
     }
+
     private fun createMail(toAddress: String): Mail {
         val from = Email(Constants.FROM_ADDRESS)
         val to = Email(toAddress)

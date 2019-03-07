@@ -43,7 +43,6 @@ class ApplicationController(
         val rsvDetail = rsvDetailService.getDetail(id, request) ?: throw Exception()
 
         mav.addObject("rsvDetail", rsvDetail)
-        mav.addObject("isChange", rsvDetail.isChange)
         return mav
     }
 
@@ -80,7 +79,6 @@ class ApplicationController(
         return if (rsvDetail != null) {
             mav.viewName = "detail"
             mav.addObject("rsvDetail", rsvDetail)
-            mav.addObject("isChange", rsvDetail.isChange)
             mav
         } else {
             mav.addObject("errorMassage", "予約番号、またはメールアドレスに誤りがあります。")

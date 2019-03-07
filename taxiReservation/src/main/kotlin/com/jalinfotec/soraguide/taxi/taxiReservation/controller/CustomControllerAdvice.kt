@@ -1,26 +1,34 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
-import org.springframework.cglib.proxy.UndeclaredThrowableException
+import org.hibernate.exception.JDBCConnectionException
+import org.springframework.context.MessageSource
 import org.springframework.web.bind.annotation.ControllerAdvice
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
-import java.util.HashMap
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.servlet.ModelAndView
-import java.sql.SQLException
-import kotlin.reflect.jvm.internal.impl.protobuf.CodedOutputStream
+import java.util.*
 
-
+/**
+ * 例外処理用のコントローラクラス
+ */
 @ControllerAdvice
-class CustomControllerAdvice {
-    @ExceptionHandler(Exception::class)
+class CustomControllerAdvice(private val messageSource: MessageSource) {
+    /**
+     * Exceptionのcatchクラス
+     */
+    @ExceptionHandler
     fun handleError(e: Exception): ModelAndView {
-        println("きゃっち")
-        println(e.message)
+        println(e.cause)
+
         val mav = ModelAndView()
+        val errorMessage: String = if (e.cause is JDBCConnectionException) {
+            messageSource.getMessage("DBError", null, Locale.JAPAN)
+        } else {
+            messageSource.getMessage("otherError", null, Locale.JAPAN)
+        }
+
         mav.viewName = "error"
-        mav.addObject("errorMassage", e.message ?: "エラーだよー")
+        mav.addObject("errorMassage", errorMessage)
         return mav
     }
+
 }

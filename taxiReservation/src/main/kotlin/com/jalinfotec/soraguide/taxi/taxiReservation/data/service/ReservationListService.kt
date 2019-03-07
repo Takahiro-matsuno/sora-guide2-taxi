@@ -20,7 +20,7 @@ class ReservationListService(
         val cookieManager = CookieManager()
 
         //CookieからUUIDを取得（CookieManager呼び出し）
-        val uuid = cookieManager.getFromCookie(request) ?: throw Exception("えらーだよーん")
+        val uuid = cookieManager.getFromCookie(request) ?: throw Exception()
 
         //予約情報の取得
         val rsvInfoList =

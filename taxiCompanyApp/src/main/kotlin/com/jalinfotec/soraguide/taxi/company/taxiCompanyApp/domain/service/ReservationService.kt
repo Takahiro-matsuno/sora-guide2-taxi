@@ -5,8 +5,6 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.Reservat
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.ReservationRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
-import com.sendgrid.SendGrid
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
@@ -74,6 +72,8 @@ class ReservationService(
         // 予約情報を取得する
         val preInfo = rsvRepository.findByCompanyIdAndReservationId(companyId, rsvForm.reservationId) ?: return false
 
+        println(preInfo.status)
+
         if (preInfo.lastUpdate != rsvForm.lastUpdate) {
             // 更新時刻が一致しない場合は処理終了
             println("更新時刻の不一致")
@@ -86,11 +86,30 @@ class ReservationService(
         // DBを更新
         rsvRepository.save(aftInfo)
 
-        // メール送信
-        if(sendMailService.sendMail(aftInfo.passengerMail)){
-            println("メール送った")
-        }else{
-            println("めーるおくれなかった。。。")
+        //ステータスの更新があった場合、メール送信判定
+        var mailType = Constants.MAIL_TYPE.NONE
+
+        println("変更前ステータス:${preInfo.status} 変更後ステータス${aftInfo.status}")
+
+        if (preInfo.status != aftInfo.status) {
+            if ((preInfo.status == 1 || preInfo.status == 3) && aftInfo.status == 2) {
+                // 予約確定
+                mailType = Constants.MAIL_TYPE.RESERVE
+            } else if (aftInfo.status == 5) {
+                // 取消確定
+                mailType = Constants.MAIL_TYPE.CANCEL
+            }
+        }
+
+        // メール送信処理
+        if (mailType != Constants.MAIL_TYPE.NONE) {
+            if (sendMailService.sendMail(aftInfo.passengerMail, mailType)) {
+                println("メール送信完了")
+            } else {
+                println("メール送信失敗")
+            }
+        } else {
+            println("メール送信無し")
         }
 
         return true
@@ -165,13 +184,6 @@ class ReservationService(
         Constants.reservationStatus.forEach {
             list.add(it.value)
         }
-
-        /*
-        list.add(Constants.reservationStatus[2]!!)
-        list.add(Constants.reservationStatus[4]!!)
-        list.add(Constants.reservationStatus[6]!!)
-        list.add(Constants.reservationStatus[7]!!)
-        */
 
         return if (list.any()) list else null
     }

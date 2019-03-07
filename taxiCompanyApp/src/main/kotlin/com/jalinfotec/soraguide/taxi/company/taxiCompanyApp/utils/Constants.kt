@@ -15,4 +15,17 @@ object Constants {
 
     // 環境変数から取得する
     val FROM_ADDRESS = System.getenv("FROM_ADDRESS")
+
+    enum class MAIL_TYPE { RESERVE, CANCEL, NONE }
+
+    val mailSubject = mutableMapOf(
+            MAIL_TYPE.RESERVE to "ご予約が確定しました",
+            MAIL_TYPE.CANCEL to "取消完了のお知らせ"
+    )
+
+    val mailContent = mutableMapOf(
+            MAIL_TYPE.RESERVE to "予約確定だよん",
+            MAIL_TYPE.CANCEL to "予約は取り消したよん"
+    )
+
 }

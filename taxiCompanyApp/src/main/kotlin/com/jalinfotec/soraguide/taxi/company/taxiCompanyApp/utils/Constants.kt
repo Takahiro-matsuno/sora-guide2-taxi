@@ -24,8 +24,31 @@ object Constants {
     )
 
     val mailContent = mutableMapOf(
-            MAIL_TYPE.RESERVE to "予約確定だよん",
+            MAIL_TYPE.RESERVE to
+                    "-name- 様\n" +
+                    "\n" +
+                    "タクシーをご予約いただきありがとうございます。\n" +
+                    "\n" +
+                    "■ご予約内容\n" +
+                    "\n" +
+                    "＜予約番号＞\n" +
+                    "-rsvId-\n" +
+                    "\n" +
+                    "＜予約情報＞\n" +
+                    "乗車日付：-rideOnDate-\n" +
+                    "乗車時刻：-rideOnTime-\n" +
+                    "\n" +
+                    "■ご案内\n" +
+                    "ご予約の変更をご希望のお客様は下記URLから変更いただくか、タクシー会社へ直接ご連絡ください。\n" +
+                    "-url-\n" +
+                    "\n" +
+                    "■お問い合わせ\n" +
+                    "タクシー会社：-companyName-\n" +
+                    "お電話：-companyContact-\n" +
+                    "\n" +
+                    "\n" +
+                    "当メールは送信専用です。\n",
+
             MAIL_TYPE.CANCEL to "予約は取り消したよん"
     )
-
 }

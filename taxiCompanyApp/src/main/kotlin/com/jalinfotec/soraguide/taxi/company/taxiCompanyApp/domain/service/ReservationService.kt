@@ -64,15 +64,17 @@ class ReservationService(
     @Transactional
     fun updateDetail(companyId: String, rsvForm: ReservationForm): Boolean {
 
-        if (!taxiRepository.findById(companyId).isPresent) {
+        val taxiInfoOptional = taxiRepository.findById(companyId)
+
+        if (!taxiInfoOptional.isPresent) {
             // タクシー会社が見つからない場合は処理終了
             return false
         }
 
         // 予約情報を取得する
         val preInfo = rsvRepository.findByCompanyIdAndReservationId(companyId, rsvForm.reservationId) ?: return false
-
-        println(preInfo.status)
+        val preInfoStatus = preInfo.status
+        val preInfoNotice = preInfo.notice
 
         if (preInfo.lastUpdate != rsvForm.lastUpdate) {
             // 更新時刻が一致しない場合は処理終了
@@ -89,10 +91,10 @@ class ReservationService(
         //ステータスの更新があった場合、メール送信判定
         var mailType = Constants.MAIL_TYPE.NONE
 
-        println("変更前ステータス:${preInfo.status} 変更後ステータス${aftInfo.status}")
+        println("変更前ステータス:$preInfoStatus 変更後ステータス${aftInfo.status}")
 
-        if (preInfo.status != aftInfo.status) {
-            if ((preInfo.status == 1 || preInfo.status == 3) && aftInfo.status == 2) {
+        if (preInfoStatus != aftInfo.status) {
+            if ((preInfoStatus == 1 || preInfoStatus == 3) && aftInfo.status == 2) {
                 // 予約確定
                 mailType = Constants.MAIL_TYPE.RESERVE
             } else if (aftInfo.status == 5) {
@@ -103,7 +105,7 @@ class ReservationService(
 
         // メール送信処理
         if (mailType != Constants.MAIL_TYPE.NONE) {
-            if (sendMailService.sendMail(aftInfo.passengerMail, mailType)) {
+            if (sendMailService.sendMail(aftInfo, taxiInfoOptional.get(), mailType)) {
                 println("メール送信完了")
             } else {
                 println("メール送信失敗")

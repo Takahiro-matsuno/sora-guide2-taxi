@@ -11,7 +11,7 @@
 <body th:object="${rsvDetail}">
 <h1>予約詳細</h1>
 
-<header th:unless="*{isChange}">
+<header th:unless="*{'isChange'}">
     本予約は変更・取消できません。<br>
     予約の変更・取消をご希望される方はご予約のタクシー会社に直接ご連絡ください<br>
     ご連絡先：
@@ -90,7 +90,7 @@
         </tr>
     </table>
 
-    <div th:if="*{isChange}">
+    <div th:if="*{'isChange'}">
         <button type="button"
                 th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'">
             取消する

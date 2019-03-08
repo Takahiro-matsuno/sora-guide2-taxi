@@ -4,20 +4,19 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.SessionManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.ChangeValidation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
 import java.sql.Timestamp
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 @Service
 class ReservationChangeService(
         private val reservationRepository: ReservationInfoRepository,
-        private val taxiRepository: TaxiInfoRepository
+        private val taxiInfoService: TaxiInformationService,
+        private val sendMailService: SendMailService
 ) {
 
     /**
@@ -37,12 +36,7 @@ class ReservationChangeService(
         }
 
         //タクシー会社IDからタクシー会社情報を取得
-        //TODO DB接続エラー
-        val companyNameOptional = taxiRepository.findById(rsvInfo.companyId)
-        if (!companyNameOptional.isPresent) {
-            println("【ERROR】タクシー会社情報、または予約ステータスの取得エラー")
-            return null
-        }
+        val companyName = taxiInfoService.getCompanyName(rsvInfo.companyId)
 
         // 予約ステータス文言の設定
         //TODO ステータス取得エラー
@@ -56,7 +50,7 @@ class ReservationChangeService(
                 rsvInfo.adult,
                 rsvInfo.child,
                 rsvInfo.carDispatchNumber,
-                companyNameOptional.get().companyName,
+                companyName,
                 rsvInfo.destination,
                 rsvInfo.passengerName,
                 rsvInfo.passengerPhonetic,
@@ -128,6 +122,16 @@ class ReservationChangeService(
         //セッションの予約番号を開放する
         sessionManager.deleteSession(request)
 
+        // メール送信処理
+        val taxiInfo = taxiInfoService.getTaxiInfo(rsvInfo.companyId)
+        if (taxiInfo != null) {
+            if (sendMailService.sendMail(rsvInfo, taxiInfo, Constants.MAIL_TYPE.CHANGE)) {
+                println("メール送信完了")
+            } else {
+                println("メール送信失敗")
+            }
+        }
+
         return rsvInfo.reservationId
     }
 
@@ -171,6 +175,16 @@ class ReservationChangeService(
 
         //セッションの予約番号を開放する
         sessionManager.deleteSession(request)
+
+        // メール送信処理
+        val taxiInfo = taxiInfoService.getTaxiInfo(rsvInfo.companyId)
+        if (taxiInfo != null) {
+            if (sendMailService.sendMail(rsvInfo, taxiInfo, Constants.MAIL_TYPE.CANCEL)) {
+                println("メール送信完了")
+            } else {
+                println("メール送信失敗")
+            }
+        }
 
         return rsvInfo.reservationId
     }

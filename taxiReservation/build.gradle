@@ -32,24 +32,33 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
-    // spring
-    // spring boot
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // spring web
+
+    /*
+     * spring関連
+     */
+
+    // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    //thymeleaf
+
+    // thymeleaf
+    implementation 'org.thymeleaf:thymeleaf'
+    //implementation 'org.thymeleaf:thymeleaf-spring4'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
+
     // http://projectlombok.org/download.html
     implementation 'org.projectlombok:lombok:1.16.6'
-    // db
-    // spring jpa jpa
+
+    // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    // runtime
     runtime 'org.postgresql:postgresql'
-    // jdbc
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    // postgresql https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // sendgrid
+    implementation 'com.sendgrid:sendgrid-java:4.3.0'
 }
 
 compileKotlin {

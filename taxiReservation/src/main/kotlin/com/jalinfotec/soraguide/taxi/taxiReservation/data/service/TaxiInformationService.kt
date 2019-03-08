@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,7 +22,35 @@ class TaxiInformationService(
     }
 
     @Transactional
-    fun getCompanyId(companyName: String): String {
-        return taxiRepository.findByCompanyName(companyName).id
+    fun getTaxiInfoFromCompanyName(companyName: String): TaxiInformation {
+        val taxiInfo = taxiRepository.findByCompanyName(companyName)
+
+        return if (taxiInfo.isPresent) {
+            taxiInfo.get()
+        } else {
+            throw Exception()
+        }
+    }
+
+    @Transactional
+    fun getCompanyName(companyId: String): String {
+        val taxiInfo = taxiRepository.findById(companyId)
+
+        return if (taxiInfo.isPresent) {
+            taxiInfo.get().companyName
+        } else {
+            throw Exception()
+        }
+    }
+
+    @Transactional
+    fun getTaxiInfo(companyId: String): TaxiInformation? {
+        val taxiInfo = taxiRepository.findById(companyId)
+
+        return if (taxiInfo.isPresent) {
+            taxiInfo.get()
+        } else {
+            null
+        }
     }
 }

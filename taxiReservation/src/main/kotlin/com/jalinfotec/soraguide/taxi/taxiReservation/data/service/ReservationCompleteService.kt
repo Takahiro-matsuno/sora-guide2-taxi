@@ -2,9 +2,11 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.service
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
@@ -15,18 +17,28 @@ import javax.servlet.http.HttpServletRequest
 class ReservationCompleteService(
         private val reservationRepository: ReservationInfoRepository,
         private val numberingRepository: NumberingRepository,
-        private val taxiInfoService: TaxiInformationService) {
+        private val taxiInfoService: TaxiInformationService,
+        private val sendMailService: SendMailService) {
 
     /**
      * 予約完了処理
      */
     @Transactional
     fun complete(input: ReservationForm, request: HttpServletRequest): String {
-        val rsvInfo = convertRsvForm2RsvInfo(input, request)
+        val taxiInfo = taxiInfoService.getTaxiInfoFromCompanyName(input.companyName)
+        val rsvInfo = convertRsvForm2RsvInfo(input, taxiInfo, request)
         println("【予約完了】予約ID：${rsvInfo.reservationId}")
 
         //TODO DB接続エラー
+        // 予約登録処理
         reservationRepository.save(rsvInfo)
+
+        // メール送信処理
+        if (sendMailService.sendMail(rsvInfo, taxiInfo, Constants.MAIL_TYPE.RESERVE)) {
+            println("メール送信完了")
+        } else {
+            println("メール送信失敗")
+        }
 
         return rsvInfo.reservationId
     }
@@ -35,9 +47,9 @@ class ReservationCompleteService(
      * 予約フォームの内容をエンティティに詰め替え
      */
     @Transactional(readOnly = true)
-    private fun convertRsvForm2RsvInfo(input: ReservationForm, request: HttpServletRequest): ReservationInformation {
-        //選択した会社名から会社IDを検索
-        val taxiCompanyId = taxiInfoService.getCompanyId(input.companyName)
+    private fun convertRsvForm2RsvInfo(input: ReservationForm, taxiInfo: TaxiInformation,
+                                       request: HttpServletRequest): ReservationInformation {
+
         val uuid = UuidManager().getUuid(request) ?: ""
 
         return ReservationInformation(
@@ -52,7 +64,7 @@ class ReservationCompleteService(
                 adult = input.adult,
                 child = input.child,
                 carDispatchNumber = input.carDispatchNumber,
-                companyId = taxiCompanyId,
+                companyId = taxiInfo.id,
                 destination = input.destination,
                 passengerName = input.passengerName,
                 passengerPhonetic = input.passengerPhonetic,

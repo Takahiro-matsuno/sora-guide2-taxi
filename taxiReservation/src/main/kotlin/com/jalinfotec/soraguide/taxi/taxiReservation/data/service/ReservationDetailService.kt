@@ -46,18 +46,15 @@ class ReservationDetailService(
         println("【予約認証】予約番号：$id")
 
         //DBから引数のIDとマッチする予約情報を取得
-        //TODO DB接続エラー
         val rsvInfoOptional = reservationRepository.findById(id)
 
         if (rsvInfoOptional.isPresent) {
             //メールアドレス一致チェック
             if (rsvInfoOptional.get().mail.trim() != mail) {
-                //TODO 認証エラー
                 println("【ERROR】メールアドレス不一致")
                 return null
             }
         } else {
-            //TODO 予約照会エラー
             println("【ERROR】予約情報が取得できない")
             return null
         }
@@ -83,7 +80,6 @@ class ReservationDetailService(
     @Transactional
     fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation): DetailForm? {
         //タクシー会社IDからタクシー会社名を取得
-        //TODO DB接続エラー
         val companyNameOptional = taxiRepository.findById(rsvInfo.companyId)
 
         // 予約ステータス文言の設定

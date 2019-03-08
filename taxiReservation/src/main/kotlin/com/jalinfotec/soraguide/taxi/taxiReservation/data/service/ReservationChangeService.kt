@@ -6,6 +6,9 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ChangeForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.ChangeValidation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
+import org.hibernate.exception.JDBCConnectionException
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
@@ -31,7 +34,6 @@ class ReservationChangeService(
 
         //予約変更可否チェック
         if (!ChangeValidation().checkChangePossible(rsvInfo)) {
-            //TODO 変更不可エラー
             return null
         }
 
@@ -39,7 +41,6 @@ class ReservationChangeService(
         val companyName = taxiInfoService.getCompanyName(rsvInfo.companyId)
 
         // 予約ステータス文言の設定
-        //TODO ステータス取得エラー
         val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
 
         return ChangeForm(
@@ -68,7 +69,6 @@ class ReservationChangeService(
     /**
      * 予約変更処理
      */
-    @Transactional
     fun change(changeInfo: ChangeForm, request: HttpServletRequest): String? {
         val sessionManager = SessionManager()
         val rsvId = sessionManager.checkSession(changeInfo.id, request)
@@ -79,13 +79,11 @@ class ReservationChangeService(
 
         //予約変更可否チェック
         if (!ChangeValidation().checkChangePossible(rsvInfo)) {
-            //TODO 変更不可エラー
             return null
         }
 
         //最終更新日の確認
         if (rsvInfo.lastUpdate != changeInfo.lastUpdate) {
-            //TODO 変更不可エラー
             println("最終更新日アンマッチ")
             return null
         }
@@ -115,9 +113,8 @@ class ReservationChangeService(
             rsvInfo.status = 3
         }
 
-        //SQL呼び出し
-        //TODO DB接続エラー
-        reservationRepository.save(rsvInfo)
+        //予約更新
+        updateRsvInfo(rsvInfo)
 
         //セッションの予約番号を開放する
         sessionManager.deleteSession(request)
@@ -138,7 +135,6 @@ class ReservationChangeService(
     /**
      * 予約取消処理
      */
-    @Transactional
     fun delete(id: String, lastUpdate: Timestamp, request: HttpServletRequest): String? {
         val sessionManager = SessionManager()
         val rsvId = sessionManager.checkSession(id, request)
@@ -149,13 +145,11 @@ class ReservationChangeService(
 
         //予約変更可否チェック
         if (!ChangeValidation().checkChangePossible(rsvInfo)) {
-            //TODO 変更不可エラー
             return null
         }
 
         //最終更新日の確認
         if (rsvInfo.lastUpdate != lastUpdate) {
-            //TODO 変更不可エラー
             println("最終更新日アンマッチ")
             return null
         }
@@ -169,9 +163,8 @@ class ReservationChangeService(
             rsvInfo.status = 4
         }
 
-        //DBアクセス
-        //TODO DB接続エラー
-        reservationRepository.save(rsvInfo)
+        //予約更新
+        updateRsvInfo(rsvInfo)
 
         //セッションの予約番号を開放する
         sessionManager.deleteSession(request)
@@ -195,18 +188,26 @@ class ReservationChangeService(
      * セッションに保持している予約番号を用いて予約検索を行う
      * 予約情報が存在しない場合はエラーを投げる。
      */
-    @Transactional
+    @Transactional(readOnly = true)
+    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getRsvInfo(id: String): ReservationInformation? {
-        //TODO DB接続エラー
         val rsvInfoOptional = reservationRepository.findById(id)
 
         //予約が存在しない場合、エラー
         if (!rsvInfoOptional.isPresent) {
-            //TODO 予約照会エラー
             println("ERROR：変更する予約がDBに存在しない")
             return null
         }
 
         return rsvInfoOptional.get()
+    }
+
+    /**
+     * 予約更新処理
+     */
+    @Transactional
+    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
+    fun updateRsvInfo(rsvInfo: ReservationInformation) {
+        reservationRepository.save(rsvInfo)
     }
 }

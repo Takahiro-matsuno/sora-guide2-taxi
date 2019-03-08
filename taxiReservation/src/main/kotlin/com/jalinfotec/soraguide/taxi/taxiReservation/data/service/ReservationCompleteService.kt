@@ -7,6 +7,9 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
+import org.hibernate.exception.JDBCConnectionException
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
@@ -29,9 +32,8 @@ class ReservationCompleteService(
         val rsvInfo = convertRsvForm2RsvInfo(input, taxiInfo, request)
         println("【予約完了】予約ID：${rsvInfo.reservationId}")
 
-        //TODO DB接続エラー
         // 予約登録処理
-        reservationRepository.save(rsvInfo)
+        insertRsvInfo(rsvInfo)
 
         // メール送信処理
         if (sendMailService.sendMail(rsvInfo, taxiInfo, Constants.MAIL_TYPE.RESERVE)) {
@@ -46,7 +48,6 @@ class ReservationCompleteService(
     /**
      * 予約フォームの内容をエンティティに詰め替え
      */
-    @Transactional(readOnly = true)
     private fun convertRsvForm2RsvInfo(input: ReservationForm, taxiInfo: TaxiInformation,
                                        request: HttpServletRequest): ReservationInformation {
 
@@ -86,15 +87,24 @@ class ReservationCompleteService(
      * 予約番号の設定
      */
     @Transactional
+    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun setId(): String {
-        //TODO DB接続エラー
+        print("てすとー！りとらいするかなー？")
+
         val numbering = numberingRepository.findById("booking_info").get()
         val result = String.format("%010d", numbering.nextValue)
-
         numbering.nextValue++
-        //TODO DB接続エラー
         numberingRepository.save(numbering)
 
         return result
+    }
+
+    /**
+     *
+     */
+    @Transactional
+    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
+    fun insertRsvInfo(rsvInfo: ReservationInformation) {
+        reservationRepository.save(rsvInfo)
     }
 }

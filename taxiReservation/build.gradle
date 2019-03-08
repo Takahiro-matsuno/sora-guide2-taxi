@@ -55,6 +55,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 
+    // retry
+    implementation 'org.springframework.retry:spring-retry'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // sendgrid

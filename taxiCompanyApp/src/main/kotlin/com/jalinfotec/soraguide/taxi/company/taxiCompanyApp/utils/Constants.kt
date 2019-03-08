@@ -48,7 +48,8 @@ object Constants {
                     "お電話：%companyContact%\n" +
                     "\n" +
                     "\n" +
-                    "当メールは送信専用です。\n",
+                    "当メールは送信専用です。\n" +
+                    "\n",
 
             MAIL_TYPE.CANCEL to
                     "%name% 様\n" +
@@ -91,18 +92,22 @@ object Constants {
                     "乗車日付：%rideOnDate%\n" +
                     "乗車時刻：%rideOnTime%\n" +
                     "\n" +
+                    "\n" +
                     "■タクシー会社からのご案内\n" +
                     "%companyNotice%\n" +
+                    "\n" +
                     "\n" +
                     "■ご案内\n" +
                     "ご予約の変更をご希望のお客様は下記URLから変更いただくか、タクシー会社へ直接ご連絡ください。\n" +
                     "%url%\n" +
+                    "\n" +
                     "\n" +
                     "■お問い合わせ\n" +
                     "タクシー会社：%companyName%\n" +
                     "お電話：%companyContact%\n" +
                     "\n" +
                     "\n" +
-                    "当メールは送信専用です。\n"
+                    "当メールは送信専用です。\n" +
+                    "\n"
     )
 }

@@ -29,21 +29,35 @@ class SendMailService(
     }
 
     private fun createMail(rsvInfo: ReservationInformation, taxiInfo: TaxiInformation, mailType: Enum<Constants.MAIL_TYPE>): Mail {
+        //メールに埋め込む動的項目のマップ化
+        val replaceMap = mutableMapOf(
+                "%name%" to rsvInfo.passengerName,
+                "%name%" to rsvInfo.passengerName,
+                "%rsvId%" to rsvInfo.reservationId,
+                "%rideOnDate%" to rsvInfo.rideOnDate.toString().replace("-", "/"),
+                "%rideOnTime%" to rsvInfo.rideOnTime.toString().substring(0, 5),
+                "%companyNotice%" to rsvInfo.notice,
+                "%url%" to "http://localhost:8080/app/sertificates/?id=${rsvInfo.reservationId}",
+                "%companyName%" to taxiInfo.companyName,
+                "%companyContact%" to taxiInfo.contact
+        )
+
+        // メールテンプレート取得
         var mailMain = Constants.mailContent[mailType] ?: throw Exception()
-        mailMain = mailMain.replace("-name-", rsvInfo.passengerName)
-        mailMain = mailMain.replace("-rsvId-", rsvInfo.reservationId)
-        mailMain = mailMain.replace("-rideOnDate-", rsvInfo.rideOnDate.toString().replace("-", "/"))
-        mailMain = mailMain.replace("-rideOnTime-", rsvInfo.rideOnTime.toString())
-        mailMain = mailMain.replace("-url-", "http://localhost:8080/app/sertificates/?id=${rsvInfo.reservationId}")
-        mailMain = mailMain.replace("-companyName-", taxiInfo.companyName)
-        mailMain = mailMain.replace("-companyContact-", taxiInfo.contact)
 
+        // 動的項目の差し替え
+        for (e in replaceMap.entries) {
+            mailMain = mailMain.replace(e.key, e.value)
+        }
 
+        // 送信メール設定
         val from = Email(Constants.FROM_ADDRESS)
-        val to = Email(rsvInfo.passengerMail)
+        //TODO 開発用誤送信防止のため、アドレス固定
+        val to = Email("yuuya.s.toyoda@jalinfotec.co.jp"/*rsvInfo.passengerMail*/)
         val subject = Constants.mailSubject[mailType] ?: throw Exception()
         val content = Content("text/plain", mailMain)
 
+        // メール送信処理
         return Mail(from, subject, to, content)
     }
 }

@@ -92,7 +92,6 @@ class ReservationService(
         var mailType = Constants.MAIL_TYPE.NONE
 
         println("変更前ステータス:$preInfoStatus 変更後ステータス${aftInfo.status}")
-
         if (preInfoStatus != aftInfo.status) {
             if ((preInfoStatus == 1 || preInfoStatus == 3) && aftInfo.status == 2) {
                 // 予約確定
@@ -100,6 +99,13 @@ class ReservationService(
             } else if (aftInfo.status == 5) {
                 // 取消確定
                 mailType = Constants.MAIL_TYPE.CANCEL
+            }
+        }
+
+        // タクシー会社からのご案内事項に変更があった場合はメール送信
+        if (mailType == Constants.MAIL_TYPE.NONE) {
+            if (preInfoNotice != aftInfo.notice) {
+                mailType = Constants.MAIL_TYPE.NOTICE
             }
         }
 

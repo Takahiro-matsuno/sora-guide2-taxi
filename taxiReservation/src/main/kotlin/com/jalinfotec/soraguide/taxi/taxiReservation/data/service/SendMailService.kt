@@ -37,7 +37,7 @@ class SendMailService(
                 "%rideOnDate%" to rsvInfo.rideOnDate.toString().replace("-", "/"),
                 "%rideOnTime%" to rsvInfo.rideOnTime.toString().substring(0, 5),
                 "%companyNotice%" to rsvInfo.notice,
-                "%url%" to "http://localhost:8080/app/sertificates/?id=${rsvInfo.reservationId}",
+                "%url%" to "http://localhost:8080/app/certificateInput/?id=${rsvInfo.reservationId}",
                 "%companyName%" to taxiInfo.companyName,
                 "%companyContact%" to taxiInfo.contact
         )

@@ -42,9 +42,9 @@ object Constants {
 
     // メール種別毎の件名設定
     val mailSubject = mutableMapOf(
-            MAIL_TYPE.RESERVE to "ご予約が確定しました",
-            MAIL_TYPE.CHANGE to "タクシー会社からのご案内",
-            MAIL_TYPE.CANCEL to "取消完了のお知らせ"
+            MAIL_TYPE.RESERVE to "ご予約を承りました",
+            MAIL_TYPE.CHANGE to "ご予約の変更を承りました",
+            MAIL_TYPE.CANCEL to "ご予約の取消を承りました"
     )
 
     // メール種別毎の本文テンプレート

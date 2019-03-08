@@ -14,7 +14,6 @@ class UuidManager {
             //UUID発行済みかどうか確認
             val requestUuid = getUuid(request)
             if (requestUuid.isNullOrBlank()) {
-                println("UUID発行")
                 createUuid(request, response)
             } else {
                 println("発行済みUUIDを使用")
@@ -39,9 +38,10 @@ class UuidManager {
      * UUID発行
      */
     private fun createUuid(request: HttpServletRequest, response: HttpServletResponse) {
+        println("UUID発行")
+
         //UUIDを新規発行
         val uuid = UUID.randomUUID().toString()
-        println(uuid)
 
         //UUIDをCookieに設定
         CookieManager().setCookie(request, response, uuid)

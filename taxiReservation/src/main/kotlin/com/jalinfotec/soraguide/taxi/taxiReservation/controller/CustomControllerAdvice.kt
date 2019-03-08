@@ -17,7 +17,7 @@ class CustomControllerAdvice(private val messageSource: MessageSource) {
      */
     @ExceptionHandler
     fun handleError(e: Exception): ModelAndView {
-        println(e.cause)
+        println("【ERROR】${e.cause}")
 
         val mav = ModelAndView()
         val errorMessage: String = if (e.cause is JDBCConnectionException) {
@@ -30,5 +30,4 @@ class CustomControllerAdvice(private val messageSource: MessageSource) {
         mav.addObject("errorMassage", errorMessage)
         return mav
     }
-
 }

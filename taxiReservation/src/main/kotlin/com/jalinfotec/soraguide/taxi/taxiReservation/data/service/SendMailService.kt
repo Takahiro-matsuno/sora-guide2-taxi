@@ -23,7 +23,7 @@ class SendMailService(
             // メール送信
             response = sendGrid.api(request)
         } catch (ex: Exception) {
-            println(ex.message)
+            println("【ERROR】メール送信エラー：${ex.message}")
         }
         return response.statusCode in 200..299
     }

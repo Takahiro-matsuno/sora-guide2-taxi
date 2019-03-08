@@ -106,8 +106,6 @@ class ReservationController(
         val addValue = 5 - (minute % 5)
         cal.add(Calendar.MINUTE, addValue)
 
-        println(cal.time.toString())
-
         //Formの更新
         rsvForm.rideOnDate = Date(cal.time.time)
         rsvForm.rideOnTime = Time(cal.time.time).toString().substring(0, 5)

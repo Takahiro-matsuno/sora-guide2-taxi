@@ -177,7 +177,7 @@ class ReservationService(
     }
 
     // 表示可能なステータス一覧を取得する
-    private fun getStatusList(): ArrayList<String>? {
+    fun getStatusList(): ArrayList<String>? {
 
         val list = ArrayList<String>()
 

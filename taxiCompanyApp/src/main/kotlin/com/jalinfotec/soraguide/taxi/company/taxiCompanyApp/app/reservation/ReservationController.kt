@@ -6,8 +6,11 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.Reser
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
+import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import java.util.regex.Pattern
 
 @Controller
 class ReservationController(
@@ -22,7 +25,7 @@ class ReservationController(
     ): ModelAndView {
 
         // 認証ユーザーの会社IDをキーに予約情報フォームを取得
-        val rsvFormList =reservationService.getListDefault(user.getCompanyId())
+        val rsvFormList = reservationService.getListDefault(user.getCompanyId())
 
         mav.viewName = "contents/reservationList"
         if (rsvFormList.any()) {
@@ -68,9 +71,18 @@ class ReservationController(
     @PostMapping(value = ["/reservation/list"])
     fun updateReservation(
             @AuthenticationPrincipal user: UserAccount,
-            @ModelAttribute(value = "rsvForm") rsvForm: ReservationForm,
+            @Validated @ModelAttribute(value = "rsvForm") rsvForm: ReservationForm,
+            result: BindingResult,
             mav: ModelAndView
     ): ModelAndView {
+
+        val validateMessage = validate(rsvForm, result, mav)
+        if (!validateMessage.isNullOrEmpty()) {
+            mav.viewName = "contents/reservationDetail"
+            mav.addObject("statusList", reservationService.getStatusList())  // 選択可能な予約ステータス一覧
+            mav.addObject("paxRange", Constants.PAX_RANGE)  // 人数選択の最大値
+            return mav
+        }
 
         val companyId = user.getCompanyId()
         mav.viewName = "contents/reservationList"
@@ -92,5 +104,30 @@ class ReservationController(
             // mav.addObject("", "予約情報がありません。")
         }
         return mav
+    }
+
+    fun validate(rsvForm: ReservationForm, result: BindingResult, mav: ModelAndView): String? {
+        if (result.hasErrors()) {
+            println("フォームの入力チェックでエラー")
+            return result.fieldErrors[0].defaultMessage
+        }
+
+        if (rsvForm.adult + rsvForm.child <= 0) {
+            println("最低人数以下")
+            return "乗車人数は1人以上で指定してください。"
+        }
+
+        val pattern = Pattern.compile("^(([0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]"
+                + "+(\\.[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+)*)|(\"[^\"]*\"))"
+                + "@[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+"
+                + "(\\.[0-9a-zA-Z!#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\}\\|~]+)*$")
+
+        if (!pattern.matcher(rsvForm.passengerMail).find()) {
+            println("メールアドレスの形式不正")
+            return "メールアドレスの形式が正しくありません。"
+        }
+
+        return null
+
     }
 }

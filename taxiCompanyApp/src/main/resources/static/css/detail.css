@@ -124,3 +124,6 @@ input[type="time"]:focus {
 textarea {
     resize: none;
 }
+p{
+  color:red;
+}

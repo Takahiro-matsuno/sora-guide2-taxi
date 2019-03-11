@@ -4,17 +4,20 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.ReservationService
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
+import org.springframework.context.MessageSource
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import java.util.*
 import java.util.regex.Pattern
 
 @Controller
 class ReservationController(
-        private val reservationService: ReservationService
+        private val reservationService: ReservationService,
+        private val messageSource: MessageSource
 ) {
 
     // 予約一覧画面の表示
@@ -81,6 +84,7 @@ class ReservationController(
             mav.viewName = "contents/reservationDetail"
             mav.addObject("statusList", reservationService.getStatusList())  // 選択可能な予約ステータス一覧
             mav.addObject("paxRange", Constants.PAX_RANGE)  // 人数選択の最大値
+            mav.addObject("errorMessage", validateMessage)  // エラーメッセージ
             return mav
         }
 
@@ -109,7 +113,9 @@ class ReservationController(
     fun validate(rsvForm: ReservationForm, result: BindingResult, mav: ModelAndView): String? {
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
-            return result.fieldErrors[0].defaultMessage
+            val fieldName = messageSource.getMessage(result.fieldErrors[0].field, null, Locale.JAPAN)
+            val errorMessage = result.fieldErrors[0].defaultMessage
+            return "$fieldName：$errorMessage"
         }
 
         if (rsvForm.adult + rsvForm.child <= 0) {

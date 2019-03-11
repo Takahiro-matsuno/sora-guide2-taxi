@@ -40,10 +40,8 @@ class ReservationController(
             // Viewに取得結果を設定
             mav.addObject("rsvFormList", rsvFormList)
         } else {
-            // TODO 0件の場合の挙動を確認する
-            // TODO DBエラー : "データベースエラー"
             // 予約一覧取得失敗時
-            // mav.addObject("", "予約情報がありません。")
+            mav.addObject("errorMessage", "予約情報がありません。")
         }
         return mav
     }
@@ -73,7 +71,6 @@ class ReservationController(
         }
     }
 
-    // TODO ModelAttribute と RequestAttributeの違いを調べる
     // 予約情報の更新
     // 予約一覧表示（予約詳細からのデータ更新）
     @PostMapping(value = ["/reservation/list"])
@@ -96,10 +93,12 @@ class ReservationController(
         val companyId = user.getCompanyId()
         mav.viewName = "contents/reservationList"
 
+        // 選択可能な予約ステータス一覧
+        mav.addObject("statusList", reservationService.getStatusList())
+
         // 予約情報更新処理
         if (!reservationService.updateDetail(companyId, rsvForm)) {
             // 更新エラー表示をViewに追加
-            // TODO 処理未チェック
             mav.addObject("errorMessage", "更新に失敗しました")
         }
 
@@ -110,7 +109,7 @@ class ReservationController(
             mav.addObject("rsvFormList", rsvFormList)
         } else {
             // 予約一覧取得失敗時
-            // mav.addObject("", "予約情報がありません。")
+            mav.addObject("errorMessage", "予約情報がありません。")
         }
         return mav
     }

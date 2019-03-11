@@ -50,3 +50,17 @@ h1 {
   /*線の種類（実線） 太さ 色*/
   border-bottom: solid 3px black;
 }
+
+
+#search_area {
+    width: auto;
+    display:none;
+    clear:both;
+}
+
+.search_input {
+    height: auto;              /* 高さ指定 */
+    width: 50%;               /* 幅指定 */
+    margin:  10px;              /* 周りの余白指定 */
+    text-align: left
+}

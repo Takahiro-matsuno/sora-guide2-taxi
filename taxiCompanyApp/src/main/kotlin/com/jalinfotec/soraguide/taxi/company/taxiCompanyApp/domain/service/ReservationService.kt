@@ -149,6 +149,7 @@ class ReservationService(
         // 予約情報を予約情報フォームに変換
         for (rsvInfo in results) {
             if (checkConditions(rsvInfo, searchForm)) {
+                //検索条件通りの予約のみ変換処理を実行
                 val rsvForm = convertRsvInfo2RsvForm(rsvInfo) ?: continue
                 formList.add(rsvForm)
             }
@@ -230,22 +231,33 @@ class ReservationService(
         return if (list.any()) list else null
     }
 
+    /**
+     * 検索メソッド
+     * 予約情報が検索条件とマッチしているかどうかチェックし、結果を返す
+     */
     private fun checkConditions(rsvInfo: ReservationInformation, searchForm: ReservationSearchForm): Boolean {
+        //予約番号チェック
         if (searchForm.reservationId.isNotEmpty()) {
             if (rsvInfo.reservationId != searchForm.reservationId) {
                 return false
             }
         }
+
+        //電話番号チェック
         if (searchForm.passengerContact.isNotEmpty()) {
             if (rsvInfo.passengerContact != searchForm.passengerContact) {
                 return false
             }
         }
+
+        //搭乗者氏名チェック
         if (searchForm.passengerName.isNotEmpty()) {
             if (rsvInfo.passengerName != searchForm.passengerName) {
                 return false
             }
         }
+
+        //搭乗者フリガナチェック
         if (searchForm.passengerPhonetic.isNotEmpty()) {
             if (rsvInfo.passengerPhonetic != searchForm.passengerPhonetic) {
                 return false

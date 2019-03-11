@@ -15,23 +15,34 @@
         <p th:text="${errorMessage}"></p>
 
         <form th:action="@{/reservation/search}" method="post" th:object="${searchForm}">
-            検索エリア
-            ■予約番号
-            <input type="text" th:field="*{reservationId}"/>
-            ■ステータス
-            <th:block th:each="statusName:${statusList}">
-                <input type="checkbox" name="reservationStatus" th:value="${statusName}" th:text="${statusName}"
-                       checked="checked"/>
-            </th:block>
-            ■電話番号
-            <input type="tel" th:field="*{passengerContact}"/>
-            ■氏名
-            <input type="text" th:field="*{passengerName}"/>
-            ■フリガナ
-            <input type="text" th:field="*{passengerPhonetic}"/>
+            <div onclick="obj=document.getElementById('search_area').style; obj.display=(obj.display=='none')?'flex':'none';">
+                <a style="cursor:pointer;">▼ 検索エリア</a>
+            </div>
+
+            <div id="search_area">
+                <div class="search_input">
+                    ■予約番号<br>
+                    <input type="text" th:field="*{reservationId}"/><br><br>
+                    ■ステータス<br>
+                    <th:block th:each="statusName:${statusList}">
+                        <input type="checkbox" name="reservationStatus" th:value="${statusName}" th:text="${statusName}"
+                               checked="checked"/><br>
+                    </th:block>
+                </div>
+                <div class="search_input">
+                    ■電話番号<br>
+                    <input type="tel" th:field="*{passengerContact}"/><br><br>
+                    ■氏名<br>
+                    <input type="text" th:field="*{passengerName}"/><br><br>
+                    ■フリガナ<br>
+                    <input type="text" th:field="*{passengerPhonetic}"/><br><br>
+                </div>
+            </div>
 
             <input type="submit" value="検索する">
         </form>
+
+        <br><br>
 
         <table rules="rows">
             <tr>
@@ -68,6 +79,12 @@
              *  TODO action="/reservation/update" method="get"にポーリングして更新情報があるかを取得する
              *  TODO 更新情報がある場合はUIを更新する
              */
+
+
+
+
+
+
 
 
 

@@ -5,12 +5,16 @@
       layout:decorate="layout/layout">
 <head>
     <title>会社情報設定</title>
+    <link th:href="@{/css/companySetting.css}" rel="stylesheet"/>
 </head>
 <body>
 <section layout:fragment="content" th:object="${taxiForm}">
     <div class="content">
         <h1>会社情報設定</h1>
-        <h2 th:text="*{companyName}"></h2>
+        <p id="message" th:text="${message}"></p>
+        <th:block th:text="'会社名：' + *{companyName}"/><br>
+        <th:block th:text="'電話番号：' + *{companyContact}"/>
+
         <form th:action="@{/company/setting}" method="post">
             <input type="text" th:field="*{companyName}" placeholder="新しい会社名" required/>
             <br/>

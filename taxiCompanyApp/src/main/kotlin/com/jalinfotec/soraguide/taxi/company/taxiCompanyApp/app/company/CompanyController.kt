@@ -45,9 +45,10 @@ class CompanyController(
 
         mav.viewName = "contents/companySetting"
         if (taxiService.updateTaxiCompanyInformation(taxiForm, user)) {
+            mav.addObject("message", "会社情報を更新しました。")
             mav.addObject("taxiForm", taxiForm)
         } else {
-            mav.addObject("errorMessage", "更新に失敗しました。")
+            mav.addObject("message", "更新に失敗しました。")
         }
         return mav
     }

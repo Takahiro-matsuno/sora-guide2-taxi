@@ -1,0 +1,9 @@
+h1 {
+    /*線の種類（実線） 太さ 色*/
+    border-bottom: solid 3px black;
+    text-align: left;
+}
+p {
+    width: 500px;
+    margin-right: auto;
+}

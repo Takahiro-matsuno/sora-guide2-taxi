@@ -13,6 +13,26 @@
     <div class="content">
         <h1>予約一覧</h1>
         <p th:text="${errorMessage}"></p>
+
+        <form th:action="@{/reservation/search}" method="post" th:object="${searchForm}">
+            検索エリア
+            ■予約番号
+            <input type="text" th:field="*{reservationId}"/>
+            ■ステータス
+            <th:block th:each="statusName:${statusList}">
+                <input type="checkbox" name="reservationStatus" th:value="${statusName}" th:text="${statusName}"
+                       checked="checked"/>
+            </th:block>
+            ■電話番号
+            <input type="tel" th:field="*{passengerContact}"/>
+            ■氏名
+            <input type="text" th:field="*{passengerName}"/>
+            ■フリガナ
+            <input type="text" th:field="*{passengerPhonetic}"/>
+
+            <input type="submit" value="検索する">
+        </form>
+
         <table rules="rows">
             <tr>
                 <th>予約番号</th>
@@ -48,6 +68,14 @@
              *  TODO action="/reservation/update" method="get"にポーリングして更新情報があるかを取得する
              *  TODO 更新情報がある場合はUIを更新する
              */
+
+
+
+
+
+
+
+
 
 </script>
 </body>

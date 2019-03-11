@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.reservation
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationSearchForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.ReservationService
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
 import org.springframework.context.MessageSource
@@ -29,6 +30,10 @@ class ReservationController(
 
         // 認証ユーザーの会社IDをキーに予約情報フォームを取得
         val rsvFormList = reservationService.getListDefault(user.getCompanyId())
+
+        // 選択可能な予約ステータス一覧
+        mav.addObject("statusList", reservationService.getStatusList())
+        mav.addObject("searchForm", ReservationSearchForm())
 
         mav.viewName = "contents/reservationList"
         if (rsvFormList.any()) {
@@ -110,6 +115,9 @@ class ReservationController(
         return mav
     }
 
+    /**
+     * 予約変更時のバリデーションチェック
+     */
     fun validate(rsvForm: ReservationForm, result: BindingResult, mav: ModelAndView): String? {
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
@@ -134,6 +142,29 @@ class ReservationController(
         }
 
         return null
+    }
 
+    // 予約一覧画面から予約検索実行
+    @PostMapping(value = ["/reservation/search"])
+    fun searchReservation(
+            @AuthenticationPrincipal user: UserAccount,
+            @ModelAttribute(value = "searchForm") searchForm: ReservationSearchForm,
+            mav: ModelAndView
+    ): ModelAndView {
+        // 認証ユーザーの会社IDをキーに予約情報フォームを取得
+        val rsvFormList = reservationService.getListSearch(user.getCompanyId(), searchForm)
+
+        // 選択可能な予約ステータス一覧
+        mav.addObject("statusList", reservationService.getStatusList())
+
+        mav.viewName = "contents/reservationList"
+        if (rsvFormList.any()) {
+            // Viewに取得結果を設定
+            mav.addObject("rsvFormList", rsvFormList)
+        } else {
+            // 予約一覧取得失敗時
+            mav.addObject("errorMessage", "予約情報がありません。")
+        }
+        return mav
     }
 }

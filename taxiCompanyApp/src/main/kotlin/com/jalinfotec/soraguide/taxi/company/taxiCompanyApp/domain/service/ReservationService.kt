@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationSearchForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.ReservationRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
@@ -74,7 +75,6 @@ class ReservationService(
         // 予約情報を取得する
         val preInfo = rsvRepository.findByCompanyIdAndReservationId(companyId, rsvForm.reservationId) ?: return false
         val preInfoStatus = preInfo.status
-        val preInfoNotice = preInfo.notice
 
         if (preInfo.lastUpdate != rsvForm.lastUpdate) {
             // 更新時刻が一致しない場合は処理終了
@@ -114,6 +114,47 @@ class ReservationService(
         }
 
         return true
+    }
+
+    // 予約検索
+    @Transactional(readOnly = true)
+    fun getListSearch(companyId: String, searchForm: ReservationSearchForm): ArrayList<ReservationForm> {
+
+        val formList = ArrayList<ReservationForm>()
+
+        if (!taxiRepository.findById(companyId).isPresent) {
+            // タクシー会社が見つからない場合は処理終了
+            return formList
+        }
+
+        if (searchForm.reservationStatus.isEmpty()) {
+            //検索条件にステータスの指定が無い場合は処理終了
+            return formList
+        }
+
+        //検索条件のステータスを番号に置き換え
+        val statusList = mutableListOf<Int>()
+        for (searchStatus in searchForm.reservationStatus) {
+            for (constantsStatus in Constants.reservationStatus) {
+                if (searchStatus == constantsStatus.value) {
+                    statusList.add(constantsStatus.key)
+                    break
+                }
+            }
+        }
+
+        // 予約情報一覧取得
+        val results = rsvRepository.findByCompanyIdAndStatusIn(companyId, statusList)
+
+        // 予約情報を予約情報フォームに変換
+        for (rsvInfo in results) {
+            if (checkConditions(rsvInfo, searchForm)) {
+                val rsvForm = convertRsvInfo2RsvForm(rsvInfo) ?: continue
+                formList.add(rsvForm)
+            }
+        }
+
+        return formList
     }
 
     // 予約情報をフォームへ変換
@@ -188,4 +229,29 @@ class ReservationService(
 
         return if (list.any()) list else null
     }
+
+    private fun checkConditions(rsvInfo: ReservationInformation, searchForm: ReservationSearchForm): Boolean {
+        if (searchForm.reservationId.isNotEmpty()) {
+            if (rsvInfo.reservationId != searchForm.reservationId) {
+                return false
+            }
+        }
+        if (searchForm.passengerContact.isNotEmpty()) {
+            if (rsvInfo.passengerContact != searchForm.passengerContact) {
+                return false
+            }
+        }
+        if (searchForm.passengerName.isNotEmpty()) {
+            if (rsvInfo.passengerName != searchForm.passengerName) {
+                return false
+            }
+        }
+        if (searchForm.passengerPhonetic.isNotEmpty()) {
+            if (rsvInfo.passengerPhonetic != searchForm.passengerPhonetic) {
+                return false
+            }
+        }
+        return true
+    }
+
 }

@@ -102,13 +102,6 @@ class ReservationService(
             }
         }
 
-        // タクシー会社からのご案内事項に変更があった場合はメール送信
-        if (mailType == Constants.MAIL_TYPE.NONE) {
-            if (preInfoNotice != aftInfo.notice) {
-                mailType = Constants.MAIL_TYPE.NOTICE
-            }
-        }
-
         // メール送信処理
         if (mailType != Constants.MAIL_TYPE.NONE) {
             if (sendMailService.sendMail(aftInfo, taxiInfoOptional.get(), mailType)) {

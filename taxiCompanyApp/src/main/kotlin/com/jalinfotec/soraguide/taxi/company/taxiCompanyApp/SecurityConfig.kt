@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
  * ログイン画面からの[/user]へのpostを拾い認証を行う
  */
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfigurerAdapter() {
+class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     // UserAccountServiceをコンストラクターで初期化するとエラーになるため、以下に記載
     @Autowired
@@ -42,9 +42,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                     .antMatchers(
                             "/",
                             "/login",
-                            "/login-error",
-                            "/signup",
-                            "signup-error"
+                            "/login-error"
                     ).permitAll() // indexは全ユーザーアクセス許可
                     .anyRequest().authenticated()  // それ以外は全て認証無しの場合アクセス不許可
 
@@ -52,13 +50,15 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             http.formLogin()
                     // ログインページのURL
                     .loginPage("/login")
-                    // ログイン処理URL　[/user]にPOSTされる
+                    // ログイン処理URL　[/login]にPOSTされる
                     .loginProcessingUrl("/login")
                     // 認証パラメータ
                     .usernameParameter("username")
                     .passwordParameter("password")
                     // ログイン成功時のURL
                     .defaultSuccessUrl("/reservation/list")
+                    // 認証失敗時に呼ばれるハンドラクラスを設定
+                    .failureHandler(AuthenticationFailureHandler())
                     // ログイン失敗時のURL
                     .failureUrl("/login-error")
                     // ログインページへのアクセス許可
@@ -83,6 +83,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                 // 入力値をbcryptでハッシュ化した値でパスワード認証を行う
                 .passwordEncoder(passwordEncoder())
     }
+
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()

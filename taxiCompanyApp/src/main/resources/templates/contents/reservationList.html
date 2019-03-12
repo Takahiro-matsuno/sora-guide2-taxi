@@ -2,7 +2,7 @@
 <html lang="ja" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/layout">
+      layout:decorate="layout/layout" xmlns:display="http://www.w3.org/1999/xhtml">
 <head>
     <title>予約一覧</title>
     <link th:href="@{/css/list.css}" rel="stylesheet"/>
@@ -14,9 +14,9 @@
         <h1>予約一覧</h1>
         <p th:text="${errorMessage}"></p>
 
-        <form th:action="@{/reservation/search}" method="post" th:object="${searchForm}">
-            <div onclick="obj=document.getElementById('search_area').style; obj.display=(obj.display=='none')?'flex':'none';">
-                <a style="cursor:pointer;">▼ 検索エリア</a>
+        <form name="searchForm" th:action="@{/reservation/search}" method="post" th:object="${searchForm}">
+            <div onclick="searchAreaClicked()">
+                <a>▼ 検索エリア</a>
             </div>
 
             <div id="search_area">
@@ -25,9 +25,10 @@
                     <input type="text" th:field="*{reservationId}"/><br><br>
                     ■ステータス<br>
                     <th:block th:each="statusName:${statusList}">
-                        <input type="checkbox" name="reservationStatus" th:value="${statusName}" th:text="${statusName}"
-                               checked="checked"/><br>
+                        <input type="checkbox" th:field="*{reservationStatus}" th:value="${statusName}"
+                               th:text="${statusName}"/><br>
                     </th:block>
+                    <br><br>
                 </div>
                 <div class="search_input">
                     ■電話番号<br>
@@ -39,10 +40,11 @@
                 </div>
             </div>
 
-            <input type="submit" value="検索する">
+            <input type="submit" value="検索する"><br>
+            <button type="button" onclick="updateList()">更新する</button>
         </form>
 
-        <br><br>
+        <br>
 
         <table rules="rows">
             <tr>
@@ -79,6 +81,8 @@
              *  TODO action="/reservation/update" method="get"にポーリングして更新情報があるかを取得する
              *  TODO 更新情報がある場合はUIを更新する
              */
+
+
 
 
 

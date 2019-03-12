@@ -144,7 +144,7 @@ class ReservationService(
         }
 
         // 予約情報一覧取得
-        val results = rsvRepository.findByCompanyIdAndStatusIn(companyId, statusList)
+        val results = rsvRepository.findByCompanyIdAndStatusInOrderByRideOnDateAscRideOnTimeAsc(companyId, statusList)
 
         // 予約情報を予約情報フォームに変換
         for (rsvInfo in results) {

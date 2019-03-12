@@ -33,6 +33,8 @@ class ReservationController(
 
         // 選択可能な予約ステータス一覧
         mav.addObject("statusList", reservationService.getStatusList())
+
+        // 検索フォームの初期値設定
         mav.addObject("searchForm", ReservationSearchForm())
 
         mav.viewName = "contents/reservationList"
@@ -96,6 +98,9 @@ class ReservationController(
         // 選択可能な予約ステータス一覧
         mav.addObject("statusList", reservationService.getStatusList())
 
+        // 検索フォームの初期値設定
+        mav.addObject("searchForm", ReservationSearchForm())
+
         // 予約情報更新処理
         if (!reservationService.updateDetail(companyId, rsvForm)) {
             // 更新エラー表示をViewに追加
@@ -155,6 +160,9 @@ class ReservationController(
 
         // 選択可能な予約ステータス一覧
         mav.addObject("statusList", reservationService.getStatusList())
+
+        // 検索フォームの初期値設定
+        mav.addObject("searchForm", searchForm)
 
         mav.viewName = "contents/reservationList"
         if (rsvFormList.any()) {

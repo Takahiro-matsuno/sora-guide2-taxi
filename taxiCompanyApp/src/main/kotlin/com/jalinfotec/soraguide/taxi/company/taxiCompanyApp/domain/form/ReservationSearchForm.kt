@@ -1,8 +1,10 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form
 
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
+
 data class ReservationSearchForm(
         val reservationId: String = "",
-        val reservationStatus: Array<String> = arrayOf(),
+        val reservationStatus: Array<String> = Constants.reservationStatus.values.toTypedArray(),
         var passengerContact: String = "",
         var passengerName: String = "",
         var passengerPhonetic: String = ""

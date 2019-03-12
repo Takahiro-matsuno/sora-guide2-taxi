@@ -10,5 +10,6 @@ interface ReservationRepository : JpaRepository<ReservationInformation, String> 
     fun findByCompanyIdOrderByRideOnDateAscRideOnTimeAsc(companyId: String): MutableList<ReservationInformation>
 
     fun findByCompanyIdAndReservationId(companyId: String, reservationId: String): ReservationInformation?
-    fun findByCompanyIdAndStatusIn(companyId: String, status: MutableList<Int>): MutableList<ReservationInformation>
+    fun findByCompanyIdAndStatusInOrderByRideOnDateAscRideOnTimeAsc(companyId: String, status: MutableList<Int>)
+            : MutableList<ReservationInformation>
 }

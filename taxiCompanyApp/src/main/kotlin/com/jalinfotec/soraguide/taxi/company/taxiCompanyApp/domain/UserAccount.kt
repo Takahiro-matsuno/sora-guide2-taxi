@@ -33,7 +33,7 @@ class UserAccount(
         return true
     }
     override fun isAccountNonLocked(): Boolean {
-        return true
+        return !user.lockFlag
     }
     override fun isCredentialsNonExpired(): Boolean {
         return true

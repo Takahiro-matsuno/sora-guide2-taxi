@@ -6,7 +6,6 @@ import org.springframework.security.authentication.event.AuthenticationFailureBa
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
 
-
 @Component
 class LoginFailureEventListenter : ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
     // アカウントロックをかける連続認証失敗回数の閾値
@@ -18,6 +17,7 @@ class LoginFailureEventListenter : ApplicationListener<AuthenticationFailureBadC
 
     @EventListener
     override fun onApplicationEvent(event: AuthenticationFailureBadCredentialsEvent) {
+        /*
         println("イベントリスナー${event.exception.javaClass}")
 
         if (event.exception.javaClass == UsernameNotFoundException::class.java) {
@@ -33,6 +33,7 @@ class LoginFailureEventListenter : ApplicationListener<AuthenticationFailureBadC
         if (failedLoginAttempts == loginAttemptsThreshold) {
             lockoutUser(userId)
         }
+        */
     }
 
     // ログイン失敗の情報を DB に記録...

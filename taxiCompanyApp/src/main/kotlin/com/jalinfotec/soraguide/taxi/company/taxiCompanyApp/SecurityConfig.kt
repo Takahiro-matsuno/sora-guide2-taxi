@@ -2,6 +2,7 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -20,6 +21,12 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     // UserAccountServiceをコンストラクターで初期化するとエラーになるため、以下に記載
     @Autowired
     private lateinit var uas: UserAccountService
+
+    @Autowired
+    private lateinit var userAccountService: UserAccountService
+
+    @Autowired
+    private lateinit var messageSource: MessageSource
 
     // todo ２つの違い
     override fun configure(web: WebSecurity?) {
@@ -42,7 +49,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                     .antMatchers(
                             "/",
                             "/login",
-                            "/login-error"
+                            "/login-error",
+                            "/account-lock",
+                            "/system-error"
                     ).permitAll() // indexは全ユーザーアクセス許可
                     .anyRequest().authenticated()  // それ以外は全て認証無しの場合アクセス不許可
 
@@ -58,7 +67,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                     // ログイン成功時のURL
                     .defaultSuccessUrl("/reservation/list")
                     // 認証失敗時に呼ばれるハンドラクラスを設定
-                    .failureHandler(FailureHandler())
+                    .failureHandler(FailureHandler(userAccountService, messageSource))
                     // ログインページへのアクセス許可
                     .permitAll()
 

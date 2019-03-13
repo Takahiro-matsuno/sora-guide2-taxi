@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class UserSignupService(
         private val aRepository: AccountRepository,
         private val passwordEncoder: PasswordEncoder
-): UserDetailsService {
+) : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String?): UserDetails {
@@ -33,7 +33,7 @@ class UserSignupService(
             throw UsernameNotFoundException("User not found: $username")
         }
 
-        if (!ac.enableFlg){ // ユーザーが許可されていない場合
+        if (!ac.enableFlg) { // ユーザーが許可されていない場合
             println("user not allowed: $username")
             throw UsernameNotFoundException("User not found: $username")
         }
@@ -52,10 +52,10 @@ class UserSignupService(
     // ユーザー登録
     @Transactional
     fun registerUser(username: String, password: String): Boolean {
-        return if (aRepository.findByUsername(username) == null) {
-            val user = Account(username = username, password = passwordEncoder.encode(password), adminFlg = false)
+        return true/*if (aRepository.findByUsername(username) == null) {
+            val user = Account(username = username, password = passwordEncoder.encode(password), adminFlg = false,userId = ,failureCount = ,c)
             aRepository.save(user)
             true
-        } else false
+        } else false*/
     }
 }

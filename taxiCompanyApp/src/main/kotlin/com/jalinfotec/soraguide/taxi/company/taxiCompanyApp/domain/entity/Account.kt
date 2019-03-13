@@ -24,5 +24,11 @@ class Account(
         val adminFlg: Boolean,
 
         @Column(name = "companyId", nullable = false)
-        val companyId: String = "0002"
-        )
+        val companyId: String,
+
+        @Column(name = "failure_count", nullable = false)
+        var failureCount: Int,
+
+        @Column(name = "lock_flag", nullable = false)
+        var lockFlag: Boolean
+)

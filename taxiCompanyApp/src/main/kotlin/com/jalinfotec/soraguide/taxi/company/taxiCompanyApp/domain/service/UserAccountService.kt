@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
+import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,7 +22,7 @@ class UserAccountService(
         private val passwordEncoder: PasswordEncoder
 ) : UserDetailsService {
 
-    @Throws(UsernameNotFoundException::class)
+    @Throws(UsernameNotFoundException::class, LockedException::class)
     override fun loadUserByUsername(username: String?): UserDetails {
 
         if (username == null || username == "") { // ユーザー名未入力の場合
@@ -95,5 +96,21 @@ class UserAccountService(
             println(user.password)
             false
         }
+    }
+
+    /**
+     * ユーザ情報の取得
+     */
+    @Transactional
+    fun findByUserName(userName: String): Account? {
+        return accRepository.findByUsername(userName)
+    }
+
+    /**
+     * ユーザ情報の更新
+     */
+    @Transactional
+    fun updateAccount(account: Account) {
+        accRepository.save(account)
     }
 }

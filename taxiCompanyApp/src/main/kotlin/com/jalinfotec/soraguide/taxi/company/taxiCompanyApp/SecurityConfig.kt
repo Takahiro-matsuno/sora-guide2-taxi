@@ -58,9 +58,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                     // ログイン成功時のURL
                     .defaultSuccessUrl("/reservation/list")
                     // 認証失敗時に呼ばれるハンドラクラスを設定
-                    .failureHandler(AuthenticationFailureHandler())
-                    // ログイン失敗時のURL
-                    .failureUrl("/login-error")
+                    .failureHandler(FailureHandler())
                     // ログインページへのアクセス許可
                     .permitAll()
 

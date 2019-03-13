@@ -2,6 +2,8 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp
 
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.AuthenticationException
+import org.springframework.security.web.DefaultRedirectStrategy
+import org.springframework.security.web.RedirectStrategy
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler
 import org.springframework.stereotype.Component
@@ -10,7 +12,7 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class AuthenticationFailureHandler: AuthenticationFailureHandler {
+class FailureHandler : AuthenticationFailureHandler {
 
     @Throws(IOException::class, ServletException::class)
     override fun onAuthenticationFailure(httpServletRequest: HttpServletRequest,
@@ -24,6 +26,6 @@ class AuthenticationFailureHandler: AuthenticationFailureHandler {
             println(userName)
         }
 
-        httpServletResponse.sendRedirect(httpServletRequest.contextPath + "/index-error")
+        httpServletResponse.sendRedirect(httpServletRequest.contextPath + "/login-error")
     }
 }

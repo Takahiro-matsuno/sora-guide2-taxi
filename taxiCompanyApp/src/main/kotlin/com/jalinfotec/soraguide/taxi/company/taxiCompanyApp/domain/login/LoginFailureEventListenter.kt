@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp
+package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.login
 
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.EventListener

@@ -1,5 +1,7 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp
 
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.login.FailureHandler
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.login.SuccessHandler
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
@@ -64,10 +66,10 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                     // 認証パラメータ
                     .usernameParameter("username")
                     .passwordParameter("password")
-                    // ログイン成功時のURL
-                    .defaultSuccessUrl("/reservation/list")
-                    // 認証失敗時に呼ばれるハンドラクラスを設定
-                    .failureHandler(FailureHandler(userAccountService, messageSource))
+                    // ログイン成功時のハンドラ
+                    .successHandler(SuccessHandler(userAccountService))
+                    // ログイン失敗時のハンドラ
+                    .failureHandler(FailureHandler(userAccountService))
                     // ログインページへのアクセス許可
                     .permitAll()
 

@@ -1,6 +1,7 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
+import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.TaxiCompanyForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
@@ -39,5 +40,16 @@ class TaxiCompanyService(
         // 会社情報を変更する
         taxiRepository.save(taxiCompany)
         return true
+    }
+
+    @Transactional
+    fun getCompanyInfo(companyId: String): TaxiInformation? {
+        val companyInfoOptional = taxiRepository.findById(companyId)
+
+        return if (companyInfoOptional.isPresent) {
+            companyInfoOptional.get()
+        } else {
+            null
+        }
     }
 }

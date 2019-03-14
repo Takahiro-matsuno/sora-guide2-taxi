@@ -11,6 +11,9 @@ class SendMailService(
         private val sendGrid: SendGrid
 ) {
 
+    /**
+     * 旅客向けの案内メール送信処理
+     */
     fun sendMail(rsvInfo: ReservationInformation, taxiInfo: TaxiInformation, mailType: Enum<Constants.MAIL_TYPE>): Boolean {
         lateinit var response: Response
         try {
@@ -28,6 +31,9 @@ class SendMailService(
         return response.statusCode in 200..299
     }
 
+    /**
+     * 旅客向けの案内メール作成処理
+     */
     private fun createMail(rsvInfo: ReservationInformation, taxiInfo: TaxiInformation, mailType: Enum<Constants.MAIL_TYPE>): Mail {
         //メールに埋め込む動的項目のマップ化
         val replaceMap = mutableMapOf(
@@ -42,6 +48,52 @@ class SendMailService(
                 "%companyContact%" to taxiInfo.contact
         )
 
+        return createMailCommon(replaceMap, mailType, rsvInfo.passengerMail)
+    }
+
+    /**
+     * 管理者向けパスワードリセットメールの送信処理
+     */
+    fun sendAccountResetMail(userName: String, password: String, companyName: String, companyMail: String): Boolean {
+        lateinit var response: Response
+        try {
+            // 送信するメールを作成する
+            val mail = createAccountResetMail(userName, password, companyName, companyMail)
+            val request = Request()
+            request.endpoint = "mail/send"
+            request.method = Method.POST
+            request.body = mail.build()
+            // メール送信
+            response = sendGrid.api(request)
+        } catch (ex: Exception) {
+            println(ex.message)
+        }
+        return response.statusCode in 200..299
+    }
+
+    /**
+     * 管理者向けパスワードリセットメールの作成処理
+     */
+    private fun createAccountResetMail(userName: String, password: String, companyName: String, companyMail: String)
+            : Mail {
+
+        //送信メール種別設定（必ずリセットメール）
+        val mailType = Constants.MAIL_TYPE.RESET
+
+        //メールに埋め込む動的項目のマップ化
+        val replaceMap = mutableMapOf(
+                "%userName%" to userName,
+                "%password%" to password,
+                "%companyName%" to companyName
+        )
+
+        return createMailCommon(replaceMap, mailType, companyMail)
+    }
+
+    /**
+     * メール作成処理の共通部
+     */
+    private fun createMailCommon(replaceMap: MutableMap<String, String>, mailType: Enum<Constants.MAIL_TYPE>, mailAddress: String): Mail {
         // メールテンプレート取得
         var mailMain = Constants.mailContent[mailType] ?: throw Exception()
 
@@ -53,11 +105,10 @@ class SendMailService(
         // 送信メール設定
         val from = Email(Constants.FROM_ADDRESS)
         //TODO 開発用誤送信防止のため、アドレス固定
-        val to = Email("yuuya.s.toyoda@jalinfotec.co.jp"/*rsvInfo.passengerMail*/)
+        val to = Email("yuuya.s.toyoda@jalinfotec.co.jp"/*mailAddress*/)
         val subject = Constants.mailSubject[mailType] ?: throw Exception()
         val content = Content("text/plain", mailMain)
 
-        // メール送信処理
         return Mail(from, subject, to, content)
     }
 }

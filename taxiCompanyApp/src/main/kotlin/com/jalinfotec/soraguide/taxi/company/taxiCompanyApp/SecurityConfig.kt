@@ -53,7 +53,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                             "/login",
                             "/login-error",
                             "/account-lock",
-                            "/system-error"
+                            "/system-error",
+                            "/reset"
                     ).permitAll() // indexは全ユーザーアクセス許可
                     .anyRequest().authenticated()  // それ以外は全て認証無しの場合アクセス不許可
 

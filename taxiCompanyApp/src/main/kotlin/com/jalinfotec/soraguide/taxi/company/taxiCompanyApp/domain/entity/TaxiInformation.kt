@@ -5,17 +5,19 @@ import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
 
-// TODO ユニーク設定
 @Entity
 @Table(name = "taxi_info")
 class TaxiInformation(
-    @Id
-    @Column(name="company_id")
-    var companyId: String,
+        @Id
+        @Column(name = "company_id")
+        var companyId: String,
 
-    @Column(name = "company_name")
-    var companyName: String,
+        @Column(name = "company_name")
+        var companyName: String,
 
-    @Column(name = "contact")
-    var contact: String
+        @Column(name = "contact")
+        var contact: String,
+
+        @Column(name = "company_mail")
+        var companyMail: String
 )

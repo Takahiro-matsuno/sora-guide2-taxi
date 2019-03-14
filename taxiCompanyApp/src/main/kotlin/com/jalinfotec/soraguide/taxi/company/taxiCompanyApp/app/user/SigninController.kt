@@ -55,4 +55,12 @@ class SigninController(
         mav.addObject("message", "ログアウトしました。")
         return mav
     }
+
+    // パスワードリセット画面表示
+    @GetMapping(value = ["/reset"])
+    fun reset(mav: ModelAndView): ModelAndView {
+        mav.viewName = "reset"
+        return mav
+    }
+
 }

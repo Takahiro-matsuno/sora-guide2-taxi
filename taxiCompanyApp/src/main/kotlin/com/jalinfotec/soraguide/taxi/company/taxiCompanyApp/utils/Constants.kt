@@ -16,11 +16,12 @@ object Constants {
     // 環境変数から取得する
     val FROM_ADDRESS = System.getenv("FROM_ADDRESS")
 
-    enum class MAIL_TYPE { RESERVE, CANCEL, NONE }
+    enum class MAIL_TYPE { RESERVE, CANCEL, RESET, NONE }
 
     val mailSubject = mutableMapOf(
             MAIL_TYPE.RESERVE to "ご予約が確定しました",
-            MAIL_TYPE.CANCEL to "取消完了のお知らせ"
+            MAIL_TYPE.CANCEL to "取消完了のお知らせ",
+            MAIL_TYPE.RESET to "アカウントリセットのお知らせ"
     )
 
     val mailContent = mutableMapOf(
@@ -71,6 +72,17 @@ object Constants {
                     "タクシー会社：%companyName%\n" +
                     "お電話：%companyContact%\n" +
                     "\n" +
+                    "\n" +
+                    "当メールは送信専用です。\n" +
+                    "\n",
+
+            MAIL_TYPE.RESET to
+                    "%companyName% 管理者様\n" +
+                    "\n" +
+                    "以下のアカウントのパスワードをリセットしました。\n"+
+                    "\n"+
+                    "ユーザー名：%userName%\n"+
+                    "新パスワード：%password%\n"+
                     "\n" +
                     "当メールは送信専用です。\n" +
                     "\n"

@@ -83,8 +83,8 @@ class FormValidate {
     /**
      * 乗客数チェック
      */
-    private fun passengerCheck(adalt: Int, child: Int): Boolean {
-        return if (adalt + child <= 0) {
+    private fun passengerCheck(adult: Int, child: Int): Boolean {
+        return if (adult + child <= 0) {
             println("最低人数以下")
             false
         } else true

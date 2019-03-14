@@ -8,6 +8,8 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.Reservation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.validation.ChangeValidation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.servlet.http.HttpServletRequest
@@ -23,6 +25,7 @@ class ReservationDetailService(
      * 【予約アプリ】予約詳細取得
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getDetail(id: String, request: HttpServletRequest): DetailForm? {
         println("【予約情報取得】予約ID：$id")
 
@@ -42,6 +45,7 @@ class ReservationDetailService(
      * 【予約サイト】予約認証
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun detailCertificates(id: String, mail: String, request: HttpServletRequest, response: HttpServletResponse): DetailForm? {
         println("【予約認証】予約番号：$id")
 
@@ -66,8 +70,7 @@ class ReservationDetailService(
     }
 
     /**
-     * セッションマネージャを呼び出す
-     * 予約番号をセッションに保持する処理
+     * セッションマネージャ呼び出し
      */
     fun setRsvId2Session(rsvId: String, request: HttpServletRequest) {
         val sessionManager = SessionManager()
@@ -75,9 +78,10 @@ class ReservationDetailService(
     }
 
     /**
-     * 予約情報Entityを予約情報フォームへ詰め替え
+     * 予約情報を予約詳細表示フォームへ詰め替え
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun convertRsvInfo2RsvForm(rsvInfo: ReservationInformation): DetailForm? {
         //タクシー会社IDからタクシー会社名を取得
         val companyNameOptional = taxiRepository.findById(rsvInfo.companyId)
@@ -127,6 +131,7 @@ class ReservationDetailService(
      * 各種完了画面表示用コンテンツ取得
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getDetailForActionComplete(id: String): MutableMap<String, String> {
         println("【予約情報取得】予約ID：$id")
 

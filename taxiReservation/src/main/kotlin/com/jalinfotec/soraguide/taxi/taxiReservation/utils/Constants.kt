@@ -1,11 +1,14 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.utils
 
+import java.util.*
+
 object Constants {
     //開発用オプション
     //TRUEの場合、Androidアプリ/WEBの判定が無効になり、WEBから実行していてもAndroidアプリでの処理動作が確認できる
     const val TEST_MODE = true
 
     val PAX_RANGE = 0..20
+    val APP_LANG = Locale.JAPAN!!
 
     // 予約ステータス
     val reservationStatus = mutableMapOf(
@@ -143,5 +146,4 @@ object Constants {
                     "当メールは送信専用です。\n" +
                     "\n"
     )
-
 }

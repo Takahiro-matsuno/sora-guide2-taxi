@@ -25,10 +25,10 @@ class TaxiInformationService(
         return taxiNameList
     }
 
+    //TODO リトライ動作OK 他のところも対応する。
     @Transactional
     @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getTaxiInfoFromCompanyName(companyName: String): TaxiInformation {
-        println("てすと！！！りとらいしたかどうかみたいのです！！！！")
 
         val taxiInfo = taxiRepository.findByCompanyName(companyName)
 

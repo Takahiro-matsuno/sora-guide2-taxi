@@ -43,6 +43,7 @@ class ReservationController(
         return mav
     }
 
+    //登録画面に戻る遷移
     @PostMapping("/app/registration")
     fun backRegistration(mav: ModelAndView, rsvForm: ReservationForm, request: HttpServletRequest): ModelAndView {
         mav.viewName = "registration"
@@ -95,8 +96,9 @@ class ReservationController(
         return mav
     }
 
-    //ReservationFormの初期化処理
-    //基本的な初期化はフォームクラスで行うが、日付と時間は再設定する
+    /**
+     * フォーム初期化処理
+     */
     fun setRsvForm(rsvForm: ReservationForm): ReservationForm {
         //日付設定用にカレンダークラスの変数を宣言
         val cal = Calendar.getInstance()
@@ -114,7 +116,7 @@ class ReservationController(
     }
 
     /**
-     *
+     * タブ表示判定
      */
     fun tabDisplay(request: HttpServletRequest): Boolean {
         //スマホアプリ遷移の場合は画面上部にタブを表示

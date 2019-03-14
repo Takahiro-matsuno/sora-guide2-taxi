@@ -27,6 +27,7 @@ class ReservationCompleteService(
      * 予約完了処理
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun complete(input: ReservationForm, request: HttpServletRequest): String {
         val taxiInfo = taxiInfoService.getTaxiInfoFromCompanyName(input.companyName)
         val rsvInfo = convertRsvForm2RsvInfo(input, taxiInfo, request)
@@ -87,10 +88,8 @@ class ReservationCompleteService(
      * 予約番号の設定
      */
     @Transactional
-    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun setId(): String {
-        print("てすとー！りとらいするかなー？")
-
         val numbering = numberingRepository.findById("booking_info").get()
         val result = String.format("%010d", numbering.nextValue)
         numbering.nextValue++
@@ -100,7 +99,7 @@ class ReservationCompleteService(
     }
 
     /**
-     *
+     * 予約登録処理
      */
     @Transactional
     @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))

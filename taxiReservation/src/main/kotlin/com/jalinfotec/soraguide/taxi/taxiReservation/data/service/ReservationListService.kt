@@ -5,6 +5,8 @@ import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInfo
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ListForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Date
@@ -15,7 +17,11 @@ import javax.servlet.http.HttpServletResponse
 class ReservationListService(
         private val reservationRepository: ReservationInfoRepository) {
 
+    /**
+     * 予約一覧取得
+     */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getList(request: HttpServletRequest, response: HttpServletResponse): MutableList<ListForm> {
         val cookieManager = CookieManager()
 
@@ -41,6 +47,9 @@ class ReservationListService(
         return rsvList
     }
 
+    /**
+     * 予約情報を一覧表示用フォームに置き換え
+     */
     fun convertRsvInfo2ListForm(rsvInfo: ReservationInformation): ListForm? {
 
         // 予約ステータスの置き換え

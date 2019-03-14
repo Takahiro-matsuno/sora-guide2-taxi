@@ -189,7 +189,7 @@ class ReservationChangeService(
      * 予約情報が存在しない場合はエラーを投げる。
      */
     @Transactional(readOnly = true)
-    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getRsvInfo(id: String): ReservationInformation? {
         val rsvInfoOptional = reservationRepository.findById(id)
 
@@ -206,7 +206,7 @@ class ReservationChangeService(
      * 予約更新処理
      */
     @Transactional
-    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun updateRsvInfo(rsvInfo: ReservationInformation) {
         reservationRepository.save(rsvInfo)
     }

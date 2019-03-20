@@ -61,14 +61,17 @@ class SampleController(
         taxiInfo1.id = "0001"
         taxiInfo1.companyName = "お試しタクシー1"
         taxiInfo1.contact = "08011112222"
+        taxiInfo1.companyMail = "aaa@jalinfotec.co.jp"
         val taxiInfo2 = TaxiInformation()
         taxiInfo2.id = "0002"
         taxiInfo2.companyName = "お試しタクシー2"
         taxiInfo2.contact = "080123456789"
+        taxiInfo2.companyMail = "aaa@jalinfotec.co.jp"
         val taxiInfo3 = TaxiInformation()
         taxiInfo3.id = "0003"
         taxiInfo3.companyName = "お試しタクシー3"
         taxiInfo3.contact = "08011112222"
+        taxiInfo3.companyMail = "aaa@jalinfotec.co.jp"
         val list = mutableListOf(taxiInfo1, taxiInfo2, taxiInfo3)
         taxiRepository.saveAll(list)
 
@@ -116,7 +119,7 @@ class SampleController(
         )
         val bookingInfo3 = ReservationInformation(
                 reservationId = "0000000003",
-                status = 2,
+                status = 4,
                 rideOnDate = Date.valueOf("2018-12-31"),
                 rideOnTime = Time.valueOf("22:55:00"),
                 adult = 3,
@@ -159,7 +162,7 @@ class SampleController(
         val bookingInfo5 = ReservationInformation(
                 reservationId = "0000000005",
                 status = 3,
-                rideOnDate = Date.valueOf("2020-07-25"),
+                rideOnDate = Date.valueOf("2018-07-25"),
                 rideOnTime = Time.valueOf("01:35:00"),
                 adult = 2,
                 child = 0,

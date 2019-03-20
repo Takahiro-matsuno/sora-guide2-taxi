@@ -2,6 +2,9 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.data.repository
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.sql.Date
 import java.util.*
@@ -19,4 +22,8 @@ interface ReservationInfoRepository : JpaRepository<ReservationInformation, Stri
             uuid: String, date: Date): MutableList<ReservationInformation>
 
     fun findByReservationIdAndUuid(id: String, uuid: String): Optional<ReservationInformation>
+
+    @Modifying
+    @Query("UPDATE ReservationInformation r SET r.status = 6 where status <= :STATUS AND ride_on_date < CURRENT_DATE")
+    fun updateTest(@Param("STATUS") status: Int)
 }

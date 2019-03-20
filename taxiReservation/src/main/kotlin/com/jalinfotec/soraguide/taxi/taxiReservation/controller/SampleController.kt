@@ -120,7 +120,7 @@ class SampleController(
         val bookingInfo3 = ReservationInformation(
                 reservationId = "0000000003",
                 status = 4,
-                rideOnDate = Date.valueOf("2018-12-31"),
+                rideOnDate = Date.valueOf("2019-3-20"),
                 rideOnTime = Time.valueOf("22:55:00"),
                 adult = 3,
                 child = 1,
@@ -141,7 +141,7 @@ class SampleController(
         val bookingInfo4 = ReservationInformation(
                 reservationId = "0000000004",
                 status = 4,
-                rideOnDate = Date.valueOf("2019-05-05"),
+                rideOnDate = Date.valueOf("2019-03-21"),
                 rideOnTime = Time.valueOf("12:45:00"),
                 adult = 9,
                 child = 5,
@@ -162,7 +162,7 @@ class SampleController(
         val bookingInfo5 = ReservationInformation(
                 reservationId = "0000000005",
                 status = 3,
-                rideOnDate = Date.valueOf("2018-07-25"),
+                rideOnDate = Date.valueOf("2019-03-22"),
                 rideOnTime = Time.valueOf("01:35:00"),
                 adult = 2,
                 child = 0,
@@ -180,7 +180,29 @@ class SampleController(
                 uuid = "",
                 lastUpdate = Timestamp.valueOf("2019-01-01 08:00:00")
         )
-        val bookList = mutableListOf(bookingInfo1, bookingInfo2, bookingInfo3, bookingInfo4, bookingInfo5)
+        val bookingInfo6 = ReservationInformation(
+                reservationId = "0000000006",
+                status = 5,
+                rideOnDate = Date.valueOf("2019-03-21"),
+                rideOnTime = Time.valueOf("01:35:00"),
+                adult = 2,
+                child = 0,
+                carDispatchNumber = 1,
+                companyId = "0003",
+                destination = "清水ビル",
+                passengerName = "お試し太郎六号",
+                passengerPhonetic = "オタメシタロウロクゴウ",
+                passengerContact = "0801234567896",
+                mail = "fff@jalinfotec.co.jp",
+                comment = "コメントテスト6件目",
+                carNumber = "",
+                carContact = "",
+                notice = "",
+                uuid = "",
+                lastUpdate = Timestamp.valueOf("2019-01-01 08:00:00")
+        )
+        val bookList = mutableListOf(
+                bookingInfo1, bookingInfo2, bookingInfo3, bookingInfo4, bookingInfo5, bookingInfo6)
         reservationRepository.saveAll(bookList)
 
         return mav

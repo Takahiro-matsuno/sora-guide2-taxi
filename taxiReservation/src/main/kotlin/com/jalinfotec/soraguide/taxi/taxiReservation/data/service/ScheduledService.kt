@@ -12,9 +12,9 @@ class ScheduledService(
 
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional
-    fun autoStatusChange(){
+    fun autoUpdateStatus(){
         println("定期実行開始")
 
-        reservationInfoRepository.updateTest(4)
+        reservationInfoRepository.autoUpdateStatus(4)
     }
 }

@@ -21,9 +21,19 @@ interface ReservationInfoRepository : JpaRepository<ReservationInformation, Stri
     fun findByUuidAndRideOnDateGreaterThanEqualOrderByRideOnDateAscRideOnTimeAsc(
             uuid: String, date: Date): MutableList<ReservationInformation>
 
+    /**
+     * 予約詳細取得処理（予約アプリ用）
+     */
     fun findByReservationIdAndUuid(id: String, uuid: String): Optional<ReservationInformation>
 
+    /**
+     * 夜間自動ステータス更新用クエリ
+     *
+     * ステータスが完了、またはキャンセル済みではない、
+     * かつ乗車日が過去の予約はステータスを完了とする
+     */
     @Modifying
-    @Query("UPDATE ReservationInformation r SET r.status = 6 where status <= :STATUS AND ride_on_date < CURRENT_DATE")
-    fun updateTest(@Param("STATUS") status: Int)
+        @Query("UPDATE ReservationInformation r SET r.status = 6, r.lastUpdate = CURRENT_TIMESTAMP "
+            + "where status <= :STATUS AND ride_on_date < CURRENT_DATE")
+    fun autoUpdateStatus(@Param("STATUS") status: Int)
 }

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse
  *   ・取消完了
  */
 @Controller
-class ActionCompController(
+class ActionCompleteController(
         private val rsvCompService: ReservationCompleteService,
         private val rsvDetailService: ReservationDetailService,
         private val rsvChangeService: ReservationChangeService,

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+    <title>Reservation registration</title>
+    <link th:href="@{/css/tab.css}" rel="stylesheet"/>
+    <link th:href="@{/css/inputForm.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<header>
+    <ul th:if="${isTab}" class="tabs">
+        <li class="active" rel="tab1" onClick="location.href='./registration'">Registration</li>
+        <li onClick="location.href='./list'">Reservation List</li>
+    </ul>
+    <h1 th:unless="${isTab}">Reservation registration</h1>
+</header>
+<form action="./confirmation" method="post" th:object="${reservationForm}">
+    <div id="contents">
+        <p>Please enter the item</p>
+        <p style="color: red" th:text="${errorMassage}"></p>
+        <table>
+            <tr>
+                <th align="left"><label>Date</label></th>
+                <td align="left"><input type="date" style="width: device-width;" th:field="*{rideOnDate}" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Time</label></th>
+                <td align="left"><input type="time" style="width: device-width" th:field="*{rideOnTime}" step="300"
+                                        max="23:59" required/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>Adult</label></th>
+                <td align="left"><input type="number" style="width: device-width" th:field="*{adult}" min="0" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Child</label></th>
+                <td align="left"><input type="number" style="width: device-width" th:field="*{child}" min="0" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Dispatch number</label></th>
+                <td align="left"><input type="number" style="width: device-width" th:field="*{carDispatchNumber}"
+                                        min="1" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Taxi company</label></th>
+                <td>
+                    <select id="singleSelect" th:field="*{companyName}">
+                        <option value="">---</option>
+                        <option th:each="item : ${taxiList}" th:value="${item}" th:text="${item}"
+                                th:selected="${item}==*{companyName}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Destination</label></th>
+                <td align="left"><input type="text" style="width: device-width" th:field="*{destination}"
+                                        placeholder="Kuribayashi Park" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Name</label></th>
+                <td align="left"><input type="text" style="width: device-width" th:field="*{passengerName}"
+                                        placeholder="Tabito Ohzora"
+                                        required/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>Phonetic</label></th>
+                <td align="left"><input type="text" style="width: device-width" th:field="*{passengerPhonetic}"
+                                        placeholder="" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Contact number</label></th>
+                <td align="left"><input type="tel" style="width: device-width" th:field="*{passengerContact}"
+                                        placeholder="08012345678" required/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>E-mail</label></th>
+                <td align="left"><input type="email" style="width: device-width" th:field="*{mail}"
+                                        placeholder="aaa@jal.co.jp" required/></td>
+            </tr>
+            <tr>
+                <th align="left"><label>E-mail(confirmation)</label></th>
+                <td align="left"><input type="email" style="width: device-width" th:field="*{mailCheck}" required/>
+                </td>
+            </tr>
+            <tr>
+                <th align="left"><label>Comment</label></th>
+                <td align="left"><textarea th:field="*{comment}"
+                                           placeholder="(ex)I want to use the trunk"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <button type="button" onClick="location.href='./registration'">Clear</button>
+                </td>
+                <td align="left">
+                    <button type="submit">Confirm</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

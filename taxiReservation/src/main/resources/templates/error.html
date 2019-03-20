@@ -19,17 +19,6 @@
     </th:block>
 </th:block>
 
-<br/><br/>
-
-<th:block th:text="#{DBError}">
-
-</th:block>
-
-<th:block th:each="str, stat : #{DBError.split('\r\n|\r|\n', -1)}">
-    <th:block th:text="${str}"/>
-    <br th:if="${!stat.last}"/>
-</th:block>
-
 </body>
 
 </html>

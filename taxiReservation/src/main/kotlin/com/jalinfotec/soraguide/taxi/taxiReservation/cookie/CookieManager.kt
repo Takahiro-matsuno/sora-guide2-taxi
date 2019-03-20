@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse
  */
 class CookieManager {
 
+    /**
+     * Cookie設定クラス
+     *
+     * CookieにUUIDをセットする
+     */
     fun setCookie(request: HttpServletRequest, response: HttpServletResponse, uuid: String) {
         val newCookie = Cookie("uuid", uuid)
         newCookie.maxAge = 10 * 365 * 24 * 60 * 60
@@ -20,6 +25,11 @@ class CookieManager {
 
     }
 
+    /**
+     * Cookie取得クラス
+     *
+     * CookieからUUIDを取得する
+     */
     fun getFromCookie(request: HttpServletRequest): String? {
         var uuid: String? = null
 
@@ -35,5 +45,19 @@ class CookieManager {
             }
         }
         return uuid
+    }
+
+    /**
+     * 設定言語取得クラス
+     */
+    fun getLocale(request: HttpServletRequest): String {
+        val locale = request.locale.language
+
+        // 設定言語が日本語、英語ならそのまま返す。それ以外の場合は日本語を返す。
+        return when (locale) {
+            "ja" -> ""
+            "en" -> "$locale/"
+            else -> ""
+        }
     }
 }

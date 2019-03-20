@@ -1,20 +1,22 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.Numbering
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.entity.TaxiInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.NumberingRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
 import java.sql.Date
 import java.sql.Time
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+
 
 /**
  * サンプル用controllerクラス
@@ -32,7 +34,16 @@ class SampleController(
     fun home(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "index"
 
-        mav.addObject("isTest",Constants.TEST_MODE)
+        val locale = request.locale.language
+        val lang: String
+        lang = when (locale) {
+            "ja" -> "日本語"
+            "en" -> "英語"
+            else -> "日本語でも英語でもない"
+        }
+
+        mav.addObject("lang", "$locale ⇒　$lang")
+        mav.addObject("isTest", Constants.TEST_MODE)
 
         return mav
     }

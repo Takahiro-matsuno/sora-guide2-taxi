@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse
  *   ・予約認証画面
  */
 @Controller
-class ApplicationController(
+class DetailAndChangeController(
         private val rsvDetailService: ReservationDetailService,
         private val rsvListService: ReservationListService,
         private val rsvChangeService: ReservationChangeService

@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.controller
 
+import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.CookieManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UserAgentManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.cookie.UuidManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.data.form.ReservationForm
@@ -32,7 +33,8 @@ class ReservationController(
     //登録画面
     @GetMapping("/app/registration")
     fun registration(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
-        mav.viewName = "registration"
+        val locale = CookieManager().getLocale(request)
+        mav.viewName = "${locale}registration"
 
         UuidManager().check(request, response)
 
@@ -46,7 +48,8 @@ class ReservationController(
     //登録画面に戻る遷移
     @PostMapping("/app/registration")
     fun backRegistration(mav: ModelAndView, rsvForm: ReservationForm, request: HttpServletRequest): ModelAndView {
-        mav.viewName = "registration"
+        val locale = CookieManager().getLocale(request)
+        mav.viewName = "${locale}registration"
 
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", rsvForm)
@@ -80,7 +83,8 @@ class ReservationController(
 
         //チェックでエラーがある場合、元の画面へ戻る
         if(isError){
-            mav.viewName = "registration"
+            val locale = CookieManager().getLocale(request)
+            mav.viewName = "${locale}registration"
             mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
             mav.addObject("isTab", tabDisplay(request))
             return mav
@@ -90,7 +94,8 @@ class ReservationController(
         rsvForm.rideOnDateStr = rsvForm.rideOnDate.toString().replace("-", "/")
 
         //確認画面へ遷移
-        mav.viewName = "confirmation"
+        val locale = CookieManager().getLocale(request)
+        mav.viewName = "${locale}confirmation"
         mav.addObject("reservationForm", rsvForm)
 
         return mav

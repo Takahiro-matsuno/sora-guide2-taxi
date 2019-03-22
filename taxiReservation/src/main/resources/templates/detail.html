@@ -6,102 +6,111 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約詳細</title>
+    <link th:href="@{/css/detail.css}" rel="stylesheet"/>
 </head>
 
 <body th:object="${rsvDetail}">
-<h1>予約詳細</h1>
+<div class="detail_box">
+    <p>予約詳細</p>
 
-<header th:unless="*{Change}">
-    本予約は変更・取消できません。<br>
-    予約の変更・取消をご希望される方はご予約のタクシー会社に直接ご連絡ください<br>
-    ご連絡先：
-    <a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a><br>
-</header>
-
-<form method="post">
-    <table>
-        <tr>
-            <th>予約番号</th>
-            <td th:text="*{id}"></td>
-        </tr>
-        <tr>
-            <th>ステータス</th>
-            <td th:text="*{reservationStatus}"></td>
-        </tr>
-        <tr>
-            <th>日付</th>
-            <td th:text="*{rideOnDate}"></td>
-        </tr>
-        <tr>
-            <th>時間</th>
-            <td th:text="*{rideOnTime}"></td>
-        </tr>
-        <tr>
-            <th>大人</th>
-            <td th:text="*{adult}"></td>
-        </tr>
-        <tr>
-            <th>子供</th>
-            <td th:text="*{child}"></td>
-        </tr>
-        <tr>
-            <th>台数</th>
-            <td th:text="*{carDispatchNumber}"></td>
-        </tr>
-        <tr>
-            <th>会社名</th>
-            <td th:text="*{companyName}"></td>
-        </tr>
-        <tr>
-            <th>目的地</th>
-            <td th:text="*{destination}"></td>
-        </tr>
-        <tr>
-            <th>名前</th>
-            <td th:text="*{passengerName}"></td>
-        </tr>
-        <tr>
-            <th>フリガナ</th>
-            <td th:text="*{passengerPhonetic}"></td>
-        </tr>
-        <tr>
-            <th>電話番号</th>
-            <td th:text="*{passengerContact}"></td>
-        </tr>
-        <tr>
-            <th>メールアドレス</th>
-            <td th:text="*{mail}"></td>
-        </tr>
-        <tr>
-            <th>利用者コメント</th>
-            <td th:text="*{comment}"></td>
-        </tr>
-        <tr>
-            <th>車両番号</th>
-            <td th:text="*{carNumber}"></td>
-        </tr>
-        <tr>
-            <th>タクシー連絡先</th>
-            <td th:text="*{carContact}"></td>
-        </tr>
-        <tr>
-            <th>ご案内事項</th>
-            <td th:text="*{notice}"></td>
-        </tr>
-    </table>
-
-    <div th:if="*{Change}">
-        <button type="button"
-                th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'">
-            取消する
-        </button>
-
-        <button type="submit" formaction="./change" name="id" th:value="*{id}">
-            変更する
-        </button>
+    <div class="error_message" th:unless="*{Change}">
+        本予約は変更・取消できません。<br/>
+        予約の変更・取消をご希望される方はご予約のタクシー会社に直接ご連絡ください<br/>
+        ご連絡先：
+        <a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a>
     </div>
 
-</form>
+    <br/>
+
+    <form method="post">
+        <table class="rsvInfo">
+            <tr>
+                <th>予約番号</th>
+                <td th:text="*{id}"></td>
+            </tr>
+            <tr>
+                <th>ステータス</th>
+                <td th:text="*{reservationStatus}"></td>
+            </tr>
+            <tr>
+                <th>日付</th>
+                <td th:text="*{rideOnDate}"></td>
+            </tr>
+            <tr>
+                <th>時間</th>
+                <td th:text="*{rideOnTime}"></td>
+            </tr>
+            <tr>
+                <th>大人</th>
+                <td th:text="*{adult + ' 人'}"></td>
+            </tr>
+            <tr>
+                <th>子供</th>
+                <td th:text="*{child + ' 人'}"></td>
+            </tr>
+            <tr>
+                <th>台数</th>
+                <td th:text="*{carDispatchNumber + ' 台'}"></td>
+            </tr>
+            <tr>
+                <th>会社名</th>
+                <td th:text="*{companyName}"></td>
+            </tr>
+            <tr>
+                <th>目的地</th>
+                <td th:text="*{destination}"></td>
+            </tr>
+            <tr>
+                <th>名前</th>
+                <td th:text="*{passengerName}"></td>
+            </tr>
+            <tr>
+                <th>フリガナ</th>
+                <td th:text="*{passengerPhonetic}"></td>
+            </tr>
+            <tr>
+                <th>電話番号</th>
+                <td th:text="*{passengerContact}"></td>
+            </tr>
+            <tr>
+                <th>メールアドレス</th>
+                <td th:text="*{mail}"></td>
+            </tr>
+            <tr>
+                <th>利用者コメント</th>
+                <td th:text="*{comment}"></td>
+            </tr>
+            <tr>
+                <th>車両番号</th>
+                <td th:text="*{carNumber}"></td>
+            </tr>
+            <tr>
+                <th>タクシー連絡先</th>
+                <td th:text="*{carContact}"></td>
+            </tr>
+            <tr>
+                <th>ご案内事項</th>
+                <td th:text="*{notice}"></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+<br/>
+
+<div th:if="*{Change}">
+    <button type="button" class="left_button"
+            th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'">
+        取消する
+    </button>
+
+    <button type="submit" class="right_button" formaction="./change" name="id" th:value="*{id}">
+        変更する
+    </button>
+</div>
+
+<br/><br/>
 
 <script type="text/javascript" th:src="@{/js/detailCancel.js}"></script>
 

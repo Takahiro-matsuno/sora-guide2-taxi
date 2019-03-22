@@ -1,0 +1,53 @@
+.detail_box {
+    padding: 8px 16px;
+    margin: 16px 0;
+    font-size: medium;
+    border: solid 1px #000000;
+}
+
+.detail_box p {
+    font-size: large;
+    text-align: center;
+    color: #005000;
+}
+
+.rsvInfo{
+    table-layout: fixed;
+    width: 100%;
+}
+
+.rsvInfo th,td{
+    text-align: left;
+    padding: 2px 5px;
+}
+
+.rsvInfo th{
+    width: 40%;
+}
+
+button {
+    color: white;
+    background: #b0d600;
+
+    width: 45%;
+    border-radius: 4px;
+    text-align: center;
+    font-size: medium;
+    padding: 2px 5px;
+}
+
+.left_button{
+    float: left;
+}
+
+.right_button{
+    float: right;
+}
+
+.error_message {
+    padding: 2px 4px;
+    font-size: medium;
+    text-align: center;
+    color: #ff0000;
+    border: dotted 1px #ff0000;
+}

@@ -22,7 +22,9 @@ class DetailAndChangeController(
         private val rsvListService: ReservationListService,
         private val rsvChangeService: ReservationChangeService
 ) {
-    //一覧画面
+    /**
+     * 一覧画面
+     */
     @GetMapping("app/list")
     fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         mav.viewName = "list"
@@ -34,7 +36,9 @@ class DetailAndChangeController(
         return mav
     }
 
-    //詳細画面
+    /**
+     * 詳細画面
+     */
     @PostMapping("app/detail")
     fun detail(mav: ModelAndView,
                @RequestParam("id") id: String,
@@ -46,7 +50,9 @@ class DetailAndChangeController(
         return mav
     }
 
-    //変更入力画面
+    /**
+     * 変更入力画面
+     */
     @PostMapping("app/change")
     fun change(mav: ModelAndView,
                @RequestParam("id") id: String,
@@ -58,7 +64,9 @@ class DetailAndChangeController(
         return mav
     }
 
-    //予約認証画面
+    /**
+     * 予約認証画面
+     */
     @GetMapping("app/certificateInput")
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
@@ -68,7 +76,9 @@ class DetailAndChangeController(
         return mav
     }
 
-    //予約認証画面から予約詳細への遷移
+    /**
+     * 予約認証後処理
+     */
     @PostMapping("app/certificateResult")
     fun certificateResult(mav: ModelAndView, @RequestParam("id") id: String,
                           @RequestParam("mail") mail: String,

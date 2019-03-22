@@ -13,7 +13,7 @@ import java.util.*
 @ControllerAdvice
 class CustomControllerAdvice(private val messageSource: MessageSource) {
     /**
-     * Exceptionのハンドラクラス
+     * Exceptionのハンドラメソッド
      */
     @ExceptionHandler
     fun handleError(e: Exception): ModelAndView {

@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional
 class TaxiInformationService(
         private val taxiRepository: TaxiInfoRepository
 ) {
+    /**
+     * タクシー会社一覧取得
+     */
     @Transactional
     @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getTaxiNameList(): MutableList<String> {
@@ -25,7 +28,24 @@ class TaxiInformationService(
         return taxiNameList
     }
 
-    //TODO リトライ動作OK 他のところも対応する。
+    /**
+     * 会社IDからタクシー会社情報取得
+     */
+    @Transactional
+    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
+    fun getTaxiInfo(companyId: String): TaxiInformation? {
+        val taxiInfo = taxiRepository.findById(companyId)
+
+        return if (taxiInfo.isPresent) {
+            taxiInfo.get()
+        } else {
+            null
+        }
+    }
+
+    /**
+     * 会社名からタクシー会社情報取得
+     */
     @Transactional
     @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getTaxiInfoFromCompanyName(companyName: String): TaxiInformation {
@@ -39,6 +59,9 @@ class TaxiInformationService(
         }
     }
 
+    /**
+     * タクシー会社名取得
+     */
     @Transactional
     @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getCompanyName(companyId: String): String {
@@ -48,18 +71,6 @@ class TaxiInformationService(
             taxiInfo.get().companyName
         } else {
             throw Exception()
-        }
-    }
-
-    @Transactional
-    @Retryable(value = [JDBCConnectionException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
-    fun getTaxiInfo(companyId: String): TaxiInformation? {
-        val taxiInfo = taxiRepository.findById(companyId)
-
-        return if (taxiInfo.isPresent) {
-            taxiInfo.get()
-        } else {
-            null
         }
     }
 }

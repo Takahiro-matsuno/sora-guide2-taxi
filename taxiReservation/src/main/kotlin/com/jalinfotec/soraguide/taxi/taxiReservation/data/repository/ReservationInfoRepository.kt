@@ -31,6 +31,8 @@ interface ReservationInfoRepository : JpaRepository<ReservationInformation, Stri
      *
      * ステータスが完了、またはキャンセル済みではない、
      * かつ乗車日が過去の予約はステータスを完了とする
+     *
+     * CURRENT_TIMESTAMPの後の半角スペースは重要
      */
     @Modifying
         @Query("UPDATE ReservationInformation r SET r.status = 6, r.lastUpdate = CURRENT_TIMESTAMP "

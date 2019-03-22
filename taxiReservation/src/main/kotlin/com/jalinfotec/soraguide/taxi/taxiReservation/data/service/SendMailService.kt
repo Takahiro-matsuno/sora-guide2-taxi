@@ -11,6 +11,9 @@ class SendMailService(
         private val sendGrid: SendGrid
 ) {
 
+    /**
+     * メール送信処理
+     */
     fun sendMail(rsvInfo: ReservationInformation, taxiInfo: TaxiInformation, mailType: Enum<Constants.MAIL_TYPE>): Boolean {
         lateinit var response: Response
         try {
@@ -28,6 +31,9 @@ class SendMailService(
         return response.statusCode in 200..299
     }
 
+    /**
+     * メール作成処理
+     */
     private fun createMail(rsvInfo: ReservationInformation, taxiInfo: TaxiInformation, mailType: Enum<Constants.MAIL_TYPE>): Mail {
         //メールに埋め込む動的項目のマップ化
         val replaceMap = mutableMapOf(

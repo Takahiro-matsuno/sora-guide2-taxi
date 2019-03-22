@@ -33,7 +33,9 @@ class ActionCompleteController(
 
     enum class ActionType { ADD, CHANGE, CANCEL }
 
-    //登録完了画面
+    /**
+     * 登録完了画面
+     */
     @PostMapping("app/rsvComplete")
     fun rsvComplete(mav: ModelAndView,
                     @Validated @ModelAttribute("reservationForm") rsvForm: ReservationForm,
@@ -72,7 +74,9 @@ class ActionCompleteController(
         return completeTransition(mav, rsvId, ActionType.ADD, request)
     }
 
-    //変更完了画面
+    /**
+     * 変更完了画面
+     */
     @PostMapping("app/changeComplete")
     fun changeComplete(mav: ModelAndView,
                        @Validated @ModelAttribute("changeForm") rsvForm: ChangeForm,
@@ -102,7 +106,9 @@ class ActionCompleteController(
         return completeTransition(mav, rsvId, ActionType.CHANGE, request)
     }
 
-    //取消完了画面
+    /**
+     * 取消完了画面
+     */
     @PostMapping("app/cancelComplete")
     fun cancelComplete(mav: ModelAndView,
                        @RequestParam("id") id: String,
@@ -115,6 +121,9 @@ class ActionCompleteController(
         return completeTransition(mav, rsvId, ActionType.CANCEL, request)
     }
 
+    /**
+     * 完了画面表示用の項目設定処理
+     */
     fun completeTransition(mav: ModelAndView, id: String, actionType: Enum<ActionType>,
                            request: HttpServletRequest): ModelAndView {
         val rsvDetail = rsvDetailService.getDetailForActionComplete(id)

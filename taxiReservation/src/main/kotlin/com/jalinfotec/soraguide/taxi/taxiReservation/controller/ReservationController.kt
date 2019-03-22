@@ -30,7 +30,9 @@ class ReservationController(
         private val taxiInformationService: TaxiInformationService
 ) {
 
-    //登録画面
+    /**
+     * 登録画面
+     */
     @GetMapping("/app/registration")
     fun registration(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
         val locale = CookieManager().getLocale(request)
@@ -45,7 +47,9 @@ class ReservationController(
         return mav
     }
 
-    //登録画面に戻る遷移
+    /**
+     * 登録画面に戻る
+     */
     @PostMapping("/app/registration")
     fun backRegistration(mav: ModelAndView, rsvForm: ReservationForm, request: HttpServletRequest): ModelAndView {
         val locale = CookieManager().getLocale(request)
@@ -58,7 +62,9 @@ class ReservationController(
         return mav
     }
 
-    //登録確認画面
+    /**
+     * 登録確認画面
+     */
     @PostMapping("app/confirmation")
     fun confirmation(mav: ModelAndView,
                      @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult,

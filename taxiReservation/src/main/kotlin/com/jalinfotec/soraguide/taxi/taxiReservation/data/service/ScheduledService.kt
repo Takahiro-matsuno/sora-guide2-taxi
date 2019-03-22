@@ -10,6 +10,11 @@ class ScheduledService(
         private val reservationInfoRepository: ReservationInfoRepository
 ) {
 
+    /**
+     * ステータス自動変更処理呼び出し
+     *
+     * 夜間にステータスの自動変更処理を呼び出すメソッド
+     */
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     fun autoUpdateStatus(){

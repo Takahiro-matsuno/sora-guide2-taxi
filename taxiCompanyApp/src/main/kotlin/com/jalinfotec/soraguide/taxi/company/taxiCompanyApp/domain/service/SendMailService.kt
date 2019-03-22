@@ -4,6 +4,8 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.Reserv
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
 import com.sendgrid.*
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,6 +16,7 @@ class SendMailService(
     /**
      * 旅客向けの案内メール送信処理
      */
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun sendMail(rsvInfo: ReservationInformation, taxiInfo: TaxiInformation, mailType: Enum<Constants.MAIL_TYPE>): Boolean {
         lateinit var response: Response
         try {
@@ -54,6 +57,7 @@ class SendMailService(
     /**
      * 管理者向けパスワードリセットメールの送信処理
      */
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun sendAccountResetMail(userName: String, password: String, companyName: String, companyMail: String): Boolean {
         lateinit var response: Response
         try {

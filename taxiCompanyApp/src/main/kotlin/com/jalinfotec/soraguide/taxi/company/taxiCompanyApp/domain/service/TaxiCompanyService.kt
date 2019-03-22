@@ -5,6 +5,8 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.TaxiIn
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.TaxiCompanyForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,6 +17,7 @@ class TaxiCompanyService(
 ) {
 
     @Transactional(readOnly = true)
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getTaxiCompanyForm(companyId: String): TaxiCompanyForm? {
         val optional = taxiRepository.findById(companyId)
         return if (optional.isPresent) {
@@ -23,6 +26,7 @@ class TaxiCompanyService(
     }
 
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun updateTaxiCompanyInformation(taxiForm: TaxiCompanyForm, user: UserAccount): Boolean {
 
         val account = accountRepository.findByCompanyIdAndUsername(user.getCompanyId(), user.username) ?: return false
@@ -43,6 +47,7 @@ class TaxiCompanyService(
     }
 
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getCompanyInfo(companyId: String): TaxiInformation? {
         val companyInfoOptional = taxiRepository.findById(companyId)
 

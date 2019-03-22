@@ -6,6 +6,8 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.Reservat
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.ReservationRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
@@ -19,6 +21,7 @@ class ReservationService(
 
     // 予約情報フォームの一覧を取得する
     @Transactional(readOnly = true)
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getListDefault(companyId: String): ArrayList<ReservationForm> {
 
         val formList = ArrayList<ReservationForm>()
@@ -42,6 +45,7 @@ class ReservationService(
 
     // 予約情報フォームと選択可能な予約ステータス一覧を取得
     @Transactional(readOnly = true)
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getDetail(companyId: String, reservationId: String): Pair<ReservationForm, ArrayList<String>>? {
 
         if (!taxiRepository.findById(companyId).isPresent) {
@@ -63,6 +67,7 @@ class ReservationService(
 
     // 予約更新
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun updateDetail(companyId: String, rsvForm: ReservationForm): Boolean {
 
         val taxiInfoOptional = taxiRepository.findById(companyId)
@@ -118,6 +123,7 @@ class ReservationService(
 
     // 予約検索
     @Transactional(readOnly = true)
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getListSearch(companyId: String, searchForm: ReservationSearchForm): ArrayList<ReservationForm> {
 
         val formList = ArrayList<ReservationForm>()

@@ -5,6 +5,8 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.entity.Accoun
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.UserSettingForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.AccountRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.AuthorityUtils
@@ -66,6 +68,7 @@ class UserAccountService(
     */
     // ユーザー取得
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun findByCompanyIdAndUsername(companyId: String, username: String): Boolean {
         if (!taxiRepository.findById(companyId).isPresent) {
             // タクシー会社が見つからない場合は処理終了
@@ -76,6 +79,7 @@ class UserAccountService(
 
     // パスワード変更
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun changePassword(account: UserAccount, usForm: UserSettingForm): Boolean {
 
         val companyId = account.getCompanyId()
@@ -106,6 +110,7 @@ class UserAccountService(
      * ユーザ情報の取得
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun findByUserName(userName: String): Account? {
         return accRepository.findByUsername(userName)
     }
@@ -114,6 +119,7 @@ class UserAccountService(
      * ユーザ情報の更新
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun updateAccount(account: Account) {
         accRepository.save(account)
     }
@@ -122,6 +128,7 @@ class UserAccountService(
      * パスワードの初期化
      */
     @Transactional
+    @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun resetPassword(userName: String, inputMail: String) {
         // ユーザ情報と会社情報の取得
         val account = accRepository.findByUsername(userName) ?: throw Exception()

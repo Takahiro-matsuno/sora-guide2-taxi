@@ -1,0 +1,13 @@
+table {
+    border-collapse: collapse;
+    border: 1px solid;
+    frame: hsides;
+}
+
+table:nth-child(odd) {
+    background-color:  #ddd;
+}
+
+th,td {
+    padding: 5px 10px;
+}

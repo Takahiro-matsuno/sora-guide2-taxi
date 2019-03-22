@@ -23,9 +23,10 @@ class ReservationChangeService(
 ) {
 
     /**
-     * 変更入力画面用のForm設定
+     * 変更入力画面用の予約情報取得
      */
     fun getChangeDetail(id: String, request: HttpServletRequest): ChangeForm? {
+        // セッションの予約番号と画面から送られた番号の比較
         val rsvId = SessionManager().checkSession(id, request)
         println("【変更入力】予約番号：$rsvId")
 
@@ -43,6 +44,7 @@ class ReservationChangeService(
         // 予約ステータス文言の設定
         val statusName = Constants.reservationStatus[rsvInfo.status] ?: return null
 
+        //Form詰め替え
         return ChangeForm(
                 rsvInfo.reservationId,
                 statusName,
@@ -70,6 +72,7 @@ class ReservationChangeService(
      * 予約変更処理
      */
     fun change(changeInfo: ChangeForm, request: HttpServletRequest): String? {
+        // セッションの予約番号と画面から送られた番号の比較
         val sessionManager = SessionManager()
         val rsvId = sessionManager.checkSession(changeInfo.id, request)
         println("【予約変更】予約番号：$rsvId")
@@ -136,6 +139,7 @@ class ReservationChangeService(
      * 予約取消処理
      */
     fun delete(id: String, lastUpdate: Timestamp, request: HttpServletRequest): String? {
+        // セッションの予約番号と画面から送られた番号の比較
         val sessionManager = SessionManager()
         val rsvId = sessionManager.checkSession(id, request)
         println("【予約取消】予約番号：$rsvId")
@@ -185,12 +189,13 @@ class ReservationChangeService(
     /**
      * 予約変更、取消フロー用の予約情報取得処理
      *
-     * セッションに保持している予約番号を用いて予約検索を行う
+     * 予約番号を用いて予約検索を行う
      * 予約情報が存在しない場合はエラーを投げる。
      */
     @Transactional(readOnly = true)
     @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun getRsvInfo(id: String): ReservationInformation? {
+        //予約情報取得
         val rsvInfoOptional = reservationRepository.findById(id)
 
         //予約が存在しない場合、エラー

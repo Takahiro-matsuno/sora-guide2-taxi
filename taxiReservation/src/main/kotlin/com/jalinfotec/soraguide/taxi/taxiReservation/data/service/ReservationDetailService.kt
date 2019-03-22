@@ -29,6 +29,7 @@ class ReservationDetailService(
     fun getDetail(id: String, request: HttpServletRequest): DetailForm? {
         println("【予約情報取得】予約ID：$id")
 
+        // UUIDを取得、存在しない場合はエラー
         val uuid = UuidManager().getUuid(request) ?: throw Exception()
 
         //DBから引数のIDとマッチする予約情報を取得

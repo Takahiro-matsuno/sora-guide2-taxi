@@ -31,7 +31,6 @@ class DetailAndChangeController(
 
         val list = rsvListService.getList(request, response)
         mav.addObject("rsvList", list)
-        mav.addObject("isEmpty", list.isEmpty())
 
         return mav
     }
@@ -71,7 +70,6 @@ class DetailAndChangeController(
     fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
         mav.viewName = "certification"
         mav.addObject("id", id)
-        mav.addObject("mail", "")
 
         return mav
     }

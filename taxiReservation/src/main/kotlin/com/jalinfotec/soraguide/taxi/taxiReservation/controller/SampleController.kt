@@ -55,7 +55,7 @@ class SampleController(
         reservationRepository.deleteAll()
         taxiRepository.deleteAll()
         numberingRepository.save(Numbering(tableName = "taxi_info", nextValue = 4))
-        numberingRepository.save(Numbering(tableName = "booking_info", nextValue = 6))
+        numberingRepository.save(Numbering(tableName = "reservation_info", nextValue = 6))
 
         val taxiInfo1 = TaxiInformation()
         taxiInfo1.id = "0001"
@@ -120,7 +120,7 @@ class SampleController(
         val bookingInfo3 = ReservationInformation(
                 reservationId = "0000000003",
                 status = 4,
-                rideOnDate = Date.valueOf("2019-3-20"),
+                rideOnDate = Date.valueOf("2019-3-22"),
                 rideOnTime = Time.valueOf("22:55:00"),
                 adult = 3,
                 child = 1,
@@ -141,7 +141,7 @@ class SampleController(
         val bookingInfo4 = ReservationInformation(
                 reservationId = "0000000004",
                 status = 4,
-                rideOnDate = Date.valueOf("2019-03-21"),
+                rideOnDate = Date.valueOf("2019-03-23"),
                 rideOnTime = Time.valueOf("12:45:00"),
                 adult = 9,
                 child = 5,
@@ -162,7 +162,7 @@ class SampleController(
         val bookingInfo5 = ReservationInformation(
                 reservationId = "0000000005",
                 status = 3,
-                rideOnDate = Date.valueOf("2019-03-22"),
+                rideOnDate = Date.valueOf("2019-03-25"),
                 rideOnTime = Time.valueOf("01:35:00"),
                 adult = 2,
                 child = 0,
@@ -183,7 +183,7 @@ class SampleController(
         val bookingInfo6 = ReservationInformation(
                 reservationId = "0000000006",
                 status = 5,
-                rideOnDate = Date.valueOf("2019-03-21"),
+                rideOnDate = Date.valueOf("2019-03-24"),
                 rideOnTime = Time.valueOf("01:35:00"),
                 adult = 2,
                 child = 0,

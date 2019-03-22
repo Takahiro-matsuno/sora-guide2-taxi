@@ -15,9 +15,9 @@ class ScheduledService(
      *
      * 夜間にステータスの自動変更処理を呼び出すメソッド
      */
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Tokyo")
     @Transactional
-    fun autoUpdateStatus(){
+    fun autoUpdateStatus() {
         println("定期実行開始")
 
         reservationInfoRepository.autoUpdateStatus(4)

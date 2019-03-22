@@ -29,7 +29,10 @@ class ReservationCompleteService(
     @Transactional
     @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun complete(input: ReservationForm, request: HttpServletRequest): String {
+        // タクシー会社情報の取得
         val taxiInfo = taxiInfoService.getTaxiInfoFromCompanyName(input.companyName)
+
+        // 予約情報のEntity詰め替え
         val rsvInfo = convertRsvForm2RsvInfo(input, taxiInfo, request)
         println("【予約完了】予約ID：${rsvInfo.reservationId}")
 
@@ -52,6 +55,7 @@ class ReservationCompleteService(
     private fun convertRsvForm2RsvInfo(input: ReservationForm, taxiInfo: TaxiInformation,
                                        request: HttpServletRequest): ReservationInformation {
 
+        // UUIDが存在する場合は取得、存在しない場合はブランク
         val uuid = UuidManager().getUuid(request) ?: ""
 
         return ReservationInformation(
@@ -90,8 +94,13 @@ class ReservationCompleteService(
     @Transactional
     @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     fun setId(): String {
-        val numbering = numberingRepository.findById("booking_info").get()
+        // 新規の予約番号を取得
+        val numbering = numberingRepository.findById("reservation_info").get()
+
+        // 予約番号を10桁にゼロパディング
         val result = String.format("%010d", numbering.nextValue)
+
+        // 予約番号の値を更新
         numbering.nextValue++
         numberingRepository.save(numbering)
 

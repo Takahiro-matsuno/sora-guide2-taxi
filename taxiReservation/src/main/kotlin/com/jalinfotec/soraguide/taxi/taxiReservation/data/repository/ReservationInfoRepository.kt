@@ -25,17 +25,4 @@ interface ReservationInfoRepository : JpaRepository<ReservationInformation, Stri
      * 予約詳細取得処理（予約アプリ用）
      */
     fun findByReservationIdAndUuid(id: String, uuid: String): Optional<ReservationInformation>
-
-    /**
-     * 夜間自動ステータス更新用クエリ
-     *
-     * ステータスが完了、またはキャンセル済みではない、
-     * かつ乗車日が過去の予約はステータスを完了とする
-     *
-     * CURRENT_TIMESTAMPの後の半角スペースは重要
-     */
-    @Modifying
-        @Query("UPDATE ReservationInformation r SET r.status = 6, r.lastUpdate = CURRENT_TIMESTAMP "
-            + "where status <= :STATUS AND ride_on_date < CURRENT_DATE")
-    fun autoUpdateStatus(@Param("STATUS") status: Int)
 }

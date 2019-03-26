@@ -9,13 +9,17 @@
 <body>
 <section layout:fragment="content">
     <div class="content">
-        <p th:value="${message}"></p>
+        <h1>エラー</h1>
+
+        <th:block th:if="${errorMassage}">
+            <th:block th:each="str, stat : ${errorMassage.split('\r\n|\r|\n', -1)}">
+                <th:block th:text="${str}"/>
+                <br th:if="${!stat.last}"/>
+            </th:block>
+        </th:block>
+
     </div>
 </section>
-<script type="text/javascript">
-    /** エラー情報表示
-     * TODO エラーに合わせメッセージを表示する
-     */
-</script>
 </body>
+
 </html>

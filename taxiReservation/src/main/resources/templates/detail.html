@@ -4,25 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>予約詳細</title>
     <link th:href="@{/css/detail.css}" rel="stylesheet"/>
 </head>
 
 <body th:object="${rsvDetail}">
-<div class="detail_box">
-    <p>予約詳細</p>
+<div class="detail_area">
+    <div class="detail_box">
+        <p>予約詳細</p>
 
-    <div class="error_message" th:unless="*{Change}">
-        本予約は変更・取消できません。<br/>
-        予約の変更・取消をご希望される方はご予約のタクシー会社に直接ご連絡ください<br/>
-        ご連絡先：
-        <a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a>
-    </div>
+        <div class="error_area" th:unless="*{Change}">
+            <div class="error_message">
+                本予約は変更・取消できません。<br/>
+                予約の変更・取消をご希望される方はご予約のタクシー会社に直接ご連絡ください。<br/>
+                ご連絡先：
+                <a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a>
+            </div>
+            <br/>
+        </div>
 
-    <br/>
-
-    <form method="post">
         <table class="rsvInfo">
             <tr>
                 <th>予約番号</th>
@@ -94,20 +95,22 @@
             </tr>
         </table>
 
-    </form>
-</div>
+    </div>
 
-<br/>
+    <br/>
 
-<div th:if="*{Change}">
-    <button type="button" class="left_button"
-            th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'">
-        取消する
-    </button>
+    <div th:if="*{Change}">
+        <form method="post">
+            <button type="button" class="left_button"
+                    th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'">
+                取消する
+            </button>
 
-    <button type="submit" class="right_button" formaction="./change" name="id" th:value="*{id}">
-        変更する
-    </button>
+            <button type="submit" class="right_button" formaction="./change" name="id" th:value="*{id}">
+                変更する
+            </button>
+        </form>
+    </div>
 </div>
 
 <br/><br/>

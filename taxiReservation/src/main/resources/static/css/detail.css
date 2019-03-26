@@ -1,8 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 500px;
+    max-width: 100%;
+}
+
+.detail_area {
+    width: 90%;
+    margin: 0 auto;
+}
+
 .detail_box {
-    width = 500px
-    max-width = 100%
-    padding: 8px 16px;
-    margin: 16px 0;
+    padding: 6px 12px;
     font-size: medium;
     border: solid 1px #000000;
 }
@@ -14,17 +25,20 @@
 }
 
 .rsvInfo{
+    width: auto;
     table-layout: fixed;
-    width: 100%;
-}
-
-.rsvInfo th,td{
-    text-align: left;
-    padding: 2px 5px;
 }
 
 .rsvInfo th{
     width: 40%;
+    text-align: left;
+    padding: 1px 2px;
+    font-weight: normal;
+}
+
+.rsvInfo td{
+    text-align: left;
+    padding: 1px 2px;
 }
 
 button {
@@ -49,7 +63,7 @@ button {
 .error_message {
     padding: 2px 4px;
     font-size: medium;
-    text-align: center;
+    text-align: left;
     color: #ff0000;
     border: dotted 1px #ff0000;
 }

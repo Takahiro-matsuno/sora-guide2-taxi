@@ -20,28 +20,30 @@
     表示可能な予約がありません。
 </div>
 
-<table th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
-    <tr>
-        <th>予約番号</th>
-        <td th:text="${rsvInfo.id}"></td>
-    </tr>
-    <tr>
-        <th>乗車日</th>
-        <td th:text="${rsvInfo.rideOnDate}"></td>
-    </tr>
-    <tr>
-        <th>乗車時間</th>
-        <td th:text="${rsvInfo.rideOnTime}"></td>
-    </tr>
-    <tr>
-        <th>目的地</th>
-        <td th:text="${rsvInfo.destination}"></td>
-    </tr>
-    <tr>
-        <th>ステータス</th>
-        <td th:text="${rsvInfo.reservationStatus}"></td>
-    </tr>
-</table>
+<div class="rsvInfoCard" th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
+    <table>
+        <tr class="rsvId">
+            <th>予約番号</th>
+            <td th:text="${rsvInfo.id}"></td>
+        </tr>
+        <tr>
+            <th>乗車日</th>
+            <td th:text="${rsvInfo.rideOnDate}"></td>
+        </tr>
+        <tr>
+            <th>乗車時間</th>
+            <td th:text="${rsvInfo.rideOnTime}"></td>
+        </tr>
+        <tr>
+            <th>目的地</th>
+            <td th:text="${rsvInfo.destination}"></td>
+        </tr>
+        <tr>
+            <th>ステータス</th>
+            <td th:text="${rsvInfo.reservationStatus}"></td>
+        </tr>
+    </table>
+</div>
 
 <script type="text/javascript" th:src="@{/js/list.js}"></script>
 

@@ -55,7 +55,7 @@ class SampleController(
         reservationRepository.deleteAll()
         taxiRepository.deleteAll()
         numberingRepository.save(Numbering(tableName = "taxi_info", nextValue = 4))
-        numberingRepository.save(Numbering(tableName = "reservation_info", nextValue = 6))
+        numberingRepository.save(Numbering(tableName = "reservation_info", nextValue = 7))
 
         val taxiInfo1 = TaxiInformation()
         taxiInfo1.id = "0001"

@@ -1,13 +1,34 @@
-table {
-    border-collapse: collapse;
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 500px;
+    max-width: 100%;
+}
+
+.rsvInfoCard {
+    width: 90%;
+    margin: 12px auto;
     border: 1px solid;
-    frame: hsides;
+    font-size: medium;
+    padding: 4px 12px;
 }
 
-table:nth-child(odd) {
-    background-color:  #ddd;
+.rsvInfoCard table{
+    table-layout: fixed;
 }
 
-th,td {
-    padding: 5px 10px;
+.rsvInfoCard th,td {
+    text-align: left;
+    padding: 2px 5px;
+}
+
+.rsvInfoCard th {
+    width: 40%;
+    font-weight: normal;
+}
+
+.rsvId th, .rsvId td{
+    font-weight: bold;
 }

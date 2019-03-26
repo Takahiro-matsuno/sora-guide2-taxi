@@ -19,6 +19,6 @@ class SuccessHandler(private val userAccountService: UserAccountService) : Authe
 
         userAccountService.updateAccount(account)
 
-        response.sendRedirect("/reservation/list")
+        response.sendRedirect("./reservation/list")
     }
 }

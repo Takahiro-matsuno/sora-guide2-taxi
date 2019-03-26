@@ -22,12 +22,12 @@ class FailureHandler(private val userAccountService: UserAccountService) : Authe
                                          response: HttpServletResponse,
                                          ex: AuthenticationException) {
         // 処理後のリダイレクト先URL
-        var redirectUrl = "/system-error"
+        var redirectUrl = "./system-error"
 
         // エラー種別による処理の区別
         if (ex is BadCredentialsException) {
             //ユーザ名、またはパスワード誤りの場合
-            redirectUrl = "/login-error"
+            redirectUrl = "./login-error"
 
             //入力されたユーザ名を取得
             val userName = request.getParameter("username")
@@ -52,7 +52,7 @@ class FailureHandler(private val userAccountService: UserAccountService) : Authe
             }
         } else if (ex is LockedException) {
             // アカウントロックされている場合
-            redirectUrl = "/account-lock"
+            redirectUrl = "./account-lock"
         }
 
         response.sendRedirect(redirectUrl)

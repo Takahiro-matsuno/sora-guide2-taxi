@@ -109,6 +109,7 @@ class SendMailService(
         // 送信メール設定
         val from = Email(Constants.FROM_ADDRESS)
         //TODO 開発用誤送信防止のため、アドレス固定
+        println("本来送信するメールアドレス：$mailAddress")
         val to = Email("yuuya.s.toyoda@jalinfotec.co.jp"/*mailAddress*/)
         val subject = Constants.mailSubject[mailType] ?: throw Exception()
         val content = Content("text/plain", mailMain)

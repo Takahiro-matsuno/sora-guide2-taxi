@@ -1,21 +1,4 @@
 /******************************
-・基本設定
-    ボックスレイアウト設定
-    画面サイズに合わせた表示幅の設定
-    UserAgentStylesheetによるmargin設定の初期化
-******************************/
-* {
-    box-sizing: border-box;
-}
-
-body {
-    width: 500px;
-    max-width: 100%;
-    margin: 0;
-}
-
-
-/******************************
 ・予約毎の表示
 ******************************/
 .rsvInfoCard {
@@ -42,15 +25,4 @@ body {
 
 .rsvId th, .rsvId td{
     font-weight: bold;
-}
-
-/******************************
-・エラーメッセージ
-******************************/
-.error_message {
-    padding: 2px 4px;
-    font-size: medium;
-    text-align: left;
-    color: #ff0000;
-    border: dotted 1px #ff0000;
 }

@@ -6,19 +6,20 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>エラー</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="content">
+<div class="contents">
     <h1>エラー</h1>
+
+    <div class="error_message" th:if="${errorMessage}">
+        <th:block th:each="str, stat : ${errorMessage.split('\r\n|\r|\n', -1)}">
+            <th:block th:text="${str}"/>
+            <br th:if="${!stat.last}"/>
+        </th:block>
+    </div>
+
 </div>
-
-<th:block th:if="${errorMessage}">
-    <th:block th:each="str, stat : ${errorMessage.split('\r\n|\r|\n', -1)}">
-        <th:block th:text="${str}"/>
-        <br th:if="${!stat.last}"/>
-    </th:block>
-</th:block>
-
 </body>
 
 </html>

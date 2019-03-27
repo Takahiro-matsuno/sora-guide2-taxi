@@ -6,6 +6,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title th:text="${title}"></title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
     <link th:href="@{/css/complete.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -29,12 +30,10 @@
 
         <br/>
 
-        <div class="message">
-            <th:block th:if="${message}">
-                <th:block th:each="str, stat : ${message.split('\r\n|\r|\n', -1)}">
-                    <th:block th:text="${str}"/>
-                    <br th:if="${!stat.last}"/>
-                </th:block>
+        <div class="message" th:if="${message}">
+            <th:block th:each="str, stat : ${message.split('\r\n|\r|\n', -1)}">
+                <th:block th:text="${str}"/>
+                <br th:if="${!stat.last}"/>
             </th:block>
         </div>
 

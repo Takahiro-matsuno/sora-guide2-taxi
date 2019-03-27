@@ -6,6 +6,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約認証</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
     <link th:href="@{/css/certification.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -25,7 +26,7 @@
         <label for="rsvId">予約番号</label>
         <input type="text" id="rsvId" name="id" th:value="${id}" required/>
 
-        <br/>
+        <br/><br/>
 
         <label for="mail">メールアドレス</label>
         <input type="text" id="mail" name="mail" required/>

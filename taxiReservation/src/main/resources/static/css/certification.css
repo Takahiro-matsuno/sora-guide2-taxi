@@ -1,38 +1,4 @@
 /******************************
-・基本設定
-    ボックスレイアウト設定
-    画面サイズに合わせた表示幅の設定
-    UserAgentStylesheetによるmargin設定の初期化
-******************************/
-* {
-    box-sizing: border-box;
-}
-
-body {
-    width: 500px;
-    max-width: 100%;
-    margin: 0;
-}
-
-/******************************
-・BODY全体の表示設定
-******************************/
-.contents {
-    width: 95%;
-    margin: 10px auto;
-}
-
-/******************************
-・画面見出し
-******************************/
-h1 {
-    font-size: large;
-    font-weight: normal;
-    text-align: center;
-    color: #005000;
-}
-
-/******************************
 ・画面上部の案内文言
 ******************************/
 .header {
@@ -64,15 +30,4 @@ button {
     text-align: center;
     font-size: medium;
     padding: 2px 5px;
-}
-
-/******************************
-・エラーメッセージ
-******************************/
-.error_message {
-    padding: 2px 4px;
-    font-size: medium;
-    text-align: left;
-    color: #ff0000;
-    border: dotted 1px #ff0000;
 }

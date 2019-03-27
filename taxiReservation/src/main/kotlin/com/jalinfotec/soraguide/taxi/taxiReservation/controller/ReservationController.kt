@@ -75,7 +75,7 @@ class ReservationController(
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
             isError = true
-            mav.addObject("errorMassage", result.fieldErrors[0].defaultMessage)
+            mav.addObject("errorMessage", result.fieldErrors[0].defaultMessage)
         }
 
         val formValidateMessage = FormValidate().registrationCheck(rsvForm)
@@ -84,7 +84,7 @@ class ReservationController(
         if (!isError && formValidateMessage.isNotEmpty()) {
             println("メソッドの入力チェックでエラー")
             isError = true
-            mav.addObject("errorMassage", formValidateMessage)
+            mav.addObject("errorMessage", formValidateMessage)
         }
 
         //チェックでエラーがある場合、元の画面へ戻る

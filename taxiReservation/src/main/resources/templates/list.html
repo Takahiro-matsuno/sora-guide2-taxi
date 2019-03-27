@@ -15,8 +15,10 @@
     <li rel="tab1" onClick="location.href='./registration'">予約登録</li>
     <li class="active" onClick="location.href='./list'">予約一覧</li>
 </ul>
+
 <br/><br/>
-<div th:if="${#lists.isEmpty(rsvList)}">
+
+<div class="error_message" th:if="${#lists.isEmpty(rsvList)}">
     表示可能な予約がありません。
 </div>
 

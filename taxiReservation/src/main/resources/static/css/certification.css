@@ -23,63 +23,47 @@ body {
 }
 
 /******************************
-・外枠
-******************************/
-.display_box {
-    padding: 4px 12px;
-    font-size: medium;
-    border: solid 1px #000000;
-}
-
-/******************************
 ・画面見出し
 ******************************/
 h1 {
     font-size: large;
+    font-weight: normal;
     text-align: center;
     color: #005000;
 }
 
 /******************************
-・詳細情報表示テーブル
+・画面上部の案内文言
 ******************************/
-.rsvInfo {
-    width: 100%;
-    table-layout: fixed;
-}
-
-.rsvInfo th {
-    width: 40%;
-    text-align: left;
-    padding: 1px 2px;
-    font-weight: normal;
-}
-
-.rsvInfo td {
-    text-align: left;
-    padding: 1px 2px;
+.header {
+    font-size: normal;
+    text-align: center;
 }
 
 /******************************
-・画面遷移ボタン
+・入力フォーム
+******************************/
+label {
+    font-size: small;
+}
+
+input {
+    width: 100%;
+    line-height: 2;
+}
+
+/******************************
+ ・画面遷移ボタン
 ******************************/
 button {
     color: white;
     background: #b0d600;
 
-    width: 45%;
+    width: 100%;
     border-radius: 4px;
     text-align: center;
     font-size: medium;
     padding: 2px 5px;
-}
-
-.left_button {
-    float: left;
-}
-
-.right_button {
-    float: right;
 }
 
 /******************************

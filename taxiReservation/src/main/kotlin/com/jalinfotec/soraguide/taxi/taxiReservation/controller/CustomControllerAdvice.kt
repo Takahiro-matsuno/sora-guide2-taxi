@@ -27,7 +27,7 @@ class CustomControllerAdvice(private val messageSource: MessageSource) {
         }
 
         mav.viewName = "error"
-        mav.addObject("errorMassage", errorMessage)
+        mav.addObject("errorMessage", errorMessage)
         return mav
     }
 }

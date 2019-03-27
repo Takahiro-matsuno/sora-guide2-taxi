@@ -89,7 +89,7 @@ class DetailAndChangeController(
             mav.addObject("rsvDetail", rsvDetail)
             mav
         } else {
-            mav.addObject("errorMassage", "予約番号、またはメールアドレスに誤りがあります。")
+            mav.addObject("errorMessage", "予約番号、またはメールアドレスに誤りがあります。")
             certificateInput(mav, id)
         }
     }

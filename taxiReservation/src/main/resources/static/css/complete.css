@@ -1,3 +1,9 @@
+/******************************
+・基本設定
+    ボックスレイアウト設定
+    画面サイズに合わせた表示幅の設定
+    UserAgentStylesheetによるmargin設定の初期化
+******************************/
 * {
     box-sizing: border-box;
 }
@@ -8,22 +14,32 @@ body {
     margin: 0;
 }
 
-.display_area {
+/******************************
+・BODY全体の表示設定
+******************************/
+.contents {
     width: 95%;
     margin: 10px auto;
 }
 
-.complete_info {
+/******************************
+・外枠
+******************************/
+.display_box {
     padding: 4px 12px;
     font-size: medium;
     border: solid 1px #000000;
 }
 
-.complete_info p {
+.header {
+    font-size: large;
     text-align: center;
     color: #005000;
 }
 
+/******************************
+・予約情報表示
+******************************/
 .rsv_info {
     width: 100%;
     text-align: left;
@@ -37,11 +53,17 @@ body {
     font-weight: bold;
 }
 
+/******************************
+・完了文言表示
+******************************/
 .message {
     font-size: 90%;
     line-height: 2;
 }
 
+/******************************
+・タクシー情報表示
+******************************/
 .taxi_info {
     font-size: 80%;
     width: 100%;
@@ -53,6 +75,9 @@ body {
     width: 30%;
 }
 
+/******************************
+・画面遷移ボタン
+******************************/
 button {
     color: white;
     background: #b0d600;

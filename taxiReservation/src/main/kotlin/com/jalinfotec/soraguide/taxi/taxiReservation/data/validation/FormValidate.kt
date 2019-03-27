@@ -12,7 +12,7 @@ class FormValidate {
         const val passengerErrorMessage:String = "乗車人数は1人以上で指定してください。"
         const val mailDiscordErrorMessage: String = "入力されたメールアドレスが一致しません。"
         const val mailValidateErrorMessage: String = "メールアドレスの形式が正しくありません。"
-        const val dateErrorMassage: String = "乗車日、乗車時間に過去の日時は指定できません。"
+        const val dateErrorMessage: String = "乗車日、乗車時間に過去の日時は指定できません。"
     }
 
     /**
@@ -24,7 +24,7 @@ class FormValidate {
         }
 
         if (!rideOnDateValidate(rsvForm.rideOnDate, rsvForm.rideOnTime)) {
-            return dateErrorMassage
+            return dateErrorMessage
         }
 
         if (!mailMatchCheck(rsvForm.mail, rsvForm.mailCheck)) {
@@ -47,7 +47,7 @@ class FormValidate {
         }
 
         if (!rideOnDateValidate(rsvForm.rideOnDate, rsvForm.rideOnTime)) {
-            return dateErrorMassage
+            return dateErrorMessage
         }
 
         if (!mailValidate(rsvForm.mail)) {
@@ -66,7 +66,7 @@ class FormValidate {
         }
 
         if (!rideOnDateValidate(changeForm.rideOnDate, changeForm.rideOnTime)) {
-            return dateErrorMassage
+            return dateErrorMessage
         }
 
         if (!mailMatchCheck(changeForm.mail, changeForm.mailCheck)) {

@@ -48,7 +48,7 @@ class ActionCompleteController(
             val messageList = result.fieldErrors
             mav.viewName = "registration"
             mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
-            mav.addObject("errorMassage", messageList[0].defaultMessage)
+            mav.addObject("errorMessage", messageList[0].defaultMessage)
             return mav
         }
 
@@ -86,7 +86,7 @@ class ActionCompleteController(
             println("フォームの入力チェックでエラー")
             val messageList = result.fieldErrors
             mav.viewName = "change"
-            mav.addObject("errorMassage", messageList[0].defaultMessage)
+            mav.addObject("errorMessage", messageList[0].defaultMessage)
             return mav
         }
 
@@ -96,7 +96,7 @@ class ActionCompleteController(
         if (formValidateMessage.isNotEmpty()) {
             println("メソッドの入力チェックでエラー")
             mav.viewName = "change"
-            mav.addObject("errorMassage", formValidateMessage)
+            mav.addObject("errorMessage", formValidateMessage)
             return mav
         }
 

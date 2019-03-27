@@ -8,38 +8,49 @@ body {
     margin: 0;
 }
 
-.detail_area {
+.display_area {
     width: 95%;
     margin: 10px auto;
 }
 
-.detail_box {
+.complete_info {
     padding: 4px 12px;
     font-size: medium;
     border: solid 1px #000000;
 }
 
-.detail_box p {
-    font-size: large;
+.complete_info p {
     text-align: center;
     color: #005000;
 }
 
-.rsvInfo {
-    width: auto;
-    table-layout: fixed;
+.rsv_info {
+    width: 100%;
+    text-align: left;
 }
 
-.rsvInfo th {
-    width: 40%;
-    text-align: left;
-    padding: 1px 2px;
-    font-weight: normal;
+.rsv_info th{
+    width: 35%;
 }
 
-.rsvInfo td {
+.rsv_info td {
+    font-weight: bold;
+}
+
+.message {
+    font-size: 90%;
+    line-height: 2;
+}
+
+.taxi_info {
+    font-size: 80%;
+    width: 100%;
+}
+
+.taxi_info th {
+    font-weight :normal;
     text-align: left;
-    padding: 1px 2px;
+    width: 30%;
 }
 
 button {
@@ -59,12 +70,4 @@ button {
 
 .right_button {
     float: right;
-}
-
-.error_message {
-    padding: 2px 4px;
-    font-size: medium;
-    text-align: left;
-    color: #ff0000;
-    border: dotted 1px #ff0000;
 }

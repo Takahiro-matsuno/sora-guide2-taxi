@@ -6,51 +6,62 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title th:text="${title}"></title>
+    <link th:href="@{/css/complete.css}" rel="stylesheet"/>
 </head>
 <body>
-<div id="contents" th:object="${rsvDetail}">
-    <table>
-        <tr>
-            <th align="right" th:text="*{passengerName}" style="width: device-width;"></th>
-            <th align="left"><label>様</label></th>
-        </tr>
-    </table>
-    <p align="left" th:text="${headText}"></p>
-    <table>
-        <tr>
-            <th align="left"><label>予約番号：</label></th>
-            <td align="left" th:text="*{reservationId}" style="width: device-width;"></td>
-        </tr>
-        <tr>
-            <th align="left"><label>ステータス：</label></th>
-            <td align="left" th:text="*{reservationStatus}" style="width: device-width;"></td>
-        </tr>
-    </table>
+<div class="display_area" th:object="${rsvDetail}">
+    <div class="complete_info">
+        <div class="header">
+            <p th:text="|*{passengerName}様|"></p>
+            <p th:text="${headText}"></p>
+        </div>
 
-    <th:block th:if="${message}">
-        <th:block th:each="str, stat : ${message.split('\r\n|\r|\n', -1)}">
-            <th:block th:text="${str}"/>
-            <br th:if="${!stat.last}"/>
-        </th:block>
+        <table class="rsv_info">
+            <tr>
+                <td>予約番号</td>
+                <td th:text="*{reservationId}"></td>
+            </tr>
+            <tr>
+                <th>ステータス</th>
+                <td th:text="*{reservationStatus}"></td>
+            </tr>
+        </table>
+
+        <br/>
+
+        <div class="message">
+            <th:block th:if="${message}">
+                <th:block th:each="str, stat : ${message.split('\r\n|\r|\n', -1)}">
+                    <th:block th:text="${str}"/>
+                    <br th:if="${!stat.last}"/>
+                </th:block>
+            </th:block>
+        </div>
+
+        <br/>
+
+        <table class="taxi_info">
+            <tr>
+                <td>タクシー会社</td>
+                <td th:text="*{companyName}"></td>
+            </tr>
+            <tr>
+                <td>問い合わせ先</td>
+                <td><a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a></td>
+            </tr>
+        </table>
+
+        <br/>
+
+    </div>
+
+    <br/>
+
+    <button type="button" class="left_button" onClick="location.href='./registration'">予約登録へ</button>
+    <th:block th:if="${isListButton}">
+        <button type="button" class="right_button" onClick="location.href='./list'">予約一覧へ</button>
     </th:block>
 
-    <br><br>
-
-    タクシー会社ご連絡先：
-    <a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a>
-
-    <br><br>
-
-    <table>
-        <tr>
-            <td>
-                <button type="button" onClick="location.href='./registration'">予約登録へ</button>
-            </td>
-            <td th:if="${isListButton}">
-                <button type="button" onClick="location.href='./list'">予約一覧へ</button>
-            </td>
-        </tr>
-    </table>
 </div>
 </body>
 </html>

@@ -147,6 +147,7 @@ class ReservationDetailService(
         return mutableMapOf("reservationId" to rsvInfoOptional.get().reservationId,
                 "reservationStatus" to statusName!!,
                 "passengerName" to rsvInfoOptional.get().passengerName,
+                "companyName" to taxiInfoOptional.get().companyName,
                 "companyContact" to taxiInfoOptional.get().contact)
     }
 }

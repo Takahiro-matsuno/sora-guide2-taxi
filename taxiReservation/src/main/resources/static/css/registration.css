@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 500px;
+    max-width: 100%;
+    margin: 0;
+}
+
+.contents {
+    width: 95%;
+    margin: 10px auto;
+}
+h1 {
+    font-size: large;
+    text-align: center;
+    color: #005000;
+}
+button {
+    color: white;
+    background: #b0d600;
+
+    width: 49%;
+    border-radius: 4px;
+    text-align: center;
+    font-size: medium;
+    padding: 2px 5px;
+}
+label {
+    display:block;
+     font-size: small;
+}
+input {
+    display:block;
+    width: 100%;
+    line-height: 2;
+}
+p {
+    font-size: normal;
+    text-align: center;
+}
+.mandatory {
+    text-align: right;
+    font-size: small;
+}
+textarea {
+    width:100%;
+    height:70px;
+}
+.redAsterisk {
+    color: red;
+}

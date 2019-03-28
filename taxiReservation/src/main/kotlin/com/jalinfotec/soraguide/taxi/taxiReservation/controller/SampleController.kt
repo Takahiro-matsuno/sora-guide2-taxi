@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse
  * サンプル用controllerクラス
  * おためし用のクラスのため、後々削除する。
  */
-//TODO クラス削除
+//TODO 開発用 クラス削除
 @Controller
 class SampleController(
         private val taxiRepository: TaxiInfoRepository,

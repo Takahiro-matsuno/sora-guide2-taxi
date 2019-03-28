@@ -3,7 +3,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.utils
 import java.util.*
 
 object Constants {
-    //開発用オプション
+    //TODO 開発用オプション
     //TRUEの場合、Androidアプリ/WEBの判定が無効になり、WEBから実行していてもAndroidアプリでの処理動作が確認できる
     const val TEST_MODE = true
 

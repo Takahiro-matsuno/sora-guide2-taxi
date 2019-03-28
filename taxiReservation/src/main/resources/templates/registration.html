@@ -6,34 +6,47 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約登録画面</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
     <link th:href="@{/css/tab.css}" rel="stylesheet"/>
     <link th:href="@{/css/registration.css}" rel="stylesheet"/>
 </head>
 <body>
-<header>
-    <ul th:if="${isTab}" class="tabs">
-        <li class="active" rel="tab1" onClick="location.href='./registration'">予約登録</li>
-        <li onClick="location.href='./list'">予約一覧</li>
-    </ul>
-    <h1 th:unless="${isTab}">予約登録</h1>
-</header>
-<form action="./confirmation" method="post" th:object="${reservationForm}">
-    <div class="contents">
+<div class="contents">
+    <header>
+        <ul th:if="${isTab}" class="tabs">
+            <li class="active" onClick="location.href='./registration'">予約登録</li>
+            <li onClick="location.href='./list'">予約一覧</li>
+        </ul>
+        <h1 th:unless="${isTab}">予約登録</h1>
+    </header>
+
+    <br/>
+
+    <form action="./confirmation" method="post" th:object="${reservationForm}">
         <p>以下の項目を入力してください</p>
+
+        <div th:if="${errorMessage}">
+            <div class="error_message" th:text="${errorMessage}"></div>
+            <br/>
+        </div>
+
         <div class="mandatory"><span class="redAsterisk">*</span>必須項目</div>
-        <p style="color: red" th:text="${errorMessage}"></p>
 
         <label>乗車日<span class="redAsterisk">*</span></label>
-        <input type="date" style="width: device-width;" th:field="*{rideOnDate}" required/>
+        <input type="date" th:field="*{rideOnDate}" required/>
+
         <label>乗車時間<span class="redAsterisk">*</span></label>
-        <input type="time" style="width: device-width" th:field="*{rideOnTime}" step="300"
-               max="23:59" required/>
+        <input type="time" th:field="*{rideOnTime}" step="300" max="23:55" required/>
+
         <label>人数(大人)<span class="redAsterisk">*</span></label>
-        <input type="number" style="width: device-width" th:field="*{adult}" min="0" required/>
+        <input type="number" th:field="*{adult}" min="0" required/>
+
         <label>人数(子供)<span class="redAsterisk">*</span></label>
-        <input type="number" style="width: device-width" th:field="*{child}" min="0" required/>
+        <input type="number" th:field="*{child}" min="0" required/>
+
         <label>配車台数<span class="redAsterisk">*</span></label>
-        <input type="number" style="width: device-width" th:field="*{carDispatchNumber}" min="1" required/>
+        <input type="number" th:field="*{carDispatchNumber}" min="1" required/>
+
         <label>タクシー会社<span class="redAsterisk">*</span></label>
         <select id="singleSelect" th:field="*{companyName}">
             <option value="">---</option>
@@ -41,32 +54,34 @@
                     th:selected="${item}==*{companyName}">
             </option>
         </select>
+
         <label>目的地<span class="redAsterisk">*</span></label>
-        <input type="text" style="width: device-width" th:field="*{destination}"
-               placeholder="栗林公園" required/>
+        <input type="text" th:field="*{destination}" placeholder="栗林公園" required/>
+
         <label>氏名<span class="redAsterisk">*</span></label>
-        <input type="text" style="width: device-width" th:field="*{passengerName}" placeholder="大空旅人"
-               required/>
+        <input type="text" th:field="*{passengerName}" placeholder="大空旅人" required/>
+
         <label>フリガナ<span class="redAsterisk">*</span></label>
-        <input type="text" style="width: device-width" th:field="*{passengerPhonetic}"
-               placeholder="オオゾラタビト" required/>
+        <input type="text" th:field="*{passengerPhonetic}" placeholder="オオゾラタビト" required/>
+
         <label>電話番号<span class="redAsterisk">*</span></label>
-        <input type="tel" style="width: device-width" th:field="*{passengerContact}"
-               placeholder="08012345678" required/>
+        <input type="tel" th:field="*{passengerContact}" placeholder="08012345678" required/>
 
         <label>メールアドレス<span class="redAsterisk">*</span></label>
-        <input type="email" style="width: device-width" th:field="*{mail}"
-               placeholder="aaa@jal.co.jp" required/>
+        <input type="email" th:field="*{mail}" placeholder="aaa@jal.co.jp" required/>
 
         <label>メールアドレス(確認)<span class="redAsterisk">*</span></label>
-        <input type="email" style="width: device-width" th:field="*{mailCheck}" required/>
+        <input type="email" th:field="*{mailCheck}" required/>
+
         <label>コメント(任意)</label>
-        <textarea th:field="*{comment}"
-                  placeholder="(例)トランク使用希望"></textarea>
+        <textarea th:field="*{comment}" placeholder="(例)トランク使用希望"></textarea>
+
         <br/>
-        <button type="button" onClick="location.href='./registration'">クリア</button>
-        <button type="submit">入力確認</button>
-    </div>
-</form>
+
+        <button type="button" class="left_button" onClick="location.href='./registration'">クリア</button>
+        <button type="submit" class="right_button">入力確認</button>
+
+    </form>
+</div>
 </body>
 </html>

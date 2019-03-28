@@ -1,53 +1,67 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    width: 500px;
-    max-width: 100%;
-    margin: 0;
-}
-
-.contents {
-    width: 95%;
-    margin: 10px auto;
-}
-h1 {
-    font-size: large;
+/******************************
+・固定文言
+******************************/
+p {
+    font-size: medium;
     text-align: center;
-    color: #005000;
 }
-button {
-    color: white;
-    background: #b0d600;
 
-    width: 49%;
+.mandatory {
+    text-align: right;
+    font-size: small;
+}
+
+/******************************
+・必須項目案内用アスタリスク
+******************************/
+.redAsterisk {
+    color: red;
+}
+
+/******************************
+・入力フォーム（項目名）
+******************************/
+label {
+    display:block;
+    font-size: small;
+}
+
+/******************************
+・入力フォーム（入力欄）
+******************************/
+select, input, textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+select, input{
+    height: 32px;
+}
+
+textarea {
+    line-height: 1.75;
+}
+
+/******************************
+・画面遷移ボタン
+******************************/
+button {
+    width: 45%;
     border-radius: 4px;
     text-align: center;
     font-size: medium;
     padding: 2px 5px;
 }
-label {
-    display:block;
-     font-size: small;
+
+.left_button {
+    color: #b0d600;
+    background: white;
+    float: left;
 }
-input {
-    display:block;
-    width: 100%;
-    line-height: 2;
-}
-p {
-    font-size: normal;
-    text-align: center;
-}
-.mandatory {
-    text-align: right;
-    font-size: small;
-}
-textarea {
-    width:100%;
-    height:70px;
-}
-.redAsterisk {
-    color: red;
+
+.right_button {
+    color: white;
+    background: #b0d600;
+    float: right;
 }

@@ -2,14 +2,15 @@
 ・予約毎の表示
 ******************************/
 .rsvInfoCard {
-    width: 95%;
+    width: 90%;
     margin: 12px auto;
     border: 1px solid;
     font-size: medium;
-    padding: 4px 12px;
+    padding: 8px 16px;
 }
 
 .rsvInfoCard table{
+    width: 100%;
     table-layout: fixed;
 }
 
@@ -19,7 +20,7 @@
 }
 
 .rsvInfoCard th {
-    width: 40%;
+    width: 30%;
     font-weight: normal;
 }
 

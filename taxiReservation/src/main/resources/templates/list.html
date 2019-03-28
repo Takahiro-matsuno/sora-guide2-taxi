@@ -12,43 +12,47 @@
 </head>
 
 <body>
-<ul class="tabs">
-    <li rel="tab1" onClick="location.href='./registration'">予約登録</li>
-    <li class="active" onClick="location.href='./list'">予約一覧</li>
-</ul>
+<div class="contents">
+    <header>
+        <ul class="tabs">
+            <li onClick="location.href='./registration'">予約登録</li>
+            <li class="active" onClick="location.href='./list'">予約一覧</li>
+        </ul>
+    </header>
 
-<br/><br/>
+    <br/>
 
-<div class="error_message" th:if="${#lists.isEmpty(rsvList)}">
-    表示可能な予約がありません。
+    <div class="error_message" th:if="${#lists.isEmpty(rsvList)}">
+        表示可能な予約がありません。
+    </div>
+
+    <div class="rsvInfoCard" th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
+        <table>
+            <tr class="rsvId">
+                <th>予約番号</th>
+                <td th:text="${rsvInfo.id}"></td>
+            </tr>
+            <tr>
+                <th>乗車日</th>
+                <td th:text="${rsvInfo.rideOnDate}"></td>
+            </tr>
+            <tr>
+                <th>乗車時間</th>
+                <td th:text="${rsvInfo.rideOnTime}"></td>
+            </tr>
+            <tr>
+                <th>目的地</th>
+                <td th:text="${rsvInfo.destination}"></td>
+            </tr>
+            <tr>
+                <th>ステータス</th>
+                <td th:text="${rsvInfo.reservationStatus}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/list.js}"></script>
+
 </div>
-
-<div class="rsvInfoCard" th:each="rsvInfo :${rsvList}" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">
-    <table>
-        <tr class="rsvId">
-            <th>予約番号</th>
-            <td th:text="${rsvInfo.id}"></td>
-        </tr>
-        <tr>
-            <th>乗車日</th>
-            <td th:text="${rsvInfo.rideOnDate}"></td>
-        </tr>
-        <tr>
-            <th>乗車時間</th>
-            <td th:text="${rsvInfo.rideOnTime}"></td>
-        </tr>
-        <tr>
-            <th>目的地</th>
-            <td th:text="${rsvInfo.destination}"></td>
-        </tr>
-        <tr>
-            <th>ステータス</th>
-            <td th:text="${rsvInfo.reservationStatus}"></td>
-        </tr>
-    </table>
-</div>
-
-<script type="text/javascript" th:src="@{/js/list.js}"></script>
-
 </body>
 </html>

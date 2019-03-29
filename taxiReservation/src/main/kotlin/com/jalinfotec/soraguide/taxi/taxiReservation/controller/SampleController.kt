@@ -19,7 +19,6 @@ import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-
 /**
  * サンプル用controllerクラス
  * おためし用のクラスのため、後々削除する。
@@ -35,7 +34,7 @@ class SampleController(
     @RequestMapping("/")
     @ResponseBody
     fun home(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
-        mav.viewName = "index"
+        mav.viewName = "testHTML/index"
 
         val locale = request.locale.language
         val lang: String

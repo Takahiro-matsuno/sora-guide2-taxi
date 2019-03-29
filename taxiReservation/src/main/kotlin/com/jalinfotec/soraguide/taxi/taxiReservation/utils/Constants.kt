@@ -5,7 +5,7 @@ import java.util.*
 object Constants {
     //TODO 開発用オプション
     //TRUEの場合、Androidアプリ/WEBの判定が無効になり、WEBから実行していてもAndroidアプリでの処理動作が確認できる
-    const val TEST_MODE = true
+    const val TEST_MODE = false
 
     val PAX_RANGE = 0..20
     val APP_LANG = Locale.JAPAN!!

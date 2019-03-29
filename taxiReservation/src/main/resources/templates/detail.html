@@ -35,27 +35,27 @@
                 <td th:text="*{reservationStatus}"></td>
             </tr>
             <tr>
-                <th>日付</th>
+                <th>乗車日</th>
                 <td th:text="*{rideOnDate}"></td>
             </tr>
             <tr>
-                <th>時間</th>
+                <th>乗車時間</th>
                 <td th:text="*{rideOnTime}"></td>
             </tr>
             <tr>
-                <th>大人</th>
+                <th>人数（大人）</th>
                 <td th:text="*{adult + ' 人'}"></td>
             </tr>
             <tr>
-                <th>子供</th>
+                <th>人数（お子様）</th>
                 <td th:text="*{child + ' 人'}"></td>
             </tr>
             <tr>
-                <th>台数</th>
+                <th>配車台数</th>
                 <td th:text="*{carDispatchNumber + ' 台'}"></td>
             </tr>
             <tr>
-                <th>会社名</th>
+                <th>タクシー会社</th>
                 <td th:text="*{companyName}"></td>
             </tr>
             <tr>
@@ -63,7 +63,7 @@
                 <td th:text="*{destination}"></td>
             </tr>
             <tr>
-                <th>名前</th>
+                <th>氏名</th>
                 <td th:text="*{passengerName}"></td>
             </tr>
             <tr>
@@ -104,17 +104,15 @@
         <form method="post">
             <button type="button" class="left_button"
                     th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'">
-                取消する
+                取消
             </button>
 
             <button type="submit" class="right_button" formaction="./change" name="id" th:value="*{id}">
-                変更する
+                変更
             </button>
         </form>
     </div>
 </div>
-
-<br/><br/>
 
 <script type="text/javascript" th:src="@{/js/detailCancel.js}"></script>
 

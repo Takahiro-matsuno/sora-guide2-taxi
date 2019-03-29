@@ -6,86 +6,89 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
     <title>予約確認画面</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
+    <link th:href="@{/css/confirmation.css}" rel="stylesheet"/>
 </head>
 <body>
-<header>
-    <h1>予約確認</h1>
-    <!--  <p>以下の項目を入力してください</p> -->
-</header>
-<form action="./rsvComplete" method="post" th:object="${reservationForm}">
-    <div id="contents">
-        <table>
+<div class="contents" th:object="${reservationForm}">
+    <div class="display_box">
+        <h1>予約確認</h1>
+
+        <table class="rsvInfo">
             <tr>
-                <th align="left"><label>乗車日</label></th>
-                <td align="left" th:text="*{rideOnDateStr}" style="width: device-width;"></td>
+                <th>乗車日</th>
+                <td th:text="*{rideOnDateStr}"></td>
             </tr>
             <tr>
-                <th align="left"><label>乗車時間</label></th>
-                <td align="left" th:text="*{rideOnTime}" style="width: device-width;"></td>
+                <th>乗車時間</th>
+                <td th:text="*{rideOnTime}"></td>
             </tr>
             <tr>
-                <th align="left"><label>人数(大人)</label></th>
-                <td align="left" th:text="*{adult}" style="width: device-width;"></td>
+                <th>人数(大人)</th>
+                <td th:text="*{adult + ' 人'}"></td>
             </tr>
             <tr>
-                <th align="left"><label>人数(子供)</label></th>
-                <td align="left" th:text="*{child}" style="width: device-width;"></td>
+                <th>人数(お子様)</th>
+                <td th:text="*{child + ' 人'}"></td>
             </tr>
             <tr>
-                <th align="left"><label>配車台数</label></th>
-                <td align="left" th:text="*{carDispatchNumber}" style="width: device-width;"></td>
+                <th>配車台数</th>
+                <td th:text="*{carDispatchNumber + ' 台'}"></td>
             </tr>
             <tr>
-                <th align="left"><label>タクシー会社</label></th>
-                <td align="left" th:text="*{companyName}" style="width: device-width;"></td>
+                <th>タクシー会社</th>
+                <td th:text="*{companyName}"></td>
             </tr>
             <tr>
-                <th align="left"><label>目的地</label></th>
-                <td align="left" th:text="*{destination}" style="width: device-width;"></td>
+                <th>目的地</th>
+                <td th:text="*{destination}"></td>
             </tr>
             <tr>
-                <th align="left"><label>氏名</label></th>
-                <td align="left" th:text="*{passengerName}" style="width: device-width;"></td>
+                <th>氏名</th>
+                <td th:text="*{passengerName}"></td>
             </tr>
             <tr>
-                <th align="left"><label>フリガナ</label></th>
-                <td align="left" th:text="*{passengerPhonetic}" style="width: device-width;"></td>
+                <th>フリガナ</th>
+                <td th:text="*{passengerPhonetic}"></td>
             </tr>
             <tr>
-                <th align="left"><label>電話番号</label></th>
-                <td align="left" th:text="*{passengerContact}" style="width: device-width;"></td>
+                <th>電話番号</th>
+                <td th:text="*{passengerContact}"></td>
             </tr>
             <tr>
-                <th align="left"><label>メールアドレス</label></th>
-                <td align="left" th:text="*{mail}" style="width: device-width;"></td>
+                <th>メールアドレス</th>
+                <td th:text="*{mail}"></td>
             </tr>
             <tr>
-                <th align="left"><label>コメント(任意)</label></th>
-                <td align="left" th:text="*{comment}" style="width: device-width;"></td>
-            </tr>
-            <tr>
-                <td align="left">
-                    <button type="submit" formaction="./registration">戻る</button>
-                </td>
-                <td align="left">
-                    <button type="submit">送信</button>
-                </td>
+                <th>コメント</th>
+                <td th:text="*{comment}"></td>
             </tr>
         </table>
+
     </div>
-    <input type="hidden" th:field="*{rideOnDate}"/>
-    <input type="hidden" th:field="*{rideOnTime}"/>
-    <input type="hidden" th:field="*{adult}"/>
-    <input type="hidden" th:field="*{child}"/>
-    <input type="hidden" th:field="*{carDispatchNumber}"/>
-    <input type="hidden" th:field="*{companyName}"/>
-    <input type="hidden" th:field="*{destination}"/>
-    <input type="hidden" th:field="*{passengerName}"/>
-    <input type="hidden" th:field="*{passengerPhonetic}"/>
-    <input type="hidden" th:field="*{passengerContact}"/>
-    <input type="hidden" th:field="*{mail}"/>
-    <input type="hidden" th:field="*{mailCheck}"/>
-    <input type="hidden" th:field="*{comment}"/>
-</form>
+
+    <br/>
+
+    <form action="./rsvComplete" method="post">
+        <button class="left_button" type="submit" formaction="./registration">戻る</button>
+        <button class="right_button" type="submit">送信</button>
+
+        <input type="hidden" th:field="*{rideOnDate}"/>
+        <input type="hidden" th:field="*{rideOnTime}"/>
+        <input type="hidden" th:field="*{adult}"/>
+        <input type="hidden" th:field="*{child}"/>
+        <input type="hidden" th:field="*{carDispatchNumber}"/>
+        <input type="hidden" th:field="*{companyName}"/>
+        <input type="hidden" th:field="*{destination}"/>
+        <input type="hidden" th:field="*{passengerName}"/>
+        <input type="hidden" th:field="*{passengerPhonetic}"/>
+        <input type="hidden" th:field="*{passengerContact}"/>
+        <input type="hidden" th:field="*{mail}"/>
+        <input type="hidden" th:field="*{mailCheck}"/>
+        <input type="hidden" th:field="*{comment}"/>
+
+    </form>
+</div>
+
 </body>
 </html>

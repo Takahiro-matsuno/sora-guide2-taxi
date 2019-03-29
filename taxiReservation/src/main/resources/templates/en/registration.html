@@ -1,114 +1,87 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
-    <title>Reservation registration</title>
+    <title>予約登録画面</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
     <link th:href="@{/css/tab.css}" rel="stylesheet"/>
-    <link th:href="@{/css/inputForm.css}" rel="stylesheet"/>
+    <link th:href="@{/css/registration.css}" rel="stylesheet"/>
 </head>
-
 <body>
-<header>
-    <ul th:if="${isTab}" class="tabs">
-        <li class="active" rel="tab1" onClick="location.href='./registration'">Registration</li>
-        <li onClick="location.href='./list'">Reservation List</li>
-    </ul>
-    <h1 th:unless="${isTab}">Reservation registration</h1>
-</header>
-<form action="./confirmation" method="post" th:object="${reservationForm}">
-    <div id="contents">
+<div class="contents">
+    <header>
+        <ul th:if="${isTab}" class="tabs">
+            <li class="active" onClick="location.href='./registration'">Registration</li>
+            <li onClick="location.href='./list'">Reservation List</li>
+        </ul>
+        <h1 th:unless="${isTab}">Reservation registration</h1>
+    </header>
+
+    <br/>
+
+    <form action="./confirmation" method="post" th:object="${reservationForm}">
         <p>Please enter the item</p>
-        <p style="color: red" th:text="${errorMessage}"></p>
-        <table>
-            <tr>
-                <th align="left"><label>Date</label></th>
-                <td align="left"><input type="date" style="width: device-width;" th:field="*{rideOnDate}" required/>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Time</label></th>
-                <td align="left"><input type="time" style="width: device-width" th:field="*{rideOnTime}" step="300"
-                                        max="23:59" required/></td>
-            </tr>
-            <tr>
-                <th align="left"><label>Adult</label></th>
-                <td align="left"><input type="number" style="width: device-width" th:field="*{adult}" min="0" required/>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Child</label></th>
-                <td align="left"><input type="number" style="width: device-width" th:field="*{child}" min="0" required/>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Dispatch number</label></th>
-                <td align="left"><input type="number" style="width: device-width" th:field="*{carDispatchNumber}"
-                                        min="1" required/>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Taxi company</label></th>
-                <td>
-                    <select id="singleSelect" th:field="*{companyName}">
-                        <option value="">---</option>
-                        <option th:each="item : ${taxiList}" th:value="${item}" th:text="${item}"
-                                th:selected="${item}==*{companyName}">
-                        </option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Destination</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{destination}"
-                                        placeholder="Kuribayashi Park" required/>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Name</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{passengerName}"
-                                        placeholder="Tabito Ohzora"
-                                        required/></td>
-            </tr>
-            <tr>
-                <th align="left"><label>Phonetic</label></th>
-                <td align="left"><input type="text" style="width: device-width" th:field="*{passengerPhonetic}"
-                                        placeholder="" required/>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Contact number</label></th>
-                <td align="left"><input type="tel" style="width: device-width" th:field="*{passengerContact}"
-                                        placeholder="08012345678" required/></td>
-            </tr>
-            <tr>
-                <th align="left"><label>E-mail</label></th>
-                <td align="left"><input type="email" style="width: device-width" th:field="*{mail}"
-                                        placeholder="aaa@jal.co.jp" required/></td>
-            </tr>
-            <tr>
-                <th align="left"><label>E-mail(confirmation)</label></th>
-                <td align="left"><input type="email" style="width: device-width" th:field="*{mailCheck}" required/>
-                </td>
-            </tr>
-            <tr>
-                <th align="left"><label>Comment</label></th>
-                <td align="left"><textarea th:field="*{comment}"
-                                           placeholder="(ex)I want to use the trunk"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">
-                    <button type="button" onClick="location.href='./registration'">Clear</button>
-                </td>
-                <td align="left">
-                    <button type="submit">Confirm</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-</form>
+
+        <div th:if="${errorMessage}">
+            <div class="error_message" th:text="${errorMessage}"></div>
+            <br/>
+        </div>
+
+        <div class="mandatory"><span class="redAsterisk">*</span>Required item</div>
+
+        <label>Date<span class="redAsterisk">*</span></label>
+        <input type="date" th:field="*{rideOnDate}" required/>
+
+        <label>Time<span class="redAsterisk">*</span></label>
+        <input type="time" th:field="*{rideOnTime}" step="300" max="23:55" required/>
+
+        <label>Adult<span class="redAsterisk">*</span></label>
+        <input type="number" th:field="*{adult}" min="0" required/>
+
+        <label>Child<span class="redAsterisk">*</span></label>
+        <input type="number" th:field="*{child}" min="0" required/>
+
+        <label>Dispatch number<span class="redAsterisk">*</span></label>
+        <input type="number" th:field="*{carDispatchNumber}" min="1" required/>
+
+        <label>Taxi company<span class="redAsterisk">*</span></label>
+        <select id="singleSelect" th:field="*{companyName}">
+            <option value="">---</option>
+            <option th:each="item : ${taxiList}" th:value="${item}" th:text="${item}"
+                    th:selected="${item}==*{companyName}">
+            </option>
+        </select>
+
+        <label>Destination<span class="redAsterisk">*</span></label>
+        <input type="text" th:field="*{destination}" placeholder="栗林公園" required/>
+
+        <label>Name<span class="redAsterisk">*</span></label>
+        <input type="text" th:field="*{passengerName}" placeholder="大空旅人" required/>
+
+        <label>Phonetic<span class="redAsterisk">*</span></label>
+        <input type="text" th:field="*{passengerPhonetic}" placeholder="オオゾラタビト" required/>
+
+        <label>Contact number<span class="redAsterisk">*</span></label>
+        <input type="tel" th:field="*{passengerContact}" placeholder="08012345678" required/>
+
+        <label>E-mail<span class="redAsterisk">*</span></label>
+        <input type="email" th:field="*{mail}" placeholder="aaa@jal.co.jp" required/>
+
+        <label>E-mail(confirmation)<span class="redAsterisk">*</span></label>
+        <input type="email" th:field="*{mailCheck}" required/>
+
+        <label>Comment</label>
+        <textarea th:field="*{comment}" placeholder="(例)トランク使用希望"></textarea>
+
+        <br/>
+
+        <button type="button" class="left_button" onClick="location.href='./registration'">Clear</button>
+        <button type="submit" class="right_button">Confirm</button>
+
+    </form>
+</div>
 </body>
 </html>

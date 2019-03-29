@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 
 class FormValidate {
     companion object {
-        const val passengerErrorMessage:String = "乗車人数は1人以上で指定してください。"
+        const val passengerErrorMessage: String = "乗車人数は1人以上で指定してください。"
         const val mailDiscordErrorMessage: String = "入力されたメールアドレスが一致しません。"
         const val mailValidateErrorMessage: String = "メールアドレスの形式が正しくありません。"
         const val dateErrorMessage: String = "乗車日、乗車時間に過去の日時は指定できません。"

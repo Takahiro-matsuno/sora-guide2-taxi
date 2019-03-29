@@ -40,16 +40,20 @@ h1 {
 ・画面遷移ボタン
 ******************************/
 button {
-    color: white;
-    background: #b0d600;
-
     width: 45%;
     border-radius: 4px;
     text-align: center;
     font-size: medium;
-    padding: 2px 5px;
+    padding: 2px;
+}
+
+.left_button {
+    color: #b0d600;
+    background: white;
 }
 
 .right_button {
+    color: white;
+    background: #b0d600;
     float: right;
 }

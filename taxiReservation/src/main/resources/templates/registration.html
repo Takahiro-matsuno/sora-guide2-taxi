@@ -41,7 +41,7 @@
         <label>人数(大人)<span class="redAsterisk">*</span></label>
         <input type="number" th:field="*{adult}" min="0" required/>
 
-        <label>人数(子供)<span class="redAsterisk">*</span></label>
+        <label>人数(お子様)<span class="redAsterisk">*</span></label>
         <input type="number" th:field="*{child}" min="0" required/>
 
         <label>配車台数<span class="redAsterisk">*</span></label>
@@ -70,10 +70,10 @@
         <label>メールアドレス<span class="redAsterisk">*</span></label>
         <input type="email" th:field="*{mail}" placeholder="aaa@jal.co.jp" required/>
 
-        <label>メールアドレス(確認)<span class="redAsterisk">*</span></label>
+        <label>メールアドレス（確認）<span class="redAsterisk">*</span></label>
         <input type="email" th:field="*{mailCheck}" required/>
 
-        <label>コメント(任意)</label>
+        <label>コメント</label>
         <textarea th:field="*{comment}" placeholder="(例)トランク使用希望"></textarea>
 
         <br/>

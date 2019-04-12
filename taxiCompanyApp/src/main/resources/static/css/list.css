@@ -47,6 +47,9 @@ table tr:hover {
   cursor:pointer;
 }
 h1 {
+  text-align: left;
+  font-size: 1.5em;
+  font-weight: bolder;
   /*線の種類（実線） 太さ 色*/
   border-bottom: solid 3px black;
 }

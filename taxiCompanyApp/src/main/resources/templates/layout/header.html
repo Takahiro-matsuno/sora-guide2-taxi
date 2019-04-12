@@ -5,19 +5,9 @@
     <body>
         <header th:fragment="leftNavigation">
             <ul>
-                <form name="home" role="form" th:action="@{/index}" method="get">
-                    <li>
-                        <a href="javascript:document.home.submit()">ホーム</a>
-                    </li>
-                </form>
                 <form name="list" role="form" th:action="@{/reservation/list}" method="get">
                     <li>
                         <a href="javascript:document.list.submit()">予約一覧</a>
-                    </li>
-                </form>
-                <form name="search" role="form" id="search" th:action="@{/reservation/search}" method="get">
-                    <li>
-                        <a href="javascript:document.search.submit()">予約検索</a>
                     </li>
                 </form>
                 <form name="companySetting" role="form" th:action="@{/company/setting}" method="get">

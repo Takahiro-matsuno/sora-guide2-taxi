@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:background-color="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:background-color="http://www.w3.org/1999/xhtml" lang="ja">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>そらガイド 予約管理-ログイン</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset-context/cssreset-context-min.css">
     <link th:href="@{/css/login.css}" rel="stylesheet"/>
 </head>
 <body>
 <div id="login">
-    <h1>そらガイド</h1>
-    <h1>タクシー予約管理システム</h1>
+    <div class="header">
+        <h1>そらガイド</h1>
+        <h1>タクシー予約管理システム</h1>
+    </div>
     <form name='form-login' role="form" id="form-login" th:action="@{/login}" method="post">
         <p th:text="${message}" style="color: black"></p>
         <p th:text="${errorMessage}" style="color: red"></p>
@@ -30,7 +33,9 @@
         <input type="password" name="password" placeholder="パスワード"/>
         <br/>
         <input type="submit" value ="ログイン"/><br/>
-        <a href="./reset">パスワードをお忘れの方はこちら</a>
+        <div class="test">
+            <a href="./reset">パスワードをお忘れの方はこちら</a>
+        </div>
     </form>
 </div>
 </body>

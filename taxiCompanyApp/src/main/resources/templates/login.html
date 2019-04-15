@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>そらガイド 予約管理-ログイン</title>
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset-context/cssreset-context-min.css">
+    <link rel="stylesheet" type="text/css" href="https://yui-s.yahooapis.com/3.18.1/build/cssreset-context/cssreset-context-min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link th:href="@{/css/login.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -26,10 +27,10 @@
             <p>ログアウトしました。</p>
         </div>
         -->
-        <span class="fontawesome-user"></span>
+        <span><i class="material-icons">perm_identity</i></span>
         <input type="text" name="username" autofocus="autofocus" placeholder="ユーザー"/>
         <br/>
-        <span class="fontawesome-lock"></span>
+        <span><i class="material-icons">lock</i></span>
         <input type="password" name="password" placeholder="パスワード"/>
         <br/>
         <input type="submit" value ="ログイン"/><br/>

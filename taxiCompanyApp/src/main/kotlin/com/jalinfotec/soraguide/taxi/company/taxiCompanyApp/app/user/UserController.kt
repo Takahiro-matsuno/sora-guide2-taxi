@@ -70,10 +70,16 @@ class UserController {
     // パスワード初期化
     @PostMapping(value = ["/reset"])
     fun doReset(@RequestParam userName: String, @RequestParam("mail") inputMail: String, mav: ModelAndView): ModelAndView {
-        userService.resetPassword(userName,inputMail)
+        val result = userService.resetPassword(userName,inputMail)
 
-        mav.viewName = "login"
-        mav.addObject("message", "パスワードをリセットしました。メールをご確認ください。")
+
+        if(result == 0) {
+            mav.viewName = "login"
+            mav.addObject("message", "パスワードをリセットしました。メールをご確認ください。")
+        }else if(result == 1) {
+            mav.viewName = "reset"
+            mav.addObject("errorMessage", "ユーザー名または、メールアドレスに誤りがあります。")
+        }
 
         return mav
     }

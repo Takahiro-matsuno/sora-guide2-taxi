@@ -18,15 +18,7 @@
     <form name='form-login' role="form" id="form-login" th:action="@{/login}" method="post">
         <p th:text="${message}" style="color: black"></p>
         <p th:text="${errorMessage}" style="color: red"></p>
-        <!--
-        <div th:if="${isError}" style="color:red;">
-            <p>ログインに失敗しました。</p>
-            <p>ユーザーID、パスワードを確かめてください。</p>
-        </div>
-        <div th:if="${isLogout}" style="color:black;">
-            <p>ログアウトしました。</p>
-        </div>
-        -->
+
         <span><i class="material-icons">perm_identity</i></span>
         <input type="text" name="username" autofocus="autofocus" placeholder="ユーザー"/>
         <br/>

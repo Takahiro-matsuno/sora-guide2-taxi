@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>そらガイド 予約管理-パスワードリセット</title>
+    <link rel="stylesheet" type="text/css" href="https://yui-s.yahooapis.com/3.18.1/build/cssreset-context/cssreset-context-min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link th:href="@{/css/login.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -12,17 +14,21 @@
     <h1>そらガイド</h1>
     <h1>パスワードリセット</h1>
 
-    パスワードを初期化するユーザ名と所属会社のメールアドレスをご入力ください。<br/>
+    パスワードを初期化するユーザー名と所属会社のメールアドレスをご入力ください。<br/>
     <form th:action="@{/reset}" method="post">
+        <p th:text="${errorMessage}" style="color: red"></p>
 
-        <span class="fontawesome-user"></span>
+        <span><i class="material-icons">perm_identity</i></span>
         <input type="text" name="userName" autofocus="autofocus" placeholder="ユーザー" required/>
         <br/>
-        <span class="fontawesome-lock"></span>
+        <span><i class="material-icons">mail_outline</i></span>
         <input type="text" name="mail" placeholder="メールアドレス" required/>
         <br/>
-
         <input type="submit" value ="パスワードリセット"/>
+        <br/>
+        <div class="test">
+            <a th:href="@{./login}">ログイン画面へ戻る</a>
+        </div>
     </form>
 </div>
 </body>

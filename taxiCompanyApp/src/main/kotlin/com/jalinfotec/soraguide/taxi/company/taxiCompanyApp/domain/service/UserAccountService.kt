@@ -129,14 +129,14 @@ class UserAccountService(
      */
     @Transactional
     @Retryable(value = [Exception::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
-    fun resetPassword(userName: String, inputMail: String) {
+    fun resetPassword(userName: String, inputMail: String): Int {
         // ユーザ情報と会社情報の取得
         val account = accRepository.findByUsername(userName) ?: throw Exception()
         val companyInfo = taxiCompanyService.getCompanyInfo(account.companyId) ?: throw Exception()
 
         // メールアドレスの一致確認
         if (inputMail != companyInfo.companyMail) {
-            throw Exception()
+            return 1
         }
 
         // 新パスワード生成
@@ -152,6 +152,7 @@ class UserAccountService(
 
         //メール送信
         sendMailService.sendAccountResetMail(userName, newPassword, companyInfo.companyName, companyInfo.companyMail)
+        return 0
     }
 
     /**

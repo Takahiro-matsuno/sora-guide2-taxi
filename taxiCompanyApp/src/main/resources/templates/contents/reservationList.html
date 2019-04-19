@@ -13,6 +13,7 @@
 <section layout:fragment="content">
     <div class="content">
         <h1>予約一覧</h1>
+        <hr noshade/>
         <p th:text="${errorMessage}"></p>
 
         <form name="searchForm" th:action="@{/reservation/search}" method="post" th:object="${searchForm}">

@@ -12,6 +12,7 @@
 <section layout:fragment="content">
     <div class="content">
         <h1>パスワード変更</h1>
+        <hr noshade/>
         <p id="errorMessage" th:text="${message}"></p>
         <form id="passwordChange" th:action="@{/user/setting}" method="post" th:object="${usForm}">
             <p th:text="*{'ユーザー名：' + username}"></p>

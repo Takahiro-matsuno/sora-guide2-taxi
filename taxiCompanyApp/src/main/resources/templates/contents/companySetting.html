@@ -12,6 +12,7 @@
 <section layout:fragment="content" th:object="${taxiForm}">
     <div class="content">
         <h1>会社情報設定</h1>
+        <hr noshade/>
         <p id="message" th:text="${message}"></p>
         <th:block th:text="'会社名：' + *{companyName}"/><br>
         <th:block th:text="'電話番号：' + *{companyContact}"/>

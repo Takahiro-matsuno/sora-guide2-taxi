@@ -1,7 +1,7 @@
 table {
   width: auto;
+  margin: auto;
   border-spacing: 0;
-  font-family: 'メイリオ','Hiragino Kaku Gothic Pro',sans-serif;
   font-size:14px;
 }
 table th {
@@ -38,13 +38,6 @@ table tr:hover {
   background: #c7b299;
   cursor:pointer;
 }
-h1 {
-  text-align: left;
-  font-size: 1.5em;
-  font-weight: bolder;
-  /*線の種類（実線） 太さ 色*/
-  border-bottom: solid 3px black;
-}
 
 #search_area {
     width: auto;
@@ -60,4 +53,17 @@ h1 {
 }
 section {
     width: 100%
+}
+h1 {
+  text-align: left;
+  margin-left: 10px;
+  font-size: 1.5em;
+  font-weight: bolder;
+}
+hr {
+color: black;
+height: 2px;
+}
+.content form {
+    margin-top: 20px;
 }

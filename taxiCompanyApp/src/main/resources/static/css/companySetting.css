@@ -3,15 +3,21 @@ p {
     margin-right: auto;
 }
 section {
-    width: 100%
+    width: 100%;
 }
 h1 {
-  text-align: left;
-  margin-left: 10px;
-  font-size: 1.5em;
-  font-weight: bolder;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 1.5em;
+    font-weight: bolder;
 }
 hr {
-color: black;
-height: 2px;
+    color: black;
+    height: 2px;
+}
+.center {
+    text-align: center;
+}
+input {
+    text-align: center;
 }

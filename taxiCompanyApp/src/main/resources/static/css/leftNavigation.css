@@ -26,7 +26,7 @@ li a {
 	display: block;
 	padding: 8px 16px;
 	text-decoration: none;
-	color: #FFFFFF;
+	color: #ffffff;
 }
 li {
 	text-align: center;
@@ -39,6 +39,6 @@ li a.active {
 	background-color: #da3c41;
 }
 li a:hover:not(.active) {
-	color: #ffffff;
-	background-color: #005000;
+	color: #005000;
+	background-color: #ffffff;
 }

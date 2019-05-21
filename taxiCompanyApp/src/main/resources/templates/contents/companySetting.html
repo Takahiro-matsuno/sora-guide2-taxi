@@ -2,29 +2,31 @@
 <html lang="ja" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/layout">
+      layout:decorate="layout/layout" xmlns:text-align="http://www.w3.org/1999/xhtml">
 <head>
     <title>会社情報設定</title>
     <link rel="stylesheet" type="text/css" href="https://yui-s.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
     <link th:href="@{/css/companySetting.css}" rel="stylesheet"/>
 </head>
 <body>
-<section layout:fragment="content" th:object="${taxiForm}">
-    <div class="content">
-        <h1>会社情報設定</h1>
-        <hr noshade/>
-        <p id="message" th:text="${message}"></p>
-        <th:block th:text="'会社名：' + *{companyName}"/><br>
-        <th:block th:text="'電話番号：' + *{companyContact}"/>
+    <section layout:fragment="content" th:object="${taxiForm}">
+        <div class="content">
+            <h1>会社情報設定</h1>
+            <hr noshade/>
+            <div class="center">
+                <p id="message" th:text="${message}"></p>
+                <th:block th:text="'会社名：' + *{companyName}"/><br>
+                <th:block th:text="'電話番号：' + *{companyContact}"/>
 
-        <form th:action="@{/company/setting}" method="post">
-            <input type="text" th:field="*{companyName}" placeholder="新しい会社名" required/>
-            <br/>
-            <input type="text" th:field="*{companyContact}" placeholder="新しい電話番号" required/>
-            <br/>
-            <input type="submit" value="更新する"/>
-        </form>
-    </div>
-</section>
+                <form th:action="@{/company/setting}" method="post">
+                    <input type="text" th:field="*{companyName}" placeholder="新しい会社名" required/>
+                    <br/>
+                    <input type="text" th:field="*{companyContact}" placeholder="新しい電話番号" required/>
+                    <br/>
+                    <input type="submit" value="更新する"/>
+                </form>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

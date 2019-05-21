@@ -1,11 +1,3 @@
-input[type="password"]{
-    width: 200px;
-    margin-right: auto;
-}
-p {
-    width: 500px;
-    margin-right: auto;
-}
 section {
     width: 100%
 }
@@ -16,6 +8,29 @@ h1 {
   font-weight: bolder;
 }
 hr {
-color: black;
-height: 2px;
+    color: black;
+    height: 2px;
+}
+#passwordChange {
+    text-align: center;
+}
+#passwordChange input {
+    text-align: center;
+}
+input[type="submit"] {
+  background: #b0d600;
+  border: 0;
+  width: 220px;
+  height: 40px;
+  border-radius: 3px;
+  margin-bottom: 1em;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+input[type="submit"]:hover {
+  background: #005000;
+}
+input[type="password"] {
+    margin-left: 0em;
 }

@@ -1,8 +1,9 @@
 table {
   width: auto;
   border-spacing: 0;
-  font-family: 'メイリオ','Hiragino Kaku Gothic Pro',sans-serif;
-  font-size:14px;
+  font-size:12px;
+  text-align: center;
+  margin:auto;
 }
 table th {
   color: #fff;
@@ -42,9 +43,22 @@ table tr:last-child td:first-child {
 table tr:last-child td:last-child {
   border-radius: 0 0 5px 0;
 }
+p {
+    width: 500px;
+    margin-right: auto;
+}
+section {
+    width: 100%;
+}
 h1 {
-  /*線の種類（実線） 太さ 色*/
-  border-bottom: solid 3px black;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+hr {
+    color: black;
+    height: 2px;
 }
 .raised{
   display: inline-block;
@@ -124,6 +138,7 @@ input[type="time"]:focus {
 textarea {
     resize: none;
 }
-p{
-  color:red;
+form {
+    text-align: center;
+    margin:auto;
 }

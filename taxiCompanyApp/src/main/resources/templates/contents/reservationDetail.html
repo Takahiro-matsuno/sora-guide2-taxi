@@ -6,12 +6,14 @@
       layout:decorate="layout/layout">
 <head>
     <title>予約詳細</title>
+    <link rel="stylesheet" type="text/css" href="https://yui-s.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
     <link th:href="@{/css/detail.css}" rel="stylesheet"/>
 </head>
 <body>
 <section layout:fragment="content">
     <div class="content">
         <h1>予約詳細</h1>
+        <hr noshade/>
         <p th:text="${errorMessage}"></p>
         <!-- TODO ReservationInformationへのobject変換が上手くいかない問題を解決する -->
         <form role="form" th:action="@{/reservation/list}" method="post" th:object="${rsvForm}">

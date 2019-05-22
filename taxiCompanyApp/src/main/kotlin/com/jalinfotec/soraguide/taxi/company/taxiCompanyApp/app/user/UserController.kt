@@ -70,8 +70,13 @@ class UserController {
     // パスワード初期化
     @PostMapping(value = ["/reset"])
     fun doReset(@RequestParam userName: String, @RequestParam("mail") inputMail: String, mav: ModelAndView): ModelAndView {
-        val result = userService.resetPassword(userName,inputMail)
+            var result = 1
 
+        try {
+            result = userService.resetPassword(userName, inputMail)
+        }catch (e:Exception) {
+            result = 1
+        }
 
         if(result == 0) {
             mav.viewName = "login"

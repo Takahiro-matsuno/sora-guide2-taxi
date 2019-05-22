@@ -32,5 +32,5 @@ input[type="submit"]:hover {
   background: #005000;
 }
 input[type="password"] {
-    margin-left: 0em;
+    margin-left: 0.5em;
 }

@@ -21,3 +21,20 @@ hr {
 input {
     text-align: center;
 }
+input[type="submit"] {
+  background: #b0d600;
+  border: 0;
+  width: 220px;
+  height: 40px;
+  border-radius: 3px;
+  margin-bottom: 1em;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+input[type="submit"]:hover {
+  background: #005000;
+}
+input[type="text"] {
+    margin-left: 0.5em;
+}

@@ -11,11 +11,10 @@
 </head>
 <body>
 <div id="login">
-    <h1>そらガイド</h1>
     <h1>パスワードリセット</h1>
 
-    パスワードを初期化するユーザー名と所属会社のメールアドレスをご入力ください。<br/>
     <form th:action="@{/reset}" method="post">
+        <div style="color: red;">パスワードを初期化するユーザー名と所属会社のメールアドレスをご入力ください。</div>
         <p th:text="${errorMessage}" style="color: red"></p>
 
         <span><i class="material-icons">perm_identity</i></span>

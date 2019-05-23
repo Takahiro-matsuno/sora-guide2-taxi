@@ -5,7 +5,8 @@
       layout:decorate="layout/layout">
 <head>
     <title>予約一覧</title>
-    <link rel="stylesheet" type="text/css" href="https://yui-s.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link th:href="@{/css/list.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -22,23 +23,32 @@
             </div>
 
             <div id="search_area">
-                <div class="search_input">
-                    ■予約番号<br>
-                    <input type="text" th:field="*{reservationId}"/><br><br>
-                    ■ステータス<br>
-                    <th:block th:each="statusName:${statusList}">
-                        <input type="checkbox" th:field="*{reservationStatus}" th:value="${statusName}"
-                               th:text="${statusName}"/><br>
-                    </th:block>
-                    <br><br>
-                </div>
-                <div class="search_input">
-                    ■電話番号<br>
-                    <input type="tel" th:field="*{passengerContact}"/><br><br>
-                    ■氏名<br>
-                    <input type="text" th:field="*{passengerName}"/><br><br>
-                    ■フリガナ<br>
-                    <input type="text" th:field="*{passengerPhonetic}"/><br><br>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-3">
+                            <div class="search_input1">
+                                <p>■予約番号</p>
+                                <input type="text" th:field="*{reservationId}"/>
+                                <p>■ステータス</p>
+                                <th:block th:each="statusName:${statusList}">
+                                    <p><input type="checkbox" th:field="*{reservationStatus}" th:value="${statusName}"
+                                           th:text="${statusName}"/></p>
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="search_input2">
+                                <p>■電話番号</p>
+                                <input type="tel" th:field="*{passengerContact}"/>
+                                <p>■氏名</p>
+                                <input type="text" th:field="*{passengerName}"/>
+                                <p>■フリガナ</p>
+                                <input type="text" th:field="*{passengerPhonetic}"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
                 </div>
             </div>
 
@@ -83,6 +93,8 @@
              *  TODO action="/reservation/update" method="get"にポーリングして更新情報があるかを取得する
              *  TODO 更新情報がある場合はUIを更新する
              */
+
+
 </script>
 </body>
 </html>

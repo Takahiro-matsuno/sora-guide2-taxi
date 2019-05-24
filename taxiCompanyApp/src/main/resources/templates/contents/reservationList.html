@@ -7,6 +7,7 @@
     <title>予約一覧</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link th:href="@{/css/list.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -33,7 +34,7 @@
                                 <p>■ステータス</p>
                                 <th:block th:each="statusName:${statusList}">
                                     <p><input type="checkbox" th:field="*{reservationStatus}" th:value="${statusName}"
-                                           th:text="${statusName}"/></p>
+                                              th:text="${statusName}"/></p>
                                 </th:block>
                             </div>
                         </div>
@@ -51,13 +52,16 @@
                     </div>
                 </div>
             </div>
-
-            <input type="submit" value="検索する"><br>
-            <button type="button" onclick="updateList()">更新する</button>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <input class="search" type="submit" value="検索する">
+                </div>
+                <div class="col-sm-4">
+                    <div class="refreshList" onclick="updateList()"><i class="material-icons">refresh</i></div>
+                </div>
+            </div>
         </form>
-
-        <br>
-
         <table rules="rows">
             <tr>
                 <th>予約番号</th>
@@ -68,7 +72,8 @@
                 <th>乗車人数(子供)</th>
                 <th>配車台数</th>
             </tr>
-            <tr th:each="rsvForm :${rsvFormList}" th:attr="onclick='getDetail(\'' + ${rsvForm.reservationId} +'\');'">
+            <tr th:each="rsvForm :${rsvFormList}"
+                th:attr="onclick='getDetail(\'' + ${rsvForm.reservationId} +'\');'">
                 <td id="reservationId" th:text="${rsvForm.reservationId}"></td>
                 <td th:text="${rsvForm.rideOnDate}"></td>
                 <td th:text="${rsvForm.rideOnTime}"></td>
@@ -93,6 +98,11 @@
              *  TODO action="/reservation/update" method="get"にポーリングして更新情報があるかを取得する
              *  TODO 更新情報がある場合はUIを更新する
              */
+
+
+
+
+
 
 
 </script>

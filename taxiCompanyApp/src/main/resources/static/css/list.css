@@ -84,3 +84,29 @@ input[type="text"] {
     margin-bottom:0;
     height: 2em;
 }
+.refreshList {
+    text-align: center;
+    cursor: pointer;
+    margin-top: 15px;
+}
+.search {
+    text-align: center;
+}
+input[type="submit"] {
+  background: #b0d600;
+  border: 0;
+  width: 200px;
+  height: 30px;
+  border-radius: 3px;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+input[type="submit"]:hover {
+  background: #005000;
+}
+form a{
+    cursor: pointer;
+}

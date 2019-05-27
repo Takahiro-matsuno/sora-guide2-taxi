@@ -160,7 +160,7 @@ class ActionCompleteController(
             ActionType.CANCEL -> {
                 mav.addObject("title", "取消完了")
                 mav.addObject("headText",
-                        "タクシーのご予約を取り消しました。")
+                        "タクシーのご予約を取消しました。")
                 mav.addObject("message",
                         "またのご利用をお待ちしております。")
             }

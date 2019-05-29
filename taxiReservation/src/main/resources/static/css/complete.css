@@ -68,3 +68,7 @@ button {
 .right_button {
     float: right;
 }
+.center_button {
+    display: block;
+    text-align: center;
+}

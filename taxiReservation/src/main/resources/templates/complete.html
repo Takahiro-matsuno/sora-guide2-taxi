@@ -56,7 +56,10 @@
 
     <br/>
 
-    <button type="button" class="left_button" onClick="location.href='./registration'">予約登録へ</button>
+    <span th:classappend="${!isListButton} ? center_button : ''">
+        <button type="button" onClick="location.href='./registration'">予約登録へ</button>
+    </span>
+
     <th:block th:if="${isListButton}">
         <button type="button" class="right_button" onClick="location.href='./list'">予約一覧へ</button>
     </th:block>

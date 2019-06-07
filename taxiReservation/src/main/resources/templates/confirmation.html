@@ -69,8 +69,8 @@
 
     <br/>
 
-    <form action="./rsvComplete" method="post">
-        <button class="left_button" type="submit" formaction="./registration">戻る</button>
+    <form th:action="@{./rsvComplete}" method="post">
+        <button class="left_button" type="submit" th:formaction="@{./registration}">戻る</button>
         <button class="right_button" type="submit">送信</button>
 
         <input type="hidden" th:field="*{rideOnDate}"/>

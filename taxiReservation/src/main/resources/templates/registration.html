@@ -22,7 +22,7 @@
 
     <br/>
 
-    <form action="./confirmation" method="post" th:object="${reservationForm}">
+    <form th:action="@{./confirmation}" method="post" th:object="${reservationForm}">
         <p>以下の項目を入力してください</p>
 
         <div th:if="${errorMessage}">

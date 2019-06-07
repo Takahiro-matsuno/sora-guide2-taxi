@@ -39,7 +39,8 @@ dependencies {
 
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
+    //Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     // thymeleaf
     implementation 'org.thymeleaf:thymeleaf'
     //implementation 'org.thymeleaf:thymeleaf-spring4'

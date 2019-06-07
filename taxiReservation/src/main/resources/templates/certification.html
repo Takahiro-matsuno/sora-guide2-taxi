@@ -20,7 +20,7 @@
 
     <br/>
 
-    <form action="./certificateResult" method="post">
+    <form th:action="@{../certificateResult}" method="post">
         <div th:if="${errorMessage}">
             <div class="error_message" th:text="${errorMessage}"></div>
             <br/>

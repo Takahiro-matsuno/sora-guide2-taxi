@@ -20,7 +20,7 @@
 
     <br/>
 
-    <form action="./changeComplete" method="post" th:object="${changeForm}">
+    <form th:action="@{./changeComplete}" method="post" th:object="${changeForm}">
         <p>以下の項目を入力してください</p>
 
         <div th:if="${errorMessage}">

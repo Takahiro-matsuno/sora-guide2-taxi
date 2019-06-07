@@ -69,9 +69,9 @@
 
     <br/>
 
-    <form th:action="@{./rsvComplete}" method="post">
+    <form th:action="@{./rsvComplete}" method="post" onsubmit="return checkDoubleSubmit();">
         <button class="left_button" type="submit" th:formaction="@{./registration}">戻る</button>
-        <button class="right_button" type="submit">送信</button>
+        <button class="right_button" id="btnSubmit" type="submit">送信</button>
 
         <input type="hidden" th:field="*{rideOnDate}"/>
         <input type="hidden" th:field="*{rideOnTime}"/>
@@ -92,3 +92,16 @@
 
 </body>
 </html>
+<script>
+function checkDoubleSubmit(){
+  var obj = document.getElementById("btnSubmit");
+  if(obj.disabled){
+    //ボタンがdisabledならsubmitしない
+    return false;
+  }else{
+    //ボタンがdisabledでなければ、ボタンをdisabledにした上でsubmitする
+    obj.disabled = true;
+    return true;
+  }
+}
+</script>

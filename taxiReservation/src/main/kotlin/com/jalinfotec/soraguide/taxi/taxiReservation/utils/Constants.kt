@@ -3,7 +3,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.utils
 object Constants {
     //TODO 開発用オプション
     //TRUEの場合、Androidアプリ/WEBの判定が無効になり、WEBから実行していてもAndroidアプリでの処理動作が確認できる
-    const val TEST_MODE = false
+    const val TEST_MODE = true
 
     // 予約ステータス
     val reservationStatus = mutableMapOf(

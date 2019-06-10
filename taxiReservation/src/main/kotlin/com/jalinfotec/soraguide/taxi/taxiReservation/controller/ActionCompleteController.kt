@@ -34,7 +34,7 @@ class ActionCompleteController(
     enum class ActionType { ADD, CHANGE, CANCEL }
 
     /**
-     * 登録完了画面
+     * 登録完了処理
      */
     @PostMapping("app/rsvComplete")
     fun rsvComplete(mav: ModelAndView,
@@ -63,15 +63,20 @@ class ActionCompleteController(
         }
 
         //登録処理
-        var rsvId = ""
+        var rsvId: String
         try {
             rsvId = rsvCompService.complete(rsvForm, request)
         } catch (e: Exception) {
             mav.viewName = "confirmation"
             mav.addObject("reservationForm", rsvForm)
+            return mav
         }
 
-        return completeTransition(mav, rsvId, ActionType.ADD, request)
+        //予約処理完了後クッションページに遷移
+        mav.viewName = "temp"
+        mav.addObject("id", rsvId)
+
+        return mav
     }
 
     /**
@@ -119,6 +124,17 @@ class ActionCompleteController(
         val rsvId = rsvChangeService.delete(id, lastUpdate, request) ?: throw Exception()
 
         return completeTransition(mav, rsvId, ActionType.CANCEL, request)
+    }
+
+    /**
+     *予約完了画面表示
+     */
+    @PostMapping("app/complete")
+    fun displayComplete(mav: ModelAndView,
+                        @RequestParam("id") id: String,
+                        request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+
+        return completeTransition(mav, id, ActionType.ADD, request)
     }
 
     /**

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+    <title>クッションページ</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
+</head>
+<body onLoad="document.forms[0].submit()">
+ただいま予約処理中です。
+<form th:action="@{./complete}" method="post">
+    <input type="hidden" name="id" th:value="${id}">
+</form>
+</body>
+</html>

@@ -20,7 +20,7 @@
 
     <br/>
 
-    <form th:action="@{./changeComplete}" method="post" th:object="${changeForm}">
+    <form th:action="@{./changeComplete}" method="post" th:object="${changeForm}" onsubmit="return checkDoubleSubmit();">
         <p>以下の項目を入力してください</p>
 
         <div th:if="${errorMessage}">
@@ -87,7 +87,7 @@
         <br/>
 
         <button type="reset" class="left_button">元に戻す</button>
-        <button type="submit" class="right_button">変更完了</button>
+        <button type="submit" id="btnSubmit" class="right_button">変更完了</button>
 
         <input type="hidden" th:field="${changeForm.id}">
         <input type="hidden" th:field="${changeForm.reservationStatus}">
@@ -102,3 +102,16 @@
 </div>
 </body>
 </html>
+<script>
+function checkDoubleSubmit(){
+  var obj = document.getElementById("btnSubmit");
+  if(obj.disabled){
+    //ボタンがdisabledならsubmitしない
+    return false;
+  }else{
+    //ボタンがdisabledでなければ、ボタンをdisabledにした上でsubmitする
+    obj.disabled = true;
+    return true;
+  }
+}
+</script>

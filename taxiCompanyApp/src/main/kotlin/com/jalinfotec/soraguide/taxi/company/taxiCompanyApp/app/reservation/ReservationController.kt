@@ -1,10 +1,12 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.reservation
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.ReservationSearchForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.ReservationService
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
+import com.microsoft.applicationinsights.TelemetryClient
 import org.springframework.context.MessageSource
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
@@ -18,7 +20,8 @@ import java.util.regex.Pattern
 @Controller
 class ReservationController(
         private val reservationService: ReservationService,
-        private val messageSource: MessageSource
+        private val messageSource: MessageSource,
+        private val telemetry: TelemetryClient
 ) {
 
     // 予約一覧画面の表示
@@ -30,6 +33,7 @@ class ReservationController(
 
         // 認証ユーザーの会社IDをキーに予約情報フォームを取得
         val rsvFormList = reservationService.getListDefault(user.getCompanyId())
+        telemetry.trackTrace("CompanyId:${user.getCompanyId()}")
 
         // 選択可能な予約ステータス一覧
         mav.addObject("statusList", reservationService.getStatusList())
@@ -43,6 +47,7 @@ class ReservationController(
             mav.addObject("rsvFormList", rsvFormList)
         } else {
             // 予約一覧取得失敗時
+            telemetry.trackEvent("ReservationInfo_NotFound")
             mav.addObject("errorMessage", "予約情報がありません。")
         }
         return mav
@@ -59,11 +64,14 @@ class ReservationController(
         // 認証ユーザーの会社ID、予約番号をキーに予約情報を取得
         val result = reservationService.getDetail(user.getCompanyId(), reservationId)
 
+        telemetry.trackTrace("reservationId:${reservationId}")
         return if (result == null) {
             // 予約情報がない場合はエラー画面を表示する
+            telemetry.trackEvent("ReservationInfo_NotFoundError")
             mav.viewName = "contents/error"
             mav
         } else {
+            telemetry.trackTrace("reservationDetail:${jacksonObjectMapper().writeValueAsString(result.first)}")
             mav.viewName = "contents/reservationDetail"
             // Viewに取得結果を設定
             mav.addObject("rsvForm", result.first)      // 予約情報
@@ -82,6 +90,8 @@ class ReservationController(
             result: BindingResult,
             mav: ModelAndView
     ): ModelAndView {
+
+        telemetry.trackTrace("ReservationForm:${jacksonObjectMapper().writeValueAsString(rsvForm)}")
 
         val validateMessage = validate(rsvForm, result, mav)
         if (!validateMessage.isNullOrEmpty()) {
@@ -104,6 +114,7 @@ class ReservationController(
         // 予約情報更新処理
         if (!reservationService.updateDetail(companyId, rsvForm)) {
             // 更新エラー表示をViewに追加
+            telemetry.trackEvent("ReservationInfo_UpdateFailure")
             mav.addObject("errorMessage", "更新に失敗しました")
         }
 
@@ -114,6 +125,7 @@ class ReservationController(
             mav.addObject("rsvFormList", rsvFormList)
         } else {
             // 予約一覧取得失敗時
+            telemetry.trackEvent("ReservationInfo_NotFound")
             mav.addObject("errorMessage", "予約情報がありません。")
         }
         return mav
@@ -125,6 +137,7 @@ class ReservationController(
     fun validate(rsvForm: ReservationForm, result: BindingResult, mav: ModelAndView): String? {
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
+            telemetry.trackEvent("ReservationForm_ BindingError")
             val fieldName = messageSource.getMessage(result.fieldErrors[0].field, null, Locale.JAPAN)
             val errorMessage = result.fieldErrors[0].defaultMessage
             return "$fieldName：$errorMessage"
@@ -170,6 +183,7 @@ class ReservationController(
             mav.addObject("rsvFormList", rsvFormList)
         } else {
             // 予約一覧取得失敗時
+            telemetry.trackEvent("ReservationInfo_NotFound")
             mav.addObject("errorMessage", "予約情報がありません。")
         }
         return mav

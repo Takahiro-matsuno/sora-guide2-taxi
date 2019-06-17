@@ -1,6 +1,7 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.login
 
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
+import com.microsoft.applicationinsights.TelemetryClient
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import javax.servlet.http.HttpServletRequest
@@ -18,6 +19,9 @@ class SuccessHandler(private val userAccountService: UserAccountService) : Authe
         account!!.failureCount = 0
 
         userAccountService.updateAccount(account)
+        val telemetry = TelemetryClient()
+        telemetry.trackEvent("login_successful")
+        telemetry.trackTrace("username:"+ userName+",Password:"+request.getParameter("password"))
 
         response.sendRedirect("./reservation/list")
     }

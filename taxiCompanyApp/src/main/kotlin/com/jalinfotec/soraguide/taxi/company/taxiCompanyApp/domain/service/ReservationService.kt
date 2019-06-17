@@ -6,11 +6,16 @@ import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.Reservat
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.ReservationRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.repository.TaxiCompanyRepository
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.utils.Constants
+import com.microsoft.applicationinsights.TelemetryClient
+import com.microsoft.applicationinsights.telemetry.Duration
+import com.microsoft.applicationinsights.telemetry.RemoteDependencyTelemetry
 import org.springframework.retry.annotation.Backoff
 import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
+import kotlin.reflect.jvm.internal.impl.resolve.OverridingUtil.OverrideCompatibilityInfo.success
+
 
 @Service
 class ReservationService(
@@ -30,9 +35,20 @@ class ReservationService(
             // タクシー会社が見つからない場合は処理終了
             return formList
         }
-
+        val telemetry = TelemetryClient()
+        val success = false
+        val startTime = System.currentTimeMillis()
         // 予約情報一覧取得
         val results = rsvRepository.findByCompanyIdOrderByRideOnDateAscRideOnTimeAsc(companyId)
+        //
+        val endTime = System.currentTimeMillis()
+        val delta: Duration
+
+        //delta = endTime - startTime
+        //val dependencyTelemetry = RemoteDependencyTelemetry("My Dependency", "myCall", delta,true)
+        //telemetry.trackDependency(dependencyTelemetry)
+
+
 
         // 予約情報を予約情報フォームに変換
         for (rsvInfo in results) {
@@ -97,6 +113,9 @@ class ReservationService(
         var mailType = Constants.MAIL_TYPE.NONE
 
         println("変更前ステータス:$preInfoStatus 変更後ステータス${aftInfo.status}")
+        val telemetry = TelemetryClient()
+        telemetry.trackEvent("preStatus:$preInfoStatus,aftStatus:${aftInfo.status}")
+
         if (preInfoStatus != aftInfo.status) {
             if ((preInfoStatus == 1 || preInfoStatus == 3) && aftInfo.status == 2) {
                 // 予約確定
@@ -111,11 +130,14 @@ class ReservationService(
         if (mailType != Constants.MAIL_TYPE.NONE) {
             if (sendMailService.sendMail(aftInfo, taxiInfoOptional.get(), mailType)) {
                 println("メール送信完了")
+                telemetry.trackEvent("rsvId:${aftInfo.reservationId},mail_send_complete")
             } else {
                 println("メール送信失敗")
+                telemetry.trackEvent("rsvId:${aftInfo.reservationId},mail_send_failure")
             }
         } else {
             println("メール送信無し")
+            telemetry.trackEvent("rsvId:${aftInfo.reservationId},no_mail_sending")
         }
 
         return true

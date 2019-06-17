@@ -43,9 +43,14 @@ dependencies {
 	/*
 	 * spring関連
 	 */
-	
+	configurations.all {
+		exclude group: "commons-logging", module: "commons-logging"
+		exclude group: "org.apache.logging.log4j", module: "log4j-slf4j-impl"
+	}
 	// web
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation('org.springframework.boot:spring-boot-starter-web') {
+		exclude module: 'spring-boot-starter-logging'
+	}
 	
 	// thymeleaf
 	implementation 'org.thymeleaf:thymeleaf'
@@ -80,6 +85,16 @@ dependencies {
 	
 	// gson
 	implementation 'com.google.code.gson:gson:2.8.5'
+
+	provider {
+		runtime('javax.servlet:javax.servlet-api:3.1.0')
+		runtime('org.springframework.boot:spring-boot-tomcat')
+	}
+
+	implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:1.1.1'
+	implementation "org.springframework.boot:spring-boot-starter-logging"
+	implementation "org.springframework.boot:spring-boot-starter-log4j2"
+	implementation "com.microsoft.azure:applicationinsights-logging-log4j2:2.1.1"
 }
 
 compileKotlin {

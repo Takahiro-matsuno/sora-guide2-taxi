@@ -3,6 +3,7 @@ package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.user
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.UserSettingForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.UserAccountService
+import com.microsoft.applicationinsights.TelemetryClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
@@ -22,6 +23,7 @@ class UserController {
             mav: ModelAndView
     ): ModelAndView {
 
+        val telemetry = TelemetryClient()
         // アカウント取得
         return if (userService.findByCompanyIdAndUsername(user.getCompanyId(), user.username)) {
             mav.viewName = "contents/userSetting"
@@ -30,6 +32,7 @@ class UserController {
         } else {
             // アカウントが見つからない場合はエラー
             // TODO エラー
+            telemetry.trackEvent("UserNotFound")
             mav.viewName = "contents/error"
             //mav.addObject("", "ユーザーが見つかりません。")
             mav
@@ -44,10 +47,12 @@ class UserController {
             @ModelAttribute(value = "usForm") usForm: UserSettingForm,
             mav: ModelAndView
     ): ModelAndView {
+        val telemetry = TelemetryClient()
 
         if (user.username != usForm.username) {
             // TODO エラー
             // ユーザー名が一致しない場合はエラー
+            telemetry.trackEvent("UserInfo_change_failure:username_mismatch")
             mav.viewName = "contents/error"
             mav.addObject("message", "再度ログインしてください。")
             return mav
@@ -57,10 +62,12 @@ class UserController {
         mav.viewName = "/contents/userSetting"
         if (userService.changePassword(user, usForm)) {
             // 更新成功
+            telemetry.trackEvent("UserInfo_change_successful")
             mav.addObject("message","ユーザ情報を更新しました。")
             mav.addObject("usForm", UserSettingForm(username = user.username))
         } else {
             // 更新失敗
+            telemetry.trackEvent("UserInfo_change_failure")
             mav.addObject("message","更新に失敗しました。")
         }
         return mav
@@ -70,18 +77,22 @@ class UserController {
     // パスワード初期化
     @PostMapping(value = ["/reset"])
     fun doReset(@RequestParam userName: String, @RequestParam("mail") inputMail: String, mav: ModelAndView): ModelAndView {
-            var result = 1
+            var result: Int
+            val telemetry = TelemetryClient()
 
         try {
             result = userService.resetPassword(userName, inputMail)
         }catch (e:Exception) {
+            telemetry.trackException(e)
             result = 1
         }
 
         if(result == 0) {
+            telemetry.trackEvent("password_reset_successful")
             mav.viewName = "login"
             mav.addObject("message", "パスワードをリセットしました。メールをご確認ください。")
         }else if(result == 1) {
+            telemetry.trackEvent("passwords_reset_failure")
             mav.viewName = "reset"
             mav.addObject("errorMessage", "ユーザー名または、メールアドレスに誤りがあります。")
         }

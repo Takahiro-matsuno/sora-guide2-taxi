@@ -1,5 +1,6 @@
 package com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.app.company
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.UserAccount
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.form.TaxiCompanyForm
 import com.jalinfotec.soraguide.taxi.company.taxiCompanyApp.domain.service.TaxiCompanyService
@@ -22,6 +23,7 @@ class CompanyController(
             @AuthenticationPrincipal user: UserAccount,
             mav: ModelAndView
     ): ModelAndView {
+        telemetry.trackTrace("user:${jacksonObjectMapper().writeValueAsString(user)}")
 
         val taxiForm = taxiService.getTaxiCompanyForm(user.getCompanyId())
         return if (taxiForm == null) {
@@ -46,6 +48,7 @@ class CompanyController(
             @ModelAttribute taxiForm: TaxiCompanyForm,
             mav: ModelAndView
     ): ModelAndView {
+        telemetry.trackTrace("taxiForm:${jacksonObjectMapper().writeValueAsString(taxiForm)}")
 
         mav.viewName = "contents/companySetting"
         if (taxiService.updateTaxiCompanyInformation(taxiForm, user)) {

@@ -63,12 +63,12 @@ class UserController {
         if (userService.changePassword(user, usForm)) {
             // 更新成功
             telemetry.trackEvent("UserInfo_change_successful")
-            mav.addObject("message","ユーザ情報を更新しました。")
+            mav.addObject("message", "ユーザ情報を更新しました。")
             mav.addObject("usForm", UserSettingForm(username = user.username))
         } else {
             // 更新失敗
             telemetry.trackEvent("UserInfo_change_failure")
-            mav.addObject("message","更新に失敗しました。")
+            mav.addObject("message", "更新に失敗しました。")
         }
         return mav
     }
@@ -77,21 +77,22 @@ class UserController {
     // パスワード初期化
     @PostMapping(value = ["/reset"])
     fun doReset(@RequestParam userName: String, @RequestParam("mail") inputMail: String, mav: ModelAndView): ModelAndView {
-            var result: Int
-            val telemetry = TelemetryClient()
+        var result: Int
+        val telemetry = TelemetryClient()
 
+        telemetry.trackTrace("user:${userName},mail:${inputMail}")
         try {
             result = userService.resetPassword(userName, inputMail)
-        }catch (e:Exception) {
+        } catch (e: Exception) {
             telemetry.trackException(e)
             result = 1
         }
 
-        if(result == 0) {
+        if (result == 0) {
             telemetry.trackEvent("password_reset_successful")
             mav.viewName = "login"
             mav.addObject("message", "パスワードをリセットしました。メールをご確認ください。")
-        }else if(result == 1) {
+        } else if (result == 1) {
             telemetry.trackEvent("passwords_reset_failure")
             mav.viewName = "reset"
             mav.addObject("errorMessage", "ユーザー名または、メールアドレスに誤りがあります。")

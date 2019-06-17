@@ -33,7 +33,7 @@ class ReservationController(
 
         // 認証ユーザーの会社IDをキーに予約情報フォームを取得
         val rsvFormList = reservationService.getListDefault(user.getCompanyId())
-        telemetry.trackTrace("CompanyId:${user.getCompanyId()}")
+        telemetry.trackTrace("user:${jacksonObjectMapper().writeValueAsString(user)}")
 
         // 選択可能な予約ステータス一覧
         mav.addObject("statusList", reservationService.getStatusList())
@@ -64,7 +64,7 @@ class ReservationController(
         // 認証ユーザーの会社ID、予約番号をキーに予約情報を取得
         val result = reservationService.getDetail(user.getCompanyId(), reservationId)
 
-        telemetry.trackTrace("reservationId:${reservationId}")
+        telemetry.trackTrace("reservationId:$reservationId")
         return if (result == null) {
             // 予約情報がない場合はエラー画面を表示する
             telemetry.trackEvent("ReservationInfo_NotFoundError")
@@ -91,7 +91,10 @@ class ReservationController(
             mav: ModelAndView
     ): ModelAndView {
 
-        telemetry.trackTrace("ReservationForm:${jacksonObjectMapper().writeValueAsString(rsvForm)}")
+
+        val str = jacksonObjectMapper().writeValueAsString(rsvForm)
+        telemetry.trackTrace("rsvUpdForm:$str")
+
 
         val validateMessage = validate(rsvForm, result, mav)
         if (!validateMessage.isNullOrEmpty()) {
@@ -168,6 +171,9 @@ class ReservationController(
             @ModelAttribute(value = "searchForm") searchForm: ReservationSearchForm,
             mav: ModelAndView
     ): ModelAndView {
+        val str = jacksonObjectMapper().writeValueAsString(searchForm)
+        telemetry.trackTrace("searchForm:$str")
+
         // 認証ユーザーの会社IDをキーに予約情報フォームを取得
         val rsvFormList = reservationService.getListSearch(user.getCompanyId(), searchForm)
 

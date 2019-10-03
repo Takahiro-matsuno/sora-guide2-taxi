@@ -73,7 +73,7 @@ class ReservationCompleteService(
                 companyId = taxiInfo.id,
                 destination = input.destination,
                 passengerName = input.passengerName,
-                passengerPhonetic = input.passengerPhonetic,
+//                passengerPhonetic = input.passengerPhonetic,
                 passengerContact = input.passengerContact,
                 mail = input.mail,
                 comment = input.comment,

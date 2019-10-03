@@ -22,7 +22,7 @@
 
     <br/>
 
-    <form th:action="@{./confirmation}" method="post" th:object="${reservationForm}">
+        <form th:action="@{./confirmation}" method="post" th:object="${reservationForm}">
         <p>以下の項目を入力してください</p>
 
         <div th:if="${errorMessage}">
@@ -41,7 +41,7 @@
         <label>人数(大人)<span class="redAsterisk">*</span></label>
         <input type="number" th:field="*{adult}" min="0" required/>
 
-        <label>人数(お子様)<span class="redAsterisk">*</span></label>
+        <label>人数(子供)<span class="redAsterisk">*</span></label>
         <input type="number" th:field="*{child}" min="0" required/>
 
         <label>配車台数<span class="redAsterisk">*</span></label>
@@ -58,11 +58,10 @@
         <label>目的地<span class="redAsterisk">*</span></label>
         <input type="text" th:field="*{destination}" placeholder="栗林公園" required/>
 
-        <label>氏名<span class="redAsterisk">*</span></label>
-        <input type="text" th:field="*{passengerName}" placeholder="大空旅人" required/>
-
-        <label>フリガナ<span class="redAsterisk">*</span></label>
-        <input type="text" th:field="*{passengerPhonetic}" placeholder="オオゾラタビト" required/>
+        <label>氏名(カナ)<span class="redAsterisk">*</span></label>
+        <input type="text" th:field="*{passengerName}" placeholder="オオゾラタビト" required/>
+<!--        <label>氏名(カナ)<span class="redAsterisk">*</span></label>-->
+<!--        <input type="text" th:field="*{passengerPhonetic}" placeholder="オオゾラタビト" required/>-->
 
         <label>電話番号<span class="redAsterisk">*</span></label>
         <input type="tel" th:field="*{passengerContact}" placeholder="08012345678" required/>

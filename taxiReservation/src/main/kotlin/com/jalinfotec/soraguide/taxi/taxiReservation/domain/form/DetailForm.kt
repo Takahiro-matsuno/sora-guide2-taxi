@@ -13,7 +13,7 @@ data class DetailForm(
         var companyName: String = "",
         var destination: String = "",
         var passengerName: String = "",
-        var passengerPhonetic: String = "",
+//        var passengerPhonetic: String = "",
         var passengerContact: String = "",
         var mail: String = "",
         var comment: String = "",

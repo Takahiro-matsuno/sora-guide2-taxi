@@ -55,7 +55,7 @@ class ReservationChangeService(
                 companyName,
                 rsvInfo.destination,
                 rsvInfo.passengerName,
-                rsvInfo.passengerPhonetic,
+                //rsvInfo.passengerPhonetic,
                 rsvInfo.passengerContact,
                 rsvInfo.mail,
                 rsvInfo.mail,
@@ -103,7 +103,7 @@ class ReservationChangeService(
         rsvInfo.carDispatchNumber = changeInfo.carDispatchNumber
         rsvInfo.destination = changeInfo.destination
         rsvInfo.passengerName = changeInfo.passengerName
-        rsvInfo.passengerPhonetic = changeInfo.passengerPhonetic
+        //rsvInfo.passengerPhonetic = changeInfo.passengerPhonetic
         rsvInfo.passengerContact = changeInfo.passengerContact
         rsvInfo.mail = changeInfo.mail
         rsvInfo.comment = changeInfo.comment

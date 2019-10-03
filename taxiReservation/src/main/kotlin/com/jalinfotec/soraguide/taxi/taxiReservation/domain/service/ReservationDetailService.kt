@@ -111,7 +111,7 @@ class ReservationDetailService(
                     companyNameOptional.get().companyName,
                     rsvInfo.destination,
                     rsvInfo.passengerName,
-                    rsvInfo.passengerPhonetic,
+//                    rsvInfo.passengerPhonetic,
                     rsvInfo.passengerContact,
                     rsvInfo.mail,
                     rsvInfo.comment,

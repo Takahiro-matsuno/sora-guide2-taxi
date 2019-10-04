@@ -32,7 +32,7 @@ data class ReservationInformation(
 
         @Column(name = "passenger_name")
         var passengerName: String = "",
-
+// TODO DBの項目からも削除する、コメントアウトした箇所も削除する
 //        @Column(name = "passenger_phonetic")
 //        var passengerPhonetic: String = "",
 

@@ -33,8 +33,8 @@ data class ReservationInformation(
         @Column(name = "passenger_name")
         var passengerName: String = "",
 
-        @Column(name = "passenger_phonetic")
-        var passengerPhonetic: String = "",
+//        @Column(name = "passenger_phonetic")
+//        var passengerPhonetic: String = "",
 
         @Column(name = "passenger_contact")
         var passengerContact: String = "",

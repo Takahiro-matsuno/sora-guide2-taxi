@@ -35,19 +35,8 @@ class ReservationService(
             // タクシー会社が見つからない場合は処理終了
             return formList
         }
-        val telemetry = TelemetryClient()
-        val success = false
-        val startTime = System.currentTimeMillis()
         // 予約情報一覧取得
         val results = rsvRepository.findByCompanyIdOrderByRideOnDateAscRideOnTimeAsc(companyId)
-        //
-        val endTime = System.currentTimeMillis()
-        val delta: Duration
-
-        //delta = endTime - startTime
-        //val dependencyTelemetry = RemoteDependencyTelemetry("My Dependency", "myCall", delta,true)
-        //telemetry.trackDependency(dependencyTelemetry)
-
 
 
         // 予約情報を予約情報フォームに変換
@@ -202,7 +191,7 @@ class ReservationService(
                 rsvInfo.carDispatchNumber,
                 rsvInfo.destination.trim(),
                 rsvInfo.passengerName.trim(),
-                rsvInfo.passengerPhonetic.trim(),
+               // rsvInfo.passengerPhonetic.trim(),
                 rsvInfo.passengerContact.trim(),
                 rsvInfo.passengerMail.trim(),
                 rsvInfo.comment.trim(),
@@ -234,7 +223,7 @@ class ReservationService(
         rsvInfo.carDispatchNumber = rsvForm.carDispatchNumber
         rsvInfo.destination = rsvForm.destination.trim()
         rsvInfo.passengerName = rsvForm.passengerName.trim()
-        rsvInfo.passengerPhonetic = rsvForm.passengerPhonetic.trim()
+       // rsvInfo.passengerPhonetic = rsvForm.passengerPhonetic.trim()
         rsvInfo.passengerContact = rsvForm.passengerContact.trim()
         rsvInfo.passengerMail = rsvForm.passengerMail.trim()
         rsvInfo.comment = rsvForm.comment.trim()
@@ -285,12 +274,6 @@ class ReservationService(
             }
         }
 
-        //搭乗者フリガナチェック
-        if (searchForm.passengerPhonetic.isNotEmpty()) {
-            if (rsvInfo.passengerPhonetic != searchForm.passengerPhonetic) {
-                return false
-            }
-        }
         return true
     }
 

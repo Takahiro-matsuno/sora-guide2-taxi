@@ -34,9 +34,9 @@ data class ReservationForm(
         @get:Size(min = 1, max = 20)
         var passengerName: String,
 
-        @get:NotEmpty
-        @get:Size(min = 1, max = 30)
-        var passengerPhonetic: String,
+//        @get:NotEmpty
+//        @get:Size(min = 1, max = 30)
+//        var passengerPhonetic: String,
 
         @get:NotEmpty
         @get:Size(min = 1, max = 15)

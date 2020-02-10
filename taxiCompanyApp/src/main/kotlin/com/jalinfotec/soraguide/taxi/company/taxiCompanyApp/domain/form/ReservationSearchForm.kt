@@ -6,8 +6,7 @@ data class ReservationSearchForm(
         val reservationId: String = "",
         val reservationStatus: Array<String> = Constants.reservationStatus.values.toTypedArray(),
         var passengerContact: String = "",
-        var passengerName: String = "",
-        var passengerPhonetic: String = ""
+        var passengerName: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -3,6 +3,7 @@ package com.jalinfotec.soraguide.taxi.taxiReservation.domain.service
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
+import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Environment
 import com.sendgrid.*
 import org.springframework.stereotype.Service
 
@@ -57,9 +58,9 @@ class SendMailService(
         }
 
         // 送信メール設定
-        val from = Email(Constants.FROM_ADDRESS)
+        val from = Email(Environment.FROM_ADDRESS)
         //TODO 開発用 誤送信防止のため、アドレス固定
-        val to = Email("yuuya.s.toyoda@jalinfotec.co.jp"/*rsvInfo.passengerMail*/)
+        val to = Email(rsvInfo.mail)
         val subject = Constants.mailSubject[mailType] ?: throw Exception()
         val content = Content("text/plain", mailMain)
 

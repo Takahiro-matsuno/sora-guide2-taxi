@@ -1,4 +1,5 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.utils
 
-class Environment {
+object Environment {
+    val FROM_ADDRESS = System.getenv("FROM_ADDRESS")
 }

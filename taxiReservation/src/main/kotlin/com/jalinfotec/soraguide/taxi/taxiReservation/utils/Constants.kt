@@ -32,9 +32,6 @@ object Constants {
             5 to false,
             6 to false)
 
-    // 送信元メールアドレス設定、環境変数から取得する
-    val FROM_ADDRESS = System.getenv("FROM_ADDRESS")
-
     // メール種別
     enum class MAIL_TYPE { RESERVE, CHANGE, CANCEL, NONE }
 

@@ -22,11 +22,17 @@
         <li class="active" onClick="location.href='./registration'">予約登録</li>
         <li onClick="location.href='./list'">予約一覧</li>
     </ul>
-    <h1 th:unless="${isTab}">予約登録</h1>
+    <h3 th:unless="${isTab}">予約登録</h3>
 </header>
 
 <div class="container">
     <p>以下の項目を入力してください(<span class="redAsterisk">必須*</span>)</p>
+
+    <div th:if="${errorMessage}">
+        <div class="error_message" th:text="${errorMessage}"></div>
+        <br/>
+    </div>
+
     <form th:action="@{./confirmation}" method="post" th:object="${reservationForm}">
         <div class="form-group">
             <label>予約日<span class="redAsterisk">*</span></label>

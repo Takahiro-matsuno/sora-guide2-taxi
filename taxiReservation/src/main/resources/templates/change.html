@@ -16,7 +16,85 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 </head>
+<body>
+<header class="header">
+    <h3>予約変更</h3>
+</header>
 
+<div class="container">
+
+    <div th:if="${errorMessage}">
+        <div class="error_message" th:text="${errorMessage}"></div>
+        <br/>
+    </div>
+
+    <form th:action="@{./changeComplete}" method="post" th:object="${changeForm}">
+        <div class="form-group">
+            <label>予約番号</label>
+            <input type="text" th:field="*{id}" class="form-control" required readonly>
+        </div>
+        <div class="form-group">
+            <label>ステータス</label>
+            <input type="text" th:field="*{reservationStatus}" class="form-control" required readonly>
+        </div>
+        <div class="form-group">
+            <label>乗車日</label>
+            <input type="date" th:field="*{rideOnDate}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>乗車時刻</label>
+            <input type="time" th:field="*{rideOnTime}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>人数(大人)</label>
+            <input type="number" th:field="*{adult}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>人数(子供)</label>
+            <input type="number" th:field="*{child}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>配車台数</label>
+            <input type="number" th:field="*{carDispatchNumber}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>目的地</label>
+            <input type="text" th:field="*{destination}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>氏名(ローマ字)</label>
+            <input type="text" th:field="*{passengerName}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>電話番号</label>
+            <input type="text" th:field="*{passengerContact}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>メールアドレス</label>
+            <input type="text" th:field="*{mail}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>メールアドレス(確認)</label>
+            <input type="text" th:field="*{mailCheck}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>利用コメント</label>
+            <input type="text" th:field="*{comment}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>タクシー連絡先</label>
+            <input type="text" th:field="*{carContact}" class="form-control" readonly>
+        </div>
+
+        <input type="hidden" th:field="*{lastUpdate}">
+
+        <button type="reset" class="left_button">元に戻す</button>
+        <button type="submit" class="right_button">変更する</button>
+
+    </form>
+</div>
+</body>
+<!--
 <body>
 <div class="contents">
 
@@ -103,17 +181,5 @@
 
 </div>
 </body>
+-->
 </html>
-<script>
-function checkDoubleSubmit(){
-  var obj = document.getElementById("btnSubmit");
-  if(obj.disabled){
-    //ボタンがdisabledならsubmitしない
-    return false;
-  }else{
-    //ボタンがdisabledでなければ、ボタンをdisabledにした上でsubmitする
-    obj.disabled = true;
-    return true;
-  }
-}
-</script>

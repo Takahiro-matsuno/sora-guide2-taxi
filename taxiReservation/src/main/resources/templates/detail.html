@@ -15,7 +15,90 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 </head>
+<body>
+<header class="header">
+    <h3>予約詳細</h3>
+</header>
+<div class="container" th:object="${rsvDetail}">
+    <div class="error_area" th:unless="*{Change}">
+        <div class="error_message">
+            本予約は変更・取消できません。<br/>
+            予約の変更・取消をご希望される方はご予約のタクシー会社に直接ご連絡ください。<br/>
+            ご連絡先：
+            <a th:href="@{tel:{contact}(contact=*{companyContact})}" th:text="*{companyContact}"></a>
+        </div>
+        <br/>
+    </div>
+    <div class="form-group">
+        <label>予約番号</label>
+        <input type="text" th:field="*{id}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>ステータス</label>
+        <input type="text" th:field="*{reservationStatus}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>予約日</label>
+        <input type="text" th:field="*{rideOnDate}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>予約時刻</label>
+        <input type="text" th:field="*{rideOnTime}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>人数(大人)</label>
+        <input type="text" th:field="*{adult}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>人数(子供)</label>
+        <input type="text" th:field="*{child}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>配車台数</label>
+        <input type="text" th:field="*{carDispatchNumber}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>タクシー会社</label>
+        <input type="text" th:field="*{companyName}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>目的地</label>
+        <input type="text" th:field="*{destination}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>氏名(ローマ字)</label>
+        <input type="text" th:field="*{passengerName}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>電話番号</label>
+        <input type="text" th:field="*{passengerContact}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>メールアドレス</label>
+        <input type="text" th:field="*{mail}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>利用コメント</label>
+        <input type="text" th:field="*{comment}" class="form-control" readonly>
+    </div>
+    <div class="form-group">
+        <label>タクシー連絡先</label>
+        <input type="text" th:field="*{carContact}" class="form-control" readonly>
+    </div>
+    <div th:if="*{Change}">
+        <form method="post">
+            <button type="button" class="left_button"
+                    th:attr="onclick='cancelCheck(\'' + *{id} + '\',\'' + *{lastUpdate} + '\');'"
+            >取消</button>
 
+            <button type="submit" class="right_button" formaction="./change" name="id" th:value="*{id}"
+            >変更</button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/detailCancel.js}"></script>
+</body>
+<!--
 <body th:object="${rsvDetail}">
 <div class="contents">
     <div class="display_box">
@@ -72,10 +155,6 @@
                 <th>氏名(カナ)</th>
                 <td th:text="*{passengerName}"></td>
             </tr>
-<!--            <tr>-->
-<!--                <th>フリガナ</th>-->
-<!--                <td th:text="*{passengerPhonetic}"></td>-->
-<!--            </tr>-->
             <tr>
                 <th>電話番号</th>
                 <td th:text="*{passengerContact}"></td>
@@ -123,4 +202,5 @@
 <script type="text/javascript" th:src="@{/js/detailCancel.js}"></script>
 
 </body>
+-->
 </html>

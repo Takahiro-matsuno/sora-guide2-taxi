@@ -18,6 +18,51 @@
 </head>
 
 <body>
+
+<header class="header">
+    <ul class="tabs">
+        <li onClick="location.href='./registration'">予約登録</li>
+        <li class="active" onClick="location.href='./list'">予約一覧</li>
+    </ul>
+</header>
+
+<div class="container">
+    <div class="card" style="margin: 4px" th:each="rsvInfo :${rsvList}">
+        <div class="card-body">
+            <table>
+                <tr>
+                    <th>予約番号</th>
+                    <td th:text="${rsvInfo.id}"></td>
+                </tr>
+                <tr>
+                    <th>乗車日</th>
+                    <td th:text="${rsvInfo.rideOnDate}"></td>
+                </tr>
+                <tr>
+                    <th>乗車時間</th>
+                    <td th:text="${rsvInfo.rideOnTime}"></td>
+                </tr>
+                <tr>
+                    <th>目的地</th>
+                    <td th:text="${rsvInfo.destination}"></td>
+                </tr>
+                <tr>
+                    <th>ステータス</th>
+                    <td th:text="${rsvInfo.reservationStatus}"></td>
+                </tr>
+            </table>
+            <div class="text-right">
+                <div class="btn btn-primary" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">詳細</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/list.js}"></script>
+</body>
+
+
+<!--
+<body>
 <div class="contents">
     <header>
         <ul class="tabs">
@@ -61,4 +106,5 @@
 
 </div>
 </body>
+-->
 </html>

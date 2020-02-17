@@ -5,12 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, user-scalable=yes">
-    <title>予約登録画面</title>
+    <title>そらガイド-タクシー予約登録</title>
     <link th:href="@{/css/common.css}" rel="stylesheet"/>
     <link th:href="@{/css/tab.css}" rel="stylesheet"/>
     <link th:href="@{/css/registration.css}" rel="stylesheet"/>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<header>
+    <ul th:if="${isTab}" class="tabs">
+        <li class="active" onClick="location.href='./registration'">予約登録</li>
+        <li onClick="location.href='./list'">予約一覧</li>
+    </ul>
+    <h1 th:unless="${isTab}">予約登録</h1>
+</header>
+
+<div class="container">
+    <p>以下の項目を入力してください(<span class="redAsterisk">必須*</span>)</p>
+    <form th:action="@{./confirmation}" method="post" th:object="${reservationForm}">
+        <div class="form-group">
+            <label>予約日<span class="redAsterisk">*</span></label>
+            <input type="date" th:field="*{rideOnDate}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>予約時刻<span class="redAsterisk">*</span></label>
+            <input type="time" th:field="*{rideOnTime}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>人数(大人)<span class="redAsterisk">*</span></label>
+            <input type="number" th:field="*{adult}" min="0" max="20" class="form-control" placeholder="1" required>
+        </div>
+        <div class="form-group">
+            <label>人数(子供)<span class="redAsterisk">*</span></label>
+            <input type="number" th:field="*{child}" min="0" max="20" class="form-control" placeholder="1" required>
+        </div>
+        <div class="form-group">
+            <label>配車台数<span class="redAsterisk">*</span></label>
+            <input type="number" th:field="*{carDispatchNumber}" min="1" max="20" class="form-control" placeholder="1" required>
+        </div>
+        <div class="form-group">
+            <label>タクシー会社<span class="redAsterisk">*</span></label>
+            <select id="singleSelect" th:field="*{companyName}" class="form-control">
+                <option value="">---</option>
+                <option th:each="item : ${taxiList}" th:value="${item}" th:text="${item}"
+                        th:selected="${item}==*{companyName}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>目的地<span class="redAsterisk">*</span></label>
+            <input type="text" th:field="*{destination}" class="form-control" placeholder="栗原公園" required>
+        </div>
+        <div class="form-group">
+            <label>氏名(ローマ字)<span class="redAsterisk">*</span></label>
+            <input type="text" th:field="*{passengerName}" class="form-control" placeholder="Tabito Ozora" required>
+        </div>
+        <div class="form-group">
+            <label>電話番号<span class="redAsterisk">*</span></label>
+            <input type="tel" th:field="*{passengerContact}" class="form-control" placeholder="090-1234-5678" required>
+        </div>
+        <div class="form-group">
+            <label>メールアドレス<span class="redAsterisk">*</span></label>
+            <input type="email" th:field="*{mail}" class="form-control" placeholder="example@example.com" required>
+        </div>
+        <div class="form-group">
+            <label>メールアドレス<span class="redAsterisk">*</span></label>
+            <input type="email" th:field="*{mailCheck}" class="form-control" placeholder="example@example.com" required>
+        </div>
+        <div class="form-group">
+            <label></label>
+            <textarea th:field="*{comment}" class="form-control" placeholder="トランク使用希望"></textarea>
+        </div>
+
+        <button type="reset" class="left_button">元に戻す</button>
+        <button type="submit" class="right_button">予約する</button>
+    </form>
+</div>
+<!--
 <div class="contents">
     <header>
         <ul th:if="${isTab}" class="tabs">
@@ -60,8 +136,6 @@
 
         <label>氏名(カナ)<span class="redAsterisk">*</span></label>
         <input type="text" th:field="*{passengerName}" placeholder="オオゾラタビト" required/>
-<!--        <label>氏名(カナ)<span class="redAsterisk">*</span></label>-->
-<!--        <input type="text" th:field="*{passengerPhonetic}" placeholder="オオゾラタビト" required/>-->
 
         <label>電話番号<span class="redAsterisk">*</span></label>
         <input type="tel" th:field="*{passengerContact}" placeholder="08012345678" required/>
@@ -82,5 +156,6 @@
 
     </form>
 </div>
+-->
 </body>
 </html>

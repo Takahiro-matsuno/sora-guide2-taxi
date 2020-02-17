@@ -25,7 +25,7 @@ data class ReservationForm(
         var companyName: String = "",
         @get:Size(min = 1, max = 30)
         var destination: String = "",
-        @get:Size(min = 1, max = 20)
+        @get:Pattern(regexp = "[a-zA-Z]{2,20} ?[a-zA-Z]{2,20}")
         var passengerName: String = "",
         @get:Pattern(regexp = "[0-9]{3}-[0-9]{4}-[0-9]{4}")
         var passengerContact: String = "",

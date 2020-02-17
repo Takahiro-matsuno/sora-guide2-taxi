@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.app
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.controller
 
 import org.hibernate.exception.JDBCConnectionException
 import org.springframework.context.MessageSource

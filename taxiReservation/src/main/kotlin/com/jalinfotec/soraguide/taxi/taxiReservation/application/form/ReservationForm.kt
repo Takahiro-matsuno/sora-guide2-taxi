@@ -1,34 +1,33 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.domain.form
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.form
 
 import java.sql.Date
 import java.sql.Time
-import java.sql.Timestamp
+import java.util.*
 import javax.validation.constraints.*
 
-data class ChangeForm(
-        //変更不可
+data class ReservationForm(
         var id: String = "",
 
-        //変更不可
-        var reservationStatus: String = "",
-
-        var rideOnDate: Date = Date(0),
+        var rideOnDate: Date = Date(Calendar.getInstance().timeInMillis),
 
         var rideOnTime: String = Time(rideOnDate.time).toString().substring(0, 5),
 
         @get:NotNull
-        @get:Max(20)
+        @get:Max(value = 20)
+        @get:Min(value = 0)
         var adult: Int = 1,
 
         @get:NotNull
         @get:Max(20)
+        @get:Min(value = 0)
         var child: Int = 0,
 
         @get:NotNull
         @get:Max(20)
+        @get:Min(value = 1)
         var carDispatchNumber: Int = 1,
 
-        //変更不可
+        @get:NotEmpty
         var companyName: String = "",
 
         @get:NotEmpty
@@ -61,9 +60,5 @@ data class ChangeForm(
         @get:Size(max = 99)
         var comment: String = "",
 
-        //変更不可
-        var carNumber: String = "",
-        var carContact: String = "",
-        var notice: String = "",
-        var lastUpdate : Timestamp = Timestamp(0)
+        var rideOnDateStr: String = ""
 )

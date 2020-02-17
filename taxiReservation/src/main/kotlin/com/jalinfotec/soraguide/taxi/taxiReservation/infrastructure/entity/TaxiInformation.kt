@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity
+package com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity
 
 import javax.persistence.*
 

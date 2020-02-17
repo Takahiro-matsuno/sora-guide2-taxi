@@ -1,11 +1,11 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.domain.service
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.cookie.UuidManager
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.ReservationInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.TaxiInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.form.ReservationForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository.NumberingRepository
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository.ReservationInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.ReservationInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.TaxiInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.application.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository.NumberingRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.hibernate.exception.JDBCConnectionException
 import org.springframework.retry.annotation.Backoff

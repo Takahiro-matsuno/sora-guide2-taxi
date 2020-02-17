@@ -1,9 +1,9 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.app
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.cookie.CookieManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.cookie.UserAgentManager
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.cookie.UuidManager
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.application.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.service.TaxiInformationService
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.validation.FormValidate
 import org.springframework.stereotype.Controller

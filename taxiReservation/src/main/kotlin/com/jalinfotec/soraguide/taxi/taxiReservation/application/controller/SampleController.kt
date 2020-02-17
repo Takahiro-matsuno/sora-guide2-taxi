@@ -1,11 +1,11 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.app
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.controller
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.Numbering
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.ReservationInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.TaxiInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository.NumberingRepository
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository.ReservationInfoRepository
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.Numbering
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.ReservationInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.TaxiInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository.NumberingRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository.ReservationInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository.TaxiInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller

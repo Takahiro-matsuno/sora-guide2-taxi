@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.domain.form
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.form
 
 data class ListForm(
         var id: String = "",

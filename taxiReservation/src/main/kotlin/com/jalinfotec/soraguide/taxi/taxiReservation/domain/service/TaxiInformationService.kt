@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.domain.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.TaxiInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository.TaxiInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.TaxiInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository.TaxiInfoRepository
 import org.hibernate.exception.JDBCConnectionException
 import org.springframework.retry.annotation.Backoff
 import org.springframework.retry.annotation.Retryable

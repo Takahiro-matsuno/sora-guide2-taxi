@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.domain.form
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.form
 
 import java.sql.Timestamp
 

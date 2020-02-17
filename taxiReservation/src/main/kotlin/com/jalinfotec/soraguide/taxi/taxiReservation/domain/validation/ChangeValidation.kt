@@ -1,6 +1,6 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.domain.validation
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.ReservationInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.ReservationInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import java.util.*
 

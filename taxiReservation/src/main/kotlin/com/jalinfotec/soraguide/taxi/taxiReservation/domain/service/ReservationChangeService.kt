@@ -1,9 +1,9 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.domain.service
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.cookie.SessionManager
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.ReservationInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.form.ChangeForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository.ReservationInfoRepository
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.ReservationInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.application.form.ChangeForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository.ReservationInfoRepository
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.validation.ChangeValidation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import org.springframework.retry.annotation.Backoff

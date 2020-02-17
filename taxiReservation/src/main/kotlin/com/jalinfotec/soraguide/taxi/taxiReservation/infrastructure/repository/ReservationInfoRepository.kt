@@ -1,6 +1,6 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.domain.repository
+package com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.repository
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.ReservationInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.ReservationInformation
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.sql.Date

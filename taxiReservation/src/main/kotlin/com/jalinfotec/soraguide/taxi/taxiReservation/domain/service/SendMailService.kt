@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.domain.service
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.ReservationInformation
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.entity.TaxiInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.ReservationInformation
+import com.jalinfotec.soraguide.taxi.taxiReservation.infrastructure.entity.TaxiInformation
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Constants
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.Environment
 import com.sendgrid.*

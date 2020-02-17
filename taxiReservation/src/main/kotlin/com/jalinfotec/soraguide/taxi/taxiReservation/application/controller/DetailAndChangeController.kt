@@ -1,4 +1,4 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.app
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.service.ReservationDetailService

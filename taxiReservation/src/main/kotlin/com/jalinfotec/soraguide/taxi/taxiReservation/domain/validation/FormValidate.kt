@@ -1,7 +1,7 @@
 package com.jalinfotec.soraguide.taxi.taxiReservation.domain.validation
 
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.form.ChangeForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.application.form.ChangeForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.application.form.ReservationForm
 import java.sql.Time
 import java.util.*
 import java.util.regex.Pattern

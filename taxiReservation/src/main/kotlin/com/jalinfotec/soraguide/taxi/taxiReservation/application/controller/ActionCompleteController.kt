@@ -1,8 +1,8 @@
-package com.jalinfotec.soraguide.taxi.taxiReservation.app
+package com.jalinfotec.soraguide.taxi.taxiReservation.application.controller
 
 import com.jalinfotec.soraguide.taxi.taxiReservation.utils.cookie.UserAgentManager
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.form.ChangeForm
-import com.jalinfotec.soraguide.taxi.taxiReservation.domain.form.ReservationForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.application.form.ChangeForm
+import com.jalinfotec.soraguide.taxi.taxiReservation.application.form.ReservationForm
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.service.ReservationChangeService
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.service.ReservationCompleteService
 import com.jalinfotec.soraguide.taxi.taxiReservation.domain.service.ReservationDetailService

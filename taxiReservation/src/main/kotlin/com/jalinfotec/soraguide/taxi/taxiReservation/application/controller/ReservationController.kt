@@ -34,12 +34,13 @@ class ReservationController(
      * 登録画面
      */
     @GetMapping("/app/registration")
-    fun registration(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
-        val locale = CookieManager().getLocale(request)
-        mav.viewName = "${locale}registration"
-
+    fun registration(
+            mav: ModelAndView,
+            request: HttpServletRequest,
+            response: HttpServletResponse
+    ): ModelAndView {
+        mav.viewName = "registration"
         UuidManager().check(request, response)
-
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", setRsvForm(ReservationForm()))
         mav.addObject("isTab", tabDisplay(request))
@@ -51,10 +52,12 @@ class ReservationController(
      * 登録画面に戻る
      */
     @PostMapping("/app/registration")
-    fun backRegistration(mav: ModelAndView, rsvForm: ReservationForm, request: HttpServletRequest): ModelAndView {
-        val locale = CookieManager().getLocale(request)
-        mav.viewName = "${locale}registration"
-
+    fun backRegistration(
+            rsvForm: ReservationForm,
+            mav: ModelAndView,
+            request: HttpServletRequest
+    ): ModelAndView {
+        mav.viewName = "registration"
         mav.addObject("taxiList", taxiInformationService.getTaxiNameList())
         mav.addObject("reservationForm", rsvForm)
         mav.addObject("isTab", tabDisplay(request))
@@ -66,9 +69,11 @@ class ReservationController(
      * 登録確認画面
      */
     @PostMapping("app/confirmation")
-    fun confirmation(mav: ModelAndView,
-                     @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult,
-                     request: HttpServletRequest): ModelAndView {
+    fun confirmation(
+            @Validated @ModelAttribute rsvForm: ReservationForm, result: BindingResult,
+            mav: ModelAndView,
+            request: HttpServletRequest
+    ): ModelAndView {
         var isError = false
 
         //単項目チェック

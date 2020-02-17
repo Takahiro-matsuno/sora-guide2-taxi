@@ -26,7 +26,11 @@ class DetailAndChangeController(
      * 一覧画面
      */
     @GetMapping("app/list")
-    fun list(mav: ModelAndView, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+    fun list(
+            mav: ModelAndView,
+            request: HttpServletRequest,
+            response: HttpServletResponse
+    ): ModelAndView {
         mav.viewName = "list"
 
         val list = rsvListService.getList(request, response)
@@ -39,9 +43,11 @@ class DetailAndChangeController(
      * 詳細画面
      */
     @PostMapping("app/detail")
-    fun detail(mav: ModelAndView,
-               @RequestParam("id") id: String,
-               request: HttpServletRequest): ModelAndView {
+    fun detail(
+            @RequestParam("id") id: String,
+            mav: ModelAndView,
+            request: HttpServletRequest
+    ): ModelAndView {
         mav.viewName = "detail"
         val rsvDetail = rsvDetailService.getDetail(id, request) ?: throw Exception()
 
@@ -53,9 +59,11 @@ class DetailAndChangeController(
      * 変更入力画面
      */
     @PostMapping("app/change")
-    fun change(mav: ModelAndView,
-               @RequestParam("id") id: String,
-               request: HttpServletRequest): ModelAndView {
+    fun change(
+            @RequestParam("id") id: String,
+            mav: ModelAndView,
+            request: HttpServletRequest
+    ): ModelAndView {
         mav.viewName = "change"
         val changeForm = rsvChangeService.getChangeDetail(id, request) ?: throw Exception()
 
@@ -67,7 +75,10 @@ class DetailAndChangeController(
      * 予約認証画面
      */
     @GetMapping("app/certificateInput")
-    fun certificateInput(mav: ModelAndView, @RequestParam("id") id: String): ModelAndView {
+    fun certificateInput(
+            mav: ModelAndView,
+            @RequestParam("id") id: String
+    ): ModelAndView {
         mav.viewName = "certification"
         mav.addObject("id", id)
 
@@ -78,9 +89,13 @@ class DetailAndChangeController(
      * 予約認証後処理
      */
     @PostMapping("app/certificateResult")
-    fun certificateResult(mav: ModelAndView, @RequestParam("id") id: String,
-                          @RequestParam("mail") mail: String,
-                          request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+    fun certificateResult(
+            @RequestParam("id") id: String,
+            @RequestParam("mail") mail: String,
+            mav: ModelAndView,
+            request: HttpServletRequest,
+            response: HttpServletResponse
+    ): ModelAndView {
 
         val rsvDetail = rsvDetailService.detailCertificates(id, mail, request, response)
 

@@ -37,10 +37,12 @@ class ActionCompleteController(
      * 登録完了処理
      */
     @PostMapping("app/rsvComplete")
-    fun rsvComplete(mav: ModelAndView,
-                    @Validated @ModelAttribute("reservationForm") rsvForm: ReservationForm,
-                    result: BindingResult,
-                    request: HttpServletRequest): ModelAndView {
+    fun rsvComplete(
+            @Validated @ModelAttribute("reservationForm") rsvForm: ReservationForm,
+            mav: ModelAndView,
+            result: BindingResult,
+            request: HttpServletRequest
+    ): ModelAndView {
 
         //単項目チェック
         if (result.hasErrors()) {
@@ -83,9 +85,13 @@ class ActionCompleteController(
      * 変更完了画面
      */
     @PostMapping("app/changeComplete")
-    fun changeComplete(mav: ModelAndView,
-                       @Validated @ModelAttribute("changeForm") rsvForm: ChangeForm,
-                       result: BindingResult, request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+    fun changeComplete(
+            @Validated @ModelAttribute("changeForm") rsvForm: ChangeForm,
+            result: BindingResult,
+            mav: ModelAndView,
+            request: HttpServletRequest,
+            response: HttpServletResponse
+    ): ModelAndView {
         //単項目チェック
         if (result.hasErrors()) {
             println("フォームの入力チェックでエラー")
@@ -108,40 +114,49 @@ class ActionCompleteController(
         //変更処理
         val rsvId = rsvChangeService.change(rsvForm, request) ?: throw Exception()
 
-        return completeTransition(mav, rsvId, ActionType.CHANGE, request)
+        return completeTransition(rsvId, ActionType.CHANGE, mav, request)
     }
 
     /**
      * 取消完了画面
      */
     @PostMapping("app/cancelComplete")
-    fun cancelComplete(mav: ModelAndView,
-                       @RequestParam("id") id: String,
-                       @RequestParam("lastUpdate") lastUpdate: Timestamp,
-                       request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+    fun cancelComplete(
+            @RequestParam("id") id: String,
+            @RequestParam("lastUpdate") lastUpdate: Timestamp,
+            mav: ModelAndView,
+            request: HttpServletRequest,
+            response: HttpServletResponse
+    ): ModelAndView {
 
         //取消処理
         val rsvId = rsvChangeService.delete(id, lastUpdate, request) ?: throw Exception()
 
-        return completeTransition(mav, rsvId, ActionType.CANCEL, request)
+        return completeTransition(rsvId, ActionType.CANCEL, mav, request)
     }
 
     /**
      *予約完了画面表示
      */
     @PostMapping("app/complete")
-    fun displayComplete(mav: ModelAndView,
-                        @RequestParam("id") id: String,
-                        request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+    fun displayComplete(
+            @RequestParam("id") id: String,
+            mav: ModelAndView,
+            request: HttpServletRequest,
+            response: HttpServletResponse
+    ): ModelAndView {
 
-        return completeTransition(mav, id, ActionType.ADD, request)
+        return completeTransition(id, ActionType.ADD, mav, request)
     }
 
     /**
      * 完了画面表示用の項目設定処理
      */
-    fun completeTransition(mav: ModelAndView, id: String, actionType: Enum<ActionType>,
-                           request: HttpServletRequest): ModelAndView {
+    fun completeTransition(
+            id: String, actionType: Enum<ActionType>,
+            mav: ModelAndView,
+            request: HttpServletRequest
+    ): ModelAndView {
         val rsvDetail = rsvDetailService.getDetailForActionComplete(id)
 
         mav.viewName = "complete"

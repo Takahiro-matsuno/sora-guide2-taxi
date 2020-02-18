@@ -27,7 +27,7 @@
 </header>
 
 <div class="container">
-    <div class="card" style="margin: 4px" th:each="rsvInfo :${rsvList}">
+    <div class="card" style="margin: 4px;" th:each="rsvInfo :${rsvList}">
         <div class="card-body">
             <table>
                 <tr>
@@ -51,9 +51,9 @@
                     <td th:text="${rsvInfo.reservationStatus}"></td>
                 </tr>
             </table>
-            <div class="text-right">
-                <div class="btn btn-primary" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">詳細</div>
-            </div>
+        </div>
+        <div class="card-footer text-center">
+            <div style="color: #005000;" th:attr="onclick='listClicked(\'' + ${rsvInfo.id} +'\');'">詳しく見る</div>
         </div>
     </div>
 </div>
